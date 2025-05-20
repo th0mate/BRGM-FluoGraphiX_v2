@@ -1,0 +1,17 @@
+﻿# Active le module mod_rewrite dans Apache, nécessaire pour traiter les règles de réécriture.
+RewriteEngine On
+
+# Si l'URL demandée correspond exactement à index.html, aucune réécriture n'est effectuée (- signifie "pas de substitution").
+# [L] (pour Last) : Arrête le traitement des règles supplémentaires si cette règle correspond.
+RewriteRule ^index\.html$ - [L]
+
+# Conditions : Applique la règle suivante uniquement si la requête ne correspond pas à un fichier ni à un répertoire.
+# RewriteCond : Ajoute des conditions à la prochaine RewriteRule. Les deux conditions doivent être vraies pour que la règle s'exécute.
+# -f : Vérifie si le chemin demandé correspond à un fichier existant.
+# -d : Vérifie si le chemin demandé correspond à un répertoire existant.
+#  ! : Négation de la condition.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Pour toute requête qui passe les conditions précédentes, réécrit l'URL vers index.html.
+RewriteRule . index.html [L]
