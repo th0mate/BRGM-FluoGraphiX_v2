@@ -8,8 +8,7 @@ const __dirname = path.dirname(__filename);
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1920,
-        height: 1080,
+        fullscreen: true,
         webPreferences: {
             nodeIntegration: false, // Important pour la sécurité
             contextIsolation: true, // Recommandé pour la sécurité
