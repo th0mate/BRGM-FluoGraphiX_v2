@@ -8,13 +8,14 @@ const __dirname = path.dirname(__filename);
 
 function createWindow() {
     const win = new BrowserWindow({
-        fullscreen: true,
         webPreferences: {
             nodeIntegration: false, // Important pour la sécurité
             contextIsolation: true, // Recommandé pour la sécurité
             preload: path.join(__dirname, 'preload.js') // Facultatif, pour isoler davantage le contexte
         }
     });
+
+    win.maximize(); // Ajouté pour occuper tout l'écran sans être en plein écran
 
     if (process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL) {
         // Mode développement : charger depuis le serveur Vite
