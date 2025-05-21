@@ -1,86 +1,291 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/*
+* Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+* www.thomasloye.fr
+*/
+
+
+/* =====================================================================================================================
+   BASE & VARIABLES
+   ===================================================================================================================== */
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+    /* Couleurs principales BRGM */
+    --orangeBRGM: #e87b1c;
+    --jauneBRGM: #ffc83d;
+    --bleuBRGM: #27B1EA;
+    --rouilleBRGM: #F05A08;
+    --vertBRGM: #9FC512;
+    --roseBRGM: #CE65A5;
+    --bleuGrisBRGM: #83AFB5;
 
-  --vt-c-black: #181818;
-  --vt-c-black-soft: #222222;
-  --vt-c-black-mute: #282828;
-
-  --vt-c-indigo: #2c3e50;
-
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
-
-  --vt-c-text-light-1: var(--vt-c-indigo);
-  --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
-  --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+    /* Nuances de gris */
+    --grisBRGM: #333;
+    --grisClair: #434343;
+    --grisLeger: #878787;
+    --grisFin: #B4B4B4;
+    --blancFonce: #e8e8e8;
 }
 
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
-
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+/* =====================================================================================================================
+   GÉNÉRAL
+   ===================================================================================================================== */
+html {
+    font-family: 'Roboto', sans-serif;
+    max-width: 100vw;
 }
 
 body {
-  min-height: 100vh;
-  color: var(--color-text);
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
-  line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    max-width: 100vw;
+    height: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
+
+/* =====================================================================================================================
+   UTILITAIRES COULEURS
+   ===================================================================================================================== */
+.orange {
+    color: var(--orangeBRGM);
+}
+
+.background-orange {
+    background-color: var(--orangeBRGM);
+}
+
+/* =====================================================================================================================
+   TYPOGRAPHIE
+   ===================================================================================================================== */
+.grandTitre {
+    font-size: 2em;
+    font-family: 'Gibson-Bold', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Gibson-Semi-Bold', sans-serif;
+}
+
+h4, h5, h6, p {
+    font-family: 'Roboto-Regular', sans-serif;
+}
+
+.italic {
+    font-family: 'Roboto-Italic', sans-serif;
+}
+
+/* =====================================================================================================================
+   ALERTES
+   ===================================================================================================================== */
+.alert {
+    font-weight: lighter;
+    padding: 5px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    min-width: 250px;
+    max-width: 400px;
+    min-height: 10px;
+    max-height: 250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    z-index: 1001;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 1s ease-in-out;
+
+    p {
+        font-size: 1em;
+        margin-left: 5%;
+        line-height: 1em;
+        margin-top: 1%;
+        margin-bottom: 1%;
+    }
+
+    img {
+        width: 35px;
+    }
+
+    &:hover {
+        cursor: pointer;
+        user-select: none;
+    }
+}
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+#contenu {
+    min-height: 90vh;
+    width: 100%;
+}
+
+/* =====================================================================================================================
+   BOUTONS
+   ===================================================================================================================== */
+.bouton {
+    font-family: 'Gibson-Semi-Bold', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    min-height: 25px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    user-select: none;
+}
+
+.bouton .disabled {
+    opacity: 0.5;
+    cursor: initial;
+}
+
+.boutonClair {
+    color: black;
+}
+
+.boutonFonce {
+    color: white;
+}
+
+.boutonClair:not(.disabled):hover, .boutonClair.active {
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px black;
+    user-select: none;
+}
+
+.boutonFonce:hover, .boutonFonce.active {
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px white;
+}
+
+/* =====================================================================================================================
+   POPUPS
+   ===================================================================================================================== */
+/* TODO */
+
+/* =====================================================================================================================
+   BANNIERES
+   ===================================================================================================================== */
+.bannierePage {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .contenu {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        align-content: flex-start;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        padding-top: 50px;
+        padding-left: 50px;
+
+        .auteur {
+            color: var(--orangeBRGM);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            max-width: 80%;
+
+            img {
+                width: 30px;
+                height: 30px;
+                flex-shrink: 0;
+            }
+
+            h3 {
+                padding-left: 20px;
+                font-weight: normal;
+            }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            font-family: 'Gibson-Semi-Bold', sans-serif;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            font-family: 'Gibson-Semi-Bold', sans-serif;
+            line-height: 1.6em;
+            width: 70%;
+        }
+
+        h3 {
+            width: 70%;
+            color: var(--orangeBRGM);
+        }
+
+        p > span {
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+
+            span {
+                width: 0;
+                border: 1px solid var(--orangeBRGM);
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                transition: width .3s ease;
+                border-radius: 3px;
+            }
+
+            &:hover {
+                span {
+                    width: 100%;
+                }
+            }
+        }
+
+    }
+}
+
