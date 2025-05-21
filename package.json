@@ -1,9 +1,8 @@
 {
   "name": "fluographix-v2",
-  "version": "2.0.0",
+  "version": "1.8.9",
   "main": "main.js",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
@@ -11,7 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "start": "electron .",
-    "compose" : "electron-builder"
+    "compose": "electron-builder"
   },
   "build": {
     "asar": true,
@@ -22,9 +21,18 @@
     ],
     "directories": {
       "output": "build"
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "th0mate",
+        "repo": "BRGM-FluoGraphiX_v2"
+      }
+    ]
   },
   "dependencies": {
+    "electron-log": "^5.4.0",
+    "electron-updater": "^6.6.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

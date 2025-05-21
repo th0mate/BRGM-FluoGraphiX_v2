@@ -1,5 +1,39 @@
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
+import {RouterLink, RouterView} from 'vue-router';
+import { onMounted, onUnmounted, ref } from 'vue';
+
+const updateStatus = ref('');
+const downloadProgress = ref(0);
+const showUpdatePrompt = ref(false);
+
+onMounted(() => {
+  window.electronAPI.onUpdateAvailable((event, info) => {
+    updateStatus.value = `Nouvelle version ${info.version} disponible !`;
+    showUpdatePrompt.value = true;
+    console.log(updateStatus.value);
+  });
+
+  window.electronAPI.onDownloadProgress((event, progressObj) => {
+    updateStatus.value = `Téléchargement en cours... ${Math.round(progressObj.percent)}%`;
+    downloadProgress.value = progressObj.percent;
+    console.log(updateStatus.value);
+  });
+
+  window.electronAPI.onUpdateDownloaded((event, info) => {
+    updateStatus.value = `Mise à jour ${info.version} téléchargée. Redémarrez l'application pour appliquer.`;
+    downloadProgress.value = 100;
+    console.log(updateStatus.value);
+  });
+
+  window.electronAPI.onUpdateNotAvailable(() => {
+    updateStatus.value = 'Votre application est à jour.';
+    showUpdatePrompt.value = false;
+    downloadProgress.value = 0;
+    console.log(updateStatus.value);
+  });
+
+});
+
 </script>
 
 <template>
