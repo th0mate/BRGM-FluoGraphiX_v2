@@ -2,31 +2,40 @@ import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Recréez __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 function createWindow() {
     const win = new BrowserWindow({
         webPreferences: {
-            nodeIntegration: false, // Important pour la sécurité
-            contextIsolation: true, // Recommandé pour la sécurité
-            preload: path.join(__dirname, 'preload.js') // Facultatif, pour isoler davantage le contexte
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'preload.js')
         }
     });
 
-    win.maximize(); // Ajouté pour occuper tout l'écran sans être en plein écran
+    win.maximize();
 
     if (process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL) {
-        // Mode développement : charger depuis le serveur Vite
         win.loadURL(process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173');
     } else {
-        // Mode production : charger le fichier local généré
         win.loadFile(path.join(__dirname, 'dist', 'index.html'));
-    }
 
-    // Ouvrez les outils de développement (facultatif)
-    // win.webContents.openDevTools();
+        win.webContents.on('will-navigate', (event, url) => {
+            const parsedUrl = new URL(url);
+            if (parsedUrl.protocol === 'file:' && !parsedUrl.pathname.endsWith('index.html')) {
+                event.preventDefault();
+                win.loadFile(path.join(__dirname, 'dist', 'index.html'));
+            }
+        });
+        win.webContents.on('will-redirect', (event, url) => {
+            const parsedUrl = new URL(url);
+            if (parsedUrl.protocol === 'file:' && !parsedUrl.pathname.endsWith('index.html')) {
+                event.preventDefault();
+                win.loadFile(path.join(__dirname, 'dist', 'index.html'));
+            }
+        });
+    }
 }
 
 app.whenReady().then(createWindow);
