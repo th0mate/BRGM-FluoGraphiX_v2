@@ -1,6 +1,6 @@
 {
   "name": "fluographix-v2",
-  "version": "1.9.2",
+  "version": "1.9.4",
   "main": "main.js",
   "type": "module",
   "private": true,

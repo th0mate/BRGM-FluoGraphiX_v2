@@ -61,7 +61,13 @@ async function setupAutoUpdater() {
         log_message = log_message + ' - Téléchargé ' + progressObj.percent + '%';
         log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
         log.info(log_message);
-        mainWindow.webContents.send('download_progress', progressObj);
+        // Ajout des valeurs transférées et totales en MB pour la vue
+        mainWindow.webContents.send('download_progress', {
+            percent: progressObj.percent,
+            transferred: progressObj.transferred,
+            total: progressObj.total,
+            version: progressObj.version // Peut être undefined, mais on le passe si dispo
+        });
     });
 
     autoUpdater.on('update-downloaded', (info) => {

@@ -6,32 +6,40 @@ const updateStatus = ref('');
 const downloadProgress = ref(0);
 const showUpdatePrompt = ref(false);
 const appVersion = ref('');
+const updateVersion = ref('');
+const transferredMB = ref(0);
+const totalMB = ref(0);
 
 onMounted(async () => {
   appVersion.value = await window.electronAPI.getAppVersion();
 
   window.electronAPI.onUpdateAvailable((event, info) => {
-    updateStatus.value = `Nouvelle version ${info.version} disponible !`;
-    showUpdatePrompt.value = true;
+    updateVersion.value = info.version || '';
+    showUpdatePrompt.value = false;
     downloadProgress.value = 0;
+    transferredMB.value = 0;
+    totalMB.value = 0;
   });
 
   window.electronAPI.onDownloadProgress((event, progressObj) => {
-    updateStatus.value = `Téléchargement en cours... ${Math.round(progressObj.percent)}%`;
-    downloadProgress.value = progressObj.percent;
     showUpdatePrompt.value = true;
+    downloadProgress.value = progressObj.percent;
+    updateVersion.value = progressObj.version || updateVersion.value;
+    transferredMB.value = Number((progressObj.transferred / 1024 / 1024).toFixed(2));
+    totalMB.value = Number((progressObj.total / 1024 / 1024).toFixed(2));
   });
 
   window.electronAPI.onUpdateDownloaded((event, info) => {
-    updateStatus.value = `Mise à jour ${info.version} téléchargée. Redémarrez l'application pour appliquer.`;
+    showUpdatePrompt.value = false;
     downloadProgress.value = 100;
-    showUpdatePrompt.value = true;
+    transferredMB.value = totalMB.value;
   });
 
   window.electronAPI.onUpdateNotAvailable(() => {
-    updateStatus.value = '';
     showUpdatePrompt.value = false;
     downloadProgress.value = 0;
+    transferredMB.value = 0;
+    totalMB.value = 0;
   });
 });
 
@@ -122,50 +130,24 @@ onMounted(async () => {
   </nav>
 
   <div v-if="showUpdatePrompt && downloadProgress > 0 && downloadProgress < 100" class="update-notification">
+    <div class="update-header">
+      <span>Téléchargement de la mise à jour...</span>
+    </div>
     <div class="update-content">
-      <span>{{ updateStatus }}</span>
+      <div class="update-wrap">
+        <span>
+          <img src="@/assets/img/icons/brgm.png" alt="">
+          FluoGraphiX v{{ updateVersion }}
+        </span>
+        <span class="column">
+          <span class="percentage">{{ Math.round(downloadProgress) }}% téléchargés</span>
+          <span class="poids">{{ transferredMB }} MB / {{ totalMB }} MB</span>
+        </span>
+      </div>
       <div class="progress-bar">
         <div class="progress-bar-inner" :style="{ width: downloadProgress + '%' }"></div>
-        <span>{{ Math.round(downloadProgress) }}%</span>
       </div>
     </div>
   </div>
-
   <RouterView id="contenu"/>
-
 </template>
-
-<style scoped>
-.update-notification {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #fffbe6;
-  border: 1px solid #ffe58f;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  padding: 16px 24px;
-  z-index: 1000;
-  min-width: 300px;
-}
-.update-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-.progress-bar {
-  width: 100%;
-  background: #f5f5f5;
-  border-radius: 4px;
-  margin: 8px 0;
-  height: 18px;
-  position: relative;
-}
-.progress-bar-inner {
-  height: 100%;
-  background: #1890ff;
-  border-radius: 4px;
-  transition: width 0.3s;
-}
-</style>
-
