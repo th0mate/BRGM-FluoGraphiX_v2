@@ -138,7 +138,8 @@ h4, h5, h6, p {
 }
 
 #contenu {
-    min-height: 90vh;
+    padding-top: 80px;
+    min-height: calc(100vh - 80px);
     width: 100%;
 }
 
@@ -183,6 +184,32 @@ h4, h5, h6, p {
 .boutonFonce:hover, .boutonFonce.active {
     cursor: pointer;
     box-shadow: inset 0 0 0 1px white;
+}
+
+.animated-link {
+    color: white;
+    display: flex;
+    gap: 15px;
+    padding: 0 45px 0 0;
+    position: relative;
+    width: fit-content;
+    text-decoration: none;
+    font-weight: normal;
+
+    img {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: right 0.3s ease;
+        height: 30px;
+    }
+
+    &:hover {
+        img {
+            right: 0;
+        }
+    }
 }
 
 /* =====================================================================================================================

@@ -214,7 +214,7 @@ nav {
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     border-radius: 12px;
-    z-index: 5;
+    z-index: 11;
     width: 350px;
     display: flex;
     flex-direction: column;
@@ -297,7 +297,77 @@ nav {
    FOOTER
    ===================================================================================================================== */
 
-/* TODO */
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    position: relative;
+    padding: 25px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: darken;
+    background-color: rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+
+    .logo {
+        width: 350px;
+    }
+
+    .wrap-cards {
+        display: flex;
+        gap: 50px;
+        align-items: center;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            gap: 10px;
+            width: 300px;
+            padding: 15px;
+            font-family: 'Gibson-Bold', sans-serif;
+
+
+            .color {
+                height: 10px;
+                width: 60px;
+                border-radius: 50px;
+            }
+
+            a {
+                font-size: 1em;
+            }
+        }
+
+        .card:nth-child(1) {
+            .color {
+                background-color: var(--vertBRGM);
+            }
+        }
+
+        .card:nth-child(2) {
+            .color {
+                background-color: var(--roseBRGM);
+            }
+        }
+
+        .card:nth-child(3) {
+            .color {
+                background-color: var(--bleuBRGM);
+            }
+        }
+    }
+}
 
 /* =====================================================================================================================
    RESPONSIVE

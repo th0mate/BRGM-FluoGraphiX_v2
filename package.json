@@ -24,6 +24,15 @@
     "directories": {
       "output": "build"
     },
+    "win": {
+      "icon": "public/icons/icon.ico"
+    },
+    "mac": {
+      "icon": "public/icons/icon.icns"
+    },
+    "linux": {
+      "icon": "public/icons/icon.png"
+    },
     "publish": [
       {
         "provider": "github",
