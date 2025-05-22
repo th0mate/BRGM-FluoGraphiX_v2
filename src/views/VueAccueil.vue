@@ -1,13 +1,15 @@
-﻿/*
-* Réalisé par Thomas LOYE pour le compte du BRGM en 2025
-* www.thomasloye.fr
-*/
+﻿
 <script setup lang="ts">
 
 </script>
 
 <template>
-  <h1>Ceci est la vue accueil</h1>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h1>Ceci est la vue accueil de la v1.9.2</h1>
+  <p>La barre de téléchargement est maintenant opérationnelle !</p>
 </template>
 
 <style scoped>

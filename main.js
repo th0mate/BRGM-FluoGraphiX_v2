@@ -7,11 +7,22 @@ const __dirname = path.dirname(__filename);
 
 let mainWindow;
 
+// Ajout du handler IPC pour exposer la version de l'app au renderer
+ipcMain.handle('get-app-version', () => {
+    return app.getVersion();
+});
+
 async function setupAutoUpdater() {
-    const { autoUpdater } = await import('electron-updater');
+    const updaterModule = await import('electron-updater');
+    // Gestion compatibilité CommonJS/ESM
+    const autoUpdater = updaterModule.autoUpdater || (updaterModule.default && updaterModule.default.autoUpdater);
     const logModule = await import('electron-log');
     const log = logModule.default || logModule;
 
+    if (!autoUpdater) {
+        console.error('autoUpdater est undefined après import. Vérifiez l\'installation de electron-updater.');
+        return;
+    }
     // --- Configuration de electron-updater ---
     autoUpdater.logger = log;
     autoUpdater.logger.transports.file.level = 'info';
@@ -35,6 +46,7 @@ async function setupAutoUpdater() {
     });
 
     autoUpdater.on('update-not-available', (info) => {
+        console.info("Aucune mise à jour disponible");
         mainWindow.webContents.send('update-not-available', info);
     });
 

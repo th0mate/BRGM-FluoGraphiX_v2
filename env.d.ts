@@ -6,6 +6,7 @@ interface ElectronAPI {
     onUpdateDownloaded: (callback: (event: any, info: any) => void) => void;
     onUpdateNotAvailable: (callback: () => void) => void;
     onUpdateError: (callback: (event: any, message: string) => void) => void;
+    getAppVersion: () => string;
 }
 
 interface Window {

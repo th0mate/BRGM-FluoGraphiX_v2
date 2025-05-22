@@ -1,7 +1,8 @@
 {
   "name": "fluographix-v2",
-  "version": "1.8.9",
+  "version": "1.9.2",
   "main": "main.js",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -10,7 +11,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "start": "electron .",
-    "compose": "electron-builder"
+    "compose": "electron-builder",
+    "compose-publish": "electron-builder --publish always"
   },
   "build": {
     "asar": true,
