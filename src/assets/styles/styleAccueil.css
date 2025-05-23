@@ -1,0 +1,115 @@
+﻿/*
+* Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+* www.thomasloye.fr
+*/
+
+
+/* =====================================================================================================================
+   BANDEAU PRINCIPAL ACCUEIL
+   ===================================================================================================================== */
+.main-pres {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    position: relative;
+    padding: 50px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: darken;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    height: calc(100vh - 80px);
+
+    h1 {
+        font-size: 3em;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        margin: 0;
+    }
+
+    .bouton-main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        border-radius: 15px;
+        background: rgba(232, 123, 28, 0.4);
+        border: 2px solid rgba(207, 105, 16, 0.6);
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(1px);
+        padding: 10px 40px;
+        font-size: 1.5em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: rgba(232, 123, 28, 0.9);
+            border: 2px solid rgba(207, 105, 16, 0.9);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+        }
+    }
+
+    .wrap-cards {
+        display: flex;
+        gap: 70px;
+        align-items: center;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            gap: 10px;
+            width: 300px;
+            padding: 15px;
+            font-family: 'Gibson-Bold', sans-serif;
+
+
+            .color {
+                height: 10px;
+                width: 60px;
+                border-radius: 50px;
+            }
+
+            a {
+                font-size: 1em;
+            }
+        }
+
+        .card:nth-child(1) {
+            .color {
+                background-color: var(--vertBRGM);
+            }
+        }
+
+        .card:nth-child(2) {
+            .color {
+                background-color: var(--roseBRGM);
+            }
+        }
+
+        .card:nth-child(3) {
+            .color {
+                background-color: var(--bleuBRGM);
+            }
+        }
+    }
+}
+
+
+
+/* =====================================================================================================================
+   PREMIERE SECTION
+   ===================================================================================================================== */
