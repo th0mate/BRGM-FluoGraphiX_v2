@@ -22,7 +22,7 @@
     div:not(.wrap-boutons) {
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 30px;
 
         * {
             margin: 0;
@@ -34,7 +34,7 @@
         }
 
         h2 {
-            font-size: 3.9em;
+            font-size: 3.5em;
             color: var(--grisBRGM);
         }
 
@@ -56,15 +56,26 @@
 }
 
 .section-accueil.orange {
-    background-color: rgb(255,519,187);
+    background: #ffdfc3;
+}
+
+.section-accueil.white {
+    background: #fff;
 }
 
 .section-accueil.gris {
-    color: white;
     background-color: var(--grisBRGM);
+
+    div {
+        *:not(.orange) {
+            color: white !important;
+        }
+    }
 }
 
 .section-accueil.designed {
+    margin-top: 30px;
+    margin-bottom: 30px;
     img {
         height: 400px;
     }

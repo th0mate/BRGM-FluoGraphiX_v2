@@ -1,6 +1,7 @@
 ﻿<script setup lang="ts">
 
 import {RouterLink} from "vue-router";
+import Router from "@/router";
 </script>
 
 <template>
@@ -38,7 +39,7 @@ import {RouterLink} from "vue-router";
       <h1>Bienvenue sur<br> <span class="orange">FluoGraphiX</span> !</h1>
       <span class="texte-gris-simple">Une nouvelle façon de traiter vos données issues de campagnes de traçage hydrogéologique.</span>
       <div class="wrap-boutons">
-        <span class="bouton boutonFonce">TÉLÉCHARGER</span>
+        <span class="bouton boutonFonce" @click="Router.push('/telecharger')">TÉLÉCHARGER</span>
         <span class="bouton boutonClair">VOIR PLUS</span>
       </div>
     </div>
@@ -79,6 +80,54 @@ import {RouterLink} from "vue-router";
         <img src="@/assets/img/higtlights/hausse.png" alt=""/>
         <h4>Graphiques interactifs</h4>
         <span class="texte-gris-simple">Profitez du zoom et du déplacement sur les graphiques pour analyser de près toutes vos données</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-accueil reverse orange">
+    <img src="@/assets/img/illus/screen1.png" alt="">
+    <div>
+      <h2>Installez <span class="orange">FluoGraphiX</span><br> maintenant</h2>
+      <span class="texte-gris-simple">Une nouvelle façon de traiter vos données issues de campagnes de traçage hydrogéologique.</span>
+      <div class="wrap-boutons">
+        <span class="bouton boutonFonce" @click="Router.push('/telecharger')">TÉLÉCHARGER</span>
+        <span class="bouton boutonClair">VOIR PLUS</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-accueil reverse white designed">
+    <img src="@/assets/img/illus/design1.png" alt="">
+    <div>
+      <h2><span class="orange">Visualisation</span> de vos<br> données</h2>
+      <span class="texte-gris-simple">Visualisez vos données de mesure, en profitant de graphiques interactifs fluides.</span>
+      <span class="texte-gris-simple">De nombreuses options de calculs sont possibles : correction de turbidité, de bruit de fond, d'interférences et conversion en concentrations.</span>
+      <span class="texte-gris-simple">Vous pouvez également exporter vos données au format CSV ou TRAC.</span>
+      <div class="wrap-boutons" @click="Router.push('/visualisation')">
+        <span class="bouton boutonFonce">ESSAYER</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-accueil designed">
+    <img src="@/assets/img/illus/design2.png" alt="">
+    <div>
+      <h2>Données de <br><span class="orange">calibration</span></h2>
+      <span class="texte-gris-simple">Consultez vos données de calibration, en profitant de tableaux simplifiées et de fonctionnalités innovantes</span>
+      <span class="texte-gris-simple">Vérifiez en direct l'intégrité de vos données de calibration grâce aux courbes dédiées : soyez alertés en cas de suspicion de données invalides.</span>
+      <div class="wrap-boutons" @click="Router.push('/calibration')">
+        <span class="bouton boutonFonce">ESSAYER</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-accueil designed gris">
+    <img src="@/assets/img/illus/design3.png" alt="">
+    <div>
+      <h2>Vous aussi, <br><span class="orange">contribuez</span> !</h2>
+      <span class="texte-gris-simple">Rendez-vous sur le Github pour participer au projet, suivre les mises à jour, signaler des bugs ou proposer des idées... Et bien plus encore !</span>
+      <div class="wrap-boutons">
+        <a href="https://github.com/th0mate/BRGM-FluoGraphiX_v2" target="_blank"class="bouton boutonFonce">VOIR PLUS</a>
       </div>
     </div>
   </section>
