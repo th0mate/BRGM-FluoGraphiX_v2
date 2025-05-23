@@ -93,4 +93,40 @@ body::before {
   opacity: 0.2;
   z-index: -1;
 }
+
+@font-face {
+  font-family: 'gibson-heavy';
+  src: url('@/assets/fonts/Gibson_Heavy.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'gibson-bold';
+  src: url('@/assets/fonts/Gibson_Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'gibson-semibold';
+  src: url('@/assets/fonts/Gibson_SemiBold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'gibson-medium';
+  src: url('@/assets/fonts/Gibson_Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'gibson-bold';
+  src: url('@/assets/fonts/Gibson_Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'gibson-book';
+  src: url('@/assets/fonts/Gibson_Book.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'gibson-light';
+  src: url('@/assets/fonts/Gibson_Light.otf') format('opentype');
+}
+
 </style>

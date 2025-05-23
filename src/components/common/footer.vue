@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 
+import {RouterLink} from "vue-router";
 </script>
 
 <template>
@@ -9,19 +10,22 @@
       <div class="card">
         <span class="color"></span>
         <span>Gestion des cookies</span>
-        <a class="animated-link" href="">Voir plus <img src="@/assets/img/icons/fleche-droite.png" alt=""></a>
+        <RouterLink to="/documentation" class="animated-link">Voir plus <img src="@/assets/img/icons/fleche-droite.png"
+                                                                             alt=""></RouterLink>
       </div>
 
       <div class="card">
         <span class="color"></span>
         <span>Mentions légales & crédits</span>
-        <a class="animated-link" href="">Voir plus <img src="@/assets/img/icons/fleche-droite.png" alt=""></a>
+        <RouterLink to="/documentation" class="animated-link">Voir plus <img src="@/assets/img/icons/fleche-droite.png"
+                                                                             alt=""></RouterLink>
       </div>
 
       <div class="card">
         <span class="color"></span>
         <span>Sources du contenu</span>
-        <a class="animated-link" href="">Voir plus <img src="@/assets/img/icons/fleche-droite.png" alt=""></a>
+        <RouterLink to="/documentation" class="animated-link">Voir plus <img src="@/assets/img/icons/fleche-droite.png"
+                                                                             alt=""></RouterLink>
       </div>
     </div>
   </footer>

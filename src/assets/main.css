@@ -335,7 +335,8 @@ footer {
             gap: 10px;
             width: 300px;
             padding: 15px;
-            font-family: 'Gibson-Bold', sans-serif;
+            font-family: 'gibson-semibold', sans-serif;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 
 
             .color {
@@ -346,6 +347,7 @@ footer {
 
             a {
                 font-size: 1em;
+                font-family: 'gibson-book', sans-serif;
             }
         }
 
