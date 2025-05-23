@@ -63,7 +63,7 @@ import {RouterLink} from "vue-router";
         </div>
         <img src="@/assets/img/icons/droite.png" alt="flèche">
       </RouterLink>
-      <RouterLink to="/telechargement" class="action" active-class="active-link">
+      <RouterLink to="/telecharger" class="action" active-class="active-link">
         <div>
           <img src="@/assets/img/icons/dl.png" alt="">
           <h3>TÉLÉCHARGER</h3>

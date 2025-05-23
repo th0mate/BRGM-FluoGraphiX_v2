@@ -79,10 +79,9 @@ h4, h5, h6, p {
 }
 
 /* =====================================================================================================================
-   ALERTES
+   MESSAGES FLASH
    ===================================================================================================================== */
-.alert {
-    font-weight: lighter;
+.my-notification {
     padding: 5px;
     border: 1px solid transparent;
     border-radius: 10px;
@@ -91,56 +90,58 @@ h4, h5, h6, p {
     min-height: 10px;
     max-height: 250px;
     display: flex;
-    flex-direction: row;
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    z-index: 1001;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: top 1s ease-in-out;
+    gap: 15px;
+    user-select: none;
+    z-index: 15;
+    margin: 5px;
+
+    div {
+        display: flex;
+        flex-direction: column;
+    }
+
 
     p {
         font-size: 1em;
-        margin-left: 5%;
-        line-height: 1em;
-        margin-top: 1%;
-        margin-bottom: 1%;
+        margin: 0;
+    }
+
+    span {
+        font-size: 0.9em;
+        display: flex;
     }
 
     img {
         width: 35px;
     }
 
-    &:hover {
-        cursor: pointer;
-        user-select: none;
+    &.success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
     }
-}
 
-.alert-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-}
+    &.info {
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+    }
 
-.alert-info {
-    color: #31708f;
-    background-color: #d9edf7;
-    border-color: #bce8f1;
-}
+    &.warning {
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+    }
 
-.alert-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
-}
+    &.error {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+    }
 
-.alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
 }
 
 #contenu {
@@ -329,7 +330,6 @@ h4, h5, h6, p {
                 }
             }
         }
-
     }
 }
 
