@@ -2,12 +2,25 @@
 
 import {RouterLink} from "vue-router";
 import Router from "@/router";
+import {onMounted, ref} from "vue";
+import * as UI from '@/assets/js/UI';
+
+const appVersion = ref('');
+
+onMounted(async () => {
+  try {
+    appVersion.value = await window.electronAPI.getAppVersion();
+  } catch (error) {
+  }
+});
+
 </script>
 
 <template>
   <section class="main-pres">
     <h1>FluoGraphiX : l'outil de visualisation et de traitement de données issues de fluorimètres</h1>
-    <span class="bouton-main">DÉCOUVRIR</span>
+    <span class="bouton-main" @click="UI.scrollToElement('#presentation')">DÉCOUVRIR</span>
+    <span v-if="appVersion !== ''" class="version">v{{ appVersion }}</span>
 
     <div class="wrap-cards">
       <div class="card">
@@ -33,14 +46,14 @@ import Router from "@/router";
     </div>
   </section>
 
-  <section class="section-accueil">
+  <section id="presentation" class="section-accueil">
     <img src="@/assets/img/illus/mockup1.png" alt="">
     <div>
       <h1>Bienvenue sur<br> <span class="orange">FluoGraphiX</span> !</h1>
       <span class="texte-gris-simple">Une nouvelle façon de traiter vos données issues de campagnes de traçage hydrogéologique.</span>
       <div class="wrap-boutons">
         <span class="bouton boutonFonce" @click="Router.push('/telecharger')">TÉLÉCHARGER</span>
-        <span class="bouton boutonClair">VOIR PLUS</span>
+        <span class="bouton boutonClair" @click="UI.scrollToElement('.highlights')">VOIR PLUS</span>
       </div>
     </div>
   </section>
@@ -91,12 +104,12 @@ import Router from "@/router";
       <span class="texte-gris-simple">Une nouvelle façon de traiter vos données issues de campagnes de traçage hydrogéologique.</span>
       <div class="wrap-boutons">
         <span class="bouton boutonFonce" @click="Router.push('/telecharger')">TÉLÉCHARGER</span>
-        <span class="bouton boutonClair">VOIR PLUS</span>
+        <span class="bouton boutonClair" @click="UI.scrollToElement('#continue')">VOIR PLUS</span>
       </div>
     </div>
   </section>
 
-  <section class="section-accueil reverse white designed">
+  <section id="continue" class="section-accueil reverse white designed">
     <img src="@/assets/img/illus/design1.png" alt="">
     <div>
       <h2><span class="orange">Visualisation</span> de vos<br> données</h2>
