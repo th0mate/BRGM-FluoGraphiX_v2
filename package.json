@@ -1,6 +1,8 @@
 {
   "name": "fluographix-v2",
-  "version": "1.9.4",
+  "version": "1.9.5",
+  "description": "FluoGraphiX est un outil de visualisation et d'analyse de données issues de fluorimètres conçue pour le compte du BRGM.",
+  "author": "Thomas LOYE",
   "main": "main.js",
   "type": "module",
   "private": true,
@@ -16,6 +18,7 @@
   },
   "build": {
     "asar": true,
+    "productName": "FluoGraphiX",
     "files": [
       "dist/**/*",
       "main.js",

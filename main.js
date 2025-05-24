@@ -104,6 +104,7 @@ function createWindow() {
         }
     });
 
+    mainWindow.setMenuBarVisibility(false);
     mainWindow.maximize();
 
     if (process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL) {
