@@ -51,8 +51,7 @@ async function setupAutoUpdater() {
     });
 
     autoUpdater.on('error', (err) => {
-        dialog.showErrorBox('Erreur de mise à jour', 'Une erreur est survenue lors de la vérification ou du téléchargement de la mise à jour.');
-        log.error('Erreur autoUpdater:', err);
+        console.error('Erreur de mise à jour', 'Une erreur est survenue lors de la vérification ou du téléchargement de la mise à jour. Veuillez réessayer plus tard.');
         mainWindow.webContents.send('update_error', err.message);
     });
 
