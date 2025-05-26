@@ -1,0 +1,88 @@
+﻿/*
+* Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+* www.thomasloye.fr
+*/
+
+
+.glassmorphism {
+    position: relative;
+    padding: 50px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: darken;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.1);
+    height: calc(100vh - 80px);
+    margin-bottom: 100px;
+
+    .glasmorphism-wrap {
+        width: 80%;
+        height: 550px;
+        border-radius: 20px;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+
+        .left {
+            width: 45%;
+            height: 100%;
+            background-color: rgba(255, 223, 195, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+
+            .logo {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                height: 40px;
+            }
+
+            img:not(.logo) {
+                width: 500px;
+            }
+        }
+
+        .right {
+            width: 55%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            box-sizing: border-box;
+            padding: 45px;
+            gap: 30px;
+
+            h2, h4 {
+                margin: 0;
+                color: var(--grisBRGM);
+            }
+
+            h2 {
+                font-size: 2em;
+            }
+
+            .texte-gris-simple {
+                font-size: 1.1em;
+            }
+
+            .presentation {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    }
+}
