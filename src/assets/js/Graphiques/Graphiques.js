@@ -3,24 +3,21 @@
  * www.thomasloye.fr
  */
 
-
 class Graphiques {
-
     afficherGraphique(data) {
         throw new Error("La méthode afficherGraphique() doit être implémentée par la classe enfant.");
     }
 
-
     /**
-     * Cache dans le graphique existant toutes les courbes réprésentant des colonnes pour lesquelles isConstant renvoie true
+     * Cache dans le graphique existant toutes les courbes représentant des colonnes pour lesquelles isConstant renvoie true
      */
     cacherDoublons() {
         const canvas = document.getElementById('graphique');
-        const existingChart = Chart.getChart(canvas);
+        const existingChart = window.Chart.getChart(canvas);
         if (existingChart) {
             const datasets = existingChart.data.datasets;
             for (let i = 0; i < datasets.length; i++) {
-                if (isConstant(datasets[i].data)) {
+                if (this.isConstant(datasets[i].data)) {
                     datasets[i].hidden = true;
                     const index = existingChart.data.datasets.findIndex(dataset => dataset.label === datasets[i].label);
                     if (existingChart.isDatasetVisible(index)) {
@@ -32,28 +29,34 @@ class Graphiques {
         }
     }
 
-
     /**
-     * Return true si le string passé en paramètre contient ne contient que des duplications du même nombre
-     * @param string le string - donc la colonne de données à vérifier
-     * @returns {boolean} true si le string contient que des duplications du même nombre
+     * Retourne true si le tableau passé en paramètre contient uniquement des duplications du même nombre
+     * @param {Array} arr - la colonne de données à vérifier
+     * @returns {boolean}
      */
-    isConstant(string) {
-        const value = string[0].y;
-        for (let i = 1; i < string.length - 5; i++) {
-            if (around(string[i].y) !== around(value)) {
+    isConstant(arr) {
+        if (!arr || arr.length === 0) return false;
+        const value = this.around(arr[0].y);
+        for (let i = 1; i < arr.length; i++) {
+            if (this.around(arr[i].y) !== value) {
                 return false;
             }
         }
         return true;
     }
 
+    /**
+     * Arrondit une valeur à 3 décimales
+     */
+    around(val) {
+        return Math.round(val * 1000) / 1000;
+    }
 
     /**
-     * Retourne une couleur aléatoire en rgba
-     * @returns {string} une couleur aléatoire en rgba
+     * Retourne une couleur aléatoire foncée en hexadécimal
+     * @returns {string}
      */
-    getRandomColor() {
+    static getRandomColor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
         let isLight = false;
@@ -62,19 +65,18 @@ class Graphiques {
             for (let i = 0; i < 6; i++) {
                 color += letters[Math.floor(Math.random() * 16)];
             }
-            isLight = !isColorLight(color);
+            isLight = !Graphiques.isColorLight(color);
         }
         return color;
     }
 
-
     /**
      * Retourne true si la couleur passée en paramètre est claire
-     * @param color la couleur à vérifier
-     * @returns {boolean} true si la couleur est claire
+     * @param {string} color
+     * @returns {boolean}
      */
-    isColorLight(color) {
-        const rgb = hexToRgb(color);
+    static isColorLight(color) {
+        const rgb = Graphiques.hexToRgb(color);
         const hsp = Math.sqrt(
             0.299 * (rgb.r * rgb.r) +
             0.587 * (rgb.g * rgb.g) +
@@ -83,14 +85,16 @@ class Graphiques {
         return hsp > 127.5;
     }
 
-
     /**
      * Convertit une couleur hexadécimale en RGB
-     * @param hex la couleur hexadécimale
-     * @returns {{r: number, b: number, g: number}} la couleur en RGB
+     * @param {string} hex
+     * @returns {{r: number, g: number, b: number}}
      */
-    hexToRgb(hex) {
+    static hexToRgb(hex) {
         const bigint = parseInt(hex.slice(1), 16);
         return {r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255};
     }
 }
+
+export default Graphiques;
+

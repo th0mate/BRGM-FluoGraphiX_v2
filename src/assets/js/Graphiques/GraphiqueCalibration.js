@@ -1,7 +1,12 @@
-﻿import Graphiques from './Graphiques';
+﻿/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ */
+
+
+import Graphiques from './Graphiques';
 
 class GraphiqueCalibration extends Graphiques {
-
 
     /**
      * Affiche un graphique pour un traceur donné de ses LX en fonction de la valeur des signaux - Partie Calibration
@@ -11,25 +16,12 @@ class GraphiqueCalibration extends Graphiques {
     afficherGraphique(traceur, idData) {
         let labels = traceur.echelles;
         let datasets = [];
-        let maxDataLength = 0;
-        let maxDataIndex = 0;
         let labelX = '';
         let labelY = '';
-
-
-        let nbValeurs = 0;
-        for (let i = 0; i < labels.length; i++) {
-            const value = traceur.getDataParNom('L' + idData + '-' + (i + 1));
-            if (value !== null && value !== 'NaN' && !isNaN(value)) {
-                nbValeurs++;
-            }
-        }
-
 
         if (idData === traceur.lampePrincipale) {
             labelX = `Signal (mV)`;
             labelY = `Concentration (${traceur.unite})`;
-
             for (let i = 1; i <= 4; i++) {
                 let data = [];
                 for (let j = 0; j < labels.length; j++) {
@@ -38,21 +30,11 @@ class GraphiqueCalibration extends Graphiques {
                         data.push({x: value, y: labels[j]});
                     }
                 }
-
-
                 data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
-
-
-                if (data.length > maxDataLength) {
-                    maxDataLength = data.length;
-                    maxDataIndex = datasets.length;
-                }
-
                 let hiddenStatus = false;
                 if (data.length > 1 && data[0].x === '0') {
                     hiddenStatus = true;
                 }
-
                 if (i === idData) {
                     const eau = recupererTraceurEau();
                     let dataEau = [];
@@ -73,12 +55,10 @@ class GraphiqueCalibration extends Graphiques {
                         showLine: false,
                         pointStyle: 'cross'
                     });
-
-
                     datasets.push({
                         label: 'L' + i,
                         data: data,
-                        borderColor: getRandomColor(),
+                        borderColor: Graphiques.getRandomColor(),
                         borderWidth: 2,
                         fill: false,
                         hidden: hiddenStatus,
@@ -87,44 +67,34 @@ class GraphiqueCalibration extends Graphiques {
                     });
                 }
             }
-
-
         } else {
             labelX = `Signal L${traceur.lampePrincipale} (mV)`;
             labelY = `Signal parasite L${idData} (mV)`;
-
             let data = [];
             const tableauY = [];
-
             for (let j = 0; j < labels.length; j++) {
                 const value = traceur.getDataParNom('L' + idData + '-' + (j + 1));
                 if (value !== null && value !== 'NaN') {
                     tableauY.push(value);
                 }
             }
-
             for (let j = 0; j < labels.length; j++) {
                 const value = traceur.getDataParNom('L' + traceur.lampePrincipale + '-' + (j + 1));
                 if (value !== null && value !== 'NaN') {
                     data.push({x: value, y: tableauY[j]});
                 }
             }
-
             data = data.filter((point) => !isNaN(point.x) && !isNaN(point.y));
-
-
             let hiddenStatus = false;
             if (data.length > 1 && data[0].x === '0') {
                 hiddenStatus = true;
             }
-
             const eau = recupererTraceurEau();
             let dataEau = [];
             dataEau.push({
                 x: eau.getDataParNom('L' + traceur.lampePrincipale + '-1'),
                 y: eau.getDataParNom('L' + idData + '-1')
             });
-
             datasets.push({
                 label: eau.nom,
                 data: dataEau,
@@ -135,22 +105,19 @@ class GraphiqueCalibration extends Graphiques {
                 showLine: false,
                 pointStyle: 'cross'
             });
-
-
             datasets.push({
                 label: 'L' + idData,
                 data: data,
-                borderColor: getRandomColor(),
+                borderColor: Graphiques.getRandomColor(),
                 borderWidth: 2,
                 fill: false,
                 hidden: hiddenStatus,
                 showLine: false,
                 pointStyle: 'cross'
             });
-
         }
 
-
+        // Nettoyage des labels si besoin
         for (let i = 0; i < datasets.length; i++) {
             if (datasets[i].data.length > 1) {
                 labels = labels.filter(label => label !== 0);
@@ -159,18 +126,15 @@ class GraphiqueCalibration extends Graphiques {
             }
         }
 
-
         if (document.getElementById('graphiqueTraceur')) {
             document.getElementById('graphiqueTraceur').remove();
         }
-
         const canvas = document.createElement('canvas');
         canvas.id = 'graphiqueTraceur';
         canvas.style.display = 'block';
         document.querySelector('.donnees').appendChild(canvas);
-
         const ctx = document.getElementById('graphiqueTraceur').getContext('2d');
-        new Chart(ctx, {
+        new window.Chart(ctx, {
             type: 'line',
             data: {
                 labels: labels.map(String),
@@ -209,12 +173,8 @@ class GraphiqueCalibration extends Graphiques {
                             }
                         },
                         zoom: {
-                            wheel: {
-                                enabled: true,
-                            },
-                            pinch: {
-                                enabled: true
-                            },
+                            wheel: {enabled: true},
+                            pinch: {enabled: true},
                             mode: 'xy',
                             onZoom: function ({chart}) {
                                 const scales = chart.scales;
@@ -226,9 +186,7 @@ class GraphiqueCalibration extends Graphiques {
                     },
                 },
                 elements: {
-                    point: {
-                        radius: 10
-                    }
+                    point: {radius: 10}
                 }
             }
         });
@@ -317,3 +275,6 @@ class GraphiqueCalibration extends Graphiques {
         }
     }
 }
+
+export default GraphiqueCalibration;
+
