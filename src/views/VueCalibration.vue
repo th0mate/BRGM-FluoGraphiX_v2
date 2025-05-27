@@ -36,6 +36,6 @@
 @import "@/assets/styles/glassmorphism.css";
 
 .glassmorphism {
-  background-image: url('@/assets/img/hydro_pictures/img10.jpg');
+  background-image: url('@/assets/img/hydro_pictures/img13.jpg');
 }
 </style>
