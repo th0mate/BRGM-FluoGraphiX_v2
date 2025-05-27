@@ -20,6 +20,7 @@ class Session {
         this.contenuMesuresInitial = "";
         this.contenuFichierCalibration = "";
         this.traceurs = [];
+        this.calculs = [];
         Session.#instance = this;
     }
 
@@ -39,6 +40,8 @@ class Session {
         this.contenuFichierMesures = "";
         this.contenuMesuresInitial = "";
         this.contenuFichierCalibration = "";
+        this.traceurs = [];
+        this.calculs = [];
     }
 }
 

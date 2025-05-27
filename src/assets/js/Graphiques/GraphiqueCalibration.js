@@ -194,34 +194,6 @@ class GraphiqueCalibration extends Graphiques {
 
 
     /**
-     * Affiche les détails d'un élément du bandeau lorsque l'utilisateur le survole
-     */
-    setEventListeneresBandeau() {
-        const tooltip = document.getElementById('tooltip');
-
-        document.querySelectorAll('.elementBandeau').forEach(element => {
-            element.addEventListener('mouseover', (event) => {
-                if (document.querySelector('.bandeauGraphiques').style.width === '55px') {
-                    tooltip.textContent = element.querySelector('span').textContent;
-                    tooltip.style.display = 'block';
-                }
-            });
-
-            element.addEventListener('mousemove', (event) => {
-                if (event && event.pageX !== undefined && event.pageY !== undefined && document.querySelector('.bandeauGraphiques').style.width === '55px') {
-                    tooltip.style.left = `${event.pageX + 10}px`;
-                    tooltip.style.top = `${event.pageY + 10}px`;
-                }
-            });
-
-            element.addEventListener('mouseout', () => {
-                tooltip.style.display = 'none';
-            });
-        });
-    }
-
-
-    /**
      * Permet d'étendre le menu des paramètres du graphique de la page de visualisation
      */
     toogleMenuGraphique() {
