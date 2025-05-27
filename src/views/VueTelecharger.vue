@@ -8,14 +8,14 @@
     <div class="glasmorphism-wrap">
       <div class="left">
         <img src="@/assets/img/cosmetics/brgm.svg" class="logo" alt="">
-        <img src="@/assets/img/illus/download.png" alt="">
+        <img src="@/assets/img/illus/download.svg" alt="">
       </div>
 
 
       <div class="right">
         <div class="presentation">
           <h2>Télécharger <span class="orange">FluoGraphiX</span></h2>
-          <span class="texte-gris-simple">Téléchargez et installez maintenant FluoGraphiX sur votre appareil. Bienvenue sur FluoGraphiX !</span>
+          <span class="texte-gris-simple">Téléchargez et installez maintenant FluoGraphiX sur votre appareil.<br> Bienvenue sur FluoGraphiX !</span>
         </div>
 
         <div class="possibility">
@@ -35,10 +35,10 @@
           </div>
         </div>
         <div class="possibility">
-          <img src="@/assets/img/icons/linux.png" alt="">
+          <img src="@/assets/img/icons/android.png" alt="">
           <div>
             <span class="color"></span>
-            <h4>FluoGraphiX pour <span class="orange">Linux</span></h4>
+            <h4>FluoGraphiX pour <span class="orange">Andoid</span></h4>
             <span class="bouton boutonFonce">TÉLÉCHARGER</span>
           </div>
         </div>
