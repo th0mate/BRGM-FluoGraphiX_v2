@@ -230,6 +230,24 @@ h4, h5, h6, p {
     }
 }
 
+select {
+    font-family: 'Gibson-Semi-Bold', sans-serif;
+    font-size: 1.1em;
+    min-height: 25px;
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    user-select: none;
+    text-decoration: none;
+    color: white;
+    background-color: var(--orangeBRGM);
+}
+
 /* =====================================================================================================================
    POPUPS
    ===================================================================================================================== */

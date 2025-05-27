@@ -26,10 +26,13 @@
           </ul>
         </div>
 
-        <select>
-          <option selected>jj/mm/aaaa</option>
-          <option>mm/jj/aaaa</option>
-        </select>
+        <div class="wrap">
+          <span class="texte-gris-simple">Format de date :</span>
+          <select>
+            <option selected>jj/mm/aaaa</option>
+            <option>mm/jj/aaaa</option>
+          </select>
+        </div>
 
         <span class="bouton boutonFonce">COMMENCER</span>
       </div>
@@ -41,6 +44,6 @@
 @import "@/assets/styles/glassmorphism.css";
 
 .glassmorphism {
-  background-image: url('@/assets/img/hydro_pictures/img13.jpg');
+  background-image: url('@/assets/img/hydro_pictures/img14.jpg');
 }
 </style>
