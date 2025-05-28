@@ -4,7 +4,7 @@
  */
 import { ln, arrondir8Chiffres, multiply, inverse, transpose, multipleLinearRegression } from './utils.js';
 import { EquationLineaire, EquationLogarithmique, EquationLogarithmiqueQuadratique } from '@/assets/js/Objects/Calcul.js';
-import { TableauDonnees } from './TableauxDonnees.js';
+import TableauxDonnees from './TableauxDonnees.js';
 import Session from '@/assets/js/Session/Session.js'
 
 
@@ -13,7 +13,7 @@ import Session from '@/assets/js/Session/Session.js'
  * Classe de base pour les calculs de courbes
  * ====================================================================================================================
  */
-export class CalculCourbe {
+class CalculCourbe {
 
 
     /**
@@ -67,7 +67,7 @@ export class CalculCourbe {
  * Classe pour les calculs de courbes de concentration
  * ===================================================================================================================
  */
-export class CalculCourbeConcentration extends CalculCourbe {
+class CalculCourbeConcentration extends CalculCourbe {
 
 
     /**
@@ -209,7 +209,7 @@ export class CalculCourbeConcentration extends CalculCourbe {
  * Classe pour les calculs de courbes parasites
  * =====================================================================================================================
  */
-export class CalculCourbeParasite extends CalculCourbe {
+class CalculCourbeParasite extends CalculCourbe {
 
 
     /**
@@ -362,3 +362,10 @@ export class CalculCourbeParasite extends CalculCourbe {
         return final;
     }
 }
+
+export default {
+    CalculCourbe,
+    CalculCourbeConcentration,
+    CalculCourbeParasite
+};
+

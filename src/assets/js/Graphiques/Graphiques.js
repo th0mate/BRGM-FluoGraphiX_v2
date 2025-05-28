@@ -3,10 +3,17 @@
  * www.thomasloye.fr
  */
 
+
+/**
+ * ======================================================================================================================
+ * Classe abstraite Graphiques permettant de gérer les graphiques de l'application
+ * ======================================================================================================================
+ */
 class Graphiques {
     afficherGraphique(data) {
         throw new Error("La méthode afficherGraphique() doit être implémentée par la classe enfant.");
     }
+
 
     /**
      * Cache dans le graphique existant toutes les courbes représentant des colonnes pour lesquelles isConstant renvoie true
@@ -29,6 +36,7 @@ class Graphiques {
         }
     }
 
+
     /**
      * Retourne true si le tableau passé en paramètre contient uniquement des duplications du même nombre
      * @param {Array} arr - la colonne de données à vérifier
@@ -45,12 +53,14 @@ class Graphiques {
         return true;
     }
 
+
     /**
      * Arrondit une valeur à 3 décimales
      */
     around(val) {
         return Math.round(val * 1000) / 1000;
     }
+
 
     /**
      * Retourne une couleur aléatoire foncée en hexadécimal
@@ -70,6 +80,7 @@ class Graphiques {
         return color;
     }
 
+
     /**
      * Retourne true si la couleur passée en paramètre est claire
      * @param {string} color
@@ -84,6 +95,7 @@ class Graphiques {
         );
         return hsp > 127.5;
     }
+
 
     /**
      * Convertit une couleur hexadécimale en RGB

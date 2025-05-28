@@ -2,11 +2,11 @@
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
  */
-
-
 import Graphiques from './Graphiques';
 
+
 class GraphiqueCalibration extends Graphiques {
+
 
     /**
      * Affiche un graphique pour un traceur donné de ses LX en fonction de la valeur des signaux - Partie Calibration
@@ -190,61 +190,6 @@ class GraphiqueCalibration extends Graphiques {
                 }
             }
         });
-    }
-
-
-    /**
-     * Permet d'étendre le menu des paramètres du graphique de la page de visualisation
-     */
-    toogleMenuGraphique() {
-        const menu = document.querySelector('.bandeauGraphiques');
-        const extendButton = document.querySelector('.extend');
-
-        if (menu.style.width !== '55px') {
-            menu.style.width = '55px';
-            extendButton.style.transform = 'rotate(0deg)';
-
-            menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
-                elementBandeau.removeAttribute('style');
-                elementBandeau.querySelector('span').removeAttribute('style');
-            });
-
-            menu.querySelectorAll('.separatorGraphique').forEach(separator => {
-                separator.removeAttribute('style');
-                separator.querySelector('.text').removeAttribute('style');
-                separator.querySelectorAll('span:not(.text)').forEach(span => {
-                    span.removeAttribute('style');
-                });
-            });
-
-        } else {
-            menu.style.width = '350px';
-            extendButton.style.transform = 'rotate(180deg)';
-
-            setTimeout(() => {
-                menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
-                    elementBandeau.style.width = '300px';
-                    elementBandeau.querySelector('span').style.display = 'block';
-                    elementBandeau.style.margin = '5px';
-                });
-
-                menu.querySelectorAll('.separatorGraphique').forEach(separator => {
-                    separator.style.width = '280px';
-                    separator.style.height = 'auto';
-                    separator.style.display = 'flex';
-                    separator.style.alignItems = 'center';
-                    separator.style.justifyContent = 'space-between';
-                    separator.style.backgroundColor = 'transparent';
-                    separator.querySelector('.text').style.display = 'block';
-                    separator.querySelectorAll('span:not(.text)').forEach(span => {
-                        span.style.display = 'block';
-                        span.style.height = '1px';
-                        span.style.width = '70px';
-                        span.style.backgroundColor = 'white';
-                    });
-                });
-            }, 300);
-        }
     }
 }
 

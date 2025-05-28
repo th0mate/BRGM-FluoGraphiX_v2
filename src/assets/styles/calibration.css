@@ -1,0 +1,511 @@
+﻿/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  BANDEAU  ------------------------------------------------------
+ */
+
+.wrapBandeauCalibration {
+    width: 98%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin-top: 20px;
+
+    * {
+        user-select: none;
+    }
+
+    .bandeauCalibration {
+        width: 95%;
+        margin-left: 2.5%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+        background-color: var(--grisBRGM);
+        color: white;
+        padding: 5px;
+        margin-bottom: 20px;
+
+        .separatorCalibration {
+            width: 1px;
+            height: 16px;
+            background-color: white;
+        }
+
+        div:not(.boutonOrange) {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            align-content: center;
+            border: none;
+            flex-wrap: wrap;
+
+            .ligneElement {
+                width: 20px;
+            }
+
+            .traceurElement {
+                width: 90px;
+            }
+
+            span {
+                margin-right: 5px;
+                margin-left: 5px;
+                transition: all 0.5s ease;
+                cursor: pointer;
+                margin-bottom: 3px;
+                text-align: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+
+                &:hover {
+                    color: var(--orangeBRGM);
+                }
+            }
+
+            .traceurActive, .lampeActive {
+                color: var(--orangeBRGM);
+                text-decoration: underline;
+            }
+
+            .boutonOrange {
+                width: auto;
+                font-size: 0.9em;
+                font-weight: normal;
+                margin: 5px;
+                padding: 5px;
+                height: 16px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                img {
+                    height: 16px;
+                }
+
+                span {
+                    display: none;
+                }
+            }
+
+            .boutonOrange:nth-child(1), .boutonOrange:nth-child(2), .boutonOrange:nth-child(3) {
+                img {
+                    padding-left: 5px;
+                }
+            }
+
+            .boutonOrange:nth-child(4) {
+                margin-right: 15px;
+            }
+        }
+
+    }
+}
+
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  DESCRIPTION  --------------------------------------------------
+ */
+
+.descriptionConcentration {
+    width: 98%;
+    text-align: left;
+    font-size: 1.2em;
+    padding-bottom: 20px;
+    display: none;
+}
+
+.descriptionConcentration > h2 {
+    margin-left: 10px;
+    margin-bottom: 0;
+}
+
+.descriptionConcentration > h2 > span {
+    color: var(--orangeBRGM);
+}
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  INFOS  --------------------------------------------------------
+ */
+
+.donnees {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+.copier {
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease-in-out;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    width: 150px;
+    height: 30px;
+    padding-right: 4px;
+    padding-left: 4px;
+    font-size: 0.9em;
+    background-color: var(--grisBRGM);
+}
+
+.copier > img {
+    height: 25px;
+}
+
+.copier:hover {
+    background-color: var(--grisFin);
+}
+
+.donnees > table {
+    min-width: 35%;
+    max-width: 45%;
+    text-align: center;
+    color: white;
+    border: 5px solid var(--grisBRGM);
+    margin: auto;
+    position: relative;
+}
+
+.donnees > table > caption {
+    color: var(--orangeBRGM);
+    font-size: 1.3em;
+    position: absolute;
+    top: -40px;
+    /* centré */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+}
+
+.donnees > table > tbody > tr:nth-child(odd) {
+    background-color: var(--grisBRGM);
+    border: 1px solid white;
+}
+
+.donnees > table > tbody > tr:nth-child(even) {
+    background-color: var(--orangeBRGM);
+    border: 1px solid white;
+}
+
+.donnees > table > tbody > tr > td {
+    padding: 5px;
+}
+
+.donnees > table > tbody > tr > th {
+    padding: 5px;
+}
+
+.donnees > table > thead > tr {
+    background-color: var(--orangeBRGM);
+    color: white;
+    padding: 5px;
+}
+
+#graphiqueTraceur {
+    max-width: 50%;
+    height: auto!important;
+    max-height: 300px;
+    margin: auto;
+    margin-top: 60px;
+}
+
+.infosConcentration {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: flex-start;
+    width: 100%;
+    height: calc(100vh - 80px);
+    color: black;
+    text-align: center;
+
+    .cotesInfos {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        position: relative;
+        width: 30%;
+        height: 100% !important;
+
+        img {
+            width: 95%;
+            max-height: 500px;
+        }
+
+        .bulles {
+            background-color: var(--grisBRGM);
+            position: absolute;
+            text-align: left;
+            color: white;
+            max-width: 270px;
+            padding: 10px;
+            font-size: 1em;
+
+            span {
+                color: var(--orangeBRGM);
+            }
+        }
+
+        .bl1 {
+            top: 200px;
+            right: 40px;
+        }
+
+        .bl2 {
+            left: 30px;
+            top: 120px;
+        }
+    }
+
+    .mainInfos {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        text-align: left;
+        position: relative;
+        width: 36%;
+        height: 100% !important;
+        background-color: #D9D9D9;
+        padding-left: 25px;
+        padding-right: 25px;
+
+
+        h3 {
+            font-weight: 300;
+        }
+
+        p {
+            font-size: 0.9em;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .elementCentre {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            .dates > label {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+                align-content: flex-start;
+                margin-bottom: 10px;
+                font-size: 0.9em;
+            }
+
+            .dates > label > select {
+                width: 240px;
+                height: 30px;
+                color: white;
+                background-color: var(--orangeBRGM);
+                border-radius: 0;
+            }
+
+
+            .dates > label > select > option:hover {
+                background-color: var(--grisBRGM);
+            }
+        }
+
+        h4 {
+            color: var(--orangeBRGM);
+        }
+
+        .bouton {
+            border: 5px solid var(--orangeBRGM);
+            width: 220px;
+            background-color: var(--orangeBRGM);
+            box-shadow: none;
+            transition: box-shadow 0.3s ease;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .bouton:hover {
+            box-shadow: inset 0 0 0 1px white;
+        }
+
+    }
+}
+
+.infosConcentration > img {
+    width: 300px;
+}
+
+.infosConcentration > h2 {
+    color: var(--orangeBRGM);
+    margin-bottom: 0;
+}
+
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------  EQUATIONS  -----------------------------------------------------
+ */
+
+
+.equationPannel {
+    position: absolute;
+    top: 40%;
+    right: -350px;
+    width: 350px;
+    height: 350px;
+    background-color: var(--grisBRGM);
+    display: none;
+    flex-direction: column;
+    gap: 25px;
+    padding: 10px;
+    transition: all 0.5s ease;
+    box-sizing: border-box;
+
+    .gomette {
+        background-color: var(--orangeBRGM);
+        width: 50px;
+        height: 50px;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: -50px;
+
+        img {
+            width: 30px;
+            padding-left: 10px;
+        }
+    }
+
+    .cross {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: var(--orangeBRGM);
+        }
+    }
+
+    h2 {
+        color: white;
+        font-size: 1em;
+        margin: 0;
+        font-weight: 300;
+
+    }
+
+    .equation {
+        padding: 10px;
+        color: black;
+        background-color: #d3d3d3;
+        display: flex;
+        flex-direction: column;
+        min-height: 150px;
+        font-size: 1em;
+        gap: 10px;
+    }
+
+    .boutonOrange {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 3px;
+
+        img {
+            height: 20px;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------  RESPONSIVE  ---------------------------------------------------
+ */
+
+@media (max-width: 930px) {
+
+    .donnees > table {
+        max-width: 98%;
+        min-width: 90%;
+        margin-top: 30px;
+    }
+
+    #graphiqueTraceur {
+        max-width: 90%;
+        min-width: 85%;
+    }
+
+    .infosConcentration {
+        width: 98%;
+    }
+}
+
+@media (max-width: 850px) {
+
+    .cotesInfos {
+        display: none!important;
+    }
+
+    .mainInfos {
+        width: calc(100% - 20px) !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        background-color: white !important;
+    }
+
+    caption {
+        font-size: 1em!important;
+    }
+
+}

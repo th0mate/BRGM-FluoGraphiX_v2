@@ -1,7 +1,17 @@
 ﻿/**
- * Classe de base pour les calculs d'équation
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
  */
-export class Calculs {
+
+
+/**
+ * ======================================================================================================================
+ * Classe de base pour les calculs d'équation
+ * =====================================================================================================================
+ */
+class Calculs {
+
+
     /**
      * Constructeur de la classe Calculs
      * @param {string} equation - L'équation sous forme de texte
@@ -10,6 +20,7 @@ export class Calculs {
         this.equation = equation;
         this.parametres = new Map();
     }
+
 
     /**
      * Ajoute un paramètre de calcul à l'équation
@@ -20,6 +31,7 @@ export class Calculs {
         this.parametres.set(nom, valeur);
     }
 
+
     /**
      * Récupère la valeur d'un paramètre
      * @param {string} nom - Le nom du paramètre
@@ -29,6 +41,7 @@ export class Calculs {
         return this.parametres.get(nom);
     }
 
+
     /**
      * Retourne l'équation sous forme de texte
      * @return {string} L'équation
@@ -36,6 +49,7 @@ export class Calculs {
     toStringEquation() {
         return this.equation;
     }
+
 
     /**
      * Retourne les valeurs des paramètres sous forme de texte
@@ -50,16 +64,22 @@ export class Calculs {
     }
 }
 
+
 /**
+ * ======================================================================================================================
  * Classe pour les calculs d'équation linéaire
+ * ====================================================================================================================
  */
-export class EquationLineaire extends Calculs {
+class EquationLineaire extends Calculs {
+
+
     /**
      * Constructeur de la classe EquationLineaire
      */
     constructor() {
         super("Equation du type Y-Y0 = a1 * (X-X0)");
     }
+
 
     /**
      * Calcule la valeur de Y pour une valeur de X donnée
@@ -75,16 +95,22 @@ export class EquationLineaire extends Calculs {
     }
 }
 
+
 /**
+ * ======================================================================================================================
  * Classe pour les calculs d'équation logarithmique
+ * ===================================================================================================================
  */
-export class EquationLogarithmique extends Calculs {
+class EquationLogarithmique extends Calculs {
+
+
     /**
      * Constructeur de la classe EquationLogarithmique
      */
     constructor() {
         super("Equation du type ln(Y-Y0) = a0 + a1*ln(X-X0)");
     }
+
 
     /**
      * Calcule la valeur de Y pour une valeur de X donnée
@@ -101,16 +127,22 @@ export class EquationLogarithmique extends Calculs {
     }
 }
 
+
 /**
+ * =====================================================================================================================
  * Classe pour les calculs d'équation logarithmique quadratique
+ * ===================================================================================================================
  */
-export class EquationLogarithmiqueQuadratique extends Calculs {
+class EquationLogarithmiqueQuadratique extends Calculs {
+
+
     /**
      * Constructeur de la classe EquationLogarithmiqueQuadratique
      */
     constructor() {
         super("Equation du type ln(Y-Y0) = a0 + a1*ln(X-X0) + a2*ln(X-X0)^2");
     }
+
 
     /**
      * Calcule la valeur de Y pour une valeur de X donnée
@@ -128,3 +160,6 @@ export class EquationLogarithmiqueQuadratique extends Calculs {
         return y0 + Math.exp(a0 + a1 * lnXX0 + a2 * lnXX0 * lnXX0);
     }
 }
+
+export { Calculs, EquationLineaire, EquationLogarithmique, EquationLogarithmiqueQuadratique };
+

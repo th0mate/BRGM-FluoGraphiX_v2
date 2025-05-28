@@ -7,7 +7,7 @@
 /**
  * Classe Traceur pour la création d'objets Traceur
  */
-class Traceur {
+export default class Traceur {
     nom;
     dateMesure;
     unite;
@@ -73,4 +73,3 @@ class Traceur {
         return `${this.nom} : { ${dataStr} }`;
     }
 }
-

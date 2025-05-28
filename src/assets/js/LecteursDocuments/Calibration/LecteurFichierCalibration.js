@@ -13,7 +13,7 @@ import Session from '@/assets/js/Session/Session.js';
  * Classe abstraite de base pour la lecture des fichiers de calibration
  * =====================================================================================================================
  */
-export class LecteurFichierCalibration {
+export default class LecteurFichierCalibration {
 
 
     /**

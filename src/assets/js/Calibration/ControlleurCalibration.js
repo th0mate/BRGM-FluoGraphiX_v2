@@ -2,9 +2,9 @@
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
  */
-import { LecteurFichierDAT } from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierDAT.js';
-import { LecteurFichierCSV } from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCSV.js';
-import { GestionnaireCourbesCalibration, initialiserCalculsCourbes } from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
+import LecteurFichierDAT from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierDAT.js';
+import LecteurFichierCSV from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCSV.js';
+import GestionnaireCourbesCalibration, { initialiserCalculsCourbes } from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import GraphiqueCalibration from '@/assets/js/Graphiques/GraphiqueCalibration.js';
 import Session from '@/assets/js/Session/Session.js';
@@ -15,7 +15,7 @@ import Session from '@/assets/js/Session/Session.js';
  * Classe contrôleur principale pour gérer les calibrations
  * =====================================================================================================================
  */
-export class ControlleurCalibration {
+export default class ControlleurCalibration {
 
 
     /**
@@ -350,8 +350,8 @@ export class ControlleurCalibration {
      * Génère et télécharge le fichier de données de calibration
      */
     telechargerDonneesCalibration() {
-        const contenu = this.lecteur.convertirEnTexte ?
-            this.lecteur.convertirEnTexte() :
+        const contenu = this.lecteur.convertirEnCSV ?
+            this.lecteur.convertirEnCSV() :
             this.lecteur.getContenuFichier();
 
         const blob = new Blob([contenu], { type: 'text/plain' });

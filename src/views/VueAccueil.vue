@@ -3,7 +3,7 @@
 import {RouterLink} from "vue-router";
 import Router from "@/router";
 import {onMounted, ref} from "vue";
-import * as UI from '@/assets/js/UI';
+import {scrollToElement} from '@/assets/js/UI/navigation'
 
 const appVersion = ref('');
 
@@ -19,7 +19,7 @@ onMounted(async () => {
 <template>
   <section class="main-pres">
     <h1>FluoGraphiX : l'outil de visualisation et de traitement de données issues de fluorimètres</h1>
-    <span class="bouton-main" @click="UI.scrollToElement('#presentation')">DÉCOUVRIR</span>
+    <span class="bouton-main" @click="scrollToElement('#presentation')">DÉCOUVRIR</span>
     <span v-if="appVersion !== ''" class="version">v{{ appVersion }}</span>
 
     <div class="wrap-cards">
@@ -53,7 +53,7 @@ onMounted(async () => {
       <span class="texte-gris-simple">Une nouvelle façon de traiter vos données issues de campagnes de traçage hydrogéologique.</span>
       <div class="wrap-boutons">
         <span class="bouton boutonFonce" @click="Router.push('/telecharger')">TÉLÉCHARGER</span>
-        <span class="bouton boutonClair" @click="UI.scrollToElement('.highlights')">VOIR PLUS</span>
+        <span class="bouton boutonClair" @click="scrollToElement('.highlights')">VOIR PLUS</span>
       </div>
     </div>
   </section>
@@ -104,7 +104,7 @@ onMounted(async () => {
       <span class="texte-gris-simple">Une nouvelle façon de traiter vos données issues de campagnes de traçage hydrogéologique.</span>
       <div class="wrap-boutons">
         <span class="bouton boutonFonce" @click="Router.push('/telecharger')">TÉLÉCHARGER</span>
-        <span class="bouton boutonClair" @click="UI.scrollToElement('#continue')">VOIR PLUS</span>
+        <span class="bouton boutonClair" @click="scrollToElement('#continue')">VOIR PLUS</span>
       </div>
     </div>
   </section>

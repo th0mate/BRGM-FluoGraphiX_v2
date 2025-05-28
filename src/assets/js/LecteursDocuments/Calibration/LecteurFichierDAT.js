@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Permet de lire les fichiers de calibration DAT et d'en extraire les informations nécessaires
  */
-import {LecteurFichierCalibration} from './LecteurFichierCalibration.js';
+import LecteurFichierCalibration from './LecteurFichierCalibration.js';
 import Traceur from '@/assets/js/Objects/Traceur.js';
 import Session from "@/assets/js/Session/Session.js";
 import {getDateAujourdhui} from "@/assets/js/Common/utils.js";
@@ -14,7 +14,7 @@ import {getDateAujourdhui} from "@/assets/js/Common/utils.js";
  * Classe spécialisée pour la lecture des fichiers de calibration au format DAT
  * =====================================================================================================================
  */
-export class LecteurFichierDAT extends LecteurFichierCalibration {
+export default class LecteurFichierDAT extends LecteurFichierCalibration {
 
 
     /**
@@ -271,7 +271,7 @@ export class LecteurFichierDAT extends LecteurFichierCalibration {
      * Convertit le contenu du fichier DAT en format CSV
      * @returns {string} Le contenu formaté en CSV
      */
-    convertirEnTexte() {
+    convertirEnCSV() {
         let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil ${this.numeroFluorimetre}\n\n`;
         texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position.\n`;
         texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;

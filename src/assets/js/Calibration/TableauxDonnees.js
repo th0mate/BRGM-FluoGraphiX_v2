@@ -11,7 +11,7 @@ import Session from "@/assets/js/Session/Session.js";
  * Classe pour générer et manipuler des tableaux de données
  * =====================================================================================================================
  */
-export class TableauDonnees {
+export default class TableauxDonnees {
 
 
     /**

@@ -9,7 +9,7 @@
  * Classe permettant le stockage des différentes variables de session
  * ======================================================================================================================
  */
-class Session {
+export default class Session {
     static #instance;
 
     constructor() {
@@ -46,6 +46,4 @@ class Session {
         this.calculs = [];
     }
 }
-
-export default Session;
 

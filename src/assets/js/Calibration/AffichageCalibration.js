@@ -45,7 +45,7 @@ export class AffichageCalibration {
  * Classe pour l'affichage des courbes de concentration
  * ====================================================================================================================
  */
-export class AffichageConcentration {
+class AffichageConcentration {
 
 
     /**
@@ -227,7 +227,7 @@ export class AffichageConcentration {
  * Classe pour l'affichage des courbes parasites
  * =====================================================================================================================
  */
-export class AffichageParasites {
+class AffichageParasites {
 
 
     /**
@@ -530,3 +530,11 @@ export class AffichageParasites {
         return maxTraceur;
     }
 }
+
+// Exporter toutes les classes dans un seul objet par défaut
+export default {
+    AffichageCalibration,
+    AffichageConcentration,
+    AffichageParasites
+};
+

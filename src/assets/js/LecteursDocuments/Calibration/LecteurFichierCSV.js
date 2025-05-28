@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Permet de lire les fichiers de calibration CSV et d'en extraire les informations nécessaires
  */
-import { LecteurFichierCalibration } from './LecteurFichierCalibration.js';
+import LecteurFichierCalibration from './LecteurFichierCalibration.js';
 import Traceur from '@/assets/js/Objects/Traceur.js';
 import Session from '@/assets/js/Session/Session.js';
 
@@ -13,7 +13,7 @@ import Session from '@/assets/js/Session/Session.js';
  * Classe spécialisée pour la lecture des fichiers de calibration au format CSV
  * ======================================================================================================================
  */
-export class LecteurFichierCSV extends LecteurFichierCalibration {
+export default class LecteurFichierCSV extends LecteurFichierCalibration {
 
 
     /**
