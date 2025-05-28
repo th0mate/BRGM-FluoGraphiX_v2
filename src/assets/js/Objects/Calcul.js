@@ -1,79 +1,130 @@
 ﻿/**
- * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
- * www.thomasloye.fr
+ * Classe de base pour les calculs d'équation
  */
-
-
-/**
- * Classe Calculs
- * Crée un objet calcul, permettant de savoir quels calculs ont été effectués
- * Et plus particulièrement d'avoir une liste des calculs effectués, et de leurs paramètres
- */
-class Calculs {
-    nom;
-    estFait;
-    parametres = new Map();
-
-
+export class Calculs {
     /**
      * Constructeur de la classe Calculs
-     * @param {string} nom le nom du calcul, par exemple "Correction de turbidité"
-     * @param {boolean|string} estFait précise si le calcul a été utilisé (oui ou non)
+     * @param {string} equation - L'équation sous forme de texte
      */
-    constructor(nom, estFait) {
-        this.nom = nom;
-        this.estFait = estFait;
+    constructor(equation) {
+        this.equation = equation;
+        this.parametres = new Map();
     }
 
-
     /**
-     * Ajoute un paramètre au calcul
-     * @param {string} nom le nom du paramètre
-     * @param {any} valeur la valeur du paramètre
+     * Ajoute un paramètre de calcul à l'équation
+     * @param {string} nom - Le nom du paramètre
+     * @param {number} valeur - La valeur du paramètre
      */
     ajouterParametreCalcul(nom, valeur) {
         this.parametres.set(nom, valeur);
     }
 
-
     /**
-     * Récupère un paramètre par son nom
-     * @param {string} nom le nom du paramètre
-     * @return {any} la valeur du paramètre
+     * Récupère la valeur d'un paramètre
+     * @param {string} nom - Le nom du paramètre
+     * @return {number} La valeur du paramètre
      */
-    getParametreParNom(nom) {
+    getParametre(nom) {
         return this.parametres.get(nom);
     }
 
-
     /**
-     * Retourne une représentation lisible de l'objet Calculs
-     * @returns {string}
-     */
-    toString() {
-        const params = Array.from(this.parametres.entries())
-            .map(([nom, valeur]) => `------------------------------\n${nom} : ${valeur}`)
-            .join('\n');
-        return `${this.nom} : (${this.estFait})\nParamètres : \n${params}\n------------------------------\n\n-------------------------------------------------------------------\n\n`;
-    }
-
-
-    /**
-     * Retourne une équation sous la forme Ln(C)=a0+a1*ln(dmV)+a2*ln(dmV)^2
-     * @returns {string}
+     * Retourne l'équation sous forme de texte
+     * @return {string} L'équation
      */
     toStringEquation() {
-        return this.nom;
+        return this.equation;
     }
 
-
     /**
-     * Retourne un string contenant simplement les valeurs des paramètres
-     * @returns {string}
+     * Retourne les valeurs des paramètres sous forme de texte
+     * @return {string} Les valeurs des paramètres
      */
     toStringValeursParametres() {
-        return Array.from(this.parametres.entries())
-            .map(([nom, valeur]) => `${nom} = ${valeur}`)
-            .join('\n');
+        let result = '';
+        this.parametres.forEach((valeur, nom) => {
+            result += `<br>${nom} = ${valeur}`;
+        });
+        return result;
+    }
+}
+
+/**
+ * Classe pour les calculs d'équation linéaire
+ */
+export class EquationLineaire extends Calculs {
+    /**
+     * Constructeur de la classe EquationLineaire
+     */
+    constructor() {
+        super("Equation du type Y-Y0 = a1 * (X-X0)");
+    }
+
+    /**
+     * Calcule la valeur de Y pour une valeur de X donnée
+     * @param {number} x - La valeur de X
+     * @return {number} La valeur de Y calculée
+     */
+    calculer(x) {
+        const a1 = this.getParametre('a1');
+        const x0 = this.getParametre('X0');
+        const y0 = this.getParametre('Y0');
+
+        return y0 + a1 * (x - x0);
+    }
+}
+
+/**
+ * Classe pour les calculs d'équation logarithmique
+ */
+export class EquationLogarithmique extends Calculs {
+    /**
+     * Constructeur de la classe EquationLogarithmique
+     */
+    constructor() {
+        super("Equation du type ln(Y-Y0) = a0 + a1*ln(X-X0)");
+    }
+
+    /**
+     * Calcule la valeur de Y pour une valeur de X donnée
+     * @param {number} x - La valeur de X
+     * @return {number} La valeur de Y calculée
+     */
+    calculer(x) {
+        const a0 = this.getParametre('a0');
+        const a1 = this.getParametre('a1');
+        const x0 = this.getParametre('X0');
+        const y0 = this.getParametre('Y0');
+
+        return y0 + Math.exp(a0 + a1 * Math.log(x - x0));
+    }
+}
+
+/**
+ * Classe pour les calculs d'équation logarithmique quadratique
+ */
+export class EquationLogarithmiqueQuadratique extends Calculs {
+    /**
+     * Constructeur de la classe EquationLogarithmiqueQuadratique
+     */
+    constructor() {
+        super("Equation du type ln(Y-Y0) = a0 + a1*ln(X-X0) + a2*ln(X-X0)^2");
+    }
+
+    /**
+     * Calcule la valeur de Y pour une valeur de X donnée
+     * @param {number} x - La valeur de X
+     * @return {number} La valeur de Y calculée
+     */
+    calculer(x) {
+        const a0 = this.getParametre('a0');
+        const a1 = this.getParametre('a1');
+        const a2 = this.getParametre('a2');
+        const x0 = this.getParametre('X0');
+        const y0 = this.getParametre('Y0');
+
+        const lnXX0 = Math.log(x - x0);
+        return y0 + Math.exp(a0 + a1 * lnXX0 + a2 * lnXX0 * lnXX0);
     }
 }

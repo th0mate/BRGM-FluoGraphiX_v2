@@ -10,7 +10,7 @@
  * @param e le nombre d'espaces à ajouter au maximum
  * @returns {string} le nombre aligné avec le bon nombre d'espaces
  */
-function setEspaces(n, e) {
+export function setEspaces(n, e) {
     return n.toString().padStart(e, " ");
 }
 
@@ -20,7 +20,7 @@ function setEspaces(n, e) {
  * @param string la date ISO à convertir
  * @returns {string} la date et l'heure au format attendu
  */
-function getTime(string) {
+export function getTime(string) {
     let date = new Date(string);
     let day = date.getDate().toString().padStart(2, '0');
     let month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -40,7 +40,7 @@ function getTime(string) {
  * format = 2 : le format donné est yy/mm/dd-hh:mm:ss
  * @param string la date à convertir
  */
-function getTimeFromMV(string) {
+export function getTimeFromMV(string) {
     if (format.toString() === '0') {
         afficherMessageFlash("Erreur","La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.", 'danger');
         throw new Error("Erreur : La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.");
@@ -59,7 +59,7 @@ function getTimeFromMV(string) {
  * @param double le nombre à traiter
  * @returns {number|string} le nombre avec 2 décimales après la virgule
  */
-function around(double) {
+export function around(double) {
 
     if (double === '') {
         return '';
@@ -88,7 +88,7 @@ function around(double) {
  * Retourne la date d'aujourd'hui en toutes lettres en français
  * @returns {string} la date en question
  */
-function getDateAujourdhui() {
+export function getDateAujourdhui() {
     const date = new Date();
     const jours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
     const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
@@ -101,7 +101,7 @@ function getDateAujourdhui() {
  * Retourne un tableau contenant la date au format dd/mm/yyyy et l'heure au format hh:mm:ss depuis le format dd/mm/yyyy-hh:mm:ss
  * @param date {string} la date au format dd/mm/yyyy-hh:mm:ss
  */
-function getDateHeure(date) {
+export function getDateHeure(date) {
     const dateHeure = date.split('-');
     return [dateHeure[0], dateHeure[1]];
 }
@@ -112,7 +112,7 @@ function getDateHeure(date) {
  * @param chiffre {number} le chiffre à arrondir
  * @returns {number} le chiffre arrondi à 2 décimales
  */
-function arrondirA2Decimales(chiffre) {
+export function arrondirA2Decimales(chiffre) {
     return Math.round(chiffre * 100) / 100;
 }
 
@@ -123,7 +123,7 @@ function arrondirA2Decimales(chiffre) {
  * @param titre {string} le titre de la notification. Par défaut, 'Notification'.
  * @param type {string} le type de notification ('success', 'error', 'info', etc.). Par défaut, 'success'.
  */
-function afficherMessageFlash(titre, message, type = 'success') {
+export function afficherMessageFlash(titre, message, type = 'success') {
     notify({
         type: type, // 'success', 'error', 'info', etc.
         title: titre || 'Notification',
