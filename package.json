@@ -45,7 +45,6 @@
     ]
   },
   "dependencies": {
-    "@kyvg/vue3-notification": "^3.4.1",
     "@primeuix/themes": "^1.1.1",
     "electron-log": "^5.4.0",
     "electron-updater": "^6.6.2",

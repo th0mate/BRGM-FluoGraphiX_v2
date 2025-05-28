@@ -3,7 +3,6 @@ import {RouterLink, RouterView} from 'vue-router';
 import {onMounted, onUnmounted, ref} from 'vue';
 import Navbar from './components/common/navbar.vue'
 import Footer from './components/common/footer.vue'
-import {Notifications, notify} from "@kyvg/vue3-notification";
 import Session from '@/assets/js/Session/Session';
 const updateStatus = ref('');
 const downloadProgress = ref(0);
@@ -91,18 +90,6 @@ const getImageSrc = (type: string) => {
   <div id="contenu">
     <RouterView/>
   </div>
-
-  <notifications group="custom-template" position="bottom right" :duration="5000">
-    <template #body="props">
-      <div :class="['my-notification', props.item.type]">
-        <img :src="getImageSrc(props.item.type || 'default')" alt="logo" class="logo"/>
-        <div>
-          <p>{{ props.item.title }}</p>
-          <span>{{ props.item.text }}</span>
-        </div>
-      </div>
-    </template>
-  </notifications>
 
   <Footer/>
 </template>
