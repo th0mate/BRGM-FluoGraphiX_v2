@@ -4,6 +4,12 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import Navbar from './components/common/navbar.vue'
 import Footer from './components/common/footer.vue'
 import Session from '@/assets/js/Session/Session';
+import { useToast } from 'primevue/usetoast';
+import { setToastInstance } from '@/assets/js/Common/toastService';
+
+const toast = useToast();
+setToastInstance(toast);
+
 const updateStatus = ref('');
 const downloadProgress = ref(0);
 const showUpdatePrompt = ref(false);
@@ -48,12 +54,7 @@ onMounted(async () => {
       totalMB.value = 0;
     });
   } catch (error) {
-    console.warn('Version hébergée détectée. Le processus de mise à jour a été ignoré.');
-    notify({
-      type: 'info',
-      title: 'Ceci est un test',
-      group: 'custom-template'
-    });
+    console.warn('Version hébergée ou hors-ligne détectée. Le processus de mise à jour a été ignoré.');
   }
 });
 
@@ -63,6 +64,7 @@ const getImageSrc = (type: string) => {
 </script>
 
 <template>
+  <Toast />
 
   <Navbar/>
 

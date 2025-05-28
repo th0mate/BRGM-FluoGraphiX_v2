@@ -5,6 +5,7 @@ import {AffichageCalibration} from '@/assets/js/Calibration/AffichageCalibration
 import Session from '@/assets/js/Session/Session';
 import {onMounted, ref} from 'vue';
 import {copierScreenElement, copierTexte} from '@/assets/js/Common/pressePapier';
+import {afficherMessageFlash} from '@/assets/js/Common/utils';
 
 const fichierCharge = ref(false);
 const controleurCalibration = new ControlleurCalibration();
@@ -19,32 +20,38 @@ function ouvrirChoisirFichierCalibration() {
 }
 
 function traitementFichierCalibration(event: Event) {
-  const input = event.target as HTMLInputElement;
-  const fichier = input.files?.[0];
-  if (!fichier) return;
+  try {
+    const input = event.target as HTMLInputElement;
+    const fichier = input.files?.[0];
+    if (!fichier) return;
 
-  const lecteur = new FileReader();
+    const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
 
-  lecteur.onload = function (e: ProgressEvent<FileReader>) {
-    if (e.target?.result) {
-      // Stockage du contenu du fichier
-      Session.getInstance().contenuFichierCalibration = e.target.result as string;
+    const lecteur = new FileReader();
 
-      const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
+    lecteur.onload = function (e: ProgressEvent<FileReader>) {
+      if (e.target?.result) {
+        Session.getInstance().contenuFichierCalibration = e.target.result as string;
 
-      controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, true);
-      fichierCharge.value = true;
-      console.log(Session.getInstance().traceurs);
+        const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
 
-      // Récupérer l'élément avec TypeScript sécurisé
-      const equationPanel = document.getElementById('equationPanel');
-      if (equationPanel) {
-        equationPanel.style.display = 'flex';
+        controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, estFichierDat);
+        fichierCharge.value = true;
+        console.log(Session.getInstance().traceurs);
+
+        const equationPanel = document.getElementById('equationPanel');
+        if (equationPanel) {
+          equationPanel.style.display = 'flex';
+        }
       }
-    }
-  };
+    };
 
-  lecteur.readAsText(fichier);
+    lecteur.readAsText(fichier);
+  } catch (error) {
+    afficherMessageFlash('Erreur', 'Une erreur inattendue est survenue lors du traitement du fichier.', 'error');
+  }
+
+  afficherMessageFlash("Succès", "Fichier de calibration chargé avec succès.", "success");
 }
 
 

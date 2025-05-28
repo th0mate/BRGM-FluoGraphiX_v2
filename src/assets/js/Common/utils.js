@@ -4,7 +4,7 @@
  */
 
 
-import {useToast} from "primevue/usetoast";
+import { afficherToast } from "./toastService";
 
 /**
  * Ajoute des espaces pour aligner les chiffres
@@ -126,23 +126,5 @@ export function arrondirA2Decimales(chiffre) {
  * @param type {string} le type de notification ('success', 'info', 'warn', 'error'). Par défaut, 'success'.
  */
 export function afficherMessageFlash(titre = null, message, type = 'success') {
-    const titreAffiche = titre || (() => {
-        switch(type) {
-            case 'success': return 'Succès';
-            case 'info': return 'Information';
-            case 'warn': return 'Avertissement';
-            case 'error': return 'Erreur';
-            default: return 'Succès';
-        }
-    })();
-
-    const toast = useToast();
-    toast.add({
-        severity: type,
-        summary: titreAffiche,
-        detail: message,
-        life: 3000,
-        closable: true
-    });
+    afficherToast(titre, message, type);
 }
-
