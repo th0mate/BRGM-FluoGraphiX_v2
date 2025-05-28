@@ -2,7 +2,7 @@
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
  */
-import Graphiques from './Graphiques.js';
+import Graphiques from '@/assets/js/Graphiques/Graphiques.js';
 import Session from "@/assets/js/Session/Session.js";
 
 

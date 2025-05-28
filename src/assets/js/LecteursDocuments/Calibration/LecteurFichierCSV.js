@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Permet de lire les fichiers de calibration CSV et d'en extraire les informations nécessaires
  */
-import LecteurFichierCalibration from './LecteurFichierCalibration.js';
+import LecteurFichierCalibration from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCalibration.js';
 import Traceur from '@/assets/js/Objects/Traceur.js';
 import Session from '@/assets/js/Session/Session.js';
 
@@ -51,6 +51,7 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
         const noms = [];
 
         for (let i = 0; i < this.sections.length; i++) {
+            console.log("section");
             const section = this.sections[i].split('\n');
             if (section[0] && section[0].includes('Traceur')) {
                 const nomTraceur = section[0].split(',')[1];
@@ -143,9 +144,11 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
                     this.determinerLampePrincipale(traceur);
                 }
 
+                console.log(traceur);
                 Session.getInstance().traceurs.push(traceur);
             }
         }
+        this.creerTurbidite();
     }
 
 

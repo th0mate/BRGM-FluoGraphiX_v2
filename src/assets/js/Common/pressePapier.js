@@ -12,7 +12,7 @@ export async function copierScreenElement(querySelectorElement) {
     const element = document.querySelector(`${querySelectorElement}`);
 
     if (!element) {
-        afficherMessageFlash('Element introuvable dans le DOM', 'danger');
+        afficherMessageFlash('Erreur', 'Element introuvable dans le DOM', 'danger');
         return;
     }
 
@@ -30,9 +30,9 @@ export async function copierScreenElement(querySelectorElement) {
         const blob = await new Promise(resolve => canvas.toBlob(resolve));
         const clipboardItem = new ClipboardItem({'image/png': blob});
         await navigator.clipboard.write([clipboardItem]);
-        afficherMessageFlash('Image copiée dans le presse-papiers.', 'success');
+        afficherMessageFlash('Succès','Image copiée dans le presse-papiers.', 'success');
     } catch (error) {
-        afficherMessageFlash('Impossible de copier l\'image dans le presse-papiers.', 'danger');
+        afficherMessageFlash('Erreur','Impossible de copier l\'image dans le presse-papiers.', 'danger');
         console.error(error);
     }
 }
@@ -46,15 +46,15 @@ export async function copierTexte(querySelectorElement) {
     const element = document.querySelector(`${querySelectorElement}`);
 
     if (!element) {
-        afficherMessageFlash('Element introuvable dans le DOM', 'danger');
+        afficherMessageFlash('Erreur', 'Element introuvable dans le DOM', 'danger');
         return;
     }
 
     try {
         await navigator.clipboard.writeText(element.innerText);
-        afficherMessageFlash('Texte copié dans le presse-papiers.', 'success');
+        afficherMessageFlash('Succès','Texte copié dans le presse-papiers.', 'success');
     } catch (error) {
-        afficherMessageFlash('Impossible de copier le texte dans le presse-papiers.', 'danger');
+        afficherMessageFlash('Erreur','Impossible de copier le texte dans le presse-papiers.', 'danger');
         console.error(error);
     }
 }

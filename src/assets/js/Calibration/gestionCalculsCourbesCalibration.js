@@ -3,11 +3,10 @@
  * www.thomasloye.fr
  * Gère les calculs et l'affichage des courbes de calibration
  */
-import {AffichageCalibration} from './AffichageCalibration.js';
-import AffichageClasses from './AffichageCalibration.js';
+import {AffichageCalibration} from '@/assets/js/Calibration/AffichageCalibration.js';
+import AffichageClasses from '@/assets/js/Calibration/AffichageCalibration.js';
 import CalculClasses from '@/assets/js/Calibration/CalculsCourbes.js';
 
-// Récupération des classes depuis les exports par défaut
 const AffichageConcentration = AffichageClasses.AffichageConcentration;
 const AffichageParasites = AffichageClasses.AffichageParasites;
 const CalculCourbeConcentration = CalculClasses.CalculCourbeConcentration;

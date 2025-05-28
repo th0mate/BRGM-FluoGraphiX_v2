@@ -42,6 +42,7 @@ body {
     position: relative;
 }
 
+
 /* =====================================================================================================================
    UTILITAIRES COULEURS
    ===================================================================================================================== */
@@ -159,7 +160,7 @@ h4, h5, h6, p {
     font-family: 'Gibson-Semi-Bold', sans-serif;
     font-weight: bold;
     font-size: 1em;
-    min-height: 25px;
+    box-sizing: initial;
     padding: 5px;
     display: flex;
     flex-direction: row;

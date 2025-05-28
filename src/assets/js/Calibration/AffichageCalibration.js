@@ -2,7 +2,7 @@
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
  */
-import { arrondir8Chiffres, ln } from './utils.js';
+import { arrondir8Chiffres, ln } from '@/assets/js/Calibration/utils.js';
 import {afficherMessageFlash} from '@/assets/js/Common/utils.js'
 
 
@@ -34,7 +34,7 @@ export class AffichageCalibration {
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
             existingChart.resetZoom();
-            afficherMessageFlash("Zoom réinitialisé.", 'info');
+            afficherMessageFlash("Information", "Le zoom du graphique a été réinitialisé.", 'info');
         }
     }
 }

@@ -34,6 +34,7 @@ function traitementFichierCalibration(event: Event) {
 
       controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, true);
       fichierCharge.value = true;
+      console.log(Session.getInstance().traceurs);
 
       // Récupérer l'élément avec TypeScript sécurisé
       const equationPanel = document.getElementById('equationPanel');

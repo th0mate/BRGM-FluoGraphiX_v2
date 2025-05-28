@@ -235,6 +235,7 @@
             height: 80%;
             background-color: white;
             flex-shrink: 0;
+            box-sizing: initial;
 
             * {
                 margin: 0;

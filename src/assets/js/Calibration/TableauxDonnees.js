@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Ce fichier permet la logique nécessaire pour créer et calculer des tableaux/matrices VIRTUELS permettant les calculs de la partie Calibration
  */
-import { ln, arrondir8Chiffres } from './utils.js';
+import { ln, arrondir8Chiffres } from '@/assets/js/Calibration/utils.js';
 import Session from "@/assets/js/Session/Session.js";
 
 /**

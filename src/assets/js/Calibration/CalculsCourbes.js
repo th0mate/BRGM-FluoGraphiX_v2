@@ -2,9 +2,8 @@
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
  */
-import { ln, arrondir8Chiffres, multiply, inverse, transpose, multipleLinearRegression } from './utils.js';
+import { ln, arrondir8Chiffres, multiply, inverse, transpose, multipleLinearRegression } from '@/assets/js/Calibration/utils.js';
 import { EquationLineaire, EquationLogarithmique, EquationLogarithmiqueQuadratique } from '@/assets/js/Objects/Calcul.js';
-import TableauxDonnees from './TableauxDonnees.js';
 import Session from '@/assets/js/Session/Session.js'
 
 

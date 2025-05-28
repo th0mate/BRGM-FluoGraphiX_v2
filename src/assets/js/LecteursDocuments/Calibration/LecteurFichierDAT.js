@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Permet de lire les fichiers de calibration DAT et d'en extraire les informations nécessaires
  */
-import LecteurFichierCalibration from './LecteurFichierCalibration.js';
+import LecteurFichierCalibration from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCalibration.js';
 import Traceur from '@/assets/js/Objects/Traceur.js';
 import Session from "@/assets/js/Session/Session.js";
 import {getDateAujourdhui} from "@/assets/js/Common/utils.js";
@@ -105,7 +105,7 @@ export default class LecteurFichierDAT extends LecteurFichierCalibration {
      * Crée les objets Traceur à partir des données du fichier DAT
      */
     creerTraceurs() {
-        this.traceurs = [];
+        Session.getInstance().traceurs = [];
 
         // Création des traceurs principaux
         for (let i = 1; i <= 4; i++) {

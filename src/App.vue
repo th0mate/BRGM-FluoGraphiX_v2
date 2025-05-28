@@ -4,7 +4,7 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import Navbar from './components/common/navbar.vue'
 import Footer from './components/common/footer.vue'
 import {Notifications, notify} from "@kyvg/vue3-notification";
-import Session from '@/assets/js/Session/SessionInstance';
+import Session from '@/assets/js/Session/Session';
 const updateStatus = ref('');
 const downloadProgress = ref(0);
 const showUpdatePrompt = ref(false);
