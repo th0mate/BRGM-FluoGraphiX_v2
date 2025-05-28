@@ -1,9 +1,10 @@
 /**
+ * Service de notification Toast global
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
- * www.thomasloye.fr
  */
-let toastInstance = null;
 
+// Variable qui stockera la référence au service Toast de PrimeVue
+let toastInstance = null;
 
 /**
  * Configure le service Toast avec l'instance PrimeVue
@@ -13,6 +14,22 @@ export function setToastInstance(instance) {
   toastInstance = instance;
 }
 
+/**
+ * Applique tabindex=-1 à tous les éléments du toast pour éviter le focus par tabulation
+ */
+function preventTabFocus() {
+  setTimeout(() => {
+    const toastElements = document.querySelectorAll('.p-toast .p-toast-message-content *');
+    toastElements.forEach(element => {
+      element.setAttribute('tabindex', '-1');
+    });
+
+    const closeButtons = document.querySelectorAll('.p-toast .p-toast-icon-close');
+    closeButtons.forEach(button => {
+      button.setAttribute('tabindex', '-1');
+    });
+  }, 100);
+}
 
 /**
  * Affiche un message toast
@@ -43,4 +60,7 @@ export function afficherToast(titre = null, message, type = 'success') {
     life: 3000,
     closable: true
   });
+
+  // Applique la désactivation du focus après l'ajout du toast
+  preventTabFocus();
 }
