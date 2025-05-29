@@ -37,7 +37,6 @@ function traitementFichierCalibration(event: Event) {
 
         controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, estFichierDat);
         fichierCharge.value = true;
-        console.log(Session.getInstance().traceurs);
 
         const equationPanel = document.getElementById('equationPanel');
         if (equationPanel) {

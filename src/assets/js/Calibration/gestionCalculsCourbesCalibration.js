@@ -73,10 +73,8 @@ export default class GestionnaireCourbesCalibration {
         } else {
             // Courbes de concentration
             if (nbValeurLampe !== 1) {
-                console.log("afficherCourbeDepuis3Valeurs");
                 AffichageConcentration.afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
             } else {
-                console.log("afficherCourbeDepuis1Valeur");
                 AffichageConcentration.afficherCourbeDepuis1Valeur(resultat, idLampe, traceur);
             }
         }

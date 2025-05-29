@@ -21,25 +21,7 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
      * @returns {Array<string>} Les sections extraites
      */
     extraireSections() {
-        const sections = [];
-        let section = '';
-        let sectionEnCours = 0;
-
-        for (let i = 0; i < this.lignes.length; i++) {
-            if (this.lignes[i].startsWith('----') || this.lignes[i].includes(',----')) {
-                sections.push(section);
-                section = '';
-                sectionEnCours++;
-            } else if (this.lignes[i].trim() !== '') {
-                section += this.lignes[i] + '\n';
-            }
-        }
-
-        if (section.trim() !== '') {
-            sections.push(section);
-        }
-
-        return sections;
+        return Session.getInstance().contenuFichierCalibration.split('----------------------------------------------------------------------------------------');
     }
 
 
@@ -51,7 +33,6 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
         const noms = [];
 
         for (let i = 0; i < this.sections.length; i++) {
-            console.log("section");
             const section = this.sections[i].split('\n');
             if (section[0] && section[0].includes('Traceur')) {
                 const nomTraceur = section[0].split(',')[1];
@@ -106,45 +87,43 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
      */
     creerTraceurs() {
         Session.getInstance().traceurs = [];
+        const sections = this.sections;
 
-        // Parcourir les sections pour trouver et créer les traceurs
-        for (let i = 0; i < this.sections.length; i++) {
-            const section = this.sections[i].split('\n');
-            if (section[0] && section[0].includes('Traceur')) {
-                const nomTraceur = section[0].split(',')[1].trim();
-                let unite = 'ppb';
+        // On commence à 1 et on s'arrête à length - 2 comme dans creerTraceurCSV
+        for (let i = 1; i < sections.length - 2; i++) {
+            if (sections[i] !== '' && sections[i] !== ' ') {
+                const section = sections[i].split('\n');
+                const nom = this.supprimerPointVirgule(section[1].trim());
+                const date = this.supprimerPointVirgule(section[2].trim());
+                const unite = this.supprimerPointVirgule(section[3].trim());
+                const traceur = new Traceur(nom, date, unite);
 
-                // Déterminer l'unité du traceur
-                if (nomTraceur.toLowerCase().includes('eau')) {
-                    unite = '';
-                } else if (nomTraceur.toLowerCase().includes('turbid')) {
-                    unite = 'NTU';
-                }
+                // Lampe principale : on prend le chiffre après 'L' dans section[4]
+                traceur.lampePrincipale = parseFloat(section[4].charAt(1));
 
-                const traceur = new Traceur(nomTraceur, this.extraireDateCalibration(), unite);
-
-                // Extraire les échelles et valeurs
-                const donneesTraceur = this.extraireDonneesTraceur(section);
-
-                // Ajouter les échelles au traceur
-                traceur.echelles = donneesTraceur.echelles;
-
-                // Ajouter les données au traceur
-                for (let j = 0; j < donneesTraceur.donnees.length; j++) {
-                    const donnee = donneesTraceur.donnees[j];
-                    traceur.addData(donnee.label, donnee.valeur);
-                }
-
-                // Déterminer la lampe principale
-                if (unite === '') {
-                    traceur.lampePrincipale = 'NaN';
-                } else if (unite === 'NTU') {
-                    traceur.lampePrincipale = 4;
+                // Gestion des échelles
+                let futuresEchelles = [];
+                if (section[3].trim() !== '') {
+                    futuresEchelles = section[6].split(';').filter(echelle => echelle !== '');
                 } else {
-                    this.determinerLampePrincipale(traceur);
+                    futuresEchelles.push(100);
+                }
+                const nbColonnes = futuresEchelles.length;
+
+                for (let j = 0; j < nbColonnes; j++) {
+                    if (!isNaN(parseFloat(futuresEchelles[j]))) {
+                        traceur.echelles.push(parseFloat(futuresEchelles[j]));
+                    }
                 }
 
-                console.log(traceur);
+                // Ajout des données
+                for (let j = 0; j < 4; j++) {
+                    const ligne = section[j + 7].split(';');
+                    for (let k = 0; k < nbColonnes; k++) {
+                        traceur.addData(ligne[0] + `-${k + 1}`, parseFloat(ligne[k + 1]));
+                    }
+                }
+
                 Session.getInstance().traceurs.push(traceur);
             }
         }
