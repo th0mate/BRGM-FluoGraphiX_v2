@@ -4,6 +4,7 @@
  */
 import { arrondir8Chiffres, ln } from '@/assets/js/Calibration/utils.js';
 import {afficherMessageFlash} from '@/assets/js/Common/utils.js'
+import Session from "@/assets/js/Session/Session.js";
 
 
 /**
@@ -69,7 +70,7 @@ class AffichageConcentration {
         const degre1 = arrondir8Chiffres(resultat[0][1]);
         const degre2 = resultat[0].length === 3 ? arrondir8Chiffres(resultat[0][2]) : 0;
 
-        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
         const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
 
         let colonne0 = [];
@@ -178,7 +179,7 @@ class AffichageConcentration {
         };
 
         const a = resultat[0];
-        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
         const eauValeur = eau.getDataParNom('L' + idLampe + '-1');
 
         let colonne0 = [];
@@ -253,7 +254,7 @@ class AffichageParasites {
         const degre2 = arrondir8Chiffres(resultat[0][2]);
         let donneesCorrompues = false;
 
-        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
         const maxTraceur = this.getMaxTraceur(traceur);
         const valeurIni = Math.log(eau.getDataParNom(`L${traceur.lampePrincipale}-1`) + 0.01);
         const valeurFinale = Math.log(maxTraceur * 1.2);
@@ -409,7 +410,7 @@ class AffichageParasites {
         const degre1 = resultat[0][0];
         const constante = resultat[0][1];
 
-        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
         const maxTraceur = this.getMaxTraceur(traceur);
         const valeurIni = Math.log(eau.getDataParNom(`L${traceur.lampePrincipale}-1`) + 0.01);
         const valeurFinale = Math.log(maxTraceur * 1.2);
@@ -465,7 +466,7 @@ class AffichageParasites {
             tension: 0.4
         };
 
-        const eau = traceurs.find(traceur => traceur.unite === '');
+        const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
         const eauValeurLampePrincipale = eau.getDataParNom('L' + traceur.lampePrincipale + '-1');
         const eauValeurLampe = eau.getDataParNom('L' + idLampe + '-1');
         let donneesCorrompues = false;

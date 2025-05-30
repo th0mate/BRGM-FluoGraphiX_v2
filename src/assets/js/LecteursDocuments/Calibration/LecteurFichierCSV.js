@@ -1,7 +1,6 @@
 ﻿/**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
- * Permet de lire les fichiers de calibration CSV et d'en extraire les informations nécessaires
  */
 import LecteurFichierCalibration from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCalibration.js';
 import Traceur from '@/assets/js/Objects/Traceur.js';
@@ -31,17 +30,11 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
      */
     extraireNomsTraceurs() {
         const noms = [];
-
-        for (let i = 0; i < this.sections.length; i++) {
-            const section = this.sections[i].split('\n');
-            if (section[0] && section[0].includes('Traceur')) {
-                const nomTraceur = section[0].split(',')[1];
-                if (nomTraceur) {
-                    noms.push(nomTraceur.trim());
-                }
-            }
+        for (let i = 1; i < this.sections.length; i++) {
+            const section = this.sections[i];
+            const nom = section.split('\n')[1].trim();
+            noms.push(nom);
         }
-
         return noms;
     }
 
@@ -51,16 +44,9 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
      * @returns {string} Le numéro du fluorimètre
      */
     extraireNumeroFluorimetre() {
-        for (let i = 0; i < this.lignes.length; i++) {
-            if (this.lignes[i].includes('Fluorimètre n°')) {
-                const parties = this.lignes[i].split(',');
-                if (parties.length > 1) {
-                    return parties[1].trim();
-                }
-            }
-        }
-
-        return '';
+        const premiereLigne = this.lignes[0];
+        const index = premiereLigne.indexOf('Appareil');
+        return this.supprimerPointVirgule(premiereLigne.substring(index + 9).trim());
     }
 
 
@@ -149,7 +135,7 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
             }
         }
 
-        if (indiceDebut === -1) return { echelles, donnees };
+        if (indiceDebut === -1) return {echelles, donnees};
 
         // Extraire les données
         for (let i = indiceDebut; i < section.length; i++) {
@@ -175,7 +161,7 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
             }
         }
 
-        return { echelles, donnees };
+        return {echelles, donnees};
     }
 
 

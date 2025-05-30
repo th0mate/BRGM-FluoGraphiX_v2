@@ -4,7 +4,9 @@
  */
 import LecteurFichierDAT from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierDAT.js';
 import LecteurFichierCSV from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCSV.js';
-import GestionnaireCourbesCalibration, { initialiserCalculsCourbes } from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
+import GestionnaireCourbesCalibration, {
+    initialiserCalculsCourbes
+} from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import GraphiqueCalibration from '@/assets/js/Graphiques/GraphiqueCalibration.js';
 import Session from '@/assets/js/Session/Session.js';
@@ -25,7 +27,7 @@ export default class ControlleurCalibration {
         this.lecteur = null;
         this.gestionnaireCalibration = new GestionnaireCourbesCalibration();
         this.calibrationChargee = false;
-        this.graphiqueCalibration = new GraphiqueCalibration();
+        this.graphiqueCalibration = null;
         this.session = Session.getInstance();
     }
 
@@ -49,6 +51,7 @@ export default class ControlleurCalibration {
             : new LecteurFichierCSV(contenu);
 
         // Initialiser le lecteur
+        this.graphiqueCalibration = new GraphiqueCalibration(this.lecteur);
         const resultat = this.lecteur.initialiser(estDepuisCalibration);
 
         if (resultat) {
@@ -68,42 +71,49 @@ export default class ControlleurCalibration {
 
 
     /**
-     * Affiche la liste des traceurs dans un select
+     * Affiche la liste des traceurs dans le bandeau de calibration
      */
     afficherListeTraceurs() {
-        const traceurs = this.lecteur.getTraceurs();
-        if (!traceurs || traceurs.length === 0) return;
+        const traceurs = Session.getInstance().traceurs;
 
-        // Création du select pour les traceurs
-        const select = document.createElement('select');
-        select.classList.add('selectTraceur');
+        const divTraceurs = document.querySelector('.wrapTraceursCalibration');
 
         for (let i = 0; i < traceurs.length; i++) {
-            const option = document.createElement('option');
-            option.value = traceurs[i].nom;
-            option.textContent = traceurs[i].nom;
-            select.appendChild(option);
+
+            if (document.querySelector('#traceur' + traceurs[i].nom)) {
+                document.querySelector('#traceur' + traceurs[i].nom).remove();
+            }
+
+
+            if (traceurs[i].unite !== '') {
+                const span = document.createElement('span');
+                span.textContent = traceurs[i].nom;
+                span.id = 'traceur' + traceurs[i].nom;
+                span.classList.add('traceurElement');
+
+                if (i === 1) {
+                    span.classList.add('traceurActive');
+                    const traceur = traceurs[i];
+
+                    this.afficherTraceur(traceur);
+                    this.ajouterLigneTraceurDansListe(traceur.lampePrincipale, traceur);
+                    this.setBandeauCalibration(traceur.lampePrincipale, traceur);
+                    initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
+                }
+
+                span.addEventListener('click', () => {
+                    const traceur = this.lecteur.recupererTraceurParNom(span.textContent);
+                    this.afficherTraceur(traceur);
+                    this.setBandeauCalibration(traceur.lampePrincipale, traceur);
+                    initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
+                });
+
+                divTraceurs.appendChild(span);
+            }
         }
 
-        // Ajout du select au conteneur approprié
-        const container = document.querySelector('.containerFluo');
-        if (container) {
-            container.appendChild(select);
-
-            // Ajout de l'événement change
-            select.addEventListener('change', () => {
-                const nomTraceur = select.value;
-                const traceur = this.lecteur.recupererTraceurParNom(nomTraceur);
-                this.afficherTraceur(traceur);
-            });
-
-            // Afficher le premier traceur par défaut
-            this.afficherTraceur(traceurs[0]);
-
-            // Afficher l'équation
-            if (document.querySelector('.equationPannel')) {
-                document.querySelector('.equationPannel').style.display = 'flex';
-            }
+        if (document.querySelector('.equationPannel')) {
+            document.querySelector('.equationPannel').style.display = 'flex';
         }
     }
 
@@ -121,6 +131,68 @@ export default class ControlleurCalibration {
 
         // Ajouter le bouton de téléchargement des données
         this.ajouterBoutonTelechargement();
+    }
+
+
+    /**
+     * Configure le bandeau de calibration avec les informations du traceur et de la lampe
+     * @param {number} idLampe - L'ID de la lampe sélectionnée
+     * @param {Object} Traceur - Le traceur sélectionné
+     */
+    setBandeauCalibration(idLampe, Traceur) {
+        document.querySelector('.wrapBandeauCalibration').style.display = 'flex';
+
+        const spans = document.querySelectorAll('.wrapLampesCalibration span');
+        spans.forEach(span => {
+            span.classList.remove('lampeActive');
+        });
+
+        if (document.querySelector('#lampe' + idLampe)) {
+            document.querySelector('#lampe' + idLampe).classList.add('lampeActive');
+        }
+
+        //on fait pareil pour les traceurs
+        const spansTraceurs = document.querySelectorAll('.wrapTraceursCalibration span');
+
+        spansTraceurs.forEach(span => {
+            span.classList.remove('traceurActive');
+        });
+
+        if (document.querySelector('#traceur' + Traceur.nom)) {
+            document.querySelector('#traceur' + Traceur.nom).classList.add('traceurActive');
+        }
+    }
+
+
+    /**
+     * Affiche dans le bandeau de calibration le choix des lampes pour un traceur
+     */
+    ajouterLigneTraceurDansListe(idData, traceur) {
+
+        const div = document.querySelector('.wrapLampesCalibration');
+
+
+        for (let i = 1; i <= 4; i++) {
+
+            if (document.querySelector('#lampe' + i)) {
+                document.querySelector('#lampe' + i).remove();
+            }
+
+            const span = document.createElement('span');
+            span.textContent = 'L' + i;
+            span.id = 'lampe' + i;
+            span.classList.add('ligneElement');
+
+            if (i === idData) {
+                span.classList.add('lampeActive');
+            }
+
+            span.addEventListener('click', () => {
+                this.afficherGraphiqueTraceur(traceur);
+                this.setBandeauCalibration(i, traceur);
+            });
+            div.appendChild(span);
+        }
     }
 
 
@@ -149,47 +221,67 @@ export default class ControlleurCalibration {
     /**
      * Crée et affiche un tableau pour visualiser les données d'un traceur
      * @param {Object} traceur - Le traceur à afficher
+     * @param {HTMLElement|null} conteneur - Élément DOM où afficher le tableau (par défaut: '.donnees')
+     * @returns {HTMLTableElement} - Le tableau créé
      */
-    creerTableauTraceur(traceur) {
-        // Créer le tableau
-        const tableau = document.createElement('table');
-        tableau.classList.add('tableauTraceur');
-
-        // Créer l'en-tête du tableau
-        const thead = document.createElement('thead');
-        const trHead = document.createElement('tr');
-
-        // Ajouter une cellule vide pour l'en-tête
-        const thVide = document.createElement('th');
-        trHead.appendChild(thVide);
-
-        // Ajouter les en-têtes pour chaque échelle
-        for (let i = 0; i < traceur.echelles.length; i++) {
-            const th = document.createElement('th');
-            th.textContent = traceur.echelles[i];
-            trHead.appendChild(th);
+    creerTableauTraceur(traceur, conteneur = null) {
+        if (document.querySelector('.tableauTraceur')) {
+            document.querySelector('.tableauTraceur').remove();
         }
 
-        thead.appendChild(trHead);
+        const tableau = document.createElement('table');
+        tableau.classList.add('tableauTraceur');
+        const thead = document.createElement('thead');
+        const tbody = document.createElement('tbody');
+        const tr = document.createElement('tr');
+        const th = document.createElement('th');
+        th.textContent = traceur.nom;
+        tr.appendChild(th);
+
+        const eau = this.lecteur.recupererTraceurEau();
+        const th1 = document.createElement('th');
+        th1.textContent = eau.nom;
+        tr.appendChild(th1);
+
+        let echellesTableau = [...traceur.echelles].sort((a, b) => a - b);
+
+        const nbColonnes = traceur.data.size / 4;
+        for (let i = 0; i < nbColonnes; i++) {
+            const th = document.createElement('th');
+            th.textContent = echellesTableau[i] + traceur.unite;
+            tr.appendChild(th);
+        }
+
+        thead.appendChild(tr);
         tableau.appendChild(thead);
 
-        // Créer le corps du tableau
-        const tbody = document.createElement('tbody');
+        let dataMap = new Map();
+        for (let i = 0; i < traceur.echelles.length; i++) {
+            let echelle = traceur.echelles[i];
+            let data = [];
+            for (let j = 1; j <= 4; j++) {
+                data.push(traceur.getDataParNom('L' + j + '-' + (i + 1)));
+            }
+            dataMap.set(echelle, data);
+        }
 
-        // Pour chaque lampe, créer une ligne
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 0; i < 4; i++) {
             const tr = document.createElement('tr');
-
-            // Ajouter l'en-tête de ligne (nom de la lampe)
             const th = document.createElement('th');
-            th.textContent = `L${i}`;
+            th.textContent = 'L' + (i + 1);
             tr.appendChild(th);
 
-            // Ajouter les valeurs pour chaque échelle
-            for (let j = 1; j <= traceur.echelles.length; j++) {
+            for (let j = 0; j < nbColonnes + 1; j++) {
                 const td = document.createElement('td');
-                const valeur = traceur.getDataParNom(`L${i}-${j}`);
-                td.textContent = valeur === 'NaN' || isNaN(valeur) ? '-' : valeur;
+                if (j === 0) {
+                    td.textContent = eau.getDataParNom('L' + (i + 1) + '-' + 1);
+                } else {
+                    let echelle = echellesTableau[j - 1];
+                    let data = dataMap.get(echelle);
+                    if (data && data[i] !== undefined && data[i] !== null) {
+                        td.textContent = data[i].toString();
+                    }
+                }
                 tr.appendChild(td);
             }
 
@@ -197,12 +289,20 @@ export default class ControlleurCalibration {
         }
 
         tableau.appendChild(tbody);
+        tableau.insertAdjacentHTML('afterbegin', `<caption>Signal en mV du traceur ${traceur.nom}</caption>`);
 
-        // Ajouter le tableau au DOM
-        const container = document.querySelector('.containerFluo');
-        if (container) {
-            container.appendChild(tableau);
+        const descriptionElement = document.querySelector('.descriptionConcentration');
+        if (descriptionElement) {
+            descriptionElement.style.display = 'block';
+            descriptionElement.innerHTML = `<h2>Données de l'appareil <span class="orange">${this.lecteur.numeroFluorimetre}</span> du <span class="orange">${traceur.dateMesure}</span> :</h2>`;
         }
+
+        const conteneurCible = conteneur || document.querySelector('.donnees');
+        if (conteneurCible) {
+            conteneurCible.appendChild(tableau);
+        }
+
+        return tableau;
     }
 
 
@@ -354,12 +454,12 @@ export default class ControlleurCalibration {
             this.lecteur.convertirEnCSV() :
             this.lecteur.getContenuFichier();
 
-        const blob = new Blob([contenu], { type: 'text/plain' });
+        const blob = new Blob([contenu], {type: 'text/csv;charset=utf-8'});
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = `calibration_${this.lecteur.getNumeroFluorimetre()}.txt`;
+        a.download = `calibration_${this.lecteur.getNumeroFluorimetre()}.csv`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

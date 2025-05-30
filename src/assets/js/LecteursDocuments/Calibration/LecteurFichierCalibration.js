@@ -47,6 +47,7 @@ export default class LecteurFichierCalibration {
         this.nomsTraceur = this.extraireNomsTraceurs();
         this.numeroFluorimetre = this.extraireNumeroFluorimetre();
         this.creerTraceurs();
+        console.log(Session.getInstance().traceurs);
 
         return true;
     }
@@ -129,12 +130,29 @@ export default class LecteurFichierCalibration {
     /**
      * Méthodes abstraites à implémenter dans les classes dérivées
      */
-    extraireSections() { throw new Error('Méthode abstraite non implémentée'); }
-    extraireNomsTraceurs() { throw new Error('Méthode abstraite non implémentée'); }
-    extraireNumeroFluorimetre() { throw new Error('Méthode abstraite non implémentée'); }
-    extraireDateCalibration() { throw new Error('Méthode abstraite non implémentée'); }
-    creerTraceurs() { throw new Error('Méthode abstraite non implémentée'); }
-    creerTurbidite() { throw new Error('Méthode abstraite non implémentée'); }
+    extraireSections() {
+        throw new Error('Méthode abstraite non implémentée');
+    }
+
+    extraireNomsTraceurs() {
+        throw new Error('Méthode abstraite non implémentée');
+    }
+
+    extraireNumeroFluorimetre() {
+        throw new Error('Méthode abstraite non implémentée');
+    }
+
+    extraireDateCalibration() {
+        throw new Error('Méthode abstraite non implémentée');
+    }
+
+    creerTraceurs() {
+        throw new Error('Méthode abstraite non implémentée');
+    }
+
+    creerTurbidite() {
+        throw new Error('Méthode abstraite non implémentée');
+    }
 
 
     /**
@@ -154,15 +172,6 @@ export default class LecteurFichierCalibration {
      */
     calculerEchelle(puissanceDix) {
         return this.arrondirSansVirgule((Math.pow(10, puissanceDix)) * (Math.pow(10, 9)));
-    }
-
-
-    /**
-     * Récupère tous les traceurs
-     * @returns {Array<Traceur>} Les traceurs
-     */
-    getTraceurs() {
-        return this.traceurs;
     }
 
 

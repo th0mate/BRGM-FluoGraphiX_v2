@@ -10,6 +10,14 @@
  * ======================================================================================================================
  */
 class Graphiques {
+
+    constructor(lecteurFichierCalibration) {
+        if (new.target === Graphiques) {
+            throw new TypeError("Cannot construct Graphiques instances directly");
+        }
+        this.lecteurFichierCalibration = lecteurFichierCalibration;
+    }
+
     afficherGraphique(data) {
         throw new Error("La méthode afficherGraphique() doit être implémentée par la classe enfant.");
     }

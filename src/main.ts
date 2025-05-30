@@ -8,6 +8,11 @@ import 'primeicons/primeicons.css';
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 
+import './assets/js/Libs/chart.js';
+import './assets/js/Libs/pluginZoom.js';
+import './assets/js/Libs/annotations.js';
+import './assets/js/Libs/adapter.js';
+
 // Utilisation de l'import direct du thème Aura en mode light
 import Aura from '@primeuix/themes/aura';
 

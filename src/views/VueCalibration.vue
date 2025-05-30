@@ -24,24 +24,17 @@ function traitementFichierCalibration(event: Event) {
     const input = event.target as HTMLInputElement;
     const fichier = input.files?.[0];
     if (!fichier) return;
-
-    const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
-
     const lecteur = new FileReader();
 
     lecteur.onload = function (e: ProgressEvent<FileReader>) {
       if (e.target?.result) {
+        fichierCharge.value = true;
         Session.getInstance().contenuFichierCalibration = e.target.result as string;
-
         const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
 
-        controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, estFichierDat);
-        fichierCharge.value = true;
-
-        const equationPanel = document.getElementById('equationPanel');
-        if (equationPanel) {
-          equationPanel.style.display = 'flex';
-        }
+        setTimeout(() => {
+          controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, true);
+        }, 0);
       }
     };
 
@@ -52,7 +45,6 @@ function traitementFichierCalibration(event: Event) {
 
   afficherMessageFlash("Succès", "Fichier de calibration chargé avec succès.", "success");
 }
-
 
 function fermerEquation() {
   const equationPanel = document.getElementById('equationPanel');
@@ -101,7 +93,6 @@ function afficherEquation() {
   </section>
 
   <section class="calibration" v-else>
-    <div id="tooltip" style="display: none; position: absolute;"></div>
 
     <div class="concentrations">
 
@@ -146,6 +137,10 @@ function afficherEquation() {
 
       <div class="descriptionConcentration"></div>
 
+      <div class="donnees">
+        <div class="tableau"></div>
+      </div>
+
       <div class="equationPannel" id="equationPanel">
         <div class="gomette" @click="afficherEquation()">
           <img src="@/assets/img/icons/equation.png" alt="Equation">
@@ -167,7 +162,7 @@ function afficherEquation() {
   </section>
 </template>
 
-<style scoped>
+<style>
 @import "@/assets/styles/glassmorphism.css";
 @import "@/assets/styles/calibration.css";
 

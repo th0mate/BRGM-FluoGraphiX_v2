@@ -5,6 +5,7 @@
 import { ln, arrondir8Chiffres, multiply, inverse, transpose, multipleLinearRegression } from '@/assets/js/Calibration/utils.js';
 import { EquationLineaire, EquationLogarithmique, EquationLogarithmiqueQuadratique } from '@/assets/js/Objects/Calcul.js';
 import Session from '@/assets/js/Session/Session.js'
+import TableauDonnees from "@/assets/js/Calibration/TableauxDonnees.js";
 
 
 /**

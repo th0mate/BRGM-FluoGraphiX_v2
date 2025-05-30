@@ -36,7 +36,7 @@ class GraphiqueCalibration extends Graphiques {
                     hiddenStatus = true;
                 }
                 if (i === idData) {
-                    const eau = recupererTraceurEau();
+                    const eau = this.lecteurFichierCalibration.recupererTraceurEau();
                     let dataEau = [];
                     for (let j = 0; j < labels.length; j++) {
                         const value = eau.getDataParNom('L' + idData + '-' + (j + 1));
@@ -89,7 +89,7 @@ class GraphiqueCalibration extends Graphiques {
             if (data.length > 1 && data[0].x === '0') {
                 hiddenStatus = true;
             }
-            const eau = recupererTraceurEau();
+            const eau = this.lecteurFichierCalibration.recupererTraceurEau();
             let dataEau = [];
             dataEau.push({
                 x: eau.getDataParNom('L' + traceur.lampePrincipale + '-1'),
@@ -194,4 +194,5 @@ class GraphiqueCalibration extends Graphiques {
 }
 
 export default GraphiqueCalibration;
+
 
