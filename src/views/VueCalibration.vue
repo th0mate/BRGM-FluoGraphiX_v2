@@ -45,20 +45,6 @@ function traitementFichierCalibration(event: Event) {
 
   afficherMessageFlash("Succès", "Fichier de calibration chargé avec succès.", "success");
 }
-
-function fermerEquation() {
-  const equationPanel = document.getElementById('equationPanel');
-  if (equationPanel) {
-    equationPanel.style.display = 'none';
-  }
-}
-
-function afficherEquation() {
-  const equationPanel = document.getElementById('equationPanel');
-  if (equationPanel) {
-    equationPanel.style.display = 'flex';
-  }
-}
 </script>
 
 <template>
@@ -138,24 +124,21 @@ function afficherEquation() {
       <div class="descriptionConcentration"></div>
 
       <div class="donnees">
-        <div class="tableau"></div>
-      </div>
+        <div class="wrap-tableau">
+          <div class="utilitaire">
+            <div class="header">
+              <span class="text">Utilitaire d'équations</span>
+              <span>
+                <span class="color"></span>
+                <span class="color"></span>
+                <span class="color"></span>
+              </span>
+            </div>
 
-      <div class="equationPannel" id="equationPanel">
-        <div class="gomette" @click="afficherEquation()">
-          <img src="@/assets/img/icons/equation.png" alt="Equation">
-        </div>
-
-        <img class="cross" src="@/assets/img/icons/close.png" alt="Fermer" @click="fermerEquation()">
-        <h2>Équation de la droite de calibration</h2>
-
-        <div class="equation">
-          <span>Aucune équation à afficher pour le moment.</span>
-        </div>
-
-        <div class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierTexte('.equation')">
-          <span>Copier</span>
-          <img src="@/assets/img/icons/copier.png" alt="Copier">
+            <div class="equation">
+              <span>Aucune équation à afficher pour l'instant.</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

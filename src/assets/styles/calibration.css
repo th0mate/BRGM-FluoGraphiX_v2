@@ -124,7 +124,7 @@
 
 .descriptionConcentration {
     h2 {
-        font-size: 2em;
+        font-size: 1.8em;
         font-family: 'gibson-medium', serif;
         font-weight: 650;
     }
@@ -138,58 +138,141 @@
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
-    background-color: #e8e8e8;
+    background-color: #ededed;
     border-radius: 15px;
-    padding: 40px 0;
+    padding: 40px 20px 20px 20px;
 
-    table {
-        min-width: 35%;
-        max-width: 45%;
-        text-align: center;
-        color: white;
-        border: 3px solid var(--grisBRGM);
-        margin: auto;
-        position: relative;
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
 
-        caption {
-            color: var(--orangeBRGM);
-            font-size: 1.3em;
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-        }
 
-        tbody {
-            tr:nth-child(odd) {
-                background-color: var(--grisBRGM);
-                border: 1px solid white;
+        table {
+            min-width: 450px;
+            max-width: 48vw;
+            text-align: center;
+            color: white;
+            border: 3px solid var(--grisBRGM);
+            margin: auto;
+            position: relative;
+
+            caption {
+                color: var(--orangeBRGM);
+                font-size: 1.2em;
+                position: absolute;
+                top: -30px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 100%;
             }
 
-            tr:nth-child(even) {
-                background-color: var(--orangeBRGM);
-                border: 1px solid white;
-            }
-
-            tr {
-                td {
-
-                    padding: 5px;
+            tbody {
+                tr:nth-child(odd) {
+                    background-color: var(--grisBRGM);
+                    border: 1px solid white;
                 }
 
-                th {
-                    padding: 5px;
+                tr:nth-child(even) {
+                    background-color: var(--orangeBRGM);
+                    border: 1px solid white;
+                }
+
+                tr {
+                    td {
+                        padding: 3px;
+                    }
+
+                    th {
+                        padding: 3px;
+                    }
+                }
+
+            }
+
+            thead {
+                tr {
+                    background-color: var(--orangeBRGM);
+                    color: white;
+                    padding: 3px;
+                }
+            }
+        }
+
+
+        .utilitaire {
+            width: 450px;
+            height: fit-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            border-radius: 15px;
+            background-color: var(--grisBRGM);
+            overflow: hidden;
+
+            .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 7px 15px;
+                background-color: #171717;
+                width: 100%;
+
+                .text {
+                    font-size: 0.9em;
+                    font-weight: 550;
+                    color: white;
+                }
+
+
+                span:not(.text, .color) {
+                    display: flex;
+                    gap: 6px;
+
+                    .color {
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                    }
+
+                    .color:nth-child(1) {
+                        background-color: var(--vertBRGM);
+                    }
+
+                    .color:nth-child(2) {
+                        background-color: var(--jauneBRGM);
+                    }
+
+                    .color:nth-child(3) {
+                        background-color: var(--rouilleBRGM);
+                    }
                 }
             }
 
-        }
+            .equation {
+                margin: 0 10px 15px 10px;
+                padding: 8px;
+                background-color: #D9D9D9;
+                border-radius: 10px;
+                color: black;
+                font-family: "Consolas", sans-serif;
+                text-align: left;
+                font-size: 0.8em;
+                min-height: 100px;
+                width: 90%;
+                display: flex;
+                flex-direction: column;
 
-        thead {
-            tr {
-                background-color: var(--orangeBRGM);
-                color: white;
-                padding: 5px;
+                span {
+                    display: flex;
+                    flex-direction: column;
+                    text-align: left;
+                    width: fit-content;
+                }
             }
         }
     }
@@ -198,7 +281,6 @@
         max-width: 50%;
         height: auto !important;
         max-height: 300px;
-        margin: auto;
         padding: 10px;
         box-sizing: border-box !important;
         border-radius: 15px;

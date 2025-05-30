@@ -297,9 +297,9 @@ export default class ControlleurCalibration {
             descriptionElement.innerHTML = `<h2>Données de l'appareil <span class="orange">${this.lecteur.numeroFluorimetre}</span> du <span class="orange">${traceur.dateMesure}</span> :</h2>`;
         }
 
-        const conteneurCible = conteneur || document.querySelector('.donnees');
+        const conteneurCible = conteneur || document.querySelector('.wrap-tableau');
         if (conteneurCible) {
-            conteneurCible.appendChild(tableau);
+            conteneurCible.insertAdjacentElement('afterbegin', tableau);
         }
 
         return tableau;
