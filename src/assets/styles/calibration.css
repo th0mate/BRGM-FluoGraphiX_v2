@@ -35,8 +35,7 @@
     }
 
     .bandeauCalibration {
-        width: 95%;
-        margin-left: 2.5%;
+        width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -132,67 +131,80 @@
 }
 
 .donnees {
-    width: 95%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     align-content: center;
     flex-wrap: wrap;
-}
-.donnees > table {
-    min-width: 35%;
-    max-width: 45%;
-    text-align: center;
-    color: white;
-    border: 5px solid var(--grisBRGM);
-    margin: auto;
-    position: relative;
-}
+    background-color: #e8e8e8;
+    border-radius: 15px;
+    padding: 40px 0;
 
-.donnees > table > caption {
-    color: var(--orangeBRGM);
-    font-size: 1.3em;
-    position: absolute;
-    top: -40px;
-    /* centré */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-}
+    table {
+        min-width: 35%;
+        max-width: 45%;
+        text-align: center;
+        color: white;
+        border: 3px solid var(--grisBRGM);
+        margin: auto;
+        position: relative;
 
-.donnees > table > tbody > tr:nth-child(odd) {
-    background-color: var(--grisBRGM);
-    border: 1px solid white;
-}
+        caption {
+            color: var(--orangeBRGM);
+            font-size: 1.3em;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+        }
 
-.donnees > table > tbody > tr:nth-child(even) {
-    background-color: var(--orangeBRGM);
-    border: 1px solid white;
-}
+        tbody {
+            tr:nth-child(odd) {
+                background-color: var(--grisBRGM);
+                border: 1px solid white;
+            }
 
-.donnees > table > tbody > tr > td {
-    padding: 5px;
-}
+            tr:nth-child(even) {
+                background-color: var(--orangeBRGM);
+                border: 1px solid white;
+            }
 
-.donnees > table > tbody > tr > th {
-    padding: 5px;
-}
+            tr {
+                td {
 
-.donnees > table > thead > tr {
-    background-color: var(--orangeBRGM);
-    color: white;
-    padding: 5px;
-}
+                    padding: 5px;
+                }
 
-#graphiqueTraceur {
-    max-width: 50%;
-    height: auto!important;
-    max-height: 300px;
-    margin: auto;
-    margin-top: 60px;
-}
+                th {
+                    padding: 5px;
+                }
+            }
 
+        }
+
+        thead {
+            tr {
+                background-color: var(--orangeBRGM);
+                color: white;
+                padding: 5px;
+            }
+        }
+    }
+
+    #graphiqueTraceur {
+        max-width: 50%;
+        height: auto !important;
+        max-height: 300px;
+        margin: auto;
+        padding: 10px;
+        box-sizing: border-box !important;
+        border-radius: 15px;
+        background-color: white;
+    }
+}
 
 
 /* =====================================================================================================================
@@ -310,7 +322,7 @@
 @media (max-width: 850px) {
 
     .cotesInfos {
-        display: none!important;
+        display: none !important;
     }
 
     .mainInfos {
@@ -321,7 +333,7 @@
     }
 
     caption {
-        font-size: 1em!important;
+        font-size: 1em !important;
     }
 
 }

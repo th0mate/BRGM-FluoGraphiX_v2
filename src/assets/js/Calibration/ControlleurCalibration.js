@@ -289,7 +289,7 @@ export default class ControlleurCalibration {
         }
 
         tableau.appendChild(tbody);
-        tableau.insertAdjacentHTML('afterbegin', `<caption>Signal en mV du traceur ${traceur.nom}</caption>`);
+        tableau.insertAdjacentHTML('afterbegin', `<caption>Signal en mV du traceur "${traceur.nom}"</caption>`);
 
         const descriptionElement = document.querySelector('.descriptionConcentration');
         if (descriptionElement) {
