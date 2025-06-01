@@ -137,6 +137,7 @@ export function multipleLinearRegression(X, y) {
     const XTX = multiply(XT, X);
     const XTXInv = inverse(XTX);
     const XTXInvXT = multiply(XTXInv, XT);
+    y = transpose(y);
     return multiply(XTXInvXT, y);
 }
 
