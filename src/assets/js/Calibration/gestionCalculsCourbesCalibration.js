@@ -53,6 +53,7 @@ export default class GestionnaireCourbesCalibration {
 
         // Effectuer les calculs
         const resultat = calculCourbe.calculer();
+        console.log(resultat); //TODO
         const equation = calculCourbe.getEquation();
         const nbValeurLampe = calculCourbe.nbValeurLampe;
 
@@ -89,8 +90,10 @@ export default class GestionnaireCourbesCalibration {
      */
     creerCalculCourbe(idLampe, traceur) {
         if (traceur.lampePrincipale !== idLampe) {
+            console.log("Calcul des courbes de parasites pour la lampe " + idLampe);
             return new CalculCourbeParasite(traceur, idLampe);
         } else {
+            console.log("Calcul des courbes de concentration pour la lampe " + idLampe);
             return new CalculCourbeConcentration(traceur, idLampe);
         }
     }

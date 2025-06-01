@@ -122,6 +122,7 @@ class CalculCourbeConcentration extends CalculCourbe {
      * @return {Array} Résultats des calculs
      */
     calculerConcentration3Valeurs() {
+        console.log("calculerConcentration3Valeurs");
         const dmV = TableauDonnees.creerTableauValeursNettes(this.traceur, this.idLampe);
         let X = TableauDonnees.creerMatriceLn(this.traceur, dmV);
         X = inverse(X);

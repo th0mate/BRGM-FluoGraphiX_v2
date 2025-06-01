@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Ce fichier permet la logique nécessaire pour créer et calculer des tableaux/matrices VIRTUELS permettant les calculs de la partie Calibration
  */
-import { ln, arrondir8Chiffres } from '@/assets/js/Calibration/utils.js';
+import {ln, arrondir8Chiffres} from '@/assets/js/Calibration/utils.js';
 import Session from "@/assets/js/Session/Session.js";
 
 /**
@@ -51,7 +51,7 @@ export default class TableauxDonnees {
         for (let i = 1; i <= traceur.echelles.length; i++) {
             if (!isNaN(traceur.getDataParNom('L' + lampe + '-' + i))) {
                 const ligneLn = [];
-                ligneLn.push(arrondir8Chiffres(ln(traceur.echelles[i-1])));
+                ligneLn.push(arrondir8Chiffres(ln(traceur.echelles[i - 1])));
 
                 const signalNet = traceur.getDataParNom('L' + lampe + '-' + i) - eau.getDataParNom('L' + lampe + '-1');
 
@@ -77,18 +77,15 @@ export default class TableauxDonnees {
      * @return {Array<Array<number>>} Matrice avec les puissances de ln
      */
     static creerMatriceLn(traceur, dmv) {
-        const matrice = [];
-        const nbLignes = dmv[0].length;
-
-        for (let i = 0; i < 2; i++) {
+        const matriceLn = [];
+        for (let i = 0; i < traceur.echelles.length; i++) {
             const ligne = [];
-            for (let j = 0; j < nbLignes; j++) {
-                ligne.push(arrondir8Chiffres(dmv[0][j] ** i));
+            for (let j = 0; j < dmv[1].length; j++) {
+                ligne.push(arrondir8Chiffres(ln(dmv[1][j]) ** i));
             }
-            matrice.push(ligne);
+            matriceLn.push(ligne);
         }
-
-        return matrice;
+        return matriceLn;
     }
 
 

@@ -57,7 +57,7 @@ export function afficherToast(titre = null, message, type = 'success') {
     severity: type,
     summary: titreAffiche,
     detail: message,
-    life: 3000,
+    life: 4500,
     closable: true
   });
 

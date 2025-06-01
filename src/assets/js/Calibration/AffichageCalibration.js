@@ -21,7 +21,7 @@ export class AffichageCalibration {
      */
     static afficherEquationDroite(equation) {
         if (document.querySelector('.equation')) {
-            document.querySelector('.equation').innerHTML = `<span>${equation.toStringEquation()}</span>`;
+            document.querySelector('.equation').innerHTML = `${equation.toStringEquation()}`;
             document.querySelector('.equation').innerHTML += `${equation.toStringValeursParametres()}`;
         }
     }
