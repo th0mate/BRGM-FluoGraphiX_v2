@@ -105,6 +105,7 @@ export default class ControlleurCalibration {
                     const traceur = this.lecteur.recupererTraceurParNom(span.textContent);
                     this.afficherTraceur(traceur);
                     this.setBandeauCalibration(traceur.lampePrincipale, traceur);
+                    this.ajouterLigneTraceurDansListe(traceur.lampePrincipale, traceur);
                     initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
                 });
 
@@ -148,7 +149,6 @@ export default class ControlleurCalibration {
             document.querySelector('#lampe' + idLampe).classList.add('lampeActive');
         }
 
-        //on fait pareil pour les traceurs
         const spansTraceurs = document.querySelectorAll('.wrapTraceursCalibration span');
 
         spansTraceurs.forEach(span => {
@@ -185,7 +185,7 @@ export default class ControlleurCalibration {
             }
 
             span.addEventListener('click', () => {
-                this.afficherGraphiqueTraceur(traceur);
+                this.afficherGraphiqueTraceur(traceur, i);
                 this.setBandeauCalibration(i, traceur);
             });
             div.appendChild(span);
@@ -306,47 +306,11 @@ export default class ControlleurCalibration {
     /**
      * Affiche le graphique pour un traceur
      * @param {Object} traceur - Le traceur à afficher
+     * @param {Object|null} lampe - La lampe du traceur à afficher (par défaut: null)
      */
-    afficherGraphiqueTraceur(traceur) {
-        // Créer le select pour choisir la lampe
-        this.creerSelectLampe(traceur);
-        // Afficher le graphique via GraphiqueCalibration
-        const defaultLampe = traceur.lampePrincipale !== 'NaN' ? traceur.lampePrincipale : 1;
+    afficherGraphiqueTraceur(traceur, lampe = null) {
+        const defaultLampe = lampe || traceur.lampePrincipale;
         this.graphiqueCalibration.afficherGraphique(traceur, defaultLampe);
-    }
-
-
-    /**
-     * Crée un sélecteur pour choisir la lampe à afficher
-     * @param {Object} traceur - Le traceur concerné
-     */
-    creerSelectLampe(traceur) {
-        const select = document.createElement('select');
-        select.classList.add('selectLigne');
-
-        for (let i = 1; i <= 4; i++) {
-            const option = document.createElement('option');
-            option.value = i;
-            option.textContent = `Lampe ${i}`;
-            select.appendChild(option);
-        }
-
-        // Sélectionner la lampe principale par défaut
-        if (traceur.lampePrincipale !== 'NaN') {
-            select.value = traceur.lampePrincipale;
-        }
-
-        // Ajouter l'événement change
-        select.addEventListener('change', () => {
-            const idLampe = parseInt(select.value);
-            this.graphiqueCalibration.afficherGraphique(traceur, idLampe);
-        });
-
-        // Ajouter le select au DOM
-        const container = document.querySelector('.containerFluo');
-        if (container) {
-            container.appendChild(select);
-        }
     }
 
 
@@ -477,11 +441,7 @@ export default class ControlleurCalibration {
      * @param {string} message - Le message d'erreur
      */
     afficherMessageErreur(message) {
-        if (typeof afficherMessageFlash === 'function') {
-            afficherMessageFlash(message, 'danger');
-        } else {
-            console.error(message);
-        }
+        afficherMessageFlash('Erreur', message, 'error');
     }
 }
 
