@@ -16,8 +16,8 @@ class GraphiqueCalibration extends Graphiques {
     afficherGraphique(traceur, idData) {
         let labels = traceur.echelles;
         let datasets = [];
-        let labelX = '';
-        let labelY = '';
+        let labelX;
+        let labelY;
 
         if (idData === traceur.lampePrincipale) {
             labelX = `Signal (mV)`;
@@ -165,10 +165,17 @@ class GraphiqueCalibration extends Graphiques {
                         pan: {
                             enabled: true,
                             mode: 'xy',
-                            onPan: function ({chart}) {
+                            // Mise à jour de la fonction onPan pour Chart.js v4
+                            onPan: ({chart}) => {
                                 const scales = chart.scales;
-                                if (scales['x'].min < 0 || scales['y'].min < 0) {
-                                    return false;
+                                // Empêcher les valeurs négatives en réinitialisant à 0 si nécessaire
+                                if (scales['x'].min < 0) {
+                                    scales['x'].min = 0;
+                                    chart.update();
+                                }
+                                if (scales['y'].min < 0) {
+                                    scales['y'].min = 0;
+                                    chart.update();
                                 }
                             }
                         },
@@ -176,10 +183,17 @@ class GraphiqueCalibration extends Graphiques {
                             wheel: {enabled: true},
                             pinch: {enabled: true},
                             mode: 'xy',
-                            onZoom: function ({chart}) {
+                            // Mise à jour de la fonction onZoom pour Chart.js v4
+                            onZoom: ({chart}) => {
                                 const scales = chart.scales;
-                                if (scales['x'].min < 0 || scales['y'].min < 0) {
-                                    return false;
+                                // Empêcher les valeurs négatives en réinitialisant à 0 si nécessaire
+                                if (scales['x'].min < 0) {
+                                    scales['x'].min = 0;
+                                    chart.update();
+                                }
+                                if (scales['y'].min < 0) {
+                                    scales['y'].min = 0;
+                                    chart.update();
                                 }
                             }
                         }
@@ -194,5 +208,4 @@ class GraphiqueCalibration extends Graphiques {
 }
 
 export default GraphiqueCalibration;
-
 

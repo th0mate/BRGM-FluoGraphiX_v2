@@ -9,10 +9,11 @@ import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import Tooltip from "primevue/tooltip";
 
-import './assets/js/Libs/chart.js';
-import './assets/js/Libs/pluginZoom.js';
-import './assets/js/Libs/annotations.js';
-import './assets/js/Libs/adapter.js';
+// Import de la configuration Chart.js (fichier TypeScript)
+import Chart from './assets/js/chart-config';
+
+// Enregistrement de Chart.js dans la fenêtre pour compatibilité avec le code existant
+window.Chart = Chart;
 
 // Utilisation de l'import direct du thème Aura en mode light
 import Aura from '@primeuix/themes/aura';
