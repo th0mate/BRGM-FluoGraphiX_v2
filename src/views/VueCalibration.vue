@@ -135,6 +135,11 @@ function traitementFichierCalibration(event: Event) {
               </span>
             </div>
 
+            <span class="copier" @click="copierTexte('.equation')">
+              <span>Copier</span>
+              <img src="@/assets/img/icons/copier.png" alt="">
+            </span>
+
             <div class="equation">
               <span>Aucune équation à afficher pour l'instant.</span>
             </div>
