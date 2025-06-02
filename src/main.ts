@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/styles/popupsOverride.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
@@ -8,6 +9,8 @@ import 'primeicons/primeicons.css';
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
 import Tooltip from "primevue/tooltip";
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
 
 // Import de la configuration Chart.js (fichier TypeScript)
 import Chart from './assets/js/chart-config';
@@ -39,5 +42,7 @@ app.use(PrimeVue, {
 app.use(router);
 app.use(ToastService);
 app.component('Toast', Toast);
+app.component('Button', Button);
+app.component('Dialog', Dialog);
 
 app.mount('#app')

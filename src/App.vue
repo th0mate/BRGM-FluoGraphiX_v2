@@ -3,6 +3,7 @@ import {RouterLink, RouterView} from 'vue-router';
 import {onMounted, onUnmounted, ref} from 'vue';
 import Navbar from './components/common/navbar.vue'
 import Footer from './components/common/footer.vue'
+import GlobalPopup from './components/common/GlobalPopup.vue';
 import Session from '@/assets/js/Session/Session';
 import { useToast } from 'primevue/usetoast';
 import { setToastInstance } from '@/assets/js/Common/toastService';
@@ -61,6 +62,7 @@ onMounted(async () => {
 
 <template>
   <Toast />
+  <GlobalPopup />
 
   <Navbar/>
 

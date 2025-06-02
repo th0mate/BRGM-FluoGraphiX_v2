@@ -165,10 +165,8 @@ class GraphiqueCalibration extends Graphiques {
                         pan: {
                             enabled: true,
                             mode: 'xy',
-                            // Mise à jour de la fonction onPan pour Chart.js v4
                             onPan: ({chart}) => {
                                 const scales = chart.scales;
-                                // Empêcher les valeurs négatives en réinitialisant à 0 si nécessaire
                                 if (scales['x'].min < 0) {
                                     scales['x'].min = 0;
                                     chart.update();
@@ -183,10 +181,8 @@ class GraphiqueCalibration extends Graphiques {
                             wheel: {enabled: true},
                             pinch: {enabled: true},
                             mode: 'xy',
-                            // Mise à jour de la fonction onZoom pour Chart.js v4
                             onZoom: ({chart}) => {
                                 const scales = chart.scales;
-                                // Empêcher les valeurs négatives en réinitialisant à 0 si nécessaire
                                 if (scales['x'].min < 0) {
                                     scales['x'].min = 0;
                                     chart.update();

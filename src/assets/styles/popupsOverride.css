@@ -1,0 +1,118 @@
+/**
+ * SURCHARGE GLOBALE DES STYLES PRIMEVUE POUR LES POPUPS
+ * Ce fichier contient des règles CSS avec une forte spécificité pour écraser les styles PrimeVue
+ */
+
+/* Dialog de base */
+.custom-popup.p-dialog-mask {
+  z-index: 5 !important;
+}
+
+.custom-popup .p-dialog {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  max-height: 90% !important;
+  width: 500px !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.custom-popup .p-dialog .p-dialog-content {
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background-color: var(--grisBRGM) !important;
+  color: white !important;
+  border: 2px solid white !important;
+  overflow: visible !important;
+}
+
+/* Styles pour la structure principale du popup */
+.popup {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  align-content: center !important;
+  background-color: var(--grisBRGM) !important;
+  width: 500px !important;
+  min-height: 300px !important;
+  padding: 10px !important;
+  color: white !important;
+  border: 2px solid white !important;
+  text-align: center !important;
+}
+
+/* Style pour l'en-tête et le bouton de fermeture */
+.popup > .entete {
+  width: 98% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  align-content: center !important;
+}
+
+.popup > .entete > .close {
+  width: 25px !important;
+  height: 25px !important;
+  padding: 5px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.popup > .entete > .close:hover {
+  background-color: var(--orangeBRGM) !important;
+}
+
+/* Styles pour le contenu, titre et message */
+.popup > img:not(.close, .loading) {
+  width: 300px !important;
+}
+
+.loading {
+  width: 150px !important;
+}
+
+.popup > h1, .popup > h2 {
+  color: var(--orangeBRGM) !important;
+}
+
+/* Style pour le conteneur des boutons */
+.popup > .conteneurBoutons {
+  width: 98% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  align-content: center !important;
+}
+
+/* Reset des styles des boutons PrimeVue */
+.popup .p-button {
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Style pour le premier bouton */
+.popup > .conteneurBoutons > .p-button:nth-child(1) {
+  background-color: var(--orangeBRGM) !important;
+  border: 5px solid var(--orangeBRGM) !important;
+  min-width: 200px !important;
+  color: white !important;
+}
+
+/* Style pour le deuxième bouton */
+.popup > .conteneurBoutons > .p-button:nth-child(2) {
+  background-color: transparent !important;
+  border: 5px solid transparent !important;
+  box-shadow: 0 0 0 1px white !important;
+  min-width: 200px !important;
+  color: white !important;
+}
+
+.popup > .conteneurBoutons > .p-button:nth-child(2):hover {
+  box-shadow: 0 0 0 1px white, inset 0 0 0 1px white !important;
+}

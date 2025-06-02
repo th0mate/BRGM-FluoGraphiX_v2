@@ -2,6 +2,8 @@
 import Toast from 'primevue/toast'
 import Button from 'primevue/button'
 import { useToast } from 'primevue/usetoast';
+import { afficherPopup } from '@/assets/js/UI/popupsManagerPrime';
+
 
 const toast = useToast();
 
@@ -53,7 +55,6 @@ const showCustomPositionToast = () => {
     summary: 'Position personnalisée',
     detail: 'Ce toast s\'affiche en haut à droite',
     life: 3000,
-    position: 'top-right',
     closable: true
   });
 };
@@ -67,6 +68,22 @@ const showStickyToast = () => {
     closable: true
   });
 };
+
+async function montrerPopupPersonnalise() {
+  const resultat = await afficherPopup({
+    icon: '<i class="pi pi-cog" style="font-size: 2rem;"></i>',
+    titre: 'Paramètres',
+    contenu: 'Choisissez une option :',
+    boutons: [
+      { texte: 'Option 1', icone: 'pi pi-check', severity: 'success' },
+      { texte: 'Option 2', icone: 'pi pi-times', severity: 'secondary' },
+      { texte: 'Option 3', icone: 'pi pi-cog', severity: 'info' }
+    ],
+    width: '40rem'
+  });
+
+  console.log(`L'utilisateur a choisi : ${resultat.bouton?.texte || 'Aucune option (fermé manuellement)'}`);
+}
 </script>
 
 <template>
@@ -104,6 +121,11 @@ const showStickyToast = () => {
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
           <Button label="Toast persistant" icon="pi pi-pin" class="p-button-secondary w-full" @click="showStickyToast" />
+        </div>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3">
+        <div class="p-inputgroup">
+          <Button label="Popup personnalisé" icon="pi pi-clock" class="p-button-text w-full" @click="montrerPopupPersonnalise" />
         </div>
       </div>
     </div>
