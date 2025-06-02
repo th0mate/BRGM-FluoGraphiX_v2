@@ -3,6 +3,7 @@
  * www.thomasloye.fr
  */
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
+import html2canvas from 'html2canvas';
 
 /**
  * Copie dans le presse-papiers un élément HTML de la page, et affiche un message flash

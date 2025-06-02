@@ -101,7 +101,7 @@ function traitementFichierCalibration(event: Event) {
               IMPORTER FICHIER<img src="@/assets/img/icons/importer.png"
                                    alt="Importer">
             </div>
-            <div v-tooltip.top="'Réinitialiser le zoom du graphique'" class="boutonOrange boutonFonce boutonBandeauCalibration"
+            <div v-tooltip.top="'Réinitialiser l\'affichage du graphique'" class="boutonOrange boutonFonce boutonBandeauCalibration"
                  @click="AffichageCalibration.reinitialiserZoomGraphique()">ZOOM<img
                 src="@/assets/img/icons/circulaire.png"
                 alt="Réinitialiser">
