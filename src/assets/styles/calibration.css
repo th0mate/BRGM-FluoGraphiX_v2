@@ -137,7 +137,6 @@
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    flex-wrap: wrap;
     gap: 20px;
     background-color: #ededed;
     border-radius: 15px;
@@ -279,7 +278,8 @@
     }
 
     #graphiqueTraceur {
-        width: 50% !important;
+        max-height: 320px !important;
+        max-width: 48% !important;
         height: fit-content !important;
         padding: 10px;
         box-sizing: border-box !important;

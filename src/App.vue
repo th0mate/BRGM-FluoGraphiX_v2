@@ -57,10 +57,6 @@ onMounted(async () => {
     console.warn('Version hébergée ou hors-ligne détectée. Le processus de mise à jour a été ignoré.');
   }
 });
-
-const getImageSrc = (type: string) => {
-  return new URL('./assets/img/flashdefault.png', import.meta.url).href;
-}
 </script>
 
 <template>
