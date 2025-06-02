@@ -224,6 +224,7 @@ class CalculCourbeParasite extends CalculCourbe {
         } else if (this.nbValeurLampe < 4) {
             return this.calculerParasite3Valeurs();
         } else {
+            console.log("4 valeur ou plus")
             return this.calculerParasite4Valeurs();
         }
     }
@@ -276,32 +277,29 @@ class CalculCourbeParasite extends CalculCourbe {
      */
     calculerParasite3Valeurs() {
         const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
-        let ligneLampePrincipale = [];
-        let ligneLampeATraiter = [];
+        const ln = [];
+        const l4Net = [];
+        const X = [];
 
         for (let i = 1; i <= this.traceur.echelles.length; i++) {
-            if (!isNaN(this.traceur.getDataParNom('L' + this.traceur.lampePrincipale + '-' + i))) {
-                ligneLampePrincipale.push([this.traceur.getDataParNom('L' + this.traceur.lampePrincipale + '-' + i) - eau.getDataParNom('L' + this.traceur.lampePrincipale + '-1')]);
-            }
-
             if (!isNaN(this.traceur.getDataParNom('L' + this.idLampe + '-' + i))) {
-                ligneLampeATraiter.push([this.traceur.getDataParNom('L' + this.idLampe + '-' + i) - eau.getDataParNom('L' + this.idLampe + '-1')]);
+                ln.push(arrondir8Chiffres(Math.log(this.traceur.getDataParNom('L' + this.idLampe + '-' + i) - eau.getDataParNom('L' + this.idLampe + '-1'))));
+            }
+            if (!isNaN(this.traceur.getDataParNom('L' + this.traceur.lampePrincipale + '-' + i))) {
+                l4Net.push(arrondir8Chiffres(this.traceur.getDataParNom('L' + this.traceur.lampePrincipale + '-' + i) - eau.getDataParNom('L' + this.traceur.lampePrincipale + '-1')));
             }
         }
 
-        ligneLampePrincipale = ligneLampePrincipale.map(ligne => [Math.log(ligne[0])]);
-        ligneLampeATraiter = ligneLampeATraiter.map(ligne => [Math.log(ligne[0])]);
+        for (let i = 0; i < 3; i++) {
+            const ligne = [];
+            for (let j = 0; j < ln.length; j++) {
+                ligne.push(arrondir8Chiffres(Math.log(l4Net[j]) ** i));
+            }
+            X.push(ligne);
+        }
 
-        const constante = (ligneLampeATraiter[1] - ligneLampeATraiter[0]) / (ligneLampePrincipale[1] - ligneLampePrincipale[0]);
-        const degre1 = ligneLampeATraiter[1] - constante * ligneLampePrincipale[1];
-
-        this.equation = new EquationLogarithmique();
-        this.equation.ajouterParametreCalcul('a0', degre1);
-        this.equation.ajouterParametreCalcul('a1', constante);
-        this.equation.ajouterParametreCalcul('X0', eau.getDataParNom('L' + this.traceur.lampePrincipale + '-1'));
-        this.equation.ajouterParametreCalcul('Y0', eau.getDataParNom('L' + this.idLampe + '-1'));
-
-        return [[constante, degre1, NaN], NaN];
+        const Xinverse = inverse(X);
+        return (multiply([ln], Xinverse));
     }
 
 

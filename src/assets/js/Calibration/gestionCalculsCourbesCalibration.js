@@ -43,36 +43,29 @@ export default class GestionnaireCourbesCalibration {
      * @param {Object} traceur - Le traceur concerné
      */
     initialiserCalculsCourbes(idLampe, traceur) {
-        // Réinitialisation du flag de données corrompues si nécessaire
         if (!document.querySelector('#graphique')) {
             this.donneesCorrompues = false;
         }
 
-        // Création de la classe de calcul appropriée selon le type de courbe
+        document.querySelector('.equation').innerHTML = "<span>Aucune équation à afficher pour le moment.</span>";
         const calculCourbe = this.creerCalculCourbe(idLampe, traceur);
 
-        // Effectuer les calculs
         const resultat = calculCourbe.calculer();
         console.log(resultat); //TODO
         const equation = calculCourbe.getEquation();
         const nbValeurLampe = calculCourbe.nbValeurLampe;
 
-        // Affichage de l'équation
         AffichageCalibration.afficherEquationDroite(equation);
 
-        // Affichage de la courbe selon le type (parasites ou concentration)
         if (traceur.lampePrincipale !== idLampe) {
-            // Courbes de parasites
             this.afficherCourbeParasites(resultat, idLampe, traceur);
 
-            // Afficher le popup si des données sont corrompues
             if (this.donneesCorrompues && !document.querySelector('#graphique')) {
                 setTimeout(() => {
                     this.afficherPopupDonneesCorrompues();
                 }, 500);
             }
         } else {
-            // Courbes de concentration
             if (nbValeurLampe !== 1) {
                 AffichageConcentration.afficherCourbeDepuis3Valeurs(resultat, idLampe, traceur);
             } else {
@@ -104,7 +97,6 @@ export default class GestionnaireCourbesCalibration {
      * @param {Object} traceur - Le traceur concerné
      */
     afficherCourbeParasites(resultat, idLampe, traceur) {
-        // Compter le nombre de valeurs NaN
         let countNaN = 0;
         for (let i = 0; i < resultat[0].length; i++) {
             if (isNaN(resultat[0][i])) {
@@ -112,7 +104,6 @@ export default class GestionnaireCourbesCalibration {
             }
         }
 
-        // Afficher la courbe appropriée selon le nombre de valeurs NaN
         let estCorrompue = false;
         if (countNaN === 0) {
             estCorrompue = AffichageParasites.afficherCourbeParasites3Valeurs(resultat, idLampe, traceur);
@@ -122,7 +113,6 @@ export default class GestionnaireCourbesCalibration {
             estCorrompue = AffichageParasites.afficherCourbeParasites1Valeur(resultat, idLampe, traceur);
         }
 
-        // Mise à jour du flag si des données corrompues sont détectées
         if (estCorrompue) {
             this.donneesCorrompues = true;
         }

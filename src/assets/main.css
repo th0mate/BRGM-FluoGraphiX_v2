@@ -372,6 +372,35 @@ footer {
     }
 }
 
+
+/* =====================================================================================================================
+   TOOLTIPS PRIMEVUE PERSONNALISÉS
+   ===================================================================================================================== */
+
+.p-tooltip .p-tooltip-text {
+    text-align: center !important;
+    background-color: var(--grisLeger) !important;
+    font-size: 0.7em !important;
+    padding: 5px !important;
+}
+
+.p-tooltip.p-tooltip-top .p-tooltip-arrow {
+    border-top-color: var(--grisLeger) !important;
+}
+
+.p-tooltip.p-tooltip-bottom .p-tooltip-arrow {
+    border-bottom-color: var(--grisLeger) !important;
+}
+
+.p-tooltip.p-tooltip-left .p-tooltip-arrow {
+    border-left-color: var(--grisLeger) !important;
+}
+
+.p-tooltip.p-tooltip-right .p-tooltip-arrow {
+    border-right-color: var(--grisLeger) !important;
+}
+
+
 /* =====================================================================================================================
    RESPONSIVE
    ===================================================================================================================== */
@@ -449,29 +478,3 @@ footer {
     }
 }
 
-/* =====================================================================================================================
-   TOOLTIPS PRIMEVUE PERSONNALISÉS
-   ===================================================================================================================== */
-
-.p-tooltip .p-tooltip-text {
-    text-align: center !important;
-    background-color: var(--grisLeger) !important;
-    font-size: 0.85rem !important;
-    padding: 0.5rem 0.75rem !important;
-}
-
-.p-tooltip.p-tooltip-top .p-tooltip-arrow {
-    border-top-color: var(--grisLeger) !important;
-}
-
-.p-tooltip.p-tooltip-bottom .p-tooltip-arrow {
-    border-bottom-color: var(--grisLeger) !important;
-}
-
-.p-tooltip.p-tooltip-left .p-tooltip-arrow {
-    border-left-color: var(--grisLeger) !important;
-}
-
-.p-tooltip.p-tooltip-right .p-tooltip-arrow {
-    border-right-color: var(--grisLeger) !important;
-}

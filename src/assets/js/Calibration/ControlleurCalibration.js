@@ -187,6 +187,7 @@ export default class ControlleurCalibration {
             span.addEventListener('click', () => {
                 this.afficherGraphiqueTraceur(traceur, i);
                 this.setBandeauCalibration(i, traceur);
+                initialiserCalculsCourbes(i, traceur);
             });
             div.appendChild(span);
         }

@@ -20,7 +20,7 @@ export class AffichageCalibration {
      * @param {Object} equation - L'équation à afficher
      */
     static afficherEquationDroite(equation) {
-        if (document.querySelector('.equation')) {
+        if (document.querySelector('.equation') && equation) {
             document.querySelector('.equation').innerHTML = `${equation.toStringEquation()}`;
             document.querySelector('.equation').innerHTML += `${equation.toStringValeursParametres()}`;
         }
@@ -252,7 +252,7 @@ class AffichageParasites {
         const constante = arrondir8Chiffres(resultat[0][0]);
         const degre1 = arrondir8Chiffres(resultat[0][1]);
         const degre2 = arrondir8Chiffres(resultat[0][2]);
-        let donneesCorrompues = false;
+        let donneesCorrompues;
 
         const eau = Session.getInstance().traceurs.find(traceur => traceur.unite === '');
         const maxTraceur = this.getMaxTraceur(traceur);
