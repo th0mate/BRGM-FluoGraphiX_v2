@@ -224,7 +224,6 @@ class CalculCourbeParasite extends CalculCourbe {
         } else if (this.nbValeurLampe < 4) {
             return this.calculerParasite3Valeurs();
         } else {
-            console.log("4 valeur ou plus")
             return this.calculerParasite4Valeurs();
         }
     }

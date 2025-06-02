@@ -51,7 +51,6 @@ export default class GestionnaireCourbesCalibration {
         const calculCourbe = this.creerCalculCourbe(idLampe, traceur);
 
         const resultat = calculCourbe.calculer();
-        console.log(resultat); //TODO
         const equation = calculCourbe.getEquation();
         const nbValeurLampe = calculCourbe.nbValeurLampe;
 
