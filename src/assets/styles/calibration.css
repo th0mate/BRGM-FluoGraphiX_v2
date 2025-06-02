@@ -41,11 +41,15 @@
         justify-content: space-between;
         align-items: center;
         align-content: center;
-        background-color: var(--grisBRGM);
+        background-color: rgba(51, 51, 51, 1);
+        border: 2px solid var(--orangeBRGM);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
         color: white;
         padding: 5px 15px;
         margin-bottom: 20px;
         user-select: none;
+        border-radius: 10px;
 
         .separatorCalibration {
             width: 1px;
@@ -127,6 +131,7 @@
         font-size: 1.8em;
         font-family: 'gibson-medium', serif;
         font-weight: 650;
+        margin: 10px 0 15px 0;
     }
 }
 

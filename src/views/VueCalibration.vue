@@ -97,22 +97,22 @@ function traitementFichierCalibration(event: Event) {
           <span class="separatorCalibration"></span>
 
           <div>
-            <div class="boutonOrange boutonFonce boutonBandeauCalibration" @click="ouvrirChoisirFichierCalibration()">
+            <div v-tooltip.top="'Importer un autre fichier de calibration'" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="ouvrirChoisirFichierCalibration()">
               IMPORTER FICHIER<img src="@/assets/img/icons/importer.png"
-                                   alt="Importer"><span>IMPORTER UN AUTRE FICHIER</span>
+                                   alt="Importer">
             </div>
-            <div class="boutonOrange boutonFonce boutonBandeauCalibration"
+            <div v-tooltip.top="'Réinitialiser le zoom du graphique'" class="boutonOrange boutonFonce boutonBandeauCalibration"
                  @click="AffichageCalibration.reinitialiserZoomGraphique()">ZOOM<img
                 src="@/assets/img/icons/circulaire.png"
-                alt="Réinitialiser"><span>RÉINITIALISER LE ZOOM</span>
+                alt="Réinitialiser">
             </div>
-            <div class="boutonOrange boutonFonce boutonBandeauCalibration"
+            <div v-tooltip.top="'Exporter au format CSV'" class="boutonOrange boutonFonce boutonBandeauCalibration"
                  @click="controleurCalibration.telechargerDonneesCalibration()">EXPORTER<img
                 src="@/assets/img/icons/dl.png"
-                alt="Exporter"><span>EXPORTER EN CSV</span>
+                alt="Exporter">
             </div>
-            <div class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierScreenElement('.donnees')"><img
-                src="@/assets/img/icons/copier.png" alt="Capture"><span>CAPTURE D'ÉCRAN</span></div>
+            <div v-tooltip.top="'Copier une capture d\'écran'" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierScreenElement('.donnees')"><img
+                src="@/assets/img/icons/copier.png" alt="Capture"></div>
           </div>
         </div>
       </div>

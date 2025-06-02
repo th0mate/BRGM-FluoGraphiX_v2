@@ -128,9 +128,6 @@ export default class ControlleurCalibration {
         this.supprimerAffichagesPrecedents();
         this.creerTableauTraceur(traceur);
         this.afficherGraphiqueTraceur(traceur);
-
-        // Ajouter le bouton de téléchargement des données
-        this.ajouterBoutonTelechargement();
     }
 
 
@@ -427,26 +424,6 @@ export default class ControlleurCalibration {
 
 
     /**
-     * Ajoute un bouton pour télécharger les données de calibration
-     */
-    ajouterBoutonTelechargement() {
-        const bouton = document.createElement('button');
-        bouton.classList.add('boutonDlData');
-        bouton.textContent = 'Télécharger les données';
-
-        bouton.addEventListener('click', () => {
-            this.telechargerDonneesCalibration();
-        });
-
-        // Ajouter le bouton au DOM
-        const container = document.querySelector('.containerFluo');
-        if (container) {
-            container.appendChild(bouton);
-        }
-    }
-
-
-    /**
      * Génère et télécharge le fichier de données de calibration
      */
     telechargerDonneesCalibration() {
@@ -483,7 +460,7 @@ export default class ControlleurCalibration {
      * Teste tous les traceurs pour vérifier la validité des données
      */
     testerTousTraceurs() {
-        const traceurs = this.lecteur.getTraceurs();
+        const traceurs = Session.getInstance().traceurs;
         if (!traceurs) return;
 
         for (let i = 0; i < traceurs.length; i++) {

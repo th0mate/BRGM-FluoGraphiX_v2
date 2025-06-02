@@ -7,6 +7,7 @@ import PrimeVue from 'primevue/config';
 import 'primeicons/primeicons.css';
 import ToastService from "primevue/toastservice";
 import Toast from "primevue/toast";
+import Tooltip from "primevue/tooltip";
 
 import './assets/js/Libs/chart.js';
 import './assets/js/Libs/pluginZoom.js';
@@ -17,6 +18,9 @@ import './assets/js/Libs/adapter.js';
 import Aura from '@primeuix/themes/aura';
 
 const app = createApp(App)
+
+// Enregistrement du composant Tooltip globalement
+app.directive('tooltip', Tooltip);
 
 // Configuration de PrimeVue avec le thème Aura en mode clair
 app.use(PrimeVue, {
