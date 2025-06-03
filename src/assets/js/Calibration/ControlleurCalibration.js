@@ -4,9 +4,7 @@
  */
 import LecteurFichierDAT from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierDAT.js';
 import LecteurFichierCSV from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCSV.js';
-import GestionnaireCourbesCalibration, {
-    initialiserCalculsCourbes
-} from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
+import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import GraphiqueCalibration from '@/assets/js/Graphiques/GraphiqueCalibration.js';
 import Session from '@/assets/js/Session/Session.js';
@@ -57,11 +55,10 @@ export default class ControlleurCalibration {
         if (resultat) {
             this.calibrationChargee = true;
 
-            // Afficher l'interface utilisateur
             if (estDepuisCalibration) {
                 this.afficherListeTraceurs();
             } else {
-                // Depuis la page visualisation, on fait autre chose...
+                // TODO Depuis la page visualisation, on fait autre chose...
                 this.preparerVisualisationDonnees();
             }
         }
@@ -98,7 +95,7 @@ export default class ControlleurCalibration {
                     this.afficherTraceur(traceur);
                     this.ajouterLigneTraceurDansListe(traceur.lampePrincipale, traceur);
                     this.setBandeauCalibration(traceur.lampePrincipale, traceur);
-                    initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
+                    this.gestionnaireCalibration.initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
                 }
 
                 span.addEventListener('click', () => {
@@ -106,7 +103,7 @@ export default class ControlleurCalibration {
                     this.afficherTraceur(traceur);
                     this.setBandeauCalibration(traceur.lampePrincipale, traceur);
                     this.ajouterLigneTraceurDansListe(traceur.lampePrincipale, traceur);
-                    initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
+                    this.gestionnaireCalibration.initialiserCalculsCourbes(traceur.lampePrincipale, traceur);
                 });
 
                 divTraceurs.appendChild(span);
@@ -187,7 +184,7 @@ export default class ControlleurCalibration {
             span.addEventListener('click', () => {
                 this.afficherGraphiqueTraceur(traceur, i);
                 this.setBandeauCalibration(i, traceur);
-                initialiserCalculsCourbes(i, traceur);
+                this.gestionnaireCalibration.initialiserCalculsCourbes(i, traceur);
             });
             div.appendChild(span);
         }
@@ -336,7 +333,7 @@ export default class ControlleurCalibration {
             chartInstance.update();
 
             // Initialiser les calculs de courbe de calibration
-            initialiserCalculsCourbes(idLampe, traceur);
+            this.gestionnaireCalibration.initialiserCalculsCourbes(idLampe, traceur);
         }
     }
 
@@ -431,7 +428,7 @@ export default class ControlleurCalibration {
         for (let i = 0; i < traceurs.length; i++) {
             for (let j = 1; j <= 4; j++) {
                 this.afficherGraphiqueTraceur(traceurs[i]);
-                initialiserCalculsCourbes(j, traceurs[i]);
+                this.gestionnaireCalibration.initialiserCalculsCourbes(j, traceurs[i]);
             }
         }
     }

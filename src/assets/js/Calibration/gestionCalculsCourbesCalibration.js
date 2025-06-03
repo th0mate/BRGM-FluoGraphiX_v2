@@ -16,13 +16,6 @@ const CalculCourbeParasite = CalculClasses.CalculCourbeParasite;
 
 
 /**
- * Variable globale indiquant si des données potentiellement corrompues ont été détectées
- * @type {boolean} true si des données potentiellement corrompues ont été détectées, false sinon
- */
-let donneesCorrompues = false;
-
-
-/**
  * =====================================================================================================================
  * Classe gérant les calculs et l'affichage des courbes de calibration
  * ======================================================================================================================
@@ -139,15 +132,6 @@ export default class GestionnaireCourbesCalibration {
 
 
     /**
-     * Réinitialise le zoom du graphique
-     * Remplace la fonction reinitialiserZoomGraphiqueConcentrations() du code original
-     */
-    reinitialiserZoomGraphique() {
-        AffichageCalibration.reinitialiserZoomGraphique();
-    }
-
-
-    /**
      * Effectue les calculs pour obtenir les coefficients des courbes.
      * Cette méthode est maintenue pour compatibilité avec l'ancien code.
      * @param {number} idLampe - L'ID de la lampe
@@ -159,47 +143,5 @@ export default class GestionnaireCourbesCalibration {
         const calculCourbe = this.creerCalculCourbe(idLampe, traceur);
         return calculCourbe.calculer();
     }
-}
-
-
-// Création d'une instance globale singleton pour l'utiliser depuis l'ancien code
-const gestionnaireCourbsCalibration = new GestionnaireCourbesCalibration();
-
-
-/**
- * Initialise les calculs des courbes et leur affichage
- * @param {number} idLampe - L'ID de la lampe
- * @param {Object} traceur - Le traceur concerné
- */
-export function initialiserCalculsCourbes(idLampe, traceur) {
-    gestionnaireCourbsCalibration.initialiserCalculsCourbes(idLampe, traceur);
-}
-
-
-/**
- * Effectue les calculs pour obtenir les coefficients des courbes
- * @param {number} idLampe - L'ID de la lampe
- * @param {Object} traceur - Le traceur concerné
- * @returns {Array} Les résultats du calcul
- */
-export function effectuerCalculsCourbes(idLampe, traceur) {
-    return gestionnaireCourbsCalibration.effectuerCalculsCourbes(idLampe, traceur);
-}
-
-
-/**
- * Réinitialise le zoom du graphique
- */
-export function reinitialiserZoomGraphiqueConcentrations() {
-    gestionnaireCourbsCalibration.reinitialiserZoomGraphique();
-}
-
-
-/**
- * Vérifie si des données sont corrompues
- * @returns {boolean} true si des données sont corrompues, false sinon
- */
-export function verifierDonneesCorrompues() {
-    return gestionnaireCourbsCalibration.donneesCorrompues;
 }
 
