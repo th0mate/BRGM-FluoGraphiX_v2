@@ -40,7 +40,7 @@
   </section>
 </template>
 
-<style scoped>
+<style>
 @import "@/assets/styles/glassmorphism.css";
 
 .glassmorphism {
