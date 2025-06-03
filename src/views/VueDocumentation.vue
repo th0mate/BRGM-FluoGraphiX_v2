@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 import Toast from 'primevue/toast'
 import Button from 'primevue/button'
-import { useToast } from 'primevue/usetoast';
+import {useToast} from 'primevue/usetoast';
 import popupService from '@/assets/js/UI/popupService';
 
 const toast = useToast();
@@ -70,66 +70,61 @@ const showStickyToast = () => {
 };
 
 const afficherPopupTest = async () => {
-  try {
-    const imgModule = await import('@/assets/img/popup/warning.png');
-    popupService.showPopup({
-      imageUrl: imgModule.default,
-      headerTitle: 'Avertissement',
-      title: 'Données potentiellement incohérentes détectées',
-      content: 'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.',
-      buttonText: 'Fermer'
-    });
-  } catch (error) {
-    console.error('Erreur lors du chargement de l\'image:', error);
-  }
+  const imgModule = await import('@/assets/img/popup/warning.png');
+  popupService.showPopup({
+    imageUrl: imgModule.default,
+    headerTitle: 'Essai',
+    title: 'Ce popup est un test du service de popup',
+    content: 'Les popups permettent d\'afficher des informations importantes à l\'utilisateur.',
+    buttonText: "J'ai compris",
+  });
 };
 </script>
 
 <template>
-  <!-- Composant Toast (doit être inclus dans le template) -->
-  <Toast position="bottom-right" />
-
   <div class="card">
     <h2>Démonstration des Toasts PrimeVue</h2>
     <div class="grid">
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Toast Succès" icon="pi pi-check" class="p-button-success w-full" @click="showSuccessToast" />
+          <Button label="Toast Succès" icon="pi pi-check" class="p-button-success w-full" @click="showSuccessToast"/>
         </div>
       </div>
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Toast Erreur" icon="pi pi-times" class="p-button-danger w-full" @click="showErrorToast" />
+          <Button label="Toast Erreur" icon="pi pi-times" class="p-button-danger w-full" @click="showErrorToast"/>
         </div>
       </div>
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Toast Avertissement" icon="pi pi-exclamation-triangle" class="p-button-warning w-full" @click="showWarningToast" />
+          <Button label="Toast Avertissement" icon="pi pi-exclamation-triangle" class="p-button-warning w-full"
+                  @click="showWarningToast"/>
         </div>
       </div>
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Toast Info" icon="pi pi-info-circle" class="p-button-info w-full" @click="showInfoToast" />
+          <Button label="Toast Info" icon="pi pi-info-circle" class="p-button-info w-full" @click="showInfoToast"/>
         </div>
       </div>
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Position personnalisée" icon="pi pi-map-marker" class="p-button-help w-full" @click="showCustomPositionToast" />
+          <Button label="Position personnalisée" icon="pi pi-map-marker" class="p-button-help w-full"
+                  @click="showCustomPositionToast"/>
         </div>
       </div>
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Toast persistant" icon="pi pi-pin" class="p-button-secondary w-full" @click="showStickyToast" />
+          <Button label="Toast persistant" icon="pi pi-pin" class="p-button-secondary w-full" @click="showStickyToast"/>
         </div>
       </div>
       <div class="col-12 md:col-6 lg:col-3">
         <div class="p-inputgroup">
-          <Button label="Popup personnalisé" icon="pi pi-clock" class="p-button-text w-full" @click="afficherPopupTest" />
+          <Button label="Popup personnalisé" icon="pi pi-clock" class="p-button-text w-full"
+                  @click="afficherPopupTest"/>
         </div>
       </div>
     </div>
   </div>
-
 
 
   <div class="layer" v-if="test">

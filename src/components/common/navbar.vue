@@ -1,4 +1,5 @@
 ﻿<script setup lang="ts">
+import {afficherMenuResponsive, fermerMenuResponsive} from '@/assets/js/UI/navigation';
 
 import {RouterLink} from "vue-router";
 </script>
@@ -36,7 +37,7 @@ import {RouterLink} from "vue-router";
       </RouterLink>
     </div>
 
-    <div class="menuBurger" onclick="">
+    <div class="menuBurger" @click="afficherMenuResponsive">
       <span></span>
       <span></span>
       <span></span>
@@ -46,43 +47,33 @@ import {RouterLink} from "vue-router";
       <img src="@/assets/img/hydro_pictures/img2.jpg" alt="background">
 
       <div class="entete">
-        <img src="@/assets/img/icons/close.png" alt="fermer" onclick="">
+        <img class="fermer" src="@/assets/img/icons/close.png" alt="fermer" @click="fermerMenuResponsive">
       </div>
 
       <RouterLink to="/accueil" class="action" active-class="active-link">
         <div>
-          <img src="@/assets/img/icons/accueil.png" alt="">
           <h3>ACCUEIL</h3>
         </div>
-        <img src="@/assets/img/icons/droite.png" alt="flèche">
       </RouterLink>
       <RouterLink to="/documentation" class="action" active-class="active-link">
         <div>
-          <img src="@/assets/img/icons/aide.png" alt="">
           <h3>DOCUMENTATION</h3>
         </div>
-        <img src="@/assets/img/icons/droite.png" alt="flèche">
       </RouterLink>
       <RouterLink to="/telecharger" class="action" active-class="active-link">
         <div>
-          <img src="@/assets/img/icons/dl.png" alt="">
           <h3>TÉLÉCHARGER</h3>
         </div>
-        <img src="@/assets/img/icons/droite.png" alt="flèche">
       </RouterLink>
       <RouterLink to="/calibration" class="action" active-class="active-link">
         <div>
-          <img src="@/assets/img/icons/calculatrice.png" alt="">
           <h3>CALIBRATION</h3>
         </div>
-        <img src="@/assets/img/icons/droite.png" alt="flèche">
       </RouterLink>
       <RouterLink to="/visualisation" class="action" active-class="active-link">
         <div>
-          <img src="@/assets/img/icons/graphique.png" alt="">
           <h3>VISUALISATION</h3>
         </div>
-        <img src="@/assets/img/icons/droite.png" alt="flèche">
       </RouterLink>
     </div>
   </nav>

@@ -21,3 +21,21 @@ export function scrollToElement(elementQuerySelector, area = 'center') {
     }
 }
 
+
+/**
+ * Permet d'afficher le menu responsive
+ */
+export function afficherMenuResponsive() {
+    document.querySelector('.menu').style.display = 'flex';
+}
+
+
+/**
+ * Permet de masquer le menu responsive
+ */
+export function fermerMenuResponsive() {
+    if (document.querySelector('.menu').style.display === 'flex') {
+        document.querySelector('.menu').style.display = 'none';
+    }
+}
+
