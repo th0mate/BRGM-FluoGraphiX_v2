@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router';
-import {onMounted, onUnmounted, ref} from 'vue';
+import {RouterView} from 'vue-router';
+import {onMounted, ref, computed} from 'vue';
 import Navbar from './components/common/navbar.vue'
 import Footer from './components/common/footer.vue'
-import GlobalPopup from './components/common/GlobalPopup.vue';
-import Session from '@/assets/js/Session/Session';
 import { useToast } from 'primevue/usetoast';
 import { setToastInstance } from '@/assets/js/Common/toastService';
+import CustomPopup from '@/components/common/CustomPopup.vue';
+import popupService from '@/assets/js/UI/popupService';
+
+const popupVisible = computed({
+  get: () => popupService.state.visible,
+  set: (value) => {
+    if (!value) {
+      popupService.closePopup();
+    }
+  }
+});
 
 const toast = useToast();
 setToastInstance(toast);
@@ -62,9 +71,19 @@ onMounted(async () => {
 
 <template>
   <Toast />
-  <GlobalPopup />
 
   <Navbar/>
+
+  <!-- Intégration du composant de popup global connecté au service -->
+  <CustomPopup
+    v-model="popupVisible"
+    :headerTitle="popupService.state.headerTitle"
+    :title="popupService.state.title"
+    :content="popupService.state.content"
+    :buttonText="popupService.state.buttonText"
+    :imageUrl="popupService.state.imageUrl"
+    :imageHtml="popupService.state.imageHtml"
+  />
 
   <div v-if="showUpdatePrompt && downloadProgress > 0 && downloadProgress < 100" class="update-notification">
     <div class="update-header">

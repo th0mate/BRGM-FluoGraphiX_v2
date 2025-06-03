@@ -1,6 +1,7 @@
 /**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
+ * Gère l'affichage des différents éléments de calibration, y compris les courbes de concentration et les parasites.
  */
 import { arrondir8Chiffres, ln } from '@/assets/js/Calibration/utils.js';
 import {afficherMessageFlash} from '@/assets/js/Common/utils.js'

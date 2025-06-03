@@ -1,8 +1,9 @@
 /**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
+ * Contient toutes les classes relatives aux calculs de courbes de calibration.
  */
-import { ln, arrondir8Chiffres, multiply, inverse, transpose, multipleLinearRegression } from '@/assets/js/Calibration/utils.js';
+import { arrondir8Chiffres, multiply, inverse, transpose, multipleLinearRegression } from '@/assets/js/Calibration/utils.js';
 import { EquationLineaire, EquationLogarithmique, EquationLogarithmiqueQuadratique } from '@/assets/js/Objects/Calcul.js';
 import Session from '@/assets/js/Session/Session.js'
 import TableauDonnees from "@/assets/js/Calibration/TableauxDonnees.js";
@@ -339,19 +340,12 @@ class CalculCourbeParasite extends CalculCourbe {
 
         X = X.map(ligne => ligne.slice(1));
 
-        const tableauIntervaleConfiance = [];
         let derniereColonne = 0;
 
         for (let i = 0; i < this.nbValeurLampe; i++) {
-            const ligne = [];
             const data = X[i][0];
-            ligne.push(data);
-            ligne.push(Y[i][0]);
             const data2 = final[0][0] + final[0][1] * data + final[0][2] * data ** 2;
-            ligne.push(data2);
-            ligne.push((Y[i][0] - data2) ** 2);
             derniereColonne += (Y[i][0] - data2) ** 2;
-            tableauIntervaleConfiance.push(ligne);
         }
 
         const erreurType = 1.96 * (Math.sqrt(derniereColonne / (this.nbValeurLampe - 3)));

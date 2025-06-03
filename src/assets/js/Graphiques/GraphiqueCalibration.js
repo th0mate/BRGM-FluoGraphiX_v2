@@ -1,6 +1,7 @@
 ﻿/**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
+ * Permet la gestion des graphiques de calibration. Héritée de Graphiques.js
  */
 import Graphiques from '@/assets/js/Graphiques/Graphiques.js';
 

@@ -1,6 +1,7 @@
 ﻿/**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
+ * Permet de stocker les différentes variables de session utilisées dans l'application (données de calibration, traceurs, etc.)
  */
 
 

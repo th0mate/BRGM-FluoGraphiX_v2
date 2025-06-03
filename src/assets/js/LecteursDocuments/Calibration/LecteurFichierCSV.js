@@ -1,6 +1,7 @@
 ﻿/**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
+ * Permet de lire les fichiers de calibration CSV et d'en extraire les informations nécessaires. Héritée de LecteurFichierCalibration.
  */
 import LecteurFichierCalibration from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCalibration.js';
 import Traceur from '@/assets/js/Objects/Traceur.js';

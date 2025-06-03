@@ -1,6 +1,7 @@
 /**
 * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
 * www.thomasloye.fr
+ * Toutes les fonctions relatives à l'interface utilisateur et à la navigation dans l'application
 */
 
 
