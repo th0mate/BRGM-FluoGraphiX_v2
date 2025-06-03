@@ -1,5 +1,4 @@
 <template>
-  <!-- Popup personnalisé sans dépendance à PrimeVue Dialog -->
   <Teleport to="body">
     <div v-if="modelValue" class="layer">
       <div class="popup">

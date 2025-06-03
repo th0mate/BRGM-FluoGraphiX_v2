@@ -4,9 +4,10 @@
  * Gère l'affichage des différents éléments de calibration, y compris les courbes de concentration et les parasites.
  */
 import { arrondir8Chiffres, ln } from '@/assets/js/Calibration/utils.js';
-import {afficherMessageFlash} from '@/assets/js/Common/utils.js'
+import { afficherMessageFlash } from '@/assets/js/Common/utils.js'
 import Session from "@/assets/js/Session/Session.js";
-
+import { afficherPopup } from "@/assets/js/UI/popupsManager.js";
+import warningImage from '@/assets/img/popup/warning.png';
 
 /**
  * =====================================================================================================================
@@ -31,7 +32,17 @@ export class AffichageCalibration {
     /**
      * Réinitialise le zoom du graphique
      */
-    static reinitialiserZoomGraphique() {
+    static async reinitialiserZoomGraphique() {
+        const imageHTML = `<img src="${warningImage}" alt="Avertissement" style="width: 120px;">`;
+
+        afficherPopup(
+            imageHTML,
+            'Avertissement',
+            'Données potentiellement incohérentes détectées',
+            'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.',
+            'Fermer'
+        );
+
         const canvas = document.getElementById('graphiqueTraceur');
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
@@ -261,7 +272,7 @@ class AffichageParasites {
         const valeurFinale = Math.log(maxTraceur * 1.2);
         const pas = (valeurFinale - valeurIni) / (100 - 1);
 
-        const { colonne1, colonne2, donneesPotentiellementCorrompues } = this.calculerPointsCourbeParasites(
+        const {colonne1, colonne2, donneesPotentiellementCorrompues} = this.calculerPointsCourbeParasites(
             valeurIni, pas, eau, idLampe, traceur, constante, degre1, degre2
         );
 
@@ -329,7 +340,7 @@ class AffichageParasites {
             tempY = colonne2[i];
         }
 
-        return { colonne1, colonne2, donneesPotentiellementCorrompues };
+        return {colonne1, colonne2, donneesPotentiellementCorrompues};
     }
 
 
