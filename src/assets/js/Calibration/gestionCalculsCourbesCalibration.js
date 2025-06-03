@@ -6,6 +6,8 @@
 import {AffichageCalibration} from '@/assets/js/Calibration/AffichageCalibration.js';
 import AffichageClasses from '@/assets/js/Calibration/AffichageCalibration.js';
 import CalculClasses from '@/assets/js/Calibration/CalculsCourbes.js';
+import {afficherPopup} from "@/assets/js/UI/popupService.js";
+import warningImage from "@/assets/img/popup/warning.png";
 
 const AffichageConcentration = AffichageClasses.AffichageConcentration;
 const AffichageParasites = AffichageClasses.AffichageParasites;
@@ -123,11 +125,14 @@ export default class GestionnaireCourbesCalibration {
      */
     afficherPopupDonneesCorrompues() {
         if (typeof afficherPopup === 'function') {
+            const imageHTML = `<img src="${warningImage}" alt="Avertissement" style="width: 120px;">`;
+
             afficherPopup(
-                '<img src="Ressources/img/attention2.png" alt="">',
-                'Attention : données potentiellement corrompues détectées !',
+                imageHTML,
+                'Avertissement',
+                'Données potentiellement incohérentes détectées',
                 'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.',
-                '<div class="bouton boutonFonce" onclick="fermerPopup()">TERMINER</div>'
+                'Fermer'
             );
         }
     }

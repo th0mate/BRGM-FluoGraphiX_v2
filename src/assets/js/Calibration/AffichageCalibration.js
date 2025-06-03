@@ -33,16 +33,6 @@ export class AffichageCalibration {
      * Réinitialise le zoom du graphique
      */
     static async reinitialiserZoomGraphique() {
-        const imageHTML = `<img src="${warningImage}" alt="Avertissement" style="width: 120px;">`;
-
-        afficherPopup(
-            imageHTML,
-            'Avertissement',
-            'Données potentiellement incohérentes détectées',
-            'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.',
-            'Fermer'
-        );
-
         const canvas = document.getElementById('graphiqueTraceur');
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
