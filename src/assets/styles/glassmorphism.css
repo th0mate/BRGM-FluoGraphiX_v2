@@ -4,6 +4,9 @@
 */
 
 
+/* =====================================================================================================================
+   STYLE GENERAL
+   ===================================================================================================================== */
 .glassmorphism {
     position: relative;
     padding: 50px;
@@ -65,7 +68,7 @@
             }
 
             img:not(.logo) {
-                width: 500px;
+                width: 470px;
             }
         }
 
@@ -153,4 +156,111 @@
         }
     }
 }
+
+/* =====================================================================================================================
+   RESPONSIVE
+   ===================================================================================================================== */
+
+@media(max-width: 1285px) {
+    .glassmorphism {
+        .glasmorphism-wrap {
+            width: 90%;
+            height: 500px;
+
+            .left {
+                img:not(.logo) {
+                    width: 400px;
+                }
+            }
+
+            .right {
+                padding: 30px;
+                gap: 20px;
+
+                h2 {
+                    font-size: 1.8em;
+                }
+
+                .texte-gris-simple {
+                    font-size: 1em;
+                }
+
+                .possibility {
+                    img {
+                        width: 30px;
+                        height: 30px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 1020px) {
+    .glassmorphism {
+        position: initial;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        .glasmorphism-wrap {
+            flex-direction: column;
+            width: 90%;
+            height: auto;
+            position: relative;
+
+            .left, .right {
+                width: 100%;
+                height: fit-content;
+                padding: 20px;
+            }
+
+            .left {
+                img:not(.logo) {
+                    display: none;
+                }
+
+                .logo {
+                    position: relative;
+                    height: 40px;
+                    margin-bottom: 20px;
+                }
+            }
+
+            .right {
+                padding: 20px;
+                gap: 15px;
+
+                h2 {
+                    font-size: 1.5em;
+                }
+
+                .texte-gris-simple {
+                    font-size: 0.9em;
+                }
+
+                .bouton {
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 850px) {
+    .right {
+        .possibility {
+            width: 95%;
+            margin: 0 auto;
+        }
+    }
+}
+
+@media(max-width: 700px) {
+    .glasmorphism-wrap {
+        width: 90vw !important;
+    }
+}
+
 
