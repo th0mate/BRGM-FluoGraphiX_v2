@@ -1,6 +1,8 @@
-// Classe ControlleurVisualisation : point d'entrée pour la gestion de la visualisation
-// Appelle les lecteurs de fichiers, la calibration, les paramètres graphiques, etc.
-
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Point d'entrée pour la gestion de la visualisation : appelle les lecteurs de fichiers, la calibration, les paramètres graphiques, etc.
+ */
 import {LecteurFichierMV} from '../LecteursDocuments/Visualisation/LecteurFichierMV.js';
 import {LecteurFichierTXT} from '../LecteursDocuments/Visualisation/LecteurFichierTXT.js';
 import {LecteurFichierXML} from '../LecteursDocuments/Visualisation/LecteurFichierXML.js';
@@ -14,6 +16,12 @@ import Session from '@/assets/js/Session/Session.js';
 import GraphiqueVisualisation from "@/assets/js/Graphiques/GraphiqueVisualisation.js";
 import {LecteurFichierVisualisation} from '../LecteursDocuments/Visualisation/LecteurFichierVisualisation.js';
 
+
+/**
+ * =====================================================================================================================
+ * Classe ControlleurVisualisation
+ * ======================================================================================================================
+ */
 export class ControlleurVisualisation {
     constructor() {
         this.graphiqueVisualisation = new GraphiqueVisualisation();
@@ -25,6 +33,13 @@ export class ControlleurVisualisation {
         this.lecteur = null; // Instance du dernier lecteur utilisé (MV, TXT, XML)
     }
 
+
+    /**
+     * Importe un fichier et le convertit en CSV s'il s'agit d'un fichier de mesures, et initialise les données de calibration s'il s'agit d'un fichier de calibration.
+     * @param fichier {File} - Le fichier à importer
+     * @param type {string} - Le type de fichier ('mv', 'txt', 'xml', 'dat', 'csv')
+     * @returns {Promise<string>} - Le contenu du fichier converti en CSV ou rien si le fichier est de type 'dat' (calibration) ou csv (calibration)
+     */
     async importerFichier(fichier, type) {
         let lecteur;
         let contenuCSV = '';
@@ -41,6 +56,9 @@ export class ControlleurVisualisation {
                 lecteur = new LecteurFichierXML(fichier);
                 contenuCSV = await lecteur.lireFichier();
                 break;
+            case 'dat':
+                await this.importerCalibration(fichier, 'dat');
+                return;
             case 'csv':
                 contenuCSV = await new Promise((resolve, reject) => {
                     const reader = new FileReader();
@@ -49,7 +67,8 @@ export class ControlleurVisualisation {
                     reader.readAsText(fichier);
                 });
                 if (contenuCSV.split('\n')[0]?.includes('Appareil')) {
-                    return null;
+                    await this.importerCalibration(fichier, 'csv');
+                    return;
                 }
                 lecteur = new LecteurFichierVisualisation(fichier);
                 lecteur.extraireInfosCSV(contenuCSV);
@@ -66,8 +85,8 @@ export class ControlleurVisualisation {
 
     /**
      * Importe et parse un fichier de calibration (DAT ou CSV)
-     * @param {File} fichier
-     * @param {string} type - 'dat' ou 'csv'
+     * @param {File} fichier - Le fichier de calibration à importer
+     * @param {string} type - 'dat' ou 'csv' (ou détection automatique) - le type de fichier
      */
     async importerCalibration(fichier, type) {
         const reader = new FileReader();
@@ -77,14 +96,34 @@ export class ControlleurVisualisation {
             let lecteur;
             if (type === 'dat') {
                 lecteur = new LecteurFichierDAT(contenu);
+                this.lecteur = lecteur;
+                this.parametrerFormatDatesDepuisCalibrat();
             } else if (type === 'csv') {
                 lecteur = new LecteurFichierCSV(contenu);
+                this.lecteur = lecteur;
             } else {
                 throw new Error('Type de fichier calibration non supporté');
             }
             lecteur.initialiser(false);
         };
         reader.readAsText(fichier);
+    }
+
+
+    /**
+     * Paramètre le format de dates en fonction du contenu du fichier Calibrat.dat
+     */
+    parametrerFormatDatesDepuisCalibrat() {
+        const derniereLigne = this.lecteur.lignes[this.lecteur.lignes.length - 2];
+        const caractere = derniereLigne.charAt(0);
+
+        if (caractere === '2') {
+            Session.getInstance().formatDates = 1;
+        } else {
+            Session.getInstance().formatDates = 2;
+        }
+
+        console.log("format :", Session.getInstance().formatDates);
     }
 
 
@@ -97,15 +136,6 @@ export class ControlleurVisualisation {
         Session.getInstance().contenuFichierMesures = '';
         Session.getInstance().contenuFichierCalibration = '';
         this.courbesSupprimees = [];
-    }
-
-
-    /**
-     * Exporte les données du graphique ou du fichier de mesures au format CSV
-     * @returns {string}
-     */
-    exporterCSV() {
-        return Session.getInstance().contenuFichierMesures;
     }
 
 
@@ -135,53 +165,69 @@ export class ControlleurVisualisation {
 
 
     /**
-     * Importe un ou plusieurs fichiers de mesures et distribue leur contenu vers les bons modules
-     * @param {FileList|Array<File>} fichiers
+     * Importe un ou plusieurs fichiers de mesures et de calibration et distribue leur contenu vers les bons modules
+     * @param {FileList|Array<File>} fichiers - Liste de fichiers à traiter
      * @param {string} type - 'mv', 'txt', 'xml', etc. (ou détection automatique)
      */
     async traiterFichiers(fichiers, type = null) {
-        console.log(fichiers);
         if (!fichiers || fichiers.length === 0) return;
         this.reset();
         Session.getInstance().reset();
-        let contenuFusionne = '';
-        let datesFichiers = [];
-        let allLignes = [];
-        let lecteurFusion = null;
-        for (const fichier of fichiers) {
-            let ext = type;
-            if (!ext) {
-                const nom = fichier.name.toLowerCase();
-                if (nom.endsWith('.mv')) ext = 'mv';
-                else if (nom.endsWith('.txt')) ext = 'txt';
-                else if (nom.endsWith('.xml')) ext = 'xml';
-                else ext = 'csv';
+        const fichiersArray = Array.from(fichiers);
+        const fichiersCalibration = [];
+        const fichiersMesures = [];
+
+        for (const fichier of fichiersArray) {
+            const ext = fichier.name.split('.').pop().toLowerCase();
+            if (ext === 'dat') {
+                fichiersCalibration.push(fichier);
+            } else if (ext === 'csv' && await this._isCSVCalibration(fichier)) {
+                fichiersCalibration.push(fichier);
+            } else {
+                fichiersMesures.push(fichier);
             }
-            const contenu = await this.importerFichier(fichier, ext);
+        }
+
+        for (const fichier of fichiersCalibration) {
+            let ext = fichier.name.split('.').pop().toLowerCase();
+            await this.importerFichier(fichier, ext);
+        }
+
+        let contenuFusionne = '';
+        let lecteurFusion = null;
+        let datesFichiers = [];
+        for (const fichier of fichiersMesures) {
+            let ext = fichier.name.split('.').pop().toLowerCase();
+            let typeAuto = type;
+            if (!typeAuto) {
+                if (ext === 'mv') typeAuto = 'mv';
+                else if (ext === 'txt') typeAuto = 'txt';
+                else if (ext === 'xml') typeAuto = 'xml';
+                else typeAuto = 'csv';
+            }
+            const contenu = await this.importerFichier(fichier, typeAuto);
             if (this.lecteur) {
                 if (!lecteurFusion) {
-                    // Clone le premier lecteur pour fusionner les infos
                     lecteurFusion = Object.assign(
                         Object.create(Object.getPrototypeOf(this.lecteur)),
                         this.lecteur
                     );
                 } else {
-                    // Fusionne les lignes
                     lecteurFusion.lignes = lecteurFusion.lignes.concat(this.lecteur.lignes);
                 }
             }
             if (contenu) {
                 const lignes = contenu.split('\n');
-                allLignes.push(...lignes);
-                for (let i = 3; i < lignes.length; i++) {
-                    const date = lignes[i]?.split(';')[0];
+
+                for (let j = 3; j < lignes.length; j++) {
+                    const date = lignes[j]?.split(';')[0];
                     if (date && date.match(/\d{2}\/\d{2}\/\d{2}/)) {
                         datesFichiers.push(date);
                         break;
                     }
                 }
-                for (let i = lignes.length - 1; i >= 3; i--) {
-                    const date = lignes[i]?.split(';')[0];
+                for (let j = lignes.length - 1; j >= 3; j--) {
+                    const date = lignes[j]?.split(';')[0];
                     if (date && date.match(/\d{2}\/\d{2}\/\d{2}/)) {
                         datesFichiers.push(date);
                         break;
@@ -190,8 +236,9 @@ export class ControlleurVisualisation {
                 contenuFusionne += contenu + '\n';
             }
         }
-        // Sécurité : si plusieurs fichiers, vérifier l'écart de dates
-        if (fichiers.length > 1 && datesFichiers.length >= 4) {
+
+        // Sécurité : si plusieurs fichiers de mesures, vérifier l'écart de dates
+        if (fichiersMesures.length > 1 && datesFichiers.length >= 4) {
             const parseDate = (str) => {
                 const [d, m, y] = str.split('/');
                 return new Date(`20${y}-${m}-${d}`);
@@ -204,28 +251,15 @@ export class ControlleurVisualisation {
                 throw new Error('L\'écart entre les fichiers de mesures est supérieur à 9 jours. Import annulé.');
             }
         }
-        Session.getInstance().contenuFichierMesures = contenuFusionne.trim();
-        if (lecteurFusion) {
-            lecteurFusion.extraireInfosCSV(contenuFusionne.trim());
-            this.lecteur = lecteurFusion;
+
+        if (contenuFusionne) {
+            Session.getInstance().contenuFichierMesures = contenuFusionne.trim();
+            if (lecteurFusion) {
+                lecteurFusion.extraireInfosCSV(contenuFusionne.trim());
+                this.lecteur = lecteurFusion;
+            }
+            this.afficherGraphique(Session.getInstance().contenuFichierMesures);
         }
-
-        console.log(Session.getInstance().contenuFichierMesures);
-        this.afficherGraphique(Session.getInstance().contenuFichierMesures);
-    }
-
-    // Méthodes d'accès pour les infos du lecteur
-    getNbLignes() {
-        return this.lecteur ? this.lecteur.nbLignes : 0;
-    }
-    getPremiereDate() {
-        return this.lecteur ? this.lecteur.premiereDate : '';
-    }
-    getDerniereDate() {
-        return this.lecteur ? this.lecteur.derniereDate : '';
-    }
-    getLignes() {
-        return this.lecteur ? this.lecteur.lignes : [];
     }
 
 
@@ -263,5 +297,21 @@ export class ControlleurVisualisation {
 
         return lignes;
     }
-}
 
+
+    /**
+     * Détecte si un fichier CSV est un fichier de calibration (première ligne contient 'Appareil')
+     * @param {File} fichier - Le fichier à vérifier
+     */
+    async _isCSVCalibration(fichier) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const contenu = e.target.result;
+                resolve(contenu.split('\n')[0].includes('Appareil'));
+            };
+            reader.onerror = reject;
+            reader.readAsText(fichier);
+        });
+    }
+}

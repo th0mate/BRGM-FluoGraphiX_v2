@@ -1,10 +1,24 @@
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Lecteur pour les fichiers TXT
+ */
 import { LecteurFichierVisualisation } from './LecteurFichierVisualisation.js';
 import {around, getDateAujourdhui, getDateHeure, getTime} from "@/assets/js/Common/utils.js";
 
-// Lecteur pour les fichiers TXT
+
+/**
+ * ======================================================================================================================
+ * Lecteur pour les fichiers TXT
+ * =====================================================================================================================
+ */
 export class LecteurFichierTXT extends LecteurFichierVisualisation {
 
 
+    /**
+     * Lit le fichier TXT
+     * @returns {Promise<unknown>} une promesse qui résout le contenu du fichier TXT converti en CSV
+     */
     async lireFichier() {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -24,6 +38,11 @@ export class LecteurFichierTXT extends LecteurFichierVisualisation {
     }
 
 
+    /**
+     * Convertit les données du fichier TXT en format CSV
+     * @param texte {string} le contenu du fichier TXT
+     * @returns {string} le contenu converti en format CSV
+     */
     convertirDonneesToCSV(texte) {
         const lignes = texte.split('\n');
         let stringFinal = '';

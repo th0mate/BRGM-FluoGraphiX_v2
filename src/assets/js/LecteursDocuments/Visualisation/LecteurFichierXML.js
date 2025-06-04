@@ -1,9 +1,24 @@
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Lecteur pour les fichiers XML
+ */
 import { LecteurFichierVisualisation } from './LecteurFichierVisualisation.js';
 import {around, getDateAujourdhui, getDateHeure, getTime} from "@/assets/js/Common/utils.js";
 
-// Lecteur pour les fichiers XML
+
+/**
+ * ======================================================================================================================
+ * Lecteur pour les fichiers XML
+ * =====================================================================================================================
+ */
 export class LecteurFichierXML extends LecteurFichierVisualisation {
 
+
+    /**
+     * Lit le fichier XML
+     * @returns {Promise<unknown>} une promesse qui résout le contenu du fichier XML converti en CSV
+     */
     async lireFichier() {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -23,6 +38,11 @@ export class LecteurFichierXML extends LecteurFichierVisualisation {
     }
 
 
+    /**
+     * Charge le contenu XML à partir d'une chaîne XML
+     * @param xmlString {string} la chaîne XML à charger
+     * @returns {Document|null} le document XML chargé ou null en cas d'erreur
+     */
     chargerXML(xmlString) {
         const parser = new DOMParser();
         try {
@@ -40,6 +60,11 @@ export class LecteurFichierXML extends LecteurFichierVisualisation {
     }
 
 
+    /**
+     * Convertit les données XML en format CSV
+     * @param xmlString {string} le contenu du fichier XML
+     * @returns {string} le contenu du fichier CSV
+     */
     convertirDonneesToCSV(xmlString) {
         const xmlDoc = this.chargerXML(xmlString);
         if (!xmlDoc) return '';

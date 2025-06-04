@@ -1,10 +1,23 @@
-// CorrectionTurbidite.js
-// Gère la correction de la turbidité sur les données de visualisation
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Gère la correction de la turbidité sur les données de visualisation
+ */
 
+
+import {arrondirA2Decimales} from "@/assets/js/Common/utils.js";
+
+/**
+ * =======================================================================================================================
+ * Classe de correction de turbidité
+ * ======================================================================================================================
+ */
 export class CorrectionTurbidite {
     constructor(controlleur) {
         this.controlleur = controlleur;
     }
+
+
     /**
      * Applique la correction de turbidité sur les lampes sélectionnées
      * @param {Array} lampesACorriger - IDs des lampes à corriger (ex: [1,2])
@@ -100,7 +113,7 @@ export class CorrectionTurbidite {
                 const timeDate = this.controlleur.DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
                 const timestamp = timeDate.toMillis();
                 lignes[i + 3] = lignes[i + 3].replace(/\r|\n/g, '');
-                lignes[i + 3] += `;${this.controlleur.arrondirA2Decimales(colonneFinale[i])}`;
+                lignes[i + 3] += `;${arrondirA2Decimales(colonneFinale[i])}`;
                 data.data.push({x: timestamp, y: colonneFinale[i]});
             }
 

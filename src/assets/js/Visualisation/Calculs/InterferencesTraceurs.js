@@ -1,12 +1,22 @@
-// InterferencesTraceurs.js
-// Gère la correction des interférences entre traceurs
-
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Gère la correction des interférences entre traceurs
+ */
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 
+
+/**
+ * =======================================================================================================================
+ * Classe de correction des interférences entre traceurs
+ * ======================================================================================================================
+ */
 export class InterferencesTraceurs {
     constructor(controlleur) {
         this.controlleur = controlleur;
     }
+
+
     /**
      * Corrige les interférences entre traceurs sélectionnés et met à jour le graphique
      * @param {Array} traceurs - Liste des traceurs à corriger (1 ou 2)

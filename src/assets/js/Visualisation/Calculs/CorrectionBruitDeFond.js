@@ -1,10 +1,22 @@
-// CorrectionBruitDeFond.js
-// Gère la correction du bruit de fond sur les données de visualisation
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Gère la correction du bruit de fond sur les données de visualisation
+ */
+import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 
+
+/**
+ * =======================================================================================================================
+ * Classe de correction du bruit de fond
+ * ======================================================================================================================
+ */
 export class CorrectionBruitDeFond {
     constructor(controlleur) {
         this.controlleur = controlleur;
     }
+
+
     /**
      * Applique la correction du bruit de fond sur les traceurs sélectionnés
      * @param {Array} traceurs - Traceurs concernés (1 ou 2)
@@ -100,7 +112,7 @@ export class CorrectionBruitDeFond {
             chart.data.datasets.push(data1);
             chart.update();
         } else {
-            this.controlleur.afficherMessageFlash('Correction de bruit de fond pour plusieurs traceurs : fonctionnalité à compléter.', 'info');
+            afficherMessageFlash('Correction de bruit de fond pour plusieurs traceurs : fonctionnalité à compléter.', 'info');
         }
     }
 }

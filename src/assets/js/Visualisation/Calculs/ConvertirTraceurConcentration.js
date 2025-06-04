@@ -1,14 +1,24 @@
-// ConvertirTraceurConcentration.js
-// Gère la conversion d'un traceur en concentration
-
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Gère la conversion d'un traceur en concentration
+ */
 import {arrondirA2Decimales} from "@/assets/js/Common/utils.js";
 import {Calculs} from "@/assets/js/Objects/Calcul.js";
 import Session from "@/assets/js/Session/Session.js";
 
+
+/**
+ * =======================================================================================================================
+ * Classe de conversion d'un traceur en concentration
+ * ======================================================================================================================
+ */
 export class ConvertirTraceurConcentration {
     constructor(controlleur) {
         this.controlleur = controlleur;
     }
+
+
     /**
      * Convertit un traceur en concentration et ajoute la courbe au graphique
      * @param {Object} traceur - Traceur à convertir

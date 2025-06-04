@@ -43,14 +43,13 @@ export default class ControlleurCalibration {
             return false;
         }
 
-        // Créer le lecteur approprié selon le format du fichier
         this.lecteur = estFichierDat
             ? new LecteurFichierDAT(contenu)
             : new LecteurFichierCSV(contenu);
 
-        // Initialiser le lecteur
         this.graphiqueCalibration = new GraphiqueCalibration(this.lecteur);
         const resultat = this.lecteur.initialiser(estDepuisCalibration);
+        console.table(Session.getInstance().traceurs);
 
         if (resultat) {
             this.calibrationChargee = true;
@@ -313,32 +312,6 @@ export default class ControlleurCalibration {
 
 
     /**
-     * Affiche la courbe d'un traceur pour une lampe donnée
-     * @param {number} idLampe - L'ID de la lampe
-     * @param {Object} traceur - Le traceur concerné
-     */
-    afficherCourbeTraceur(idLampe, traceur) {
-        // Récupérer le graphique existant
-        const canvas = document.getElementById('graphiqueTraceur');
-        const chartInstance = Chart.getChart(canvas);
-
-        if (chartInstance) {
-            // Réinitialiser les datasets
-            chartInstance.data.datasets = [];
-
-            // Ajouter le dataset des points mesurés
-            this.ajouterPointsMesures(chartInstance, idLampe, traceur);
-
-            // Mettre à jour le graphique
-            chartInstance.update();
-
-            // Initialiser les calculs de courbe de calibration
-            this.gestionnaireCalibration.initialiserCalculsCourbes(idLampe, traceur);
-        }
-    }
-
-
-    /**
      * Ajoute les points mesurés au graphique
      * @param {Object} chartInstance - L'instance du graphique Chart.js
      * @param {number} idLampe - L'ID de la lampe
@@ -360,7 +333,6 @@ export default class ControlleurCalibration {
             showLine: false
         };
 
-        // Ajouter les points pour chaque échelle
         for (let i = 0; i < traceur.echelles.length; i++) {
             const valeur = traceur.getDataParNom('L' + idLampe + '-' + (i + 1));
             if (valeur !== 'NaN' && !isNaN(valeur)) {
@@ -371,16 +343,12 @@ export default class ControlleurCalibration {
             }
         }
 
-        // Ajouter le point d'eau
         datasetPoints.data.push({
             x: eauLampe,
             y: 0
         });
 
-        // Trier les points par X croissant
         datasetPoints.data.sort((a, b) => a.x - b.x);
-
-        // Ajouter le dataset au graphique
         chartInstance.data.datasets.push(datasetPoints);
     }
 
@@ -470,15 +438,4 @@ export function getControlleurCalibration() {
 export function initFichierCalibration(estFichierDat = true, estDepuisCalibration = true) {
     const controleur = getControlleurCalibration();
     controleur.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, estDepuisCalibration);
-}
-
-
-/**
- * Initialise Calibrat.dat
- * @param {boolean} estFichierDat - True si le fichier est au format DAT, false pour CSV
- * @param {boolean} estDepuisCalibration - True si l'initialisation est faite depuis la page calibration
- */
-export function init(estFichierDat = true, estDepuisCalibration = true) {
-    const controleur = getControlleurCalibration();
-    controleur.initialiser(this.session.contenuFichierCalibration, estFichierDat, estDepuisCalibration);
 }

@@ -1,4 +1,15 @@
-// Classe mère pour la lecture de fichiers de visualisation
+/**
+ * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+ * www.thomasloye.fr
+ * Classe mère pour la lecture de fichiers de visualisation
+ */
+
+
+/**
+ * ======================================================================================================================
+ * Classe de base pour la lecture de fichiers de mesures
+ * =====================================================================================================================
+ */
 export class LecteurFichierVisualisation {
     constructor(fichier) {
         this.fichier = fichier;
@@ -21,7 +32,7 @@ export class LecteurFichierVisualisation {
 
     /**
      * Met à jour lignes, nbLignes, premiereDate, derniereDate à partir d'un contenu CSV
-     * @param {string} contenuCSV
+     * @param {string} contenuCSV le contenu du fichier CSV
      */
     extraireInfosCSV(contenuCSV) {
         this.lignes = contenuCSV.split('\n').filter(l => l.trim() !== '');
