@@ -70,7 +70,7 @@
         border-radius: 10px;
         width: 100%;
         padding: 10px;
-        font-size: 0.8em;
+        font-size: 0.9em;
         gap: 8px;
 
         .bouton {
@@ -101,11 +101,15 @@
         }
 
         .icone {
-            width: 70px;
+            width: 50px;
         }
     }
 
     .anomalie {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+
         span {
             font-size: 0.8em;
         }
@@ -116,6 +120,7 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        flex-direction: row;
 
 
         .action {

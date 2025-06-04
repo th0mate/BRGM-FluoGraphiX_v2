@@ -47,10 +47,8 @@ import '@splidejs/vue-splide/css';
         </table>
       </div>
       <div class="card anomalie">
-        <b>Anomalies détectées :</b>
         <img src="@/assets/img/popup/warning.png" alt="" class="icone">
-        <b>Données potentiellement incohérentes détectées</b>
-        <span>Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu'elles soient correctes.</span>
+        <b>Certaines de vos données de calibration sont susceptibles d'être incorrectes, veuillez les vérifier.</b>
       </div>
       <div class="actions card">
         <img class="action" src="@/assets/img/icons/importer.png" alt="Importer">
