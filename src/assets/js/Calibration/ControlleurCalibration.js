@@ -469,7 +469,7 @@ export function getControlleurCalibration() {
  */
 export function initFichierCalibration(estFichierDat = true, estDepuisCalibration = true) {
     const controleur = getControlleurCalibration();
-    controleur.initialiser(this.session.contenuFichierCalibration, estFichierDat, estDepuisCalibration);
+    controleur.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, estDepuisCalibration);
 }
 
 

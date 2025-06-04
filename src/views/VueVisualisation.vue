@@ -1,9 +1,29 @@
 ﻿<script setup lang="ts">
+import {ref} from "vue";
+import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
 
+const donneesChargees = ref(false);
+function traiterFichierFront(event: Event) {
+  const controlleur = new ControlleurVisualisation();
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    donneesChargees.value = true;
+    controlleur.traiterFichiers(input.files);
+  } else {
+    console.error("Aucun fichier sélectionné.");
+  }
+}
+
+function choisirFichier() {
+  const input = document.getElementById('fileInput') as HTMLInputElement;
+  if (input) {
+    input.click();
+  }
+}
 </script>
 
 <template>
-  <section class="glassmorphism">
+  <section class="glassmorphism" v-if="!donneesChargees">
 
     <div class="glasmorphism-wrap">
       <div class="left">
@@ -34,10 +54,18 @@
           </select>
         </div>
 
-        <span class="bouton boutonFonce">COMMENCER</span>
+        <span class="bouton boutonFonce" @click="choisirFichier">COMMENCER</span>
       </div>
     </div>
   </section>
+
+  <section class="visualisation" v-else>
+    <div class="donnees"></div>
+    <canvas class="graphique" id="graphique"></canvas>
+  </section>
+
+  <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple @change="traiterFichierFront">
+
 </template>
 
 <style>

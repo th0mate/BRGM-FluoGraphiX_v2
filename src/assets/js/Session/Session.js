@@ -24,6 +24,7 @@ export default class Session {
         this.contenuFichierCalibration = "";
         this.traceurs = [];
         this.calculs = [];
+        this.formatDates = 1;
         Session.#instance = this;
     }
 
@@ -45,6 +46,7 @@ export default class Session {
         this.contenuFichierCalibration = "";
         this.traceurs = [];
         this.calculs = [];
+        this.formatDates = 1;
     }
 }
 

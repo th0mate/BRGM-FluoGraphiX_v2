@@ -4,6 +4,10 @@
  */
 import Graphiques from '@/assets/js/Graphiques/Graphiques.js';
 import Session from "@/assets/js/Session/Session.js";
+import { DateTime } from 'luxon';
+import {initFichierCalibration} from "@/assets/js/Calibration/ControlleurCalibration.js";
+import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
+import 'chartjs-adapter-luxon';
 
 
 class GraphiqueVisualisation extends Graphiques {
@@ -87,11 +91,11 @@ class GraphiqueVisualisation extends Graphiques {
                 },
                 plugins: {
                     zoom: {
-                        pan: {enabled: true, mode: `${zoom}`},
+                        pan: {enabled: true, mode: `${Session.getInstance().zoomGraphiques}`},
                         zoom: {
                             wheel: {enabled: true},
                             pinch: {enabled: true},
-                            mode: `${zoom}`
+                            mode: `${Session.getInstance().zoomGraphiques}`
                         }
                     },
                     annotation: {annotation: {}},
@@ -107,79 +111,21 @@ class GraphiqueVisualisation extends Graphiques {
 
         new window.Chart(ctx, chartOptions);
         this.cacherDoublons();
-        document.querySelector('.bandeauGraphiques').style.display = 'flex';
-        document.querySelector('.outilSuppressionCourbes').style.display = 'flex';
-        document.querySelector('.infos').style.display = 'none';
 
         let estFichierDat = true;
         if (Session.getInstance().contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix') || Session.getInstance().contenuFichierCalibration.split('\n')[0].includes('FluoGraphiX')) {
             estFichierDat = false;
         }
-        if (Session.getInstance().traceurs.length === 0) {
+        if (Session.getInstance().traceurs.length === 0 && Session.getInstance().contenuFichierCalibration) {
             initFichierCalibration(estFichierDat, false);
         }
         if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
             for (let i = 0; i < Session.getInstance().traceurs.length; i++) {
                 remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`);
+                this.afficherGraphique(Session.getInstance().contenuFichierMesures);
             }
-        }
-    }
-
-
-    /**
-     * Permet d'étendre le menu des paramètres du graphique de la page de visualisation
-     */
-    toogleMenuGraphique() {
-        const menu = document.querySelector('.bandeauGraphiques');
-        const extendButton = document.querySelector('.extend');
-
-        if (menu.style.width !== '55px') {
-            menu.style.width = '55px';
-            extendButton.style.transform = 'rotate(0deg)';
-
-            menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
-                elementBandeau.removeAttribute('style');
-                elementBandeau.querySelector('span').removeAttribute('style');
-            });
-
-            menu.querySelectorAll('.separatorGraphique').forEach(separator => {
-                separator.removeAttribute('style');
-                separator.querySelector('.text').removeAttribute('style');
-                separator.querySelectorAll('span:not(.text)').forEach(span => {
-                    span.removeAttribute('style');
-                });
-            });
-
-        } else {
-            menu.style.width = '350px';
-            extendButton.style.transform = 'rotate(180deg)';
-
-            setTimeout(() => {
-                menu.querySelectorAll('.elementBandeau').forEach(elementBandeau => {
-                    elementBandeau.style.width = '300px';
-                    elementBandeau.querySelector('span').style.display = 'block';
-                    elementBandeau.style.margin = '5px';
-                });
-
-                menu.querySelectorAll('.separatorGraphique').forEach(separator => {
-                    separator.style.width = '280px';
-                    separator.style.height = 'auto';
-                    separator.style.display = 'flex';
-                    separator.style.alignItems = 'center';
-                    separator.style.justifyContent = 'space-between';
-                    separator.style.backgroundColor = 'transparent';
-                    separator.querySelector('.text').style.display = 'block';
-                    separator.querySelectorAll('span:not(.text)').forEach(span => {
-                        span.style.display = 'block';
-                        span.style.height = '1px';
-                        span.style.width = '70px';
-                        span.style.backgroundColor = 'white';
-                    });
-                });
-            }, 300);
         }
     }
 }
 
 export default GraphiqueVisualisation;
-
