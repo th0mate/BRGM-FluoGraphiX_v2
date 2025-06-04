@@ -15,6 +15,11 @@ import LecteurFichierCSV from '@/assets/js/LecteursDocuments/Calibration/Lecteur
 import Session from '@/assets/js/Session/Session.js';
 import GraphiqueVisualisation from "@/assets/js/Graphiques/GraphiqueVisualisation.js";
 import {LecteurFichierVisualisation} from '../LecteursDocuments/Visualisation/LecteurFichierVisualisation.js';
+import errorImage from "@/assets/img/popup/error.png";
+import warningImage from "@/assets/img/popup/warning.png";
+import {afficherPopup} from "@/assets/js/UI/popupService.js";
+import router from '@/router';
+import ControlleurCalibration from "@/assets/js/Calibration/ControlleurCalibration.js";
 
 
 /**
@@ -30,7 +35,7 @@ export class ControlleurVisualisation {
         this.interferencesTraceurs = new InterferencesTraceurs(this);
         this.correctionBruitDeFond = new CorrectionBruitDeFond(this);
         this.courbesSupprimees = [];
-        this.lecteur = null; // Instance du dernier lecteur utilisé (MV, TXT, XML)
+        this.lecteur = null;
     }
 
 
@@ -193,6 +198,17 @@ export class ControlleurVisualisation {
             await this.importerFichier(fichier, ext);
         }
 
+        if (fichiersMesures.length === 0) {
+            await router.push({name: 'calibration'});
+            afficherPopup(
+                `<img src="${warningImage}" alt="Avertissement" style="width: 120px;">`,
+                'Avertissement',
+                'Aucun fichier de mesures trouvé',
+                'Veuillez importer au moins un fichier de mesures en plus d\'un fichier de calibration ou utiliser la page "calibration" pour vos fichiers de calibration seuls.',
+                'Fermer'
+            );
+        }
+
         let contenuFusionne = '';
         let lecteurFusion = null;
         let datesFichiers = [];
@@ -248,6 +264,15 @@ export class ControlleurVisualisation {
             const diffDays = Math.abs((lastDate - firstDate) / (1000 * 60 * 60 * 24));
             if (diffDays > 9) {
                 Session.getInstance().reset();
+                const imageHTML = `<img src="${errorImage}" alt="Avertissement" style="width: 120px;">`;
+
+                afficherPopup(
+                    imageHTML,
+                    'Erreur',
+                    'Écart entre deux fichiers trop important',
+                    'L\'écart entre deux fichiers de mesures importés est supérieur à 9 jours. Import annulé.',
+                    'Fermer'
+                );
                 throw new Error('L\'écart entre les fichiers de mesures est supérieur à 9 jours. Import annulé.');
             }
         }
