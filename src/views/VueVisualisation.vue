@@ -2,9 +2,10 @@
 import {ref} from "vue";
 import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
 
+
 const donneesChargees = ref(false);
 function traiterFichierFront(event: Event) {
-  const controlleur = new ControlleurVisualisation();
+  const controlleur = new ControlleurVisualisation()
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     donneesChargees.value = true;
@@ -60,8 +61,8 @@ function choisirFichier() {
   </section>
 
   <section class="visualisation" v-else>
-    <div class="donnees"></div>
     <canvas class="graphique" id="graphique"></canvas>
+
   </section>
 
   <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple @change="traiterFichierFront">
