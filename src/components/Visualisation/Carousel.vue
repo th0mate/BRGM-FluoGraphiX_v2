@@ -3,12 +3,21 @@ import {Splide, SplideSlide} from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import HeaderCarousel from "@/components/Visualisation/HeaderCarousel.vue"
 import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
+import {onMounted, ref} from "vue";
+
+const props = defineProps<{ affichageVisualisation: AffichageVisualisation }>();
+
+const splideRef = ref();
+
+onMounted(() => {
+  props.affichageVisualisation.preparerInputRange()
+});
 
 </script>
 
 <template>
   <div class="container">
-    <Splide :options="{ rewind: true }" class="carousel">
+    <Splide :options="{ rewind: true }" class="carousel" ref="splideRef">
 
       <SplideSlide class="page">
         <HeaderCarousel/>
@@ -69,9 +78,38 @@ import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
             <br>
             <span>Sélectionnez le niveau de correction à appliquer :</span>
             <div class='range'>
-              <input id="inputRange" type="range" min='0' max='2' step='0.1' />
+              <input id="inputRange" type="range" min='0' max='2' step='0.1' value="1"
+                     @mousedown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
+                     @touchstart.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
+                     @pointerdown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
+                     @mouseup.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
+                     @touchend.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
+                     @pointerup.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
+              />
               <span>1</span>
             </div>
+            <br>
+            <span>Sélectionnez les lampes à corriger :</span>
+            <div class="checkboxes">
+              <label>
+                <input type="checkbox" value="L1" v-model="props.affichageVisualisation.lampe1Checked">
+                L1
+              </label>
+              <label>
+                <input type="checkbox" value="L2" v-model="props.affichageVisualisation.lampe2Checked">
+                L2
+              </label>
+              <label>
+                <input type="checkbox" value="L3" v-model="props.affichageVisualisation.lampe3Checked">
+                L3
+              </label>
+              <label>
+                <input type="checkbox" value="L4" v-model="props.affichageVisualisation.lampe4Checked">
+                L4
+              </label>
+            </div>
+            <br>
+            <div class="bouton">Calculer</div>
           </div>
           <CommunCarousel/>
         </div>
