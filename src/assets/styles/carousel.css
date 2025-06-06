@@ -142,7 +142,7 @@
             }
         }
 
-        spacer {
+        .spacer {
             display: block;
             height: 8px;
         }
@@ -320,11 +320,51 @@
                 cursor: pointer;
             }
         }
+
+        .wrap-toogle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            .p-toggleswitch {
+                --toggle-bg: var(--grisBRGM);
+                --toggle-checked-bg: var(--orangeBRGM);
+                --toggle-slider: var(--roseBRGM);
+                width: 48px;
+                height: 20px;
+            }
+
+            .p-toggleswitch-slider {
+                background: var(--toggle-bg);
+                border-radius: 24px;
+                transition: background 0.3s;
+            }
+
+            .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+                background: var(--toggle-checked-bg);
+            }
+
+            .p-toggleswitch-slider:before {
+                background: var(--toggle-slider);
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                left: 2px;
+                top: 2px;
+            }
+
+            .p-toggleswitch-slider:hover {
+                background: var(--toggle-bg) !important;
+                box-shadow: none !important;
+                filter: none !important;
+            }
+        }
     }
 
     .card.main {
         max-height: 360px;
         overflow-y: auto;
+        min-height: 300px;
     }
 
     .card.main::-webkit-scrollbar {

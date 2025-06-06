@@ -4,6 +4,7 @@ import '@splidejs/vue-splide/css';
 import HeaderCarousel from "@/components/Visualisation/HeaderCarousel.vue"
 import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
 import {onMounted, ref} from "vue";
+import ToggleSwitch from 'primevue/toggleswitch';
 
 const props = defineProps<{ affichageVisualisation: AffichageVisualisation }>();
 
@@ -77,7 +78,7 @@ onMounted(() => {
           <div class="card main">
             <b>Correction de la turbidité</b>
             <span>Corrigez l'influence de la turbidité sur vos courbes</span>
-            <spacer/>
+            <div class="spacer"></div>
             <span>Sélectionnez le niveau de correction à appliquer :</span>
             <div class='range'>
               <input id="inputRange" type="range" min='0' max='2' step='0.1' value="1"
@@ -90,7 +91,7 @@ onMounted(() => {
               />
               <span>1</span>
             </div>
-            <spacer/>
+            <div class="spacer"></div>
             <span>Sélectionnez les lampes à corriger :</span>
             <div class="checkboxes">
               <label>
@@ -110,7 +111,7 @@ onMounted(() => {
                 L4
               </label>
             </div>
-            <spacer/>
+            <div class="spacer"></div>
             <div class="bouton">Calculer</div>
           </div>
           <CommunCarousel/>
@@ -123,8 +124,7 @@ onMounted(() => {
         <div class="cards">
           <div class="card main">
             <b>Correction des interférences</b>
-            <span>Corrigez les interférences entre vos différents traceurs</span>
-            <spacer/>
+            <div class="spacer"></div>
             <span>Sélectionnez le nombre de traceurs présents :</span>
             <div class="checkboxes">
               <label>
@@ -136,7 +136,7 @@ onMounted(() => {
                 2 traceurs
               </label>
             </div>
-            <spacer/>
+            <div class="spacer"></div>
             <span>Sélectionnez les traceurs concernés :</span>
             <div class="multiple">
               <div>
@@ -149,8 +149,8 @@ onMounted(() => {
                 <select><option selected>100ppb</option></select>
               </div>
             </div>
-            <spacer/>
-            <div class="bouton">Calculer</div>
+            <div class="spacer"></div>
+            <div class="bouton" @click="affichageVisualisation.estEffectueeCorrectionInterferences = true">Calculer</div>
           </div>
           <CommunCarousel/>
         </div>
@@ -194,6 +194,81 @@ onMounted(() => {
               </label>
             </div>
             <div class="bouton">Calculer</div>
+          </div>
+          <CommunCarousel/>
+        </div>
+      </SplideSlide>
+
+      <!-- Conversion en concentration -->
+      <SplideSlide class="page">
+        <HeaderCarousel/>
+        <div class="cards">
+          <div class="card main">
+            <b>Conversion en concentration</b>
+            <span>Convertissez les courbes de vos traceurs en concentration</span>
+            <div class="spacer"></div>
+            <span>Sélectionnez le traceur à convertir</span>
+            <div class="checkboxes">
+              <label>
+                <input type="checkbox" value="L1">
+                Uranine
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Sulfo
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Aminogacid
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Turbidité
+              </label>
+            </div>
+            <div class="spacer"></div>
+            <div class="bouton">Convertir</div>
+          </div>
+          <CommunCarousel/>
+        </div>
+      </SplideSlide>
+
+        <!-- Export des données -->
+      <SplideSlide class="page">
+        <HeaderCarousel/>
+        <div class="cards">
+          <div class="card">
+            <b>Export des données au format CSV</b>
+            <div class="wrap-toogle">
+              <ToggleSwitch />
+              <span>Exporter la liste des calculs effectués</span>
+            </div>
+            <div class="bouton">Exporter</div>
+          </div>
+          <div class="card">
+            <b>Export des données au format CSV TRAC</b>
+            <div class="spacer"></div>
+            <span>Sélectionnez le traceur à exporter :</span>
+            <div class="checkboxes">
+              <label>
+                <input type="checkbox" value="L1">
+                Uranine
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Sulfo
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Aminogacid
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Turbidité
+              </label>
+            </div>
+            <div class="spacer"></div>
+            <div class="bouton">Exporter</div>
           </div>
           <CommunCarousel/>
         </div>
