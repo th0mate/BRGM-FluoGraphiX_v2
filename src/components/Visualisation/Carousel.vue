@@ -19,6 +19,7 @@ onMounted(() => {
   <div class="container">
     <Splide :options="{ rewind: true }" class="carousel" ref="splideRef">
 
+      <!-- Slide d'accueil : reset graphique et renommage des courbes -->
       <SplideSlide class="page">
         <HeaderCarousel/>
         <div class="cards">
@@ -69,13 +70,14 @@ onMounted(() => {
         </div>
       </SplideSlide>
 
+      <!-- Correction de la turbidité -->
       <SplideSlide class="page">
         <HeaderCarousel/>
         <div class="cards">
           <div class="card">
             <b>Correction de la turbidité</b>
             <span>Corrigez l'influence de la turbidité sur vos courbes</span>
-            <br>
+            <spacer/>
             <span>Sélectionnez le niveau de correction à appliquer :</span>
             <div class='range'>
               <input id="inputRange" type="range" min='0' max='2' step='0.1' value="1"
@@ -88,7 +90,7 @@ onMounted(() => {
               />
               <span>1</span>
             </div>
-            <br>
+            <spacer/>
             <span>Sélectionnez les lampes à corriger :</span>
             <div class="checkboxes">
               <label>
@@ -108,7 +110,46 @@ onMounted(() => {
                 L4
               </label>
             </div>
-            <br>
+            <spacer/>
+            <div class="bouton">Calculer</div>
+          </div>
+          <CommunCarousel/>
+        </div>
+      </SplideSlide>
+
+      <!-- Correction des interférences -->
+      <SplideSlide class="page">
+        <HeaderCarousel/>
+        <div class="cards">
+          <div class="card">
+            <b>Correction des interférences</b>
+            <span>Corrigez les interférences entre vos différents traceurs</span>
+            <spacer/>
+            <span>Sélectionnez le nombre de traceurs présents :</span>
+            <div class="checkboxes">
+              <label>
+                <input type="checkbox" value="L1" v-model="props.affichageVisualisation.lampe1Checked">
+                1 traceur
+              </label>
+              <label>
+                <input type="checkbox" value="L2" v-model="props.affichageVisualisation.lampe2Checked">
+                2 traceurs
+              </label>
+            </div>
+            <spacer/>
+            <span>Sélectionnez les traceurs concernés :</span>
+            <div class="multiple">
+              <div>
+                <select><option selected disabled>Traceur 1</option></select>
+                <select><option selected>100ppb</option></select>
+              </div>
+              <span class="separator"></span>
+              <div>
+                <select><option selected disabled>Traceur 2</option></select>
+                <select><option selected>100ppb</option></select>
+              </div>
+            </div>
+            <spacer/>
             <div class="bouton">Calculer</div>
           </div>
           <CommunCarousel/>
