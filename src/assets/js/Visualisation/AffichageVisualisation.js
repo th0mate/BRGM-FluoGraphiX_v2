@@ -13,6 +13,7 @@
 export class AffichageVisualisation {
     constructor() {
         this.niveauCorrectionTurbidite = null;
+        this.estEffectueeCorrectionInterferences = false;
     }
 
 

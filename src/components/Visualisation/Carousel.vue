@@ -74,7 +74,7 @@ onMounted(() => {
       <SplideSlide class="page">
         <HeaderCarousel/>
         <div class="cards">
-          <div class="card">
+          <div class="card main">
             <b>Correction de la turbidité</b>
             <span>Corrigez l'influence de la turbidité sur vos courbes</span>
             <spacer/>
@@ -94,19 +94,19 @@ onMounted(() => {
             <span>Sélectionnez les lampes à corriger :</span>
             <div class="checkboxes">
               <label>
-                <input type="checkbox" value="L1" v-model="props.affichageVisualisation.lampe1Checked">
+                <input type="checkbox" value="L1">
                 L1
               </label>
               <label>
-                <input type="checkbox" value="L2" v-model="props.affichageVisualisation.lampe2Checked">
+                <input type="checkbox" value="L2">
                 L2
               </label>
               <label>
-                <input type="checkbox" value="L3" v-model="props.affichageVisualisation.lampe3Checked">
+                <input type="checkbox" value="L3">
                 L3
               </label>
               <label>
-                <input type="checkbox" value="L4" v-model="props.affichageVisualisation.lampe4Checked">
+                <input type="checkbox" value="L4">
                 L4
               </label>
             </div>
@@ -121,18 +121,18 @@ onMounted(() => {
       <SplideSlide class="page">
         <HeaderCarousel/>
         <div class="cards">
-          <div class="card">
+          <div class="card main">
             <b>Correction des interférences</b>
             <span>Corrigez les interférences entre vos différents traceurs</span>
             <spacer/>
             <span>Sélectionnez le nombre de traceurs présents :</span>
             <div class="checkboxes">
               <label>
-                <input type="checkbox" value="L1" v-model="props.affichageVisualisation.lampe1Checked">
+                <input type="checkbox" value="L1">
                 1 traceur
               </label>
               <label>
-                <input type="checkbox" value="L2" v-model="props.affichageVisualisation.lampe2Checked">
+                <input type="checkbox" value="L2">
                 2 traceurs
               </label>
             </div>
@@ -156,6 +156,48 @@ onMounted(() => {
         </div>
       </SplideSlide>
 
+      <!-- Correction du bruit de fond (n'apparait que si la correction des interférences a été effectuée au préalable) -->
+      <SplideSlide class="page" v-if="affichageVisualisation.estEffectueeCorrectionInterferences">
+        <HeaderCarousel/>
+        <div class="cards">
+          <div class="card main">
+            <b>Correction du bruit de fond</b>
+            <span>Sélectionnez la période influencée par le traceur :</span>
+            <div class="bouton">Sélection graphique</div>
+            <div class="wrap-dates">
+              <span>Du :</span>
+              <input type="datetime-local">
+              <span class="bouton">Depuis le début</span>
+            </div>
+            <div class="wrap-dates">
+              <span>Au :</span>
+              <input type="datetime-local">
+              <span class="bouton">Jusqu'à la fin</span>
+            </div>
+            <span>Sélectionnez les variables explicatives :</span>
+            <div class="checkboxes">
+              <label>
+                <input type="checkbox" value="L1">
+                L1
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                L2
+              </label>
+              <label>
+                <input type="checkbox" value="L3">
+                L3
+              </label>
+              <label>
+                <input type="checkbox" value="L4">
+                L4
+              </label>
+            </div>
+            <div class="bouton">Calculer</div>
+          </div>
+          <CommunCarousel/>
+        </div>
+      </SplideSlide>
     </Splide>
   </div>
 </template>
