@@ -233,7 +233,7 @@ onMounted(() => {
         </div>
       </SplideSlide>
 
-        <!-- Export des données -->
+      <!-- Export des données -->
       <SplideSlide class="page">
         <HeaderCarousel/>
         <div class="cards">
@@ -269,6 +269,55 @@ onMounted(() => {
             </div>
             <div class="spacer"></div>
             <div class="bouton">Exporter</div>
+          </div>
+          <CommunCarousel/>
+        </div>
+      </SplideSlide>
+
+      <!-- Suppression de courbes -->
+      <SplideSlide class="page">
+        <HeaderCarousel/>
+        <div class="cards">
+          <div class="card main">
+            <b>Supprimer des courbes</b>
+            <div class="spacer"></div>
+            <span>Sélectionnez les courbes à supprimer :</span>
+            <div class="checkboxes">
+              <label>
+                <input type="checkbox" value="L1">
+                Uranine
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Sulfo
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Aminogacid
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                Turbidité
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                L1
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                L2
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                L3
+              </label>
+              <label>
+                <input type="checkbox" value="L2">
+                L4
+              </label>
+            </div>
+            <div class="spacer"></div>
+            <div class="bouton">Supprimer</div>
           </div>
           <CommunCarousel/>
         </div>

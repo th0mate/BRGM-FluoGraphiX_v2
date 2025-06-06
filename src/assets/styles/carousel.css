@@ -232,7 +232,7 @@
                 flex-direction: row-reverse;
                 justify-content: flex-start;
                 gap: 15px;
-                font-size: 0.9em;
+                font-size: 0.8em;
                 cursor: pointer;
                 background-color: var(--grisBRGM);
                 color: white;
@@ -243,8 +243,8 @@
                 input[type="checkbox"] {
                     appearance: none;
                     -webkit-appearance: none;
-                    width: 18px;
-                    height: 18px;
+                    width: 15px;
+                    height: 15px;
                     border-radius: 50%;
                     border: 1px solid var(--roseBRGM);
                     background: white;
@@ -260,8 +260,8 @@
                 input[type="checkbox"]::after {
                     content: '';
                     display: block;
-                    width: 10px;
-                    height: 10px;
+                    width: 8px;
+                    height: 8px;
                     margin: 3px auto;
                     border-radius: 50%;
                     background: white;
@@ -364,7 +364,7 @@
     .card.main {
         max-height: 360px;
         overflow-y: auto;
-        min-height: 300px;
+        min-height: 340px;
     }
 
     .card.main::-webkit-scrollbar {
