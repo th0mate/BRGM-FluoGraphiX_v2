@@ -17,313 +17,319 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container">
-    <Splide :options="{ rewind: true }" class="carousel" ref="splideRef">
+  <Splide :options="{ rewind: true }" class="carousel" ref="splideRef">
 
-      <!-- Slide d'accueil : reset graphique et renommage des courbes -->
-      <SplideSlide class="page">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card">
-            <b>Bienvenue dans l'utilitaire de calculs et d'export de FluoGraphiX</b>
-            <span>Réalisez ici les différentes opérations de correction et d'export de vos courbes</span>
-            <div class="bouton">Réinitialiser le graphique</div>
-          </div>
-          <div class="card">
-            <b>Vous devez renommer vos courbes en fonction de vos données de calibration :</b>
-            <table>
-              <thead>
-              <tr>
-                <th>Label</th>
-                <th>Courbe</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>L1</td>
-                <td><select>
-                  <option value="" disabled selected>Sélectionner...</option>
-                </select></td>
-              </tr>
-              <tr>
-                <td>L2</td>
-                <td><select>
-                  <option value="" disabled selected>Sélectionner...</option>
-                  <option value="">Test...</option>
-                </select></td>
-              </tr>
-              <tr>
-                <td>L3</td>
-                <td><select>
-                  <option value="" disabled selected>Sélectionner...</option>
-                </select></td>
-              </tr>
-              <tr>
-                <td>L4</td>
-                <td><select>
-                  <option value="" disabled selected>Sélectionner...</option>
-                </select></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <CommunCarousel/>
+    <!-- Slide d'accueil : reset graphique et renommage des courbes -->
+    <SplideSlide class="page">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card">
+          <b>Bienvenue dans l'utilitaire de calculs et d'export de FluoGraphiX</b>
+          <span>Réalisez ici les différentes opérations de correction et d'export de vos courbes</span>
+          <div class="bouton">Réinitialiser le graphique</div>
         </div>
-      </SplideSlide>
+        <div class="card">
+          <b>Vous devez renommer vos courbes en fonction de vos données de calibration :</b>
+          <table>
+            <thead>
+            <tr>
+              <th>Label</th>
+              <th>Courbe</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>L1</td>
+              <td><select>
+                <option value="" disabled selected>Sélectionner...</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>L2</td>
+              <td><select>
+                <option value="" disabled selected>Sélectionner...</option>
+                <option value="">Test...</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>L3</td>
+              <td><select>
+                <option value="" disabled selected>Sélectionner...</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td>L4</td>
+              <td><select>
+                <option value="" disabled selected>Sélectionner...</option>
+              </select></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
 
-      <!-- Correction de la turbidité -->
-      <SplideSlide class="page">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card main">
-            <b>Correction de la turbidité</b>
-            <span>Corrigez l'influence de la turbidité sur vos courbes</span>
-            <div class="spacer"></div>
-            <span>Sélectionnez le niveau de correction à appliquer :</span>
-            <div class='range'>
-              <input id="inputRange" type="range" min='0' max='2' step='0.1' value="1"
-                     @mousedown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
-                     @touchstart.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
-                     @pointerdown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
-                     @mouseup.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
-                     @touchend.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
-                     @pointerup.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
-              />
-              <span>1</span>
-            </div>
-            <div class="spacer"></div>
-            <span>Sélectionnez les lampes à corriger :</span>
-            <div class="checkboxes">
-              <label>
-                <input type="checkbox" value="L1">
-                L1
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                L2
-              </label>
-              <label>
-                <input type="checkbox" value="L3">
-                L3
-              </label>
-              <label>
-                <input type="checkbox" value="L4">
-                L4
-              </label>
-            </div>
-            <div class="spacer"></div>
-            <div class="bouton">Calculer</div>
+    <!-- Correction de la turbidité -->
+    <SplideSlide class="page">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card main">
+          <b>Correction de la turbidité</b>
+          <span>Corrigez l'influence de la turbidité sur vos courbes</span>
+          <div class="spacer"></div>
+          <span>Sélectionnez le niveau de correction à appliquer :</span>
+          <div class='range'>
+            <input id="inputRange" type="range" min='0' max='2' step='0.1' value="1"
+                   @mousedown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
+                   @touchstart.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
+                   @pointerdown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
+                   @mouseup.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
+                   @touchend.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
+                   @pointerup.stop="props.affichageVisualisation.enableCarouselDrag(splideRef)"
+            />
+            <span>1</span>
           </div>
-          <CommunCarousel/>
+          <div class="spacer"></div>
+          <span>Sélectionnez les lampes à corriger :</span>
+          <div class="checkboxes">
+            <label>
+              <input type="checkbox" value="L1">
+              L1
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              L2
+            </label>
+            <label>
+              <input type="checkbox" value="L3">
+              L3
+            </label>
+            <label>
+              <input type="checkbox" value="L4">
+              L4
+            </label>
+          </div>
+          <div class="spacer"></div>
+          <div class="bouton">Calculer</div>
         </div>
-      </SplideSlide>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
 
-      <!-- Correction des interférences -->
-      <SplideSlide class="page">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card main">
-            <b>Correction des interférences</b>
-            <div class="spacer"></div>
-            <span>Sélectionnez le nombre de traceurs présents :</span>
-            <div class="checkboxes">
-              <label>
-                <input type="checkbox" value="L1">
-                1 traceur
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                2 traceurs
-              </label>
-            </div>
-            <div class="spacer"></div>
-            <span>Sélectionnez les traceurs concernés :</span>
-            <div class="multiple">
-              <div>
-                <select><option selected disabled>Traceur 1</option></select>
-                <select><option selected>100ppb</option></select>
-              </div>
-              <span class="separator"></span>
-              <div>
-                <select><option selected disabled>Traceur 2</option></select>
-                <select><option selected>100ppb</option></select>
-              </div>
-            </div>
-            <div class="spacer"></div>
-            <div class="bouton" @click="affichageVisualisation.estEffectueeCorrectionInterferences = true">Calculer</div>
+    <!-- Correction des interférences -->
+    <SplideSlide class="page">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card main">
+          <b>Correction des interférences</b>
+          <div class="spacer"></div>
+          <span>Sélectionnez le nombre de traceurs présents :</span>
+          <div class="checkboxes">
+            <label>
+              <input type="checkbox" value="L1">
+              1 traceur
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              2 traceurs
+            </label>
           </div>
-          <CommunCarousel/>
+          <div class="spacer"></div>
+          <span>Sélectionnez les traceurs concernés :</span>
+          <div class="multiple">
+            <div>
+              <select>
+                <option selected disabled>Traceur 1</option>
+              </select>
+              <select>
+                <option selected>100ppb</option>
+              </select>
+            </div>
+            <span class="separator"></span>
+            <div>
+              <select>
+                <option selected disabled>Traceur 2</option>
+              </select>
+              <select>
+                <option selected>100ppb</option>
+              </select>
+            </div>
+          </div>
+          <div class="spacer"></div>
+          <div class="bouton" @click="affichageVisualisation.estEffectueeCorrectionInterferences = true">Calculer</div>
         </div>
-      </SplideSlide>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
 
-      <!-- Correction du bruit de fond (n'apparait que si la correction des interférences a été effectuée au préalable) -->
-      <SplideSlide class="page" v-if="affichageVisualisation.estEffectueeCorrectionInterferences">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card main">
-            <b>Correction du bruit de fond</b>
-            <span>Sélectionnez la période influencée par le traceur :</span>
-            <div class="bouton">Sélection graphique</div>
-            <div class="wrap-dates">
-              <span>Du :</span>
-              <input type="datetime-local">
-              <span class="bouton">Depuis le début</span>
-            </div>
-            <div class="wrap-dates">
-              <span>Au :</span>
-              <input type="datetime-local">
-              <span class="bouton">Jusqu'à la fin</span>
-            </div>
-            <span>Sélectionnez les variables explicatives :</span>
-            <div class="checkboxes">
-              <label>
-                <input type="checkbox" value="L1">
-                L1
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                L2
-              </label>
-              <label>
-                <input type="checkbox" value="L3">
-                L3
-              </label>
-              <label>
-                <input type="checkbox" value="L4">
-                L4
-              </label>
-            </div>
-            <div class="bouton">Calculer</div>
+    <!-- Correction du bruit de fond (n'apparait que si la correction des interférences a été effectuée au préalable) -->
+    <SplideSlide class="page" v-if="affichageVisualisation.estEffectueeCorrectionInterferences">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card main">
+          <b>Correction du bruit de fond</b>
+          <span>Sélectionnez la période influencée par le traceur :</span>
+          <div class="bouton">Sélection graphique</div>
+          <div class="wrap-dates">
+            <span>Du :</span>
+            <input type="datetime-local">
+            <span class="bouton">Depuis le début</span>
           </div>
-          <CommunCarousel/>
+          <div class="wrap-dates">
+            <span>Au :</span>
+            <input type="datetime-local">
+            <span class="bouton">Jusqu'à la fin</span>
+          </div>
+          <span>Sélectionnez les variables explicatives :</span>
+          <div class="checkboxes">
+            <label>
+              <input type="checkbox" value="L1">
+              L1
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              L2
+            </label>
+            <label>
+              <input type="checkbox" value="L3">
+              L3
+            </label>
+            <label>
+              <input type="checkbox" value="L4">
+              L4
+            </label>
+          </div>
+          <div class="bouton">Calculer</div>
         </div>
-      </SplideSlide>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
 
-      <!-- Conversion en concentration -->
-      <SplideSlide class="page">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card main">
-            <b>Conversion en concentration</b>
-            <span>Convertissez les courbes de vos traceurs en concentration</span>
-            <div class="spacer"></div>
-            <span>Sélectionnez le traceur à convertir</span>
-            <div class="checkboxes">
-              <label>
-                <input type="checkbox" value="L1">
-                Uranine
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Sulfo
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Aminogacid
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Turbidité
-              </label>
-            </div>
-            <div class="spacer"></div>
-            <div class="bouton">Convertir</div>
+    <!-- Conversion en concentration -->
+    <SplideSlide class="page">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card main">
+          <b>Conversion en concentration</b>
+          <span>Convertissez les courbes de vos traceurs en concentration</span>
+          <div class="spacer"></div>
+          <span>Sélectionnez le traceur à convertir</span>
+          <div class="checkboxes">
+            <label>
+              <input type="checkbox" value="L1">
+              Uranine
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Sulfo
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Aminogacid
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Turbidité
+            </label>
           </div>
-          <CommunCarousel/>
+          <div class="spacer"></div>
+          <div class="bouton">Convertir</div>
         </div>
-      </SplideSlide>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
 
-      <!-- Export des données -->
-      <SplideSlide class="page">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card">
-            <b>Export des données au format CSV</b>
-            <div class="wrap-toogle">
-              <ToggleSwitch />
-              <span>Exporter la liste des calculs effectués</span>
-            </div>
-            <div class="bouton">Exporter</div>
+    <!-- Export des données -->
+    <SplideSlide class="page">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card">
+          <b>Export des données au format CSV</b>
+          <div class="wrap-toogle">
+            <ToggleSwitch/>
+            <span>Exporter la liste des calculs effectués</span>
           </div>
-          <div class="card">
-            <b>Export des données au format CSV TRAC</b>
-            <div class="spacer"></div>
-            <span>Sélectionnez le traceur à exporter :</span>
-            <div class="checkboxes">
-              <label>
-                <input type="checkbox" value="L1">
-                Uranine
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Sulfo
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Aminogacid
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Turbidité
-              </label>
-            </div>
-            <div class="spacer"></div>
-            <div class="bouton">Exporter</div>
-          </div>
-          <CommunCarousel/>
+          <div class="bouton">Exporter</div>
         </div>
-      </SplideSlide>
+        <div class="card">
+          <b>Export des données au format CSV TRAC</b>
+          <div class="spacer"></div>
+          <span>Sélectionnez le traceur à exporter :</span>
+          <div class="checkboxes">
+            <label>
+              <input type="checkbox" value="L1">
+              Uranine
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Sulfo
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Aminogacid
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Turbidité
+            </label>
+          </div>
+          <div class="spacer"></div>
+          <div class="bouton">Exporter</div>
+        </div>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
 
-      <!-- Suppression de courbes -->
-      <SplideSlide class="page">
-        <HeaderCarousel/>
-        <div class="cards">
-          <div class="card main">
-            <b>Supprimer des courbes</b>
-            <div class="spacer"></div>
-            <span>Sélectionnez les courbes à supprimer :</span>
-            <div class="checkboxes">
-              <label>
-                <input type="checkbox" value="L1">
-                Uranine
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Sulfo
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Aminogacid
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                Turbidité
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                L1
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                L2
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                L3
-              </label>
-              <label>
-                <input type="checkbox" value="L2">
-                L4
-              </label>
-            </div>
-            <div class="spacer"></div>
-            <div class="bouton">Supprimer</div>
+    <!-- Suppression de courbes -->
+    <SplideSlide class="page">
+      <HeaderCarousel/>
+      <div class="cards">
+        <div class="card main">
+          <b>Supprimer des courbes</b>
+          <div class="spacer"></div>
+          <span>Sélectionnez les courbes à supprimer :</span>
+          <div class="checkboxes">
+            <label>
+              <input type="checkbox" value="L1">
+              Uranine
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Sulfo
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Aminogacid
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              Turbidité
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              L1
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              L2
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              L3
+            </label>
+            <label>
+              <input type="checkbox" value="L2">
+              L4
+            </label>
           </div>
-          <CommunCarousel/>
+          <div class="spacer"></div>
+          <div class="bouton">Supprimer</div>
         </div>
-      </SplideSlide>
-    </Splide>
-  </div>
+        <CommunCarousel/>
+      </div>
+    </SplideSlide>
+  </Splide>
 </template>
 
 <style>

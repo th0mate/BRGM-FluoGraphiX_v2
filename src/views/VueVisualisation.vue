@@ -1,6 +1,11 @@
 ﻿<script setup lang="ts">
 import {ref} from "vue";
 import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
+import Carousel from '@/components/Visualisation/Carousel.vue';
+import {reactive} from "vue";
+import { AffichageVisualisation } from "@/assets/js/Visualisation/AffichageVisualisation"
+
+const affichageVisualisation = reactive(new AffichageVisualisation());
 
 
 const donneesChargees = ref(false);
@@ -61,8 +66,11 @@ function choisirFichier() {
   </section>
 
   <section class="visualisation" v-else>
+    <div class="wrap-graphique">
     <canvas class="graphique" id="graphique"></canvas>
+    </div>
 
+    <Carousel :affichageVisualisation="affichageVisualisation" />
   </section>
 
   <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple @change="traiterFichierFront">
@@ -71,6 +79,7 @@ function choisirFichier() {
 
 <style>
 @import "@/assets/styles/glassmorphism.css";
+@import "@/assets/styles/visualisation.css";
 
 .glassmorphism {
   background-image: url('@/assets/img/hydro_pictures/img14.jpg');

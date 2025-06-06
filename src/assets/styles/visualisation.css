@@ -1,0 +1,33 @@
+/*
+* Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+* www.thomasloye.fr
+*/
+
+
+.visualisation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 80px);
+    padding: 20px 20px 20px 0;
+    gap: 30px;
+
+    .wrap-graphique {
+        background-color: #ededed;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 80%;
+        height: 100%;
+
+        .graphique {
+            width: 95% !important;
+            padding: 15px;
+            border-radius: 15px;
+            background-color: white;
+        }
+    }
+}
