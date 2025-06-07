@@ -5,6 +5,9 @@
  */
 
 
+import {Chart} from "chart.js/auto";
+import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
+
 /**
  * =====================================================================================================================
  * Classe pour l'affichage des calibrations
@@ -42,6 +45,18 @@ export class AffichageVisualisation {
     enableCarouselDrag(splideRef) {
         if (splideRef && splideRef.splide) {
             splideRef.splide.options = { ...splideRef.splide.options, drag: true };
+        }
+    }
+
+    /**
+     * Réinitialise le zoom du graphique
+     */
+    reinitialiserZoomGraphique() {
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            existingChart.resetZoom();
+            afficherMessageFlash("Information", "Le zoom du graphique a été réinitialisé.", 'info');
         }
     }
 }

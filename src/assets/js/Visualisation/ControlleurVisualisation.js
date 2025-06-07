@@ -20,6 +20,8 @@ import warningImage from "@/assets/img/popup/warning.png";
 import {afficherPopup} from "@/assets/js/UI/popupService.js";
 import router from '@/router';
 import ControlleurCalibration from "@/assets/js/Calibration/ControlleurCalibration.js";
+import {Chart} from "chart.js/auto";
+import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 
 
 /**
@@ -338,5 +340,83 @@ export class ControlleurVisualisation {
             reader.onerror = reject;
             reader.readAsText(fichier);
         });
+    }
+
+
+    /**
+     * Modifie les axes de zoom/déplacement du graphique
+     * @param {string} key - La lettre x ou y pour modifier l'axe correspondant
+     */
+    modifierAxesZoomDeplacement(key) {
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+
+        const bouton = document.getElementById('axe' + key.toUpperCase());
+
+        if (bouton.classList.contains('unselected')) {
+            bouton.classList.remove('unselected');
+        } else {
+            bouton.classList.add('unselected');
+        }
+
+        if (Session.getInstance().zoomGraphiques.includes(key)) {
+            Session.getInstance().zoomGraphiques = Session.getInstance().zoomGraphiques.replace(key, '');
+        } else {
+            Session.getInstance().zoomGraphiques += key;
+        }
+
+        if (existingChart) {
+            const zoomKeys = Session.getInstance().zoomGraphiques;
+            let mode = zoomKeys.length === 0 ? 'none' : zoomKeys;
+            existingChart.options.plugins.zoom.zoom.mode = mode;
+            existingChart.options.plugins.zoom.pan.mode = mode;
+
+            if (!zoomKeys.includes('y')) {
+                const yScale = existingChart.scales['y'] || existingChart.scales['y-axis-0'];
+                if (yScale) {
+                    if (!Session.getInstance().fixedY) {
+                        Session.getInstance().fixedY = {
+                            min: yScale.min,
+                            max: yScale.max
+                        };
+                    }
+                    existingChart.options.scales.y.min = Session.getInstance().fixedY.min;
+                    existingChart.options.scales.y.max = Session.getInstance().fixedY.max;
+                }
+            } else {
+                if (Session.getInstance().fixedY) {
+                    existingChart.options.scales.y.min = undefined;
+                    existingChart.options.scales.y.max = undefined;
+                    delete Session.getInstance().fixedY;
+                }
+            }
+            // Geler les bornes de l'axe X si le zoom/pan X est désactivé
+            if (!zoomKeys.includes('x')) {
+                const xScale = existingChart.scales['x'] || existingChart.scales['x-axis-0'];
+                if (xScale) {
+                    if (!Session.getInstance().fixedX) {
+                        Session.getInstance().fixedX = {
+                            min: xScale.min,
+                            max: xScale.max
+                        };
+                    }
+                    existingChart.options.scales.x.min = Session.getInstance().fixedX.min;
+                    existingChart.options.scales.x.max = Session.getInstance().fixedX.max;
+                }
+            } else {
+                if (Session.getInstance().fixedX) {
+                    existingChart.options.scales.x.min = undefined;
+                    existingChart.options.scales.x.max = undefined;
+                    delete Session.getInstance().fixedX;
+                }
+            }
+
+            existingChart.update();
+            if (mode === 'none') {
+                afficherMessageFlash("Succès", `Zoom et déplacement désactivés.`, 'success');
+            } else {
+                afficherMessageFlash("Succès", `Zoom et déplacement en ${mode.toUpperCase()} modifiés.`, 'success');
+            }
+        }
     }
 }

@@ -4,7 +4,7 @@
  */
 import Graphiques from '@/assets/js/Graphiques/Graphiques.js';
 import Session from "@/assets/js/Session/Session.js";
-import { DateTime } from 'luxon';
+import {DateTime} from 'luxon';
 import {initFichierCalibration} from "@/assets/js/Calibration/ControlleurCalibration.js";
 import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
 import 'chartjs-adapter-luxon';
@@ -85,9 +85,18 @@ class GraphiqueVisualisation extends Graphiques {
                             autoSkip: true,
                             maxTicksLimit: 20,
                             callback: value => DateTime.fromMillis(value, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss')
-                        }
+                        },
+                        min: undefined,
+                        max: undefined,
+                        bounds: 'ticks',
+                        beginAtZero: false
                     },
-                    y: {beginAtZero: false}
+                    y: {
+                        beginAtZero: false,
+                        min: undefined,
+                        max: undefined,
+                        bounds: 'ticks'
+                    }
                 },
                 plugins: {
                     zoom: {

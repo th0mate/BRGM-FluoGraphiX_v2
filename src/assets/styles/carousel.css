@@ -415,6 +415,10 @@
                 background-color: var(--grisBRGM);
             }
         }
+
+        .unselected {
+            background-color: var(--grisBRGM) !important;
+        }
     }
 }
 

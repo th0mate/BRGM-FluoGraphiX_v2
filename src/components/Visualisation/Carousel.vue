@@ -6,7 +6,7 @@ import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
 import {onMounted, ref} from "vue";
 import ToggleSwitch from 'primevue/toggleswitch';
 
-const props = defineProps<{ affichageVisualisation: AffichageVisualisation }>();
+const props = defineProps<{ affichageVisualisation: AffichageVisualisation, controlleurVisualisation : controlleurVisualisation }>();
 
 const splideRef = ref();
 
@@ -66,7 +66,7 @@ onMounted(() => {
             </tbody>
           </table>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
 
@@ -113,7 +113,7 @@ onMounted(() => {
           <div class="spacer"></div>
           <div class="bouton">Calculer</div>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
 
@@ -159,7 +159,7 @@ onMounted(() => {
           <div class="spacer"></div>
           <div class="bouton" @click="affichageVisualisation.estEffectueeCorrectionInterferences = true">Calculer</div>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
 
@@ -202,7 +202,7 @@ onMounted(() => {
           </div>
           <div class="bouton">Calculer</div>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
 
@@ -236,7 +236,7 @@ onMounted(() => {
           <div class="spacer"></div>
           <div class="bouton">Convertir</div>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
 
@@ -277,7 +277,7 @@ onMounted(() => {
           <div class="spacer"></div>
           <div class="bouton">Exporter</div>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
 
@@ -326,7 +326,7 @@ onMounted(() => {
           <div class="spacer"></div>
           <div class="bouton">Supprimer</div>
         </div>
-        <CommunCarousel/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
       </div>
     </SplideSlide>
   </Splide>

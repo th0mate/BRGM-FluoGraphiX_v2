@@ -6,15 +6,15 @@ import {reactive} from "vue";
 import { AffichageVisualisation } from "@/assets/js/Visualisation/AffichageVisualisation"
 
 const affichageVisualisation = reactive(new AffichageVisualisation());
+const controlleurVisualisation = reactive(new ControlleurVisualisation());
 
 
 const donneesChargees = ref(false);
 function traiterFichierFront(event: Event) {
-  const controlleur = new ControlleurVisualisation()
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     donneesChargees.value = true;
-    controlleur.traiterFichiers(input.files);
+    controlleurVisualisation.traiterFichiers(input.files);
   } else {
     console.error("Aucun fichier sélectionné.");
   }
@@ -70,7 +70,7 @@ function choisirFichier() {
     <canvas class="graphique" id="graphique"></canvas>
     </div>
 
-    <Carousel :affichageVisualisation="affichageVisualisation" />
+    <Carousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
   </section>
 
   <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple @change="traiterFichierFront">
