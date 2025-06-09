@@ -532,23 +532,22 @@ export class ControlleurVisualisation {
      * @param nouveauNom le nouveau nom de la courbe issu du fichier de calibration
      */
     gestionRenommageCourbes(ancienNom, nouveauNom) {
-        remplacerDonneesFichier(ancienNom, nouveauNom, Session.getInstance().contenuFichierMesures)
-            .then(contenuMisAJour => {
-                Session.getInstance().contenuFichierMesures = contenuMisAJour;
+        const contenuMisAJour = remplacerDonneesFichier(ancienNom, nouveauNom, Session.getInstance().contenuFichierMesures);
+        Session.getInstance().contenuFichierMesures = contenuMisAJour;
 
-                const selects = document.querySelectorAll('select');
-                for (let i = 0; i < selects.length; i++) {
-                    if (selects[i].value === '') {
-                        const options = selects[i].querySelectorAll('option');
-                        for (let j = 0; j < options.length; j++) {
-                            if (options[j].value === ancienNom) {
-                                options[j].remove();
-                            }
-                        }
+        // Suppression des options dans les autres sélecteurs
+        const selects = document.querySelectorAll('select');
+        for (let i = 0; i < selects.length; i++) {
+            if (selects[i].value === '') {
+                const options = selects[i].querySelectorAll('option');
+                for (let j = 0; j < options.length; j++) {
+                    if (options[j].value === ancienNom) {
+                        options[j].remove();
                     }
                 }
+            }
+        }
 
-                this.verifierLienCalibration();
-            });
+        this.verifierLienCalibration();
     }
 }

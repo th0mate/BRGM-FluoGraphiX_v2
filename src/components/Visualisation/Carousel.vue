@@ -92,11 +92,21 @@ const splideOptions = computed(() => {
         </div>
 
         <div class="card" v-else-if="isCalibrationLinked && hasCalibrationFile">
-          <b>Vos traceurs ont été liés à vos données avec succès.</b>
+          <div class="wrap-status">
+            <img src="@/assets/img/popup/success.png" alt="">
+            <div class="spacer"></div>
+            <b>Vos traceurs ont été liés à vos données avec succès. Aucun action requise de votre part</b>
+          </div>
         </div>
 
         <div class="card" v-else>
-          <b>Vous devez importer un fichier de calibration</b>
+          <div class="wrap-status">
+            <img src="@/assets/img/popup/error.png" alt="">
+            <div class="spacer"></div>
+            <b>Vous devez importer un fichier de calibration pour effectuer des corrections</b>
+            <div class="spacer"></div>
+            <div class="bouton">Importer un fichier de calibration</div>
+          </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
