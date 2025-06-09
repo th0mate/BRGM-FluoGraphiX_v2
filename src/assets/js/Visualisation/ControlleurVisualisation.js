@@ -147,12 +147,13 @@ export class ControlleurVisualisation {
 
 
     afficherGraphique(donnees) {
+        document.querySelector('.nomFichier').innerHTML = `"${this.lecteur.nomFichier}"`;
         this.graphiqueVisualisation.afficherGraphique(donnees);
     }
 
 
     appliquerCorrectionTurbidite(lampesACorriger, niveauCorrection = 1) {
-        this.correctionTurbidite.appliquerCorrection(lampesACorriger, niveauCorrection, this.traceurs);
+        this.correctionTurbidite.appliquerCorrection(lampesACorriger, niveauCorrection, Session.getInstance().traceurs);
     }
 
 

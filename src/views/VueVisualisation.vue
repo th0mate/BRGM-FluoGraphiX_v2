@@ -3,13 +3,14 @@ import {ref} from "vue";
 import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
 import Carousel from '@/components/Visualisation/Carousel.vue';
 import {reactive} from "vue";
-import { AffichageVisualisation } from "@/assets/js/Visualisation/AffichageVisualisation"
+import {AffichageVisualisation} from "@/assets/js/Visualisation/AffichageVisualisation"
 
 const affichageVisualisation = reactive(new AffichageVisualisation());
 const controlleurVisualisation = reactive(new ControlleurVisualisation());
 
 
 const donneesChargees = ref(false);
+
 function traiterFichierFront(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
@@ -67,13 +68,15 @@ function choisirFichier() {
 
   <section class="visualisation" v-else>
     <div class="wrap-graphique">
-    <canvas class="graphique" id="graphique"></canvas>
+      <span class="titre">Données issues du fichier <span class="orange nomFichier"></span> :</span>
+      <canvas class="graphique" id="graphique"></canvas>
     </div>
 
-    <Carousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation"/>
+    <Carousel :affichageVisualisation="affichageVisualisation" :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
   </section>
 
-  <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple @change="traiterFichierFront">
+  <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple
+         @change="traiterFichierFront">
 
 </template>
 

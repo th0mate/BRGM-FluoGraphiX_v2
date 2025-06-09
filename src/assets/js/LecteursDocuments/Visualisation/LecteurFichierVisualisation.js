@@ -17,6 +17,7 @@ export class LecteurFichierVisualisation {
         this.nbLignes = 0;
         this.premiereDate = '';
         this.derniereDate = '';
+        this.nomFichier = fichier.name || 'Fichier inconnu';
     }
 
 

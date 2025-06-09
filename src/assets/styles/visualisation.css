@@ -18,11 +18,23 @@
         border-top-right-radius: 15px;
         border-bottom-right-radius: 15px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        align-items: center;
-        width: 78% !important;
+        gap: 20px;
+        width: calc(100vw - 430px);
         height: 100%;
-        padding: 20px;
+        padding: 10px 20px 20px 20px;
+        
+        .titre {
+            font-size: 1.5em;
+            font-weight: bold;
+            font-family: gibson-medium, serif;
+            color: var(--grisBRGM);
+            max-width: 95%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
 
         .graphique {
             padding: 15px;

@@ -6,10 +6,11 @@
     background-color: var(--grisBRGM);
     border-radius: 15px;
     padding: 0 0 28px 0;
-    width: 400px;
+    width: 370px;
     overflow: hidden;
     height: 100%;
     position: relative;
+    flex-shrink: 0;
 
     .page {
         width: 100%;

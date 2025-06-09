@@ -2,8 +2,9 @@
 import {copierScreenElement, copierTexte} from '@/assets/js/Common/pressePapier';
 
 const props = defineProps<{
-  affichageVisualisation: AffichageVisualisation,
-  controlleurVisualisation: controlleurVisualisation
+  affichageVisualisation: any,
+  controlleurVisualisation: any,
+  choisirFichier: Function
 }>();
 
 </script>
@@ -15,7 +16,7 @@ const props = defineProps<{
   </div>
   <div class="actions card">
     <img v-tooltip.top="'Importer d\'autres fichiers'" class="action" src="@/assets/img/icons/importer.png"
-         alt="Importer">
+         alt="Importer" @click="choisirFichier">
     <img id="axeX" v-tooltip.top="'Bloquer/libérer les interactions sur l\'axe x'" class="action"
          src="@/assets/img/icons/x_axis.png" alt="Importer" @click="controlleurVisualisation.modifierAxesZoomDeplacement('x')">
     <img id="axeY" v-tooltip.top="'Bloquer/libérer les interactions sur l\'axe y'" class="action"
