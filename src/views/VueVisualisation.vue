@@ -6,7 +6,7 @@ import {reactive} from "vue";
 import {AffichageVisualisation} from "@/assets/js/Visualisation/AffichageVisualisation"
 
 const affichageVisualisation = reactive(new AffichageVisualisation());
-const controlleurVisualisation = reactive(new ControlleurVisualisation());
+const controlleurVisualisation = reactive(new ControlleurVisualisation(affichageVisualisation));
 
 
 const donneesChargees = ref(false);

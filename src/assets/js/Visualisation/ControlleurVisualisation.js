@@ -22,6 +22,7 @@ import {afficherPopup, fermerPopup} from "@/assets/js/UI/popupService.js";
 import router from '@/router';
 import {Chart} from "chart.js/auto";
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
+import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
 
 
 /**
@@ -30,7 +31,7 @@ import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
  * ======================================================================================================================
  */
 export class ControlleurVisualisation {
-    constructor() {
+    constructor(AffichageVisualisation) {
         this.graphiqueVisualisation = new GraphiqueVisualisation();
         this.correctionTurbidite = new CorrectionTurbidite(this);
         this.convertirTraceurConcentration = new ConvertirTraceurConcentration(this);
@@ -38,6 +39,8 @@ export class ControlleurVisualisation {
         this.correctionBruitDeFond = new CorrectionBruitDeFond(this);
         this.courbesSupprimees = [];
         this.lecteur = null;
+        this.calibrationEstLieeGraphique = false;
+        this.affichageVisualisation = AffichageVisualisation;
     }
 
 
@@ -220,7 +223,7 @@ export class ControlleurVisualisation {
             ''
         );
 
-        await new Promise(resolve => setTimeout(resolve, 50));
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         let contenuFusionne = '';
         let lecteurFusion = null;
@@ -296,7 +299,17 @@ export class ControlleurVisualisation {
                 lecteurFusion.extraireInfosCSV(contenuFusionne.trim());
                 this.lecteur = lecteurFusion;
             }
+
+            if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
+                this.adapterXMLVersCalibration();
+            }
+
             this.afficherGraphique(Session.getInstance().contenuFichierMesures);
+
+            if (Session.getInstance().contenuFichierCalibration !== "") {
+                this.verifierLienCalibration();
+                this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique);
+            }
         }
         fermerPopup();
     }
@@ -446,5 +459,55 @@ export class ControlleurVisualisation {
         this.resetCourbesSupprimees();
         Session.getInstance().calculs = [];
         afficherMessageFlash("Succès", "Le graphique a été réinitialisé avec les données importées au départ.", 'success');
+    }
+
+
+    /**
+     * Vérifie si le graphique est lié à une calibration
+     */
+    verifierLienCalibration() {
+        const lignes = Session.getInstance().contenuFichierMesures.split('\n');
+        const header = lignes[2].split(';').splice(2);
+
+        for (let i = 0; i < header.length; i++) {
+            header[i] = header[i].replace(/[\n\r]/g, '');
+        }
+
+        let headerCalibrat = [];
+
+        for (let i = 0; i < Session.getInstance().traceurs.length; i++) {
+            const traceur = Session.getInstance().traceurs[i];
+
+            if (traceur.lampePrincipale !== '') {
+                headerCalibrat.push('L' + traceur.lampePrincipale);
+            }
+        }
+
+        let estIdentique = true;
+        for (let i = 0; i < headerCalibrat.length; i++) {
+
+            if (headerCalibrat[i] === 'LNaN') {
+                continue;
+            }
+
+            if (!header.includes(headerCalibrat[i])) {
+                estIdentique = false;
+            }
+        }
+
+        this.calibrationEstLieeGraphique = estIdentique;
+    }
+
+
+    /**
+     * Renomme les courbes du graphique en fonction de la calibration
+     * Pré-réquis : les données de mesure sont nommées selon la norme XML (a144, a145, etc.)
+     */
+    adapterXMLVersCalibration() {
+        if (Session.getInstance().contenuFichierCalibration !== "") {
+            for (let i = 0; i < Session.getInstance().traceurs.length; i++) {
+                Session.getInstance().contenuFichierMesures = remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`, Session.getInstance().contenuFichierMesures);
+            }
+        }
     }
 }

@@ -5,8 +5,6 @@
 import Graphiques from '@/assets/js/Graphiques/Graphiques.js';
 import Session from "@/assets/js/Session/Session.js";
 import {DateTime} from 'luxon';
-import {initFichierCalibration} from "@/assets/js/Calibration/ControlleurCalibration.js";
-import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
 import 'chartjs-adapter-luxon';
 
 
@@ -120,20 +118,6 @@ class GraphiqueVisualisation extends Graphiques {
 
         new window.Chart(ctx, chartOptions);
         this.cacherDoublons();
-
-        let estFichierDat = true;
-        if (Session.getInstance().contenuFichierCalibration.split('\n')[0].includes('FluoriGraphix') || Session.getInstance().contenuFichierCalibration.split('\n')[0].includes('FluoGraphiX')) {
-            estFichierDat = false;
-        }
-        if (Session.getInstance().traceurs.length === 0 && Session.getInstance().contenuFichierCalibration) {
-            initFichierCalibration(estFichierDat, false);
-        }
-        if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
-            for (let i = 0; i < Session.getInstance().traceurs.length; i++) {
-                remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`);
-                this.afficherGraphique(Session.getInstance().contenuFichierMesures);
-            }
-        }
     }
 }
 

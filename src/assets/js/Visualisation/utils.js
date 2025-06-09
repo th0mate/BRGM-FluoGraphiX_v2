@@ -6,8 +6,8 @@
  * @param ancien Ancien label à remplacer
  * @param nouveau Nouveau label à ajouter
  */
-export function remplacerDonneesFichier(ancien, nouveau) {
-    let lignes = Session.getInstance().contenuFichierMesures.split('\n');
+export function remplacerDonneesFichier(ancien, nouveau, base) {
+    let lignes = base.split('\n');
     let header = lignes[2].split(';');
 
     for (let i = 0; i < header.length; i++) {
@@ -22,5 +22,5 @@ export function remplacerDonneesFichier(ancien, nouveau) {
 
     lignes[2] = header.join(';');
 
-    Session.getInstance().contenuFichierMesures = lignes.join('\n');
+    return lignes.join('\n');
 }

@@ -62,4 +62,12 @@ export class AffichageVisualisation {
             afficherMessageFlash("Information", "Le zoom du graphique a été réinitialisé.", 'info');
         }
     }
+
+
+    /**
+     * Initialise la slide principale du carousel Splide
+     */
+    initSlidePrincipale(calibrationEstLieeGraphique) {
+        //TODO
+    }
 }
