@@ -17,7 +17,8 @@ import GraphiqueVisualisation from "@/assets/js/Graphiques/GraphiqueVisualisatio
 import {LecteurFichierVisualisation} from '../LecteursDocuments/Visualisation/LecteurFichierVisualisation.js';
 import errorImage from "@/assets/img/popup/error.png";
 import warningImage from "@/assets/img/popup/warning.png";
-import {afficherPopup} from "@/assets/js/UI/popupService.js";
+import loadingGif from "@/assets/img/popup/loading.gif";
+import {afficherPopup, fermerPopup} from "@/assets/js/UI/popupService.js";
 import router from '@/router';
 import ControlleurCalibration from "@/assets/js/Calibration/ControlleurCalibration.js";
 import {Chart} from "chart.js/auto";
@@ -212,6 +213,16 @@ export class ControlleurVisualisation {
             );
         }
 
+        afficherPopup(
+            `<img src="${loadingGif}" alt="Chargement" style="width: 120px;">`,
+            'Chargement en cours',
+            'Chargement en cours',
+            'Chargement des fichiers importés, veuillez patienter...',
+            ''
+        );
+
+        await new Promise(resolve => setTimeout(resolve, 50));
+
         let contenuFusionne = '';
         let lecteurFusion = null;
         let datesFichiers = [];
@@ -288,6 +299,7 @@ export class ControlleurVisualisation {
             }
             this.afficherGraphique(Session.getInstance().contenuFichierMesures);
         }
+        fermerPopup();
     }
 
 
