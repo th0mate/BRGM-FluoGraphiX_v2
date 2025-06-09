@@ -28,6 +28,27 @@ onMounted(() => {
   return () => clearInterval(interval);
 });
 
+function handleFileSelection(event: Event) {
+  Session.getInstance().calculs = [];
+  const input = event.target as HTMLInputElement;
+
+  if (input && input.files && input.files.length > 0) {
+    const reader = new FileReader();
+    const file = input.files[0];
+    let type = file.name.toLowerCase().endsWith('.dat') ? 'dat' : 'csv';
+
+    reader.onload = () => {
+      if (reader.result) {
+        props.controlleurVisualisation.importerCalibration(file, type, true);
+      }
+    };
+
+    reader.readAsText(file);
+  } else {
+    console.error("Aucun fichier sélectionné");
+  }
+}
+
 const splideOptions = computed(() => {
   const shouldEnableSwipe = isCalibrationLinked.value && hasCalibrationFile.value;
 
@@ -38,6 +59,15 @@ const splideOptions = computed(() => {
     arrows: shouldEnableSwipe,
   }
 });
+
+function initCalibrationDepuisVisualisation() {
+  const input = document.getElementById('inputCalibration') as HTMLInputElement;
+  if (input) {
+    input.click(); // Ceci déclenche l'ouverture du dialogue de sélection de fichier
+    return;
+  }
+  console.error("L'élément inputCalibration n'a pas été trouvé");
+}
 </script>
 
 <template>
@@ -105,7 +135,7 @@ const splideOptions = computed(() => {
             <div class="spacer"></div>
             <b>Vous devez importer un fichier de calibration pour effectuer des corrections</b>
             <div class="spacer"></div>
-            <div class="bouton">Importer un fichier de calibration</div>
+            <div class="bouton" @click="initCalibrationDepuisVisualisation">Importer un fichier de calibration</div>
           </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
@@ -372,6 +402,7 @@ const splideOptions = computed(() => {
       </div>
     </SplideSlide>
   </Splide>
+  <input style="display: none" type="file" id="inputCalibration" accept=".dat,.csv" @change="handleFileSelection">
 </template>
 
 <style>

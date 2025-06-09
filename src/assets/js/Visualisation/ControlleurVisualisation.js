@@ -98,10 +98,11 @@ export class ControlleurVisualisation {
      * Importe et parse un fichier de calibration (DAT ou CSV)
      * @param {File} fichier - Le fichier de calibration à importer
      * @param {string} type - 'dat' ou 'csv' (ou détection automatique) - le type de fichier
+     * @param {boolean} importPostChargement - Indique si l'import est effectué après le chargement des données de mesures
      */
-    async importerCalibration(fichier, type) {
+    async importerCalibration(fichier, type, importPostChargement = false) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             const contenu = e.target.result;
             Session.getInstance().contenuFichierCalibration = contenu;
             let lecteur;
@@ -115,7 +116,15 @@ export class ControlleurVisualisation {
             } else {
                 throw new Error('Type de fichier calibration non supporté');
             }
-            lecteur.initialiser(false);
+            await lecteur.initialiser(false);
+
+            if (importPostChargement) {
+                if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
+                    await this.adapterXMLVersCalibration();
+                }
+
+                this.finaliserImportCalibration();
+            }
         };
         reader.readAsText(fichier);
     }
@@ -303,29 +312,36 @@ export class ControlleurVisualisation {
             }
 
             if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
-                this.adapterXMLVersCalibration();
+                await this.adapterXMLVersCalibration();
             }
 
             this.afficherGraphique(Session.getInstance().contenuFichierMesures);
             this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
 
-            if (Session.getInstance().contenuFichierCalibration !== "") {
-                this.verifierLienCalibration();
-
-                this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique).then(tbodyElement => {
-                    if (tbodyElement) {
-                        const selects = tbodyElement.querySelectorAll('select');
-                        for (let i = 0; i < selects.length; i++) {
-                            selects[i].addEventListener('change', (event) => {
-                                const lampe = event.target.getAttribute('data-lampe');
-                                this.gestionRenommageCourbes(event.target.value, lampe);
-                            });
-                        }
-                    }
-                });
-            }
+            this.finaliserImportCalibration();
         }
         fermerPopup();
+    }
+
+
+    /**
+     * Finalise l'import des fichiers de calibration
+     */
+    finaliserImportCalibration() {
+        if (Session.getInstance().contenuFichierCalibration !== "") {
+            this.verifierLienCalibration();
+            this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique).then(tbodyElement => {
+                if (tbodyElement) {
+                    const selects = tbodyElement.querySelectorAll('select');
+                    for (let i = 0; i < selects.length; i++) {
+                        selects[i].addEventListener('change', (event) => {
+                            const lampe = event.target.getAttribute('data-lampe');
+                            this.gestionRenommageCourbes(event.target.value, lampe);
+                        });
+                    }
+                }
+            });
+        }
     }
 
 
@@ -517,7 +533,7 @@ export class ControlleurVisualisation {
      * Renomme les courbes du graphique en fonction de la calibration
      * Pré-réquis : les données de mesure sont nommées selon la norme XML (a144, a145, etc.)
      */
-    adapterXMLVersCalibration() {
+    async adapterXMLVersCalibration() {
         if (Session.getInstance().contenuFichierCalibration !== "") {
             for (let i = 0; i < Session.getInstance().traceurs.length; i++) {
                 Session.getInstance().contenuFichierMesures = remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`, Session.getInstance().contenuFichierMesures);
