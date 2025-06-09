@@ -63,7 +63,7 @@ const splideOptions = computed(() => {
 function initCalibrationDepuisVisualisation() {
   const input = document.getElementById('inputCalibration') as HTMLInputElement;
   if (input) {
-    input.click(); // Ceci déclenche l'ouverture du dialogue de sélection de fichier
+    input.click();
     return;
   }
   console.error("L'élément inputCalibration n'a pas été trouvé");
@@ -102,7 +102,6 @@ function initCalibrationDepuisVisualisation() {
               <td>L2</td>
               <td><select>
                 <option value="" disabled selected>Sélectionner...</option>
-                <option value="">Test...</option>
               </select></td>
             </tr>
             <tr>

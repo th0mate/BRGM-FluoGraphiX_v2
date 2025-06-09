@@ -548,10 +548,8 @@ export class ControlleurVisualisation {
      * @param nouveauNom le nouveau nom de la courbe issu du fichier de calibration
      */
     gestionRenommageCourbes(ancienNom, nouveauNom) {
-        const contenuMisAJour = remplacerDonneesFichier(ancienNom, nouveauNom, Session.getInstance().contenuFichierMesures);
-        Session.getInstance().contenuFichierMesures = contenuMisAJour;
+        Session.getInstance().contenuFichierMesures = remplacerDonneesFichier(ancienNom, nouveauNom, Session.getInstance().contenuFichierMesures);
 
-        // Suppression des options dans les autres sélecteurs
         const selects = document.querySelectorAll('select');
         for (let i = 0; i < selects.length; i++) {
             if (selects[i].value === '') {
