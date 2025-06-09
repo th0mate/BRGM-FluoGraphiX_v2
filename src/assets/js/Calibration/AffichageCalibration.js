@@ -9,6 +9,7 @@ import Session from "@/assets/js/Session/Session.js";
 import { afficherPopup } from "@/assets/js/UI/popupsManager.js";
 import warningImage from '@/assets/img/popup/warning.png';
 
+
 /**
  * =====================================================================================================================
  * Classe pour l'affichage des calibrations

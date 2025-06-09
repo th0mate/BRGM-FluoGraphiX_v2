@@ -20,7 +20,6 @@ import warningImage from "@/assets/img/popup/warning.png";
 import loadingGif from "@/assets/img/popup/loading.gif";
 import {afficherPopup, fermerPopup} from "@/assets/js/UI/popupService.js";
 import router from '@/router';
-import ControlleurCalibration from "@/assets/js/Calibration/ControlleurCalibration.js";
 import {Chart} from "chart.js/auto";
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 

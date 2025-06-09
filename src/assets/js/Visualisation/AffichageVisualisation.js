@@ -30,6 +30,7 @@ export class AffichageVisualisation {
         });
     }
 
+
     /**
      * Désactive le drag du carousel Splide
      */
@@ -39,6 +40,7 @@ export class AffichageVisualisation {
         }
     }
 
+
     /**
      * Active le drag du carousel Splide
      */
@@ -47,6 +49,7 @@ export class AffichageVisualisation {
             splideRef.splide.options = { ...splideRef.splide.options, drag: true };
         }
     }
+
 
     /**
      * Réinitialise le zoom du graphique
