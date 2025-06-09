@@ -41,6 +41,7 @@ export class ControlleurVisualisation {
         this.lecteur = null;
         this.calibrationEstLieeGraphique = false;
         this.affichageVisualisation = AffichageVisualisation;
+        this.copieContenuFichierMesure = "";
     }
 
 
@@ -213,6 +214,8 @@ export class ControlleurVisualisation {
                 'Veuillez importer au moins un fichier de mesures en plus d\'un fichier de calibration ou utiliser la page "calibration" pour vos fichiers de calibration seuls.',
                 'Fermer'
             );
+
+            return;
         }
 
         afficherPopup(
@@ -305,9 +308,11 @@ export class ControlleurVisualisation {
             }
 
             this.afficherGraphique(Session.getInstance().contenuFichierMesures);
+            this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
 
             if (Session.getInstance().contenuFichierCalibration !== "") {
                 this.verifierLienCalibration();
+                console.log(this.calibrationEstLieeGraphique, Session.getInstance().contenuFichierCalibration !== "");
                 this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique);
             }
         }
@@ -511,3 +516,5 @@ export class ControlleurVisualisation {
         }
     }
 }
+
+

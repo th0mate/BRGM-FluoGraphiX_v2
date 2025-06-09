@@ -7,6 +7,8 @@
 
 import {Chart} from "chart.js/auto";
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
+import Session from "@/assets/js/Session/Session.js";
+import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
 
 /**
  * =====================================================================================================================
@@ -68,6 +70,46 @@ export class AffichageVisualisation {
      * Initialise la slide principale du carousel Splide
      */
     initSlidePrincipale(calibrationEstLieeGraphique) {
-        //TODO
+        const tbodyElement = document.querySelector('tbody');
+
+        if (!tbodyElement) {
+            setTimeout(() => {
+                this.initSlidePrincipale(calibrationEstLieeGraphique);
+            }, 500);
+            return;
+        }
+
+        if (!calibrationEstLieeGraphique) {
+            let html = "";
+            const traceurs = Session.getInstance().traceurs;
+
+            for (let i = 0; i < traceurs.length; i++) {
+                const traceur = traceurs[i];
+                if (isNaN(traceur.lampePrincipale)) {
+                    continue;
+                }
+
+                html += `
+                <tr>
+                    <td>L${traceur.lampePrincipale}</td>
+                    <td>
+                        <select id='rename${i}' onchange="remplacerDonneesFichier(this.value, 'L${traceur.lampePrincipale}')">
+                        <option value="" selected disabled>Sélectionner</option>
+                            `;
+                const lignes = Session.getInstance().contenuFichierMesures.split('\n');
+                const header = lignes[2].split(';').splice(2);
+
+                for (let j = 0; j < header.length; j++) {
+                    html += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
+                }
+
+                html += `
+                        </select>
+                    </td>
+                </tr>`;
+            }
+
+            tbodyElement.innerHTML = html;
+        }
     }
 }

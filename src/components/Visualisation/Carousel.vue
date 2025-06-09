@@ -3,21 +3,45 @@ import {Splide, SplideSlide} from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import HeaderCarousel from "@/components/Visualisation/HeaderCarousel.vue"
 import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
-import {onMounted, ref} from "vue";
+import {onMounted, ref, computed, watch} from "vue";
 import ToggleSwitch from 'primevue/toggleswitch';
+import Session from '@/assets/js/Session/Session';
 
 const props = defineProps<{ affichageVisualisation: any, controlleurVisualisation : any, choisirFichier: Function }>();
 
 const splideRef = ref();
+const isCalibrationLinked = ref(props.controlleurVisualisation.calibrationEstLieeGraphique);
+const hasCalibrationFile = ref(Session.getInstance().contenuFichierCalibration !== '');
 
-onMounted(() => {
-  props.affichageVisualisation.preparerInputRange()
+watch(() => props.controlleurVisualisation.calibrationEstLieeGraphique, (newValue) => {
+  isCalibrationLinked.value = newValue;
 });
 
+onMounted(() => {
+  props.affichageVisualisation.preparerInputRange();
+
+  const interval = setInterval(() => {
+    isCalibrationLinked.value = props.controlleurVisualisation.calibrationEstLieeGraphique;
+    hasCalibrationFile.value = Session.getInstance().contenuFichierCalibration !== '';
+  }, 500);
+
+  return () => clearInterval(interval);
+});
+
+const splideOptions = computed(() => {
+  const shouldEnableSwipe = isCalibrationLinked.value && hasCalibrationFile.value;
+
+  return {
+    rewind: true,
+    drag: shouldEnableSwipe,
+    pagination: shouldEnableSwipe,
+    arrows: shouldEnableSwipe,
+  }
+});
 </script>
 
 <template>
-  <Splide :options="{ rewind: true }" class="carousel" ref="splideRef">
+  <Splide :options="splideOptions" class="carousel" ref="splideRef">
 
     <!-- Slide d'accueil : reset graphique et renommage des courbes -->
     <SplideSlide class="page">
@@ -28,7 +52,7 @@ onMounted(() => {
           <span>Réalisez ici les différentes opérations de correction et d'export de vos courbes</span>
           <div class="bouton" @click="controlleurVisualisation.reinitialiserGraphique">Réinitialiser le graphique</div>
         </div>
-        <div class="card">
+        <div class="card" v-if="!isCalibrationLinked && hasCalibrationFile">
           <b>Vous devez renommer vos courbes en fonction de vos données de calibration :</b>
           <table>
             <thead>
@@ -65,6 +89,14 @@ onMounted(() => {
             </tr>
             </tbody>
           </table>
+        </div>
+
+        <div class="card" v-else-if="isCalibrationLinked && hasCalibrationFile">
+          <b>Vos traceurs ont été liés à vos données avec succès.</b>
+        </div>
+
+        <div class="card" v-else>
+          <b>Vous devez importer un fichier de calibration</b>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
