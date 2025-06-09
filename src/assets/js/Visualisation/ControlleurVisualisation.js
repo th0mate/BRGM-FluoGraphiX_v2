@@ -432,4 +432,20 @@ export class ControlleurVisualisation {
             }
         }
     }
+
+
+    /**
+     * Réinitialise le graphique de visualisation avec les données importées au départ. La liste des graphiques est réinitialisée.
+     */
+    reinitialiserGraphique() {
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            existingChart.destroy();
+        }
+        this.graphiqueVisualisation.afficherGraphique(Session.getInstance().contenuFichierMesures);
+        this.resetCourbesSupprimees();
+        Session.getInstance().calculs = [];
+        afficherMessageFlash("Succès", "Le graphique a été réinitialisé avec les données importées au départ.", 'success');
+    }
 }

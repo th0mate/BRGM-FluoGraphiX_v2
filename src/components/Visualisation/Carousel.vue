@@ -26,7 +26,7 @@ onMounted(() => {
         <div class="card">
           <b>Bienvenue dans l'utilitaire de calculs et d'export de FluoGraphiX</b>
           <span>Réalisez ici les différentes opérations de correction et d'export de vos courbes</span>
-          <div class="bouton">Réinitialiser le graphique</div>
+          <div class="bouton" @click="controlleurVisualisation.reinitialiserGraphique">Réinitialiser le graphique</div>
         </div>
         <div class="card">
           <b>Vous devez renommer vos courbes en fonction de vos données de calibration :</b>
