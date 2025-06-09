@@ -16,9 +16,10 @@ import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
  * ====================================================================================================================
  */
 export class AffichageVisualisation {
-    constructor() {
+    constructor(controlleurVisualisation) {
         this.niveauCorrectionTurbidite = null;
         this.estEffectueeCorrectionInterferences = false;
+        this.controlleurVisualisation = controlleurVisualisation;
     }
 
 
@@ -68,48 +69,53 @@ export class AffichageVisualisation {
 
     /**
      * Initialise la slide principale du carousel Splide
+     * @returns {Promise<HTMLElement|null>} - Retourne une promesse qui se résout avec l'élément tbody ou null
      */
     initSlidePrincipale(calibrationEstLieeGraphique) {
-        const tbodyElement = document.querySelector('tbody');
+        return new Promise((resolve) => {
+            const tbodyElement = document.querySelector('tbody');
 
-        if (!tbodyElement) {
-            setTimeout(() => {
-                this.initSlidePrincipale(calibrationEstLieeGraphique);
-            }, 500);
-            return;
-        }
+            if (!tbodyElement) {
+                setTimeout(() => {
+                    this.initSlidePrincipale(calibrationEstLieeGraphique).then(resolve);
+                }, 500);
+                return;
+            }
 
-        if (!calibrationEstLieeGraphique) {
-            let html = "";
-            const traceurs = Session.getInstance().traceurs;
+            if (!calibrationEstLieeGraphique) {
+                let html = "";
+                const traceurs = Session.getInstance().traceurs;
 
-            for (let i = 0; i < traceurs.length; i++) {
-                const traceur = traceurs[i];
-                if (isNaN(traceur.lampePrincipale)) {
-                    continue;
-                }
+                for (let i = 0; i < traceurs.length; i++) {
+                    const traceur = traceurs[i];
+                    if (isNaN(traceur.lampePrincipale)) {
+                        continue;
+                    }
 
-                html += `
+                    html += `
                 <tr>
                     <td>L${traceur.lampePrincipale}</td>
                     <td>
-                        <select id='rename${i}' onchange="remplacerDonneesFichier(this.value, 'L${traceur.lampePrincipale}')">
+                        <select id='rename${i}' data-lampe='L${traceur.lampePrincipale}'>
                         <option value="" selected disabled>Sélectionner</option>
                             `;
-                const lignes = Session.getInstance().contenuFichierMesures.split('\n');
-                const header = lignes[2].split(';').splice(2);
+                    const lignes = Session.getInstance().contenuFichierMesures.split('\n');
+                    const header = lignes[2].split(';').splice(2);
 
-                for (let j = 0; j < header.length; j++) {
-                    html += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
-                }
+                    for (let j = 0; j < header.length; j++) {
+                        html += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
+                    }
 
-                html += `
+                    html += `
                         </select>
                     </td>
                 </tr>`;
+                }
+
+                tbodyElement.innerHTML = html;
             }
 
-            tbodyElement.innerHTML = html;
-        }
+            resolve(tbodyElement);
+        });
     }
 }

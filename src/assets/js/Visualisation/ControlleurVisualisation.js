@@ -134,7 +134,6 @@ export class ControlleurVisualisation {
             Session.getInstance().formatDates = 2;
         }
 
-        console.log("format :", Session.getInstance().formatDates);
     }
 
 
@@ -312,8 +311,18 @@ export class ControlleurVisualisation {
 
             if (Session.getInstance().contenuFichierCalibration !== "") {
                 this.verifierLienCalibration();
-                console.log(this.calibrationEstLieeGraphique, Session.getInstance().contenuFichierCalibration !== "");
-                this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique);
+
+                this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique).then(tbodyElement => {
+                    if (tbodyElement) {
+                        const selects = tbodyElement.querySelectorAll('select');
+                        for (let i = 0; i < selects.length; i++) {
+                            selects[i].addEventListener('change', (event) => {
+                                const lampe = event.target.getAttribute('data-lampe');
+                                this.gestionRenommageCourbes(event.target.value, lampe);
+                            });
+                        }
+                    }
+                });
             }
         }
         fermerPopup();
@@ -515,6 +524,31 @@ export class ControlleurVisualisation {
             }
         }
     }
+
+
+    /**
+     * Gère le renommage des courbes dans le graphique lors de la modification du nom d'une courbe
+     * @param ancienNom l'ancien nom de la courbe
+     * @param nouveauNom le nouveau nom de la courbe issu du fichier de calibration
+     */
+    gestionRenommageCourbes(ancienNom, nouveauNom) {
+        remplacerDonneesFichier(ancienNom, nouveauNom, Session.getInstance().contenuFichierMesures)
+            .then(contenuMisAJour => {
+                Session.getInstance().contenuFichierMesures = contenuMisAJour;
+
+                const selects = document.querySelectorAll('select');
+                for (let i = 0; i < selects.length; i++) {
+                    if (selects[i].value === '') {
+                        const options = selects[i].querySelectorAll('option');
+                        for (let j = 0; j < options.length; j++) {
+                            if (options[j].value === ancienNom) {
+                                options[j].remove();
+                            }
+                        }
+                    }
+                }
+
+                this.verifierLienCalibration();
+            });
+    }
 }
-
-
