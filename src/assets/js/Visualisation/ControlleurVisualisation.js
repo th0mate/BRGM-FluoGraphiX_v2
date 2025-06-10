@@ -23,6 +23,7 @@ import router from '@/router';
 import {Chart} from "chart.js/auto";
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
+import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
 
 
 /**
@@ -42,6 +43,7 @@ export class ControlleurVisualisation {
         this.calibrationEstLieeGraphique = false;
         this.affichageVisualisation = AffichageVisualisation;
         this.copieContenuFichierMesure = "";
+        this.anomalieCalibration = false;
     }
 
 
@@ -329,6 +331,8 @@ export class ControlleurVisualisation {
      */
     finaliserImportCalibration() {
         if (Session.getInstance().contenuFichierCalibration !== "") {
+            const gestionCalibration = new GestionnaireCourbesCalibration();
+            this.anomalieCalibration = gestionCalibration.testerTousTraceurs();
             this.verifierLienCalibration();
             this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique).then(tbodyElement => {
                 if (tbodyElement) {
@@ -445,7 +449,6 @@ export class ControlleurVisualisation {
                     delete Session.getInstance().fixedY;
                 }
             }
-            // Geler les bornes de l'axe X si le zoom/pan X est désactivé
             if (!zoomKeys.includes('x')) {
                 const xScale = existingChart.scales['x'] || existingChart.scales['x-axis-0'];
                 if (xScale) {

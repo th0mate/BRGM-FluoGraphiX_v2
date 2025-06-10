@@ -33,7 +33,7 @@ function traitementFichierCalibration(event: Event) {
         const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
 
         setTimeout(() => {
-          controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, true);
+          controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat);
         }, 0);
       }
     };

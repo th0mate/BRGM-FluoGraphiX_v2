@@ -34,10 +34,9 @@ export default class ControlleurCalibration {
      * Initialise le contrôleur avec le contenu d'un fichier de calibration
      * @param {string} contenu - Le contenu du fichier de calibration
      * @param {boolean} estFichierDat - True si le fichier est au format DAT, false pour CSV
-     * @param {boolean} estDepuisCalibration - True si l'initialisation est faite depuis la page calibration
      * @returns {boolean} True si l'initialisation a réussi, false sinon
      */
-    initialiser(contenu, estFichierDat = true, estDepuisCalibration = true) {
+    initialiser(contenu, estFichierDat = true) {
         if (!contenu) {
             this.afficherMessageErreur('Erreur : aucune donnée exploitable.');
             return false;
@@ -48,18 +47,12 @@ export default class ControlleurCalibration {
             : new LecteurFichierCSV(contenu);
 
         this.graphiqueCalibration = new GraphiqueCalibration(this.lecteur);
-        const resultat = this.lecteur.initialiser(estDepuisCalibration);
+        const resultat = this.lecteur.initialiser(true);
         console.table(Session.getInstance().traceurs);
 
         if (resultat) {
             this.calibrationChargee = true;
-
-            if (estDepuisCalibration) {
-                this.afficherListeTraceurs();
-            } else {
-                // TODO Depuis la page visualisation, on fait autre chose...
-                this.preparerVisualisationDonnees();
-            }
+            this.afficherListeTraceurs();
         }
 
         return resultat;
@@ -375,34 +368,6 @@ export default class ControlleurCalibration {
 
 
     /**
-     * Prépare les données pour la visualisation (page concentrations)
-     */
-    preparerVisualisationDonnees() {
-        // Remplacer les noms de lampe A145, A146, etc. si nécessaire
-        //this.remplacerNomsLampes(); TODO
-
-        // Tester tous les traceurs pour vérifier la validité des données
-        this.testerTousTraceurs();
-    }
-
-
-    /**
-     * Teste tous les traceurs pour vérifier la validité des données
-     */
-    testerTousTraceurs() {
-        const traceurs = Session.getInstance().traceurs;
-        if (!traceurs) return;
-
-        for (let i = 0; i < traceurs.length; i++) {
-            for (let j = 1; j <= 4; j++) {
-                this.afficherGraphiqueTraceur(traceurs[i]);
-                this.gestionnaireCalibration.initialiserCalculsCourbes(j, traceurs[i]);
-            }
-        }
-    }
-
-
-    /**
      * Affiche un message d'erreur
      * @param {string} message - Le message d'erreur
      */
@@ -427,15 +392,4 @@ export function getControlleurCalibration() {
         controlleurCalibrationInstance = new ControlleurCalibration();
     }
     return controlleurCalibrationInstance;
-}
-
-
-/**
- * Initialise le fichier de calibration
- * @param {boolean} estFichierDat - True si le fichier est au format DAT, false pour CSV
- * @param {boolean} estDepuisCalibration - True si l'initialisation est faite depuis la page calibration
- */
-export function initFichierCalibration(estFichierDat = true, estDepuisCalibration = true) {
-    const controleur = getControlleurCalibration();
-    controleur.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat, estDepuisCalibration);
 }
