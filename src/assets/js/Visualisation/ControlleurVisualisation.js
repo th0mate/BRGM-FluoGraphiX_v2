@@ -366,7 +366,7 @@ export class ControlleurVisualisation {
             this.verifierLienCalibration();
             this.affichageVisualisation.initialiserCarouselSplide(this.calibrationEstLieeGraphique).then(tbodyElement => {
                 if (tbodyElement) {
-                    const selects = tbodyElement.querySelectorAll('select');
+                    const selects = tbodyElement.querySelectorAll('.renameCourbe');
                     for (let i = 0; i < selects.length; i++) {
                         selects[i].addEventListener('change', (event) => {
                             const lampe = event.target.getAttribute('data-lampe');

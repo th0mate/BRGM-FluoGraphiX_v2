@@ -107,9 +107,9 @@ export class AffichageVisualisation {
      */
     initialiserCarouselSplide(calibrationEstLieeGraphique) {
         return new Promise(resolve => {
-            this.initSlidePrincipale(calibrationEstLieeGraphique).then(r => {
+            this.initSlidePrincipale(calibrationEstLieeGraphique).then(tbodyElement => {
                 this.initialiserCorrectionTurbidite();
-                resolve();
+                resolve(tbodyElement);
             });
         })
     }
@@ -130,8 +130,6 @@ export class AffichageVisualisation {
                     }, 500);
                     return;
                 }
-
-                if (!calibrationEstLieeGraphique) {
                     let html = "";
                     const traceurs = Session.getInstance().traceurs;
 
@@ -145,7 +143,7 @@ export class AffichageVisualisation {
                 <tr>
                     <td>L${traceur.lampePrincipale}</td>
                     <td>
-                        <select id='rename${i}' data-lampe='L${traceur.lampePrincipale}'>
+                        <select class="renameCourbe" id='rename${i}' data-lampe='L${traceur.lampePrincipale}'>
                         <option value="" selected disabled>Sélectionner</option>
                             `;
                         const lignes = Session.getInstance().contenuFichierMesures.split('\n');
@@ -162,7 +160,7 @@ export class AffichageVisualisation {
                     }
 
                     tbodyElement.innerHTML = html;
-                }
+
                 resolve(tbodyElement);
             });
         }
