@@ -29,6 +29,18 @@ export class CorrectionTurbidite extends BaseCalcul {
      * @param {Array} traceurs - liste des traceurs (optionnel, sinon this.controlleur.traceurs)
      */
     appliquerCorrection(lampesACorriger, niveauCorrection, traceurs = null) {
+        return this.executerAvecChargement(this._effectuerCorrection, lampesACorriger, niveauCorrection, traceurs);
+    }
+
+
+    /**
+     * Méthode interne qui effectue réellement la correction de turbidité
+     * @private
+     * @param {Array} lampesACorriger - IDs des lampes à corriger (ex: [1,2])
+     * @param {number} niveauCorrection - niveau de correction (0 à 2)
+     * @param {Array} traceurs - liste des traceurs (optionnel, sinon this.controlleur.traceurs)
+     */
+    _effectuerCorrection(lampesACorriger, niveauCorrection, traceurs = null) {
         const traceursUtilises = traceurs || this.controlleur.traceurs;
         const eau = this.getTraceurParUnite('');
         const turbidite = traceursUtilises.find(traceur => traceur.unite && traceur.unite.toLowerCase() === 'ntu');

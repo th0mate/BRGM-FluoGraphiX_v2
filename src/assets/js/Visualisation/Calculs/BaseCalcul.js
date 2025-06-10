@@ -29,6 +29,60 @@ export class BaseCalcul {
 
 
     /**
+     * Initialise la logique de calculs
+     */
+    init() {
+        document.querySelector(".chargement-calculs").style.display = "block";
+    }
+
+
+    /**
+     * Clôt la logique de calculs
+     */
+    end() {
+        document.querySelector(".chargement-calculs").style.display = "none";
+    }
+
+
+    /**
+     * Exécute une fonction de calcul avec gestion automatique du chargement
+     * @param {Function} fn - La fonction de calcul à exécuter
+     * @param {...any} args - Les arguments à passer à la fonction
+     * @returns {Promise<any>} - Le résultat de la fonction
+     */
+    async executerAvecChargement(fn, ...args) {
+        if (!fn || typeof fn !== 'function') {
+            console.error('La fonction à exécuter est invalide');
+            return;
+        }
+
+        try {
+            if (this.controlleur) {
+                Object.assign(this.controlleur, { chargementCalculs: true });
+            }
+
+            await new Promise(resolve => setTimeout(resolve, 50));
+
+            let resultat;
+            if (fn.constructor.name === 'AsyncFunction') {
+                resultat = await fn.apply(this, args);
+            } else {
+                resultat = fn.apply(this, args);
+            }
+
+            return resultat;
+        } catch (error) {
+            afficherMessageFlash('Une erreur est survenue lors du calcul', 'error');
+            throw error;
+        } finally {
+            if (this.controlleur) {
+                Object.assign(this.controlleur, { chargementCalculs: false });
+            }
+        }
+    }
+
+
+    /**
      * Crée et ajoute un calcul à la session
      * @param {string} nom - Nom du calcul
      * @param {Object|Array|string} parametres - Paramètres du calcul
@@ -82,6 +136,7 @@ export class BaseCalcul {
 
         chart.data.datasets.push(newDataset);
         chart.update();
+        this.controlleur.chargementCalculs = false;
     }
 
 

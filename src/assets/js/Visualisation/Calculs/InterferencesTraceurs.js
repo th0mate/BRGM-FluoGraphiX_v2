@@ -23,6 +23,16 @@ export class InterferencesTraceurs extends BaseCalcul {
      * @param {Array} traceurs - Liste des traceurs à corriger (1 ou 2)
      */
     corrigerInterferences(traceurs) {
+        return this.executerAvecChargement(this._effectuerCorrection, traceurs);
+    }
+
+
+    /**
+     * Méthode interne qui effectue réellement la correction des interférences
+     * @private
+     * @param {Array} traceurs - Liste des traceurs à corriger (1 ou 2)
+     */
+    _effectuerCorrection(traceurs) {
         if (!Array.isArray(traceurs) || traceurs.length === 0) return;
         const eau = this.getTraceurParUnite('');
         const lignes = this.controlleur.contenuFichierMesures.split('\n');

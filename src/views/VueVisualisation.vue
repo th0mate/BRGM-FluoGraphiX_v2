@@ -75,6 +75,8 @@ function choisirFichier() {
     <div class="wrap-graphique">
       <span class="titre">Données issues du fichier <span class="orange nomFichier"></span> :</span>
       <canvas class="graphique" id="graphique"></canvas>
+      <img v-tooltip.bottom="'Calcul en cours...'" src="@/assets/img/popup/loading.gif" class="chargement-calculs"
+           :style="{ display: controlleurVisualisation.chargementCalculs ? 'block' : 'none' }" alt="">
     </div>
 
     <Carousel :affichageVisualisation="affichageVisualisation" :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>

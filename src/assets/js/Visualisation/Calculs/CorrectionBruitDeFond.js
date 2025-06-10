@@ -24,6 +24,17 @@ export class CorrectionBruitDeFond extends BaseCalcul {
      * @param {Object} options - { listeLampeBruitDeFond: Array, zoneSelectionnee: Array }
      */
     appliquerCorrection(traceurs, options = {}) {
+        return this.executerAvecChargement(this._effectuerCorrection, traceurs, options);
+    }
+
+
+    /**
+     * Méthode interne qui effectue réellement la correction du bruit de fond
+     * @private
+     * @param {Array} traceurs - Traceurs concernés (1 ou 2)
+     * @param {Object} options - { listeLampeBruitDeFond: Array, zoneSelectionnee: Array }
+     */
+    _effectuerCorrection(traceurs, options = {}) {
         if (!Array.isArray(traceurs) || traceurs.length === 0) return;
         const { listeLampeBruitDeFond = [], zoneSelectionnee = [] } = options;
         const eau = this.getTraceurParUnite('');

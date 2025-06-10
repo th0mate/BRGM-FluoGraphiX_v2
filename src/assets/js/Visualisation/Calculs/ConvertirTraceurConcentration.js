@@ -25,6 +25,16 @@ export class ConvertirTraceurConcentration extends BaseCalcul {
      * @param {Object} traceur - Traceur à convertir
      */
     convertir(traceur) {
+        return this.executerAvecChargement(this._effectuerConversion, traceur);
+    }
+
+
+    /**
+     * Méthode interne qui effectue réellement la conversion en concentration
+     * @private
+     * @param {Object} traceur - Traceur à convertir
+     */
+    _effectuerConversion(traceur) {
         if (!traceur) return;
         const eau = this.getTraceurParUnite('');
         const resultat = this.gestionnaireCalculsCourbes.effectuerCalculsCourbes(traceur.lampePrincipale, traceur);

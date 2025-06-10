@@ -44,6 +44,7 @@ export class ControlleurVisualisation {
         this.affichageVisualisation = AffichageVisualisation;
         this.copieContenuFichierMesure = "";
         this.anomalieCalibration = false;
+        this.chargementCalculs = false;
     }
 
     /**
