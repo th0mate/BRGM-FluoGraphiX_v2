@@ -239,7 +239,7 @@
                 color: white;
                 padding: 0 5px;
                 border-radius: 50px;
-                border: 2px solid var(--roseBRGM);
+                /*border: 2px solid var(--roseBRGM);*/
 
                 input[type="checkbox"] {
                     appearance: none;
@@ -247,16 +247,16 @@
                     width: 15px;
                     height: 15px;
                     border-radius: 50%;
-                    border: 1px solid var(--roseBRGM);
+                    /*border: 1px solid var(--roseBRGM);*/
                     background: white;
                     cursor: pointer;
                     position: relative;
                     outline: none;
                 }
 
-                input[type="checkbox"]:checked {
-                    background: var(--roseBRGM);
-                }
+                /*input[type="checkbox"]:checked {*/
+                /*    background: var(--roseBRGM);*/
+                /*}*/
 
                 input[type="checkbox"]::after {
                     content: '';

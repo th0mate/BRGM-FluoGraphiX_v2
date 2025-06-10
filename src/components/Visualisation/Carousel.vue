@@ -163,23 +163,8 @@ function initCalibrationDepuisVisualisation() {
           </div>
           <div class="spacer"></div>
           <span>Sélectionnez les lampes à corriger :</span>
-          <div class="checkboxes">
-            <label>
-              <input type="checkbox" value="L1">
-              L1
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              L2
-            </label>
-            <label>
-              <input type="checkbox" value="L3">
-              L3
-            </label>
-            <label>
-              <input type="checkbox" value="L4">
-              L4
-            </label>
+          <div class="checkboxes listeCheckboxesCorrTurbidite">
+
           </div>
           <div class="spacer"></div>
           <div class="bouton">Calculer</div>

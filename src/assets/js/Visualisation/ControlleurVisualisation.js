@@ -32,7 +32,7 @@ import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalcu
  * ======================================================================================================================
  */
 export class ControlleurVisualisation {
-    constructor(AffichageVisualisation) {
+    constructor(AffichageVisualisation = null) {
         this.graphiqueVisualisation = new GraphiqueVisualisation();
         this.correctionTurbidite = new CorrectionTurbidite(this);
         this.convertirTraceurConcentration = new ConvertirTraceurConcentration(this);
@@ -44,6 +44,14 @@ export class ControlleurVisualisation {
         this.affichageVisualisation = AffichageVisualisation;
         this.copieContenuFichierMesure = "";
         this.anomalieCalibration = false;
+    }
+
+    /**
+     * Définit la référence à l'affichage de visualisation
+     * @param {AffichageVisualisation} affichage - Instance de l'affichage de visualisation
+     */
+    setAffichageVisualisation(affichage) {
+        this.affichageVisualisation = affichage;
     }
 
 
@@ -334,7 +342,7 @@ export class ControlleurVisualisation {
             const gestionCalibration = new GestionnaireCourbesCalibration();
             this.anomalieCalibration = gestionCalibration.testerTousTraceurs();
             this.verifierLienCalibration();
-            this.affichageVisualisation.initSlidePrincipale(this.calibrationEstLieeGraphique).then(tbodyElement => {
+            this.affichageVisualisation.initialiserCarouselSplide(this.calibrationEstLieeGraphique).then(tbodyElement => {
                 if (tbodyElement) {
                     const selects = tbodyElement.querySelectorAll('select');
                     for (let i = 0; i < selects.length; i++) {
@@ -566,5 +574,21 @@ export class ControlleurVisualisation {
         }
 
         this.verifierLienCalibration();
+    }
+
+
+    /**
+     * Retourne la couleur au format hexadécimal correspondant à un nom de courbe
+     * @param {string} nomCourbe - Le nom de la courbe pour laquelle on veut la couleur
+     */
+    getCouleurCourbe(nomCourbe) {
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+        if (existingChart) {
+            const dataset = existingChart.data.datasets.find(ds => ds.label === nomCourbe);
+            if (dataset) {
+                return dataset.borderColor || dataset.backgroundColor || '#ff0000';
+            }
+        }
     }
 }

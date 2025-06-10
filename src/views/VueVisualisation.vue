@@ -2,11 +2,16 @@
 import {ref} from "vue";
 import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
 import Carousel from '@/components/Visualisation/Carousel.vue';
-import {reactive} from "vue";
+import {reactive, onMounted} from "vue";
 import {AffichageVisualisation} from "@/assets/js/Visualisation/AffichageVisualisation"
 
 const affichageVisualisation = reactive(new AffichageVisualisation());
-const controlleurVisualisation = reactive(new ControlleurVisualisation(affichageVisualisation));
+const controlleurVisualisation = reactive(new ControlleurVisualisation());
+
+onMounted(() => {
+  affichageVisualisation.setControlleurVisualisation(controlleurVisualisation);
+  controlleurVisualisation.setAffichageVisualisation(affichageVisualisation);
+});
 
 
 const donneesChargees = ref(false);
