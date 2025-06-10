@@ -45,7 +45,7 @@ class GraphiqueVisualisation extends Graphiques {
         const datasets = header.map((label, i) => {
             if (label !== '' && label !== 'R' && label.trim() !== '') {
                 if (i >= couleurs.length) {
-                    couleurs.push(Graphiques.getRandomColor());
+                    couleurs.push(this.getRandomColor());
                 }
                 return {
                     label: label,

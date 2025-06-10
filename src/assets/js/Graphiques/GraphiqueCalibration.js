@@ -59,7 +59,7 @@ class GraphiqueCalibration extends Graphiques {
                     datasets.push({
                         label: 'L' + i,
                         data: data,
-                        borderColor: Graphiques.getRandomColor(),
+                        borderColor: this.getRandomColor(),
                         borderWidth: 2,
                         fill: false,
                         hidden: hiddenStatus,
@@ -109,7 +109,7 @@ class GraphiqueCalibration extends Graphiques {
             datasets.push({
                 label: 'L' + idData,
                 data: data,
-                borderColor: Graphiques.getRandomColor(),
+                borderColor: this.getRandomColor(),
                 borderWidth: 2,
                 fill: false,
                 hidden: hiddenStatus,
