@@ -6,6 +6,7 @@
 import {arrondirA2Decimales} from "@/assets/js/Common/utils.js";
 import {Calculs} from "@/assets/js/Objects/Calcul.js";
 import Session from "@/assets/js/Session/Session.js";
+import GestionnaireCourbesCalibration from "@/assets/js/Calibration/gestionCalculsCourbesCalibration.js";
 
 
 /**
@@ -16,6 +17,7 @@ import Session from "@/assets/js/Session/Session.js";
 export class ConvertirTraceurConcentration {
     constructor(controlleur) {
         this.controlleur = controlleur;
+        this.gestionnaireCalculsCourbes = new GestionnaireCourbesCalibration()
     }
 
 
@@ -26,7 +28,7 @@ export class ConvertirTraceurConcentration {
     convertir(traceur) {
         if (!traceur) return;
         const eau = this.controlleur.traceurs.find(t => t.unite === '');
-        const resultat = this.controlleur.effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
+        const resultat = this.gestionnaireCalculsCourbes.effectuerCalculsCourbes(traceur.lampePrincipale, traceur);
         const calcul = new Calculs(`${traceur.nom}: Coefficients mV->${traceur.unite}`);
         calcul.ajouterParametreCalcul('Coefficients', resultat);
         Session.getInstance().calculs = Session.getInstance().calculs.filter(c => c.nom !== calcul.equation);

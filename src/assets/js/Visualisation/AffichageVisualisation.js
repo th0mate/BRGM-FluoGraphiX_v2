@@ -21,6 +21,33 @@ export class AffichageVisualisation {
         this.lampesSelectionneesCorrTurbidite = [];
     }
 
+
+    /**
+     * Applique le style aux checkboxes en fonction de la couleur de la courbe correspondante
+     * @param {HTMLElement} element - L'élément HTML à styliser
+     * @param {string} nomCourbe - Le nom de la courbe à partir de laquelle il faut récupérer la couleur
+     * @return {HTMLElement} - L'élément HTML stylisé
+     */
+    appliquerStyleCheckbox(element, nomCourbe) {
+        const couleur = this.controlleurVisualisation.getCouleurCourbe(nomCourbe);
+        if (element) {
+            element.style.border = `2px solid ${couleur}`;
+            const input = element.querySelector('input[type="checkbox"]');
+            if (input) {
+                input.style.border = `1px solid ${couleur}`;
+                input.addEventListener('change', () => {
+                    if (input.checked) {
+                        input.style.background = couleur;
+                    } else {
+                        input.style.background = '';
+                    }
+                });
+            }
+            return element;
+        }
+    }
+
+
     /**
      * Définit la référence au contrôleur de visualisation
      * @param {ControlleurVisualisation} controlleur - Instance du contrôleur de visualisation
@@ -34,9 +61,10 @@ export class AffichageVisualisation {
      * Initialise l'input range pour la correction de turbidité
      */
     preparerInputRange() {
-        document.querySelector('#inputRange').addEventListener('input', function () {
-            document.querySelector('.range span').innerText = this.value;
-            this.niveauCorrectionTurbidite = this.value;
+        document.querySelector('#inputRange').addEventListener('input', (event) => {
+            const value = event.target.value;
+            document.querySelector('.range span').innerText = value;
+            this.niveauCorrectionTurbidite = value;
         });
     }
 
@@ -142,6 +170,15 @@ export class AffichageVisualisation {
     }
 
 
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Méthodes pour la correction de turbidité
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+
     /**
      * Initialise la slide pour la correction de turbidité
      */
@@ -185,33 +222,28 @@ export class AffichageVisualisation {
                 this.lampesSelectionneesCorrTurbidite.splice(index, 1);
             }
         }
-        console.log(this.lampesSelectionneesCorrTurbidite);
     }
 
 
     /**
-     * Applique le style border: 2px solid XXX; à l'élément passé en paramètre, et met le style border: 1px solid XXXX à l'input contenu dans cette + background: XXX à l'input checked
-     * La couleur XXX est celle de la courbe ayant le nom passé en paramètre
-     * @param {HTMLElement} element - L'élément HTML à styliser
-     * @param {string} nomCourbe - Le nom de la courbe pour laquelle appliquer le style
-     * @return {HTMLElement} - L'élément HTML stylisé
+     * Déclenche la correction de turbidité à partir des informations saisies par l'utilisateur
      */
-    appliquerStyleCheckbox(element, nomCourbe) {
-        const couleur = this.controlleurVisualisation.getCouleurCourbe(nomCourbe);
-        if (element) {
-            element.style.border = `2px solid ${couleur}`;
-            const input = element.querySelector('input[type="checkbox"]');
-            if (input) {
-                input.style.border = `1px solid ${couleur}`;
-                input.addEventListener('change', () => {
-                    if (input.checked) {
-                        input.style.background = couleur;
-                    } else {
-                        input.style.background = '';
-                    }
-                });
-            }
-            return element;
+    declencherCorrectionTurbidite() {
+        if (this.lampesSelectionneesCorrTurbidite.length > 0 && this.niveauCorrectionTurbidite) {
+            console.log(this.niveauCorrectionTurbidite);
+            this.controlleurVisualisation.appliquerCorrectionTurbidite(this.lampesSelectionneesCorrTurbidite, this.niveauCorrectionTurbidite);
         }
     }
+
+
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Méthodes pour la correction des interférences
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+
+
 }

@@ -3,9 +3,12 @@
  * www.thomasloye.fr
  * Gère la correction de la turbidité sur les données de visualisation
  */
-
-
 import {arrondirA2Decimales} from "@/assets/js/Common/utils.js";
+import Session from "@/assets/js/Session/Session.js";
+import {Calculs} from "@/assets/js/Objects/Calcul.js";
+import GestionnaireCourbesCalibration from "@/assets/js/Calibration/gestionCalculsCourbesCalibration.js";
+import {DateTime} from "luxon";
+
 
 /**
  * =======================================================================================================================
@@ -15,6 +18,7 @@ import {arrondirA2Decimales} from "@/assets/js/Common/utils.js";
 export class CorrectionTurbidite {
     constructor(controlleur) {
         this.controlleur = controlleur;
+        this.gestionnaireCalculs = new GestionnaireCourbesCalibration();
     }
 
 
@@ -24,32 +28,30 @@ export class CorrectionTurbidite {
      * @param {number} niveauCorrection - niveau de correction (0 à 2)
      * @param {Array} traceurs - liste des traceurs (optionnel, sinon this.controlleur.traceurs)
      */
-    appliquerCorrection(lampesACorriger, niveauCorrection = 1, traceurs = null) {
-        const traceursUtilises = traceurs || this.controlleur.traceurs;
+    appliquerCorrection(lampesACorriger, niveauCorrection, traceurs = null) {
+        const traceursUtilises = traceurs;
         const eau = traceursUtilises.find(traceur => traceur.unite === '');
         const turbidite = traceursUtilises.find(traceur => traceur.unite && traceur.unite.toLowerCase() === 'ntu');
         if (!eau || !turbidite) return;
 
         lampesACorriger.forEach(idLampe => {
-            // Appel à la logique de calcul (ex: effectuerCalculsCourbes doit être accessible via le controlleur)
-            const resultat = this.controlleur.effectuerCalculsCourbes(idLampe, turbidite);
-            const calcul = new this.controlleur.Calculs(`Correction de turbidité (L${idLampe})`, 'oui');
-            calcul.ajouterParametreCalcul('TS', niveauCorrection);
-            this.controlleur.listeCalculs = this.controlleur.listeCalculs.filter(c => c.nom !== calcul.nom);
-            this.controlleur.listeCalculs.push(calcul);
 
-            // Préparation des données pour le graphique
+            const resultat = this.gestionnaireCalculs.effectuerCalculsCourbes(idLampe, turbidite);
+            const calcul = new Calculs(`Correction de turbidité (L${idLampe})`);
+            calcul.ajouterParametreCalcul('TS', niveauCorrection);
+            Session.getInstance().calculs = Session.getInstance().calculs.filter(c => c.nom !== calcul.equation);
+            Session.getInstance().calculs.push(calcul);
+
             const data = {
                 label: `L${idLampe}Corr`,
                 data: [],
                 backgroundColor: 'rgba(0, 0, 0, 0)',
-                borderColor: this.controlleur.getRandomColor(),
+                borderColor: this.controlleur.graphiqueVisualisation.getRandomColor(),
                 borderWidth: 2,
                 pointRadius: 0
             };
 
-            // Extraction des données du fichier de mesures
-            let lignes = this.controlleur.contenuFichierMesures.split('\n');
+            let lignes = this.controlleur.copieContenuFichierMesure.split('\n');
             let colonnes = lignes[2].split(';').map(col => col.replace(/\r|\n/g, ''));
             let indexLampe = colonnes.indexOf(`L${idLampe}`);
             let indexTurb = colonnes.indexOf('L4');
@@ -110,15 +112,14 @@ export class CorrectionTurbidite {
             lignes[2] = header.join(';');
 
             for (let i = 0; i < contenu.length; i++) {
-                const timeDate = this.controlleur.DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+                const timeDate = DateTime.fromFormat(contenu[i][0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
                 const timestamp = timeDate.toMillis();
                 lignes[i + 3] = lignes[i + 3].replace(/\r|\n/g, '');
                 lignes[i + 3] += `;${arrondirA2Decimales(colonneFinale[i])}`;
                 data.data.push({x: timestamp, y: colonneFinale[i]});
             }
 
-            // Mise à jour du fichier de mesures et du graphique
-            this.controlleur.contenuFichierMesures = lignes.join('\n');
+            this.controlleur.copieContenuFichierMesure = lignes.join('\n');
             const chart = this.controlleur.getChartInstance();
             if (chart) {
                 chart.data.datasets = chart.data.datasets.filter(dataset => dataset.label !== `L${idLampe}Corr`);

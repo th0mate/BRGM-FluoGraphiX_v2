@@ -75,7 +75,7 @@ class Graphiques {
      * Retourne une couleur aléatoire foncée en hexadécimal
      * @returns {string}
      */
-    static getRandomColor() {
+    getRandomColor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
         let isLight = false;

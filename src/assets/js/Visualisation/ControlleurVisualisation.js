@@ -168,27 +168,49 @@ export class ControlleurVisualisation {
     }
 
 
+    /**
+     * Affiche le graphique de visualisation avec les données fournies
+     * @param donnees {string} - Les données à afficher dans le graphique, au format CSV
+     */
     afficherGraphique(donnees) {
         document.querySelector('.nomFichier').innerHTML = `"${this.lecteur.nomFichier}"`;
         this.graphiqueVisualisation.afficherGraphique(donnees);
     }
 
 
-    appliquerCorrectionTurbidite(lampesACorriger, niveauCorrection = 1) {
+    /**
+     * Permet d'appliquer l'action de correction de turbidité sur les lampes sélectionnées
+     * @param lampesACorriger
+     * @param niveauCorrection
+     */
+    appliquerCorrectionTurbidite(lampesACorriger, niveauCorrection) {
         this.correctionTurbidite.appliquerCorrection(lampesACorriger, niveauCorrection, Session.getInstance().traceurs);
     }
 
 
+    /**
+     * Applique la conversion de concentration pour le traceur donné
+     * @param traceur {Object} - Le traceur à convertir
+     */
     appliquerConversionConcentration(traceur) {
         this.convertirTraceurConcentration.convertir(traceur);
     }
 
 
+    /**
+     * Applique la correction des interférences entre traceurs, à partir de ceux sélectionnés par l'utilisateur
+     * @param traceurs {Array<Object>} - Liste des traceurs en question
+     */
     appliquerCorrectionInterferences(traceurs) {
         this.interferencesTraceurs.corrigerInterferences(traceurs);
     }
 
 
+    /**
+     * Applique la correction de bruit de fond sur les traceurs sélectionnés
+     * @param traceurs {Array<Object>} - Liste des traceurs sélectionnés
+     * @param options {Object} - Options de correction (par exemple, seuil de bruit, méthode de correction, etc.)
+     */
     appliquerCorrectionBruitDeFond(traceurs, options) {
         this.correctionBruitDeFond.appliquerCorrection(traceurs, options);
     }
@@ -560,6 +582,7 @@ export class ControlleurVisualisation {
      */
     gestionRenommageCourbes(ancienNom, nouveauNom) {
         Session.getInstance().contenuFichierMesures = remplacerDonneesFichier(ancienNom, nouveauNom, Session.getInstance().contenuFichierMesures);
+        this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
 
         const selects = document.querySelectorAll('select');
         for (let i = 0; i < selects.length; i++) {
@@ -590,5 +613,14 @@ export class ControlleurVisualisation {
                 return dataset.borderColor || dataset.backgroundColor || '#ff0000';
             }
         }
+    }
+
+
+    /**
+     * Retourne l'instance du graphique de visualisation
+     */
+    getChartInstance() {
+        const canvas = document.getElementById('graphique');
+        return Chart.getChart(canvas) || null;
     }
 }

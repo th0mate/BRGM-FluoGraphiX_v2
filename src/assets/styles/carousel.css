@@ -117,6 +117,16 @@
             }
         }
 
+        .bouton.disabled {
+            cursor: initial;
+            opacity: 0.5;
+            pointer-events: none;
+
+            &:hover {
+                background-color: var(--orangeBRGM);
+            }
+        }
+
         .icone, table {
             margin: 0 auto;
         }

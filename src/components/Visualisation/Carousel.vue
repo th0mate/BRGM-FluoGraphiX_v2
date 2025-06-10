@@ -167,7 +167,7 @@ function initCalibrationDepuisVisualisation() {
 
           </div>
           <div class="spacer"></div>
-          <div class="bouton">Calculer</div>
+          <div class="bouton" :class="{ 'disabled': props.affichageVisualisation.lampesSelectionneesCorrTurbidite.length === 0 }" @click="affichageVisualisation.declencherCorrectionTurbidite">Calculer</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
