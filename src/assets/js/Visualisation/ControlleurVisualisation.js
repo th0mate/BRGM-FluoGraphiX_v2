@@ -570,6 +570,7 @@ export class ControlleurVisualisation {
         if (Session.getInstance().contenuFichierCalibration !== "") {
             for (let i = 0; i < Session.getInstance().traceurs.length; i++) {
                 Session.getInstance().contenuFichierMesures = remplacerDonneesFichier(`A${145 + i}`, `L${1 + i}`, Session.getInstance().contenuFichierMesures);
+                this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
             }
         }
     }

@@ -70,6 +70,7 @@ export class CorrectionTurbidite extends BaseCalcul {
 
         const resultatsParLampe = lampesACorriger.map(idLampe => {
             const indexLampe = colonnes.indexOf(`L${idLampe}`);
+
             if (indexLampe === -1 || indexTurb === -1) return null;
 
             // Récupération ou calcul des coefficients
@@ -159,7 +160,6 @@ export class CorrectionTurbidite extends BaseCalcul {
                         lignesModifiees[lineIndex] = lignesModifiees[lineIndex].replace(/\r|\n/g, '') + ';' + arrondirA2Decimales(valeur);
                     }
                 }
-
                 this.mettreAJourGraphique(nomColonne, dataPoints);
             }
 

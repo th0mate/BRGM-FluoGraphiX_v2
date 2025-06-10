@@ -228,7 +228,6 @@ export class AffichageVisualisation {
      */
     declencherCorrectionTurbidite() {
         if (this.lampesSelectionneesCorrTurbidite.length > 0 && this.niveauCorrectionTurbidite) {
-            console.log(this.niveauCorrectionTurbidite);
             this.controlleurVisualisation.appliquerCorrectionTurbidite(this.lampesSelectionneesCorrTurbidite, this.niveauCorrectionTurbidite);
         }
     }
