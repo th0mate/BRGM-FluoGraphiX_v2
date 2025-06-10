@@ -4,6 +4,7 @@
  * Gère la correction du bruit de fond sur les données de visualisation
  */
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
+import {BaseCalcul} from "@/assets/js/Visualisation/Calculs/BaseCalcul.js";
 
 
 /**
@@ -11,9 +12,9 @@ import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
  * Classe de correction du bruit de fond
  * ======================================================================================================================
  */
-export class CorrectionBruitDeFond {
+export class CorrectionBruitDeFond extends BaseCalcul {
     constructor(controlleur) {
-        this.controlleur = controlleur;
+        super(controlleur);
     }
 
 
@@ -25,20 +26,21 @@ export class CorrectionBruitDeFond {
     appliquerCorrection(traceurs, options = {}) {
         if (!Array.isArray(traceurs) || traceurs.length === 0) return;
         const { listeLampeBruitDeFond = [], zoneSelectionnee = [] } = options;
-        const eau = this.controlleur.traceurs.find(t => t.unite === '');
-        const chart = this.controlleur.getChartInstance();
+        const eau = this.getTraceurParUnite('');
+        const chart = this.getChartInstance();
         if (!chart) return;
         const lignes = this.controlleur.contenuFichierMesures.split('\n').filter(l => l !== '');
         const colonnes = lignes[2].split(';').map(col => col.replace(/\r|\n/g, ''));
 
-        // Ajout du calcul dans la liste des calculs
-        const calcul = new this.controlleur.Calculs(`Correction de bruit de fond`, 'oui');
-        calcul.ajouterParametreCalcul('Variables sélectionnées', listeLampeBruitDeFond);
+        const parametres = {
+            'Variables sélectionnées': listeLampeBruitDeFond
+        };
+
         if (zoneSelectionnee.length > 0) {
-            calcul.ajouterParametreCalcul('Période', zoneSelectionnee[0] + ' - ' + zoneSelectionnee[1]);
+            parametres['Période'] = zoneSelectionnee[0] + ' - ' + zoneSelectionnee[1];
         }
-        this.controlleur.listeCalculs = this.controlleur.listeCalculs.filter(c => c.nom !== calcul.nom);
-        this.controlleur.listeCalculs.push(calcul);
+
+        this.creerCalcul('Correction de bruit de fond', parametres);
 
         // Cas 1 traceur (le plus courant)
         if (traceurs.length === 1) {
@@ -64,30 +66,18 @@ export class CorrectionBruitDeFond {
                     X.push(ligneX);
                 }
             }
+
             // Régression linéaire multiple : coefficients = (X^T X)^-1 X^T Y
             const XT = this.controlleur.transpose(X);
             const XTX = this.controlleur.multiply(XT, X);
             const XTXinv = this.controlleur.inverse(XTX);
             const XTY = this.controlleur.multiply(XT, Y);
             const coefficients = this.controlleur.multiply(XTXinv, XTY);
+
             // Application des coefficients pour correction
-            const data = {
-                label: `L${traceur.lampePrincipale}Corr_nat`,
-                data: [],
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-                borderColor: this.controlleur.getRandomColor(),
-                borderWidth: 2,
-                pointRadius: 0
-            };
-            const data1 = {
-                label: `L${traceur.lampePrincipale}Nat`,
-                data: [],
-                backgroundColor: 'rgba(0, 0, 0, 0)',
-                borderColor: this.controlleur.getRandomColor(),
-                borderWidth: 2,
-                pointRadius: 0
-            };
-            let contenu = [];
+            const dataCorr = [];
+            const dataNat = [];
+
             for (let i = 3; i < lignes.length; i++) {
                 const cols = lignes[i].split(';');
                 if (cols[indexLampePrincipale] !== '') {
@@ -102,15 +92,13 @@ export class CorrectionBruitDeFond {
                     }
                     LxNat += coefficients[tableauIndex.length][0];
                     const valeur = (cols[indexLampePrincipale] - LxNat) + eau.getDataParNom(`L${traceur.lampePrincipale}-1`);
-                    data1.data.push({x: timestamp, y: LxNat});
-                    data.data.push({x: timestamp, y: valeur});
+                    dataNat.push({x: timestamp, y: LxNat});
+                    dataCorr.push({x: timestamp, y: valeur});
                 }
             }
-            // Mise à jour du graphique
-            chart.data.datasets = chart.data.datasets.filter(dataset => dataset.label !== `L${traceur.lampePrincipale}Corr_nat` && dataset.label !== `L${traceur.lampePrincipale}Nat`);
-            chart.data.datasets.push(data);
-            chart.data.datasets.push(data1);
-            chart.update();
+
+            this.mettreAJourGraphique(`L${traceur.lampePrincipale}Corr_nat`, dataCorr);
+            this.mettreAJourGraphique(`L${traceur.lampePrincipale}Nat`, dataNat);
         } else {
             afficherMessageFlash('Correction de bruit de fond pour plusieurs traceurs : fonctionnalité à compléter.', 'info');
         }
