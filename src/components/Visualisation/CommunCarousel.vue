@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import {copierScreenElement, copierTexte} from '@/assets/js/Common/pressePapier';
+import Session from '@/assets/js/Session/Session';
 
 const props = defineProps<{
   affichageVisualisation: any,
@@ -14,9 +15,13 @@ const props = defineProps<{
     <img src="@/assets/img/popup/warning.png" alt="" class="icone">
     <span>Certaines de vos données de calibration sont susceptibles d'être incorrectes, veuillez les vérifier.</span>
   </div>
-  <div class="card anomalie" v-else>
+  <div class="card anomalie" v-else-if="Session.getInstance().contenuFichierCalibration !== ''">
     <img src="@/assets/img/popup/success.png" alt="" class="icone">
     <span>Aucune anomalie n'a été détectée dans vos données de calibration.</span>
+  </div>
+  <div class="card anomalie" v-else>
+    <img src="@/assets/img/popup/error.png" alt="" class="icone">
+    <span>Aucun fichier de calibration importé, aucun calcul possible.</span>
   </div>
   <div class="actions card">
     <img v-tooltip.top="'Importer d\'autres fichiers'" class="action" src="@/assets/img/icons/importer.png"
