@@ -190,6 +190,7 @@ export class AffichageVisualisation {
             checkbox.checked = false;
             checkbox.style.background = '';
         });
+        this.lampesSelectionneesCorrTurbidite = [];
     }
 
 
@@ -253,8 +254,8 @@ export class AffichageVisualisation {
      */
     declencherCorrectionTurbidite() {
         if (this.lampesSelectionneesCorrTurbidite.length > 0 && this.niveauCorrectionTurbidite) {
-            this.resetCheckboxesCarousel();
             this.controlleurVisualisation.appliquerCorrectionTurbidite(this.lampesSelectionneesCorrTurbidite, this.niveauCorrectionTurbidite);
+            this.resetCheckboxesCarousel();
         }
     }
 
