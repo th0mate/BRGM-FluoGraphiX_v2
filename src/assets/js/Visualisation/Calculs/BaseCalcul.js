@@ -29,22 +29,6 @@ export class BaseCalcul {
 
 
     /**
-     * Initialise la logique de calculs
-     */
-    init() {
-        document.querySelector(".chargement-calculs").style.display = "block";
-    }
-
-
-    /**
-     * Clôt la logique de calculs
-     */
-    end() {
-        document.querySelector(".chargement-calculs").style.display = "none";
-    }
-
-
-    /**
      * Exécute une fonction de calcul avec gestion automatique du chargement
      * @param {Function} fn - La fonction de calcul à exécuter
      * @param {...any} args - Les arguments à passer à la fonction

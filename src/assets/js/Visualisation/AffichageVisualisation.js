@@ -120,6 +120,19 @@ export class AffichageVisualisation {
      * @returns {Promise<HTMLElement|null>} - Retourne une promesse qui se résout avec l'élément tbody ou null
      */
     initSlidePrincipale(calibrationEstLieeGraphique) {
+        const carousel = document.querySelector('.carousel');
+        if (carousel) {
+            if (carousel.splide) {
+                carousel.splide.go(0);
+            } else if (typeof Splide !== 'undefined' && Splide.getInstance) {
+                const splideInstance = Splide.getInstance(carousel);
+                if (splideInstance) {
+                    splideInstance.go(0);
+                }
+            } else if (carousel._splide) {
+                carousel._splide.go(0);
+            }
+        }
         if (!calibrationEstLieeGraphique) {
             return new Promise((resolve) => {
                 const tbodyElement = document.querySelector('tbody');
@@ -165,6 +178,18 @@ export class AffichageVisualisation {
             });
         }
         return Promise.resolve(null);
+    }
+
+
+    /**
+     * Réinitialise l'état des checkboxes du carousel Splide
+     */
+    resetCheckboxesCarousel() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+            checkbox.style.background = '';
+        });
     }
 
 
@@ -228,6 +253,7 @@ export class AffichageVisualisation {
      */
     declencherCorrectionTurbidite() {
         if (this.lampesSelectionneesCorrTurbidite.length > 0 && this.niveauCorrectionTurbidite) {
+            this.resetCheckboxesCarousel();
             this.controlleurVisualisation.appliquerCorrectionTurbidite(this.lampesSelectionneesCorrTurbidite, this.niveauCorrectionTurbidite);
         }
     }
