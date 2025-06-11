@@ -53,7 +53,9 @@ class GraphiqueVisualisation extends Graphiques {
                     borderColor: couleurs[i],
                     borderWidth: 2,
                     fill: false,
-                    pointRadius: 0
+                    pointRadius: 0,
+                    pointHoverRadius: 3,
+                    pointHitRadius: 10
                 };
             }
             return null;
@@ -62,14 +64,46 @@ class GraphiqueVisualisation extends Graphiques {
         const data = {datasets};
         const canvas = document.getElementById('graphique');
         canvas.style.display = 'block';
+
+
         const existingChart = window.Chart.getChart(canvas);
         if (existingChart) existingChart.destroy();
+
         const ctx = canvas.getContext('2d');
+        const zoomMode = Session.getInstance().zoomGraphiques;
 
         const chartOptions = {
             type: 'line',
             data: data,
             options: {
+                animation: false,
+                animations: {
+                    colors: false,
+                    x: false,
+                    y: false
+                },
+                transitions: {
+                    zoom: {
+                        animation: {
+                            duration: 0
+                        }
+                    },
+                    pan: {
+                        animation: {
+                            duration: 0
+                        }
+                    }
+                },
+                elements: {
+                    line: {
+                        tension: 0
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                },
                 scales: {
                     x: {
                         type: 'time',
@@ -98,26 +132,76 @@ class GraphiqueVisualisation extends Graphiques {
                 },
                 plugins: {
                     zoom: {
-                        pan: {enabled: true, mode: `${Session.getInstance().zoomGraphiques}`},
+                        limits: {
+                            x: {minRange: 1000},
+                            y: {minRange: 0.01}
+                        },
+                        pan: {
+                            enabled: true,
+                            mode: zoomMode,
+                            threshold: 10,
+                            onPanComplete: function() {
+                            }
+                        },
                         zoom: {
-                            wheel: {enabled: true},
-                            pinch: {enabled: true},
-                            mode: `${Session.getInstance().zoomGraphiques}`
+                            wheel: {
+                                enabled: true,
+                                speed: 0.05
+                            },
+                            pinch: {
+                                enabled: true
+                            },
+                            mode: zoomMode,
+                            onZoomComplete: function() {
+                            }
                         }
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 500
                     },
                     annotation: {annotation: {}},
                     tooltip: {
+                        enabled: true,
+                        animation: false,
+                        mode: 'nearest',
+                        intersect: true,
+                        axis: 'xy',
+                        position: 'nearest',
+                        caretSize: 6,
                         callbacks: {
                             title: tooltipItem => DateTime.fromMillis(tooltipItem[0].parsed.x, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss'),
                             label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.parsed.y
                         }
                     }
                 },
+
+                hover: {
+                    mode: 'nearest',
+                    intersect: true,
+                    axis: 'xy',
+                    animationDuration: 0
+                },
+
+                responsive: true,
+                maintainAspectRatio: true,
+                resizeDelay: 0,
+
+                devicePixelRatio: window.devicePixelRatio || 1,
+
+                onResize: function(chart, size) {
+                }
             }
         };
 
         new window.Chart(ctx, chartOptions);
+
         this.cacherDoublons();
+
+        document.querySelector('.bandeauGraphiques')?.style.setProperty('display', 'flex');
+        document.querySelector('.outilSuppressionCourbes')?.style.setProperty('display', 'flex');
+        document.querySelector('.infos')?.style.setProperty('display', 'none');
     }
 }
 
