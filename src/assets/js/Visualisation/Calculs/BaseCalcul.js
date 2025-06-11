@@ -7,6 +7,9 @@ import {afficherMessageFlash, arrondirA2Decimales} from "@/assets/js/Common/util
 import {Calculs} from "@/assets/js/Objects/Calcul.js";
 import Session from "@/assets/js/Session/Session.js";
 import {DateTime} from "luxon";
+import errorImage from "@/assets/img/popup/error.png";
+import {afficherPopup} from "@/assets/js/UI/popupService.js";
+
 
 /**
  * =======================================================================================================================
@@ -56,7 +59,15 @@ export class BaseCalcul {
 
             return resultat;
         } catch (error) {
-            afficherMessageFlash("Erreur", 'Une erreur est survenue lors du calcul, veuillez réessayez.', 'error');
+            const imageHTML = `<img src="${errorImage}" alt="Erreur" style="width: 120px;">`;
+
+            afficherPopup(
+                imageHTML,
+                'Erreur',
+                'Erreur inattendue lors du calcul',
+                'Une erreur est survenue. Veuillez vérifier vos données et réessayer ultérieurement. Si le problème persiste, veuillez ouvrir une issue sur le dépôt Github.',
+                'Fermer'
+            );
             throw error;
         } finally {
             if (this.controlleur) {

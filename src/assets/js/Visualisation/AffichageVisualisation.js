@@ -194,7 +194,13 @@ export class AffichageVisualisation {
             checkbox.checked = false;
             checkbox.style.background = '';
         });
+        document.querySelector('.listeTraceursInterferences').innerHTML = '';
         this.lampesSelectionneesCorrTurbidite = [];
+        this.niveauCorrectionTurbidite = 1;
+        this.nbTraceursCorrectionInterferences = 0;
+        this.traceursCorrectionInterferences = [];
+        this.echelleTraceur1Interferences = null;
+        this.echelleTraceur2Interferences = null;
     }
 
 
