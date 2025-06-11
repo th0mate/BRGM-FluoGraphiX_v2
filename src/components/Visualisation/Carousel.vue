@@ -182,38 +182,20 @@ function initCalibrationDepuisVisualisation() {
           <div class="spacer"></div>
           <span>Sélectionnez le nombre de traceurs présents :</span>
           <div class="checkboxes">
-            <label>
-              <input type="checkbox" value="L1">
+            <label class="checkNbLabel" @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(1)">
+              <input type="checkbox" value="" class="one-traceur checkNb" id="one-traceur-checkbox">
               1 traceur
             </label>
-            <label>
-              <input type="checkbox" value="L2">
+            <label class="checkNbLabel" @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(2)">
+              <input type="checkbox" value="" class="two-traceur checkNb" id="two-traceur-checkbox">
               2 traceurs
             </label>
           </div>
           <div class="spacer"></div>
           <span>Sélectionnez les traceurs concernés :</span>
-          <div class="multiple">
-            <div>
-              <select>
-                <option selected disabled>Traceur 1</option>
-              </select>
-              <select>
-                <option selected>100ppb</option>
-              </select>
-            </div>
-            <span class="separator"></span>
-            <div>
-              <select>
-                <option selected disabled>Traceur 2</option>
-              </select>
-              <select>
-                <option selected>100ppb</option>
-              </select>
-            </div>
-          </div>
+          <div class="multiple listeTraceursInterferences"></div>
           <div class="spacer"></div>
-          <div class="bouton" @click="affichageVisualisation.estEffectueeCorrectionInterferences = true">Calculer</div>
+          <div class="bouton" :class="{ 'disabled': props.affichageVisualisation.traceursCorrectionInterferences.length === 0 }" @click="affichageVisualisation.declencherCorrectionInterferences">Calculer</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>

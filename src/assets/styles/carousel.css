@@ -165,12 +165,13 @@
         select {
             width: fit-content;
             background-color: #D9D9D9;
-            padding: 0 5px;
+            padding: 5px 10px;
             color: var(--grisBRGM);
             border: 1px solid var(--grisBRGM);
             font-size: 0.9em;
             font-family: "Consolas", "sans-serif";
             font-weight: 600;
+            height: fit-content;
 
             option {
                 background-color: #D9D9D9;
@@ -236,6 +237,18 @@
             flex-wrap: wrap;
             gap: 10px;
             margin: 0 auto;
+
+            .checkNbLabel {
+                border: 2px solid var(--orangeBRGM);
+
+                .checkNb {
+                    border: 1px solid var(--orangeBRGM);
+                }
+
+                .checkNb:checked {
+                    background-color: var(--orangeBRGM);
+                }
+            }
 
             label {
                 display: flex;

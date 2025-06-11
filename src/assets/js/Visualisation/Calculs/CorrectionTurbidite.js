@@ -41,7 +41,7 @@ export class CorrectionTurbidite extends BaseCalcul {
      * @param {Array} traceurs - liste des traceurs (optionnel, sinon this.controlleur.traceurs)
      */
     _effectuerCorrection(lampesACorriger, niveauCorrection, traceurs = null) {
-        const traceursUtilises = traceurs || this.controlleur.traceurs;
+        const traceursUtilises = traceurs;
         const eau = this.getTraceurParUnite('');
         const turbidite = traceursUtilises.find(traceur => traceur.unite && traceur.unite.toLowerCase() === 'ntu');
         if (!eau || !turbidite) return;

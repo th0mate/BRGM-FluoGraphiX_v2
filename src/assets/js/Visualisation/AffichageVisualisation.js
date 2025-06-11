@@ -19,6 +19,10 @@ export class AffichageVisualisation {
         this.estEffectueeCorrectionInterferences = false;
         this.controlleurVisualisation = null;
         this.lampesSelectionneesCorrTurbidite = [];
+        this.nbTraceursCorrectionInterferences = 0;
+        this.traceursCorrectionInterferences = [];
+        this.echelleTraceur1Interferences = null;
+        this.echelleTraceur2Interferences = null;
     }
 
 
@@ -143,36 +147,36 @@ export class AffichageVisualisation {
                     }, 500);
                     return;
                 }
-                    let html = "";
-                    const traceurs = Session.getInstance().traceurs;
+                let html = "";
+                const traceurs = Session.getInstance().traceurs;
 
-                    for (let i = 0; i < traceurs.length; i++) {
-                        const traceur = traceurs[i];
-                        if (isNaN(traceur.lampePrincipale)) {
-                            continue;
-                        }
+                for (let i = 0; i < traceurs.length; i++) {
+                    const traceur = traceurs[i];
+                    if (isNaN(traceur.lampePrincipale)) {
+                        continue;
+                    }
 
-                        html += `
+                    html += `
                 <tr>
                     <td>L${traceur.lampePrincipale}</td>
                     <td>
                         <select class="renameCourbe" id='rename${i}' data-lampe='L${traceur.lampePrincipale}'>
                         <option value="" selected disabled>Sélectionner</option>
                             `;
-                        const lignes = Session.getInstance().contenuFichierMesures.split('\n');
-                        const header = lignes[2].split(';').splice(2);
+                    const lignes = Session.getInstance().contenuFichierMesures.split('\n');
+                    const header = lignes[2].split(';').splice(2);
 
-                        for (let j = 0; j < header.length; j++) {
-                            html += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
-                        }
+                    for (let j = 0; j < header.length; j++) {
+                        html += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
+                    }
 
-                        html += `
+                    html += `
                         </select>
                     </td>
                 </tr>`;
-                    }
+                }
 
-                    tbodyElement.innerHTML = html;
+                tbodyElement.innerHTML = html;
 
                 resolve(tbodyElement);
             });
@@ -192,8 +196,6 @@ export class AffichageVisualisation {
         });
         this.lampesSelectionneesCorrTurbidite = [];
     }
-
-
 
 
     /**
@@ -260,14 +262,153 @@ export class AffichageVisualisation {
     }
 
 
-
-
     /**
      * -----------------------------------------------------------------------------------------------------------------
      * Méthodes pour la correction des interférences
      * -----------------------------------------------------------------------------------------------------------------
      */
 
+
+    /**
+     * Permet la sélection du nombre de traceurs pour la correction des interférences
+     * @param {number} nb - Le nombre de traceurs à sélectionner (1 ou 2)
+     */
+    selectionnerNombreTraceursCorrectionInterferences(nb) {
+        this.nbTraceursCorrectionInterferences = nb;
+        this.traceursCorrectionInterferences = [];
+
+        const oneTraceurCheckbox = document.getElementById('one-traceur-checkbox');
+        const twoTraceurCheckbox = document.getElementById('two-traceur-checkbox');
+
+        if (oneTraceurCheckbox && twoTraceurCheckbox) {
+            oneTraceurCheckbox.checked = nb === 1;
+            twoTraceurCheckbox.checked = nb === 2;
+        }
+
+        const div = document.querySelector('.listeTraceursInterferences');
+        if (nb === 1) {
+            let html = "<select class='select-traceur-one'><option disabled selected>Traceur 1</option>";
+
+            for (const traceur of Session.getInstance().traceurs) {
+                if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
+                    html += `<option value="${traceur.lampePrincipale}">${traceur.nom}</option>`;
+                }
+            }
+
+            html += "</select>";
+            div.innerHTML = html;
+        } else {
+            let html1 = "<div class='data-traceur-one'><select class='select-traceur-one'><option disabled selected>Traceur 1</option>";
+            let html2 = "<div class='data-traceur-two'><select class='select-traceur-two'><option disabled selected>Traceur 2</option>";
+
+            for (const traceur of Session.getInstance().traceurs) {
+                if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
+                    html1 += `<option value="${traceur.lampePrincipale}">${traceur.nom}</option>`;
+                    html2 += `<option value="${traceur.lampePrincipale}">${traceur.nom}</option>`;
+                }
+            }
+
+            html1 += "</select></div>";
+            html2 += "</select></div>";
+            div.innerHTML = html1 + '<span class="separator"></span>' + html2;
+        }
+
+        document.querySelector('.select-traceur-one').addEventListener('change', (event) => {
+            const traceur = Session.getInstance().traceurs.find(t => t.lampePrincipale === parseInt(event.target.value));
+            if (traceur) {
+                this.traceursCorrectionInterferences[0] = traceur;
+                this.configurerSelectionEchelleInterferences(this.traceursCorrectionInterferences[0], this.traceursCorrectionInterferences[1]);
+            }
+        });
+
+        const selectTraceurTwo = document.querySelector('.select-traceur-two');
+        if (selectTraceurTwo) {
+            selectTraceurTwo.addEventListener('change', (event) => {
+                const traceur = Session.getInstance().traceurs.find(t => t.lampePrincipale === parseInt(event.target.value));
+                if (traceur) {
+                    this.traceursCorrectionInterferences[1] = traceur;
+                    this.configurerSelectionEchelleInterferences(this.traceursCorrectionInterferences[0], this.traceursCorrectionInterferences[1]);
+                }
+            });
+        }
+    }
+
+
+    /**
+     * Permet de sélectionner pour chaque traceur l'échelle à utiliser pour la correction des interférences dans le cas
+     * où celle-ci s'effectue sur deux traceurs
+     */
+    configurerSelectionEchelleInterferences(traceur1, traceur2) {
+
+        if (!traceur1 || !traceur2) {
+            return;
+        }
+
+        let divT1 = document.querySelector('.data-traceur-one');
+        let divT2 = document.querySelector('.data-traceur-two');
+
+        const listeT1 = this.controlleurVisualisation.getEchelleStandardTraceur(traceur1, traceur2);
+        const listeT2 = this.controlleurVisualisation.getEchelleStandardTraceur(traceur2, traceur1);
+        const echelleTraceur1 = Math.max(...listeT1);
+        const echelleTraceur2 = Math.max(...listeT2);
+
+        this.echelleTraceur1Interferences = echelleTraceur1;
+        this.echelleTraceur2Interferences = echelleTraceur2;
+
+        let htmlT1 = `<select class="echelle-t1"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
+        let htmlT2 = `<select class="echelle-t2"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur1.unite}</option>`;
+
+        for (let i = 0; i < listeT1.length; i++) {
+            if (listeT1[i] !== echelleTraceur1) {
+                htmlT1 += `<option value="${listeT1[i]}">${listeT1[i]}${traceur1.unite}</option>`;
+            }
+        }
+
+        for (let i = 0; i < listeT2.length; i++) {
+            if (listeT2[i] !== echelleTraceur2) {
+                htmlT2 += `<option value="${listeT2[i]}">${listeT2[i]}${traceur2.unite}</option>`;
+            }
+        }
+
+        htmlT1 += `</select></div>`;
+        htmlT2 += `</select></div>`;
+
+
+        if (divT1 && divT2) {
+            divT1.innerHTML += htmlT1;
+            divT2.innerHTML += htmlT2;
+
+            const selectEchelleT1 = divT1.querySelector('.echelle-t1');
+            const selectEchelleT2 = divT2.querySelector('.echelle-t2');
+
+            selectEchelleT1.addEventListener('change', (event) => {
+                this.echelleTraceur1Interferences = parseFloat(event.target.value);
+            });
+
+            selectEchelleT2.addEventListener('change', (event) => {
+                this.echelleTraceur2Interferences = parseFloat(event.target.value);
+            });
+        }
+    }
+
+
+    /**
+     * Déclenche la correction des interférences à partir des informations saisies par l'utilisateur
+     */
+    declencherCorrectionInterferences() {
+        if (this.traceursCorrectionInterferences.length > 0) {
+            this.controlleurVisualisation.appliquerCorrectionInterferences(this.traceursCorrectionInterferences, this.echelleTraceur1Interferences, this.echelleTraceur2Interferences);
+            this.resetCheckboxesCarousel();
+            this.estEffectueeCorrectionInterferences = true;
+        }
+    }
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Méthodes pour la correction du bruit de fond
+     * -----------------------------------------------------------------------------------------------------------------
+     */
 
 
 }

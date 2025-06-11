@@ -56,7 +56,7 @@ export class BaseCalcul {
 
             return resultat;
         } catch (error) {
-            afficherMessageFlash('Une erreur est survenue lors du calcul', 'error');
+            afficherMessageFlash("Erreur", 'Une erreur est survenue lors du calcul, veuillez réessayez.', 'error');
             throw error;
         } finally {
             if (this.controlleur) {

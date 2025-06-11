@@ -625,4 +625,36 @@ export class ControlleurVisualisation {
         const canvas = document.getElementById('graphique');
         return Chart.getChart(canvas) || null;
     }
+
+
+    /**
+     * Retourne les échelles pour lesquelles il n'y a aucune donnée NaN pour les valeurs demandées dans une certaines échelle
+     * @param traceurPrincipal Traceur pour lequel on veut obtenir l'échelle commune
+     * @param traceurSecondaire Traceur secondaire pour lequel on veut obtenir l'échelle commune
+     * @returns {Array} Tableau contenant les échelles pour lesquelles il n'y a aucune donnée NaN
+     */
+    getEchelleStandardTraceur(traceurPrincipal, traceurSecondaire) {
+        let echellesTraceur = [...traceurPrincipal.echelles];
+
+        const lampesAParcourir = [traceurPrincipal.lampePrincipale, traceurSecondaire.lampePrincipale];
+
+        for (let i = 1; i <= 4; i++) {
+            if (!lampesAParcourir.includes(i) && i !== 4) {
+                lampesAParcourir.push(i);
+            }
+        }
+
+        for (let i = 0; i < echellesTraceur.length; i++) {
+
+            for (let j = 0; j < lampesAParcourir.length; j++) {
+                const data = traceurPrincipal.getDataParNom('L' + (lampesAParcourir[j]) + '-' + (i + 1));
+                if (isNaN(data)) {
+                    echellesTraceur[i] = NaN;
+                }
+            }
+
+        }
+
+        return echellesTraceur.filter(echelle => !isNaN(echelle));
+    }
 }
