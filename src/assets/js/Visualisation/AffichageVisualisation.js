@@ -407,6 +407,7 @@ export class AffichageVisualisation {
         }
     }
 
+
     /**
      * Trie les options d'un select par ordre croissant de valeur (sauf l'option par défaut)
      * @param {HTMLSelectElement} selectElement - L'élément select à trier
@@ -510,7 +511,7 @@ export class AffichageVisualisation {
             this.controlleurVisualisation.appliquerCorrectionInterferences(this.traceursCorrectionInterferences, this.echelleTraceur1Interferences, this.echelleTraceur2Interferences);
             this.resetCheckboxesCarousel();
             this.estEffectueeCorrectionInterferences = true;
-            this.intialiserSlideBruit();
+            this.initialiserSlideBruit();
         }
     }
 
@@ -615,11 +616,11 @@ export class AffichageVisualisation {
     /**
      * Parcoure toutes les courbes du graphique et les ajoute à la div ".variables-explicatives" en tant que checkboxes, avec le style approprié en fonction de la couleur de la courbe
      */
-    intialiserSlideBruit() {
+    initialiserSlideBruit() {
         const div = document.querySelector('.variables-explicatives');
 
         if (!div) {
-            setTimeout(() => this.intialiserSlideBruit(), 500);
+            setTimeout(() => this.initialiserSlideBruit(), 500);
             return;
         }
 
@@ -631,26 +632,95 @@ export class AffichageVisualisation {
             return;
         }
 
-        existingChart.data.datasets.forEach((dataset, index) => {
-            if (dataset.label && dataset.label !== 'Aucune courbe') {
-                const label = document.createElement('label');
-                label.innerHTML = `<input type="checkbox" value="${dataset.label}"/> ${dataset.label}`;
-                this.appliquerStyleCheckbox(label, dataset.label);
+        this.variablesExplicativesBruit = [];
+        const lampesTraceursPrincipales = [];
 
-                const checkbox = label.querySelector('input[type="checkbox"]');
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        this.variablesExplicativesBruit.push(dataset.label);
-                    } else {
-                        const index = this.variablesExplicativesBruit.indexOf(dataset.label);
-                        if (index > -1) {
-                            this.variablesExplicativesBruit.splice(index, 1);
+        const calculsInterferences = Session.getInstance().calculs.filter(calcul =>
+            calcul.equation && calcul.equation.includes('interférences'));
+
+        if (calculsInterferences.length > 0) {
+            try {
+                const paramsArray = Array.from(calculsInterferences[0].parametres.keys());
+                const nbTraceurs = paramsArray.filter(key => key.includes('traceur')).length;
+
+                for (let i = 0; i < nbTraceurs; i++) {
+                    const nomTraceur = calculsInterferences[0].getParametre(`traceur${i}`);
+                    if (nomTraceur) {
+                        const traceur = Session.getInstance().traceurs.find(t => t.nom === nomTraceur);
+                        if (traceur) {
+                            lampesTraceursPrincipales.push(`L${traceur.lampePrincipale}`);
+                            lampesTraceursPrincipales.push(`L${traceur.lampePrincipale}Corr`);
+                            lampesTraceursPrincipales.push(`L${traceur.lampePrincipale}Nat`);
                         }
                     }
-                });
-
-                div.appendChild(label);
+                }
+            } catch (e) {
+                console.error("Erreur lors de la récupération des traceurs d'interférences:", e);
             }
+        } else if (this.traceursCorrectionInterferences.length > 0) {
+            this.traceursCorrectionInterferences.forEach(traceur => {
+                lampesTraceursPrincipales.push(`L${traceur.lampePrincipale}`);
+                lampesTraceursPrincipales.push(`L${traceur.lampePrincipale}Corr`);
+                lampesTraceursPrincipales.push(`L${traceur.lampePrincipale}Nat`);
+            });
+        }
+
+        const courbesStr = existingChart.data.datasets.map(dataset => dataset.label);
+
+        existingChart.data.datasets.forEach((dataset) => {
+            if (!dataset.label ||
+                dataset.label === 'Aucune courbe' ||
+                dataset.label.includes('_nat') ||
+                lampesTraceursPrincipales.includes(dataset.label)) {
+                return;
+            }
+
+            const label = document.createElement('label');
+            label.innerHTML = `<input type="checkbox" value="${dataset.label}"/> ${dataset.label}`;
+
+            const checkbox = label.querySelector('input[type="checkbox"]');
+
+            const couleur = this.controlleurVisualisation.getCouleurCourbe(dataset.label);
+            if (couleur) {
+                label.style.border = `2px solid ${couleur}`;
+                if (checkbox) {
+                    checkbox.style.border = `1px solid ${couleur}`;
+                }
+            }
+
+            // 1. Cocher par défaut les courbes corrigées
+            // 2. Cocher par défaut les courbes non-corrigées si leur version corrigée n'existe pas
+            let checkByDefault = false;
+
+            if (dataset.label.includes('Corr')) {
+                checkByDefault = true;
+            } else if (dataset.label.charAt(0) === 'L') {
+                const corrigeeName = `${dataset.label}Corr`;
+                if (!courbesStr.includes(corrigeeName)) {
+                    checkByDefault = true;
+                }
+            }
+
+            if (checkByDefault) {
+                checkbox.checked = true;
+                checkbox.style.background = couleur || '#ff8800';
+                this.variablesExplicativesBruit.push(dataset.label);
+            }
+
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    checkbox.style.background = couleur || '#ff8800';
+                    this.variablesExplicativesBruit.push(dataset.label);
+                } else {
+                    checkbox.style.background = '';
+                    const index = this.variablesExplicativesBruit.indexOf(dataset.label);
+                    if (index > -1) {
+                        this.variablesExplicativesBruit.splice(index, 1);
+                    }
+                }
+            });
+
+            div.appendChild(label);
         });
     }
 
@@ -660,13 +730,11 @@ export class AffichageVisualisation {
      * Implémentation compatible avec la v1 pour garantir des résultats identiques
      */
     declencherCorrectionBruitDeFond() {
-        // Vérification des variables explicatives
         if (this.variablesExplicativesBruit.length === 0) {
             afficherMessageFlash("Erreur", "Veuillez sélectionner au moins une variable explicative", "error");
             return;
         }
 
-        // Récupération du traceur eau
         const traceurs = Session.getInstance().traceurs;
         const eau = traceurs.find(traceur => traceur.unite === '');
         if (!eau) {
@@ -674,14 +742,12 @@ export class AffichageVisualisation {
             return;
         }
 
-        // Récupération des traceurs d'interférences comme dans la v1
         let traceursBruitDeFond = [];
         const calculsInterferences = Session.getInstance().calculs.filter(calcul =>
             calcul.equation && calcul.equation.includes('interférences'));
 
         let nbTraceursInterferences = 0;
         if (calculsInterferences.length > 0) {
-            // Utilisation du nombre de traceurs stocké directement dans le calcul (comme en v1)
             try {
                 const paramsArray = Array.from(calculsInterferences[0].parametres.keys());
                 nbTraceursInterferences = paramsArray.filter(key => key.includes('traceur')).length;
@@ -701,15 +767,12 @@ export class AffichageVisualisation {
             }
         }
 
-        // Vérification et sélection des traceurs comme dans la v1
         if (traceursBruitDeFond.length === 0) {
-            // Si pas de traceurs d'interférences, utiliser ceux sélectionnés manuellement
             traceursBruitDeFond = this.traceursCorrectionInterferences.length > 0 ?
                 this.traceursCorrectionInterferences :
                 traceurs.filter(t => t && t.unite && t.unite !== '' && t.unite.toLowerCase() !== 'ntu');
         }
 
-        // Vérification du nombre de traceurs exactement comme en v1
         if (traceursBruitDeFond.length === 0) {
             afficherMessageFlash("Erreur", "Aucun traceur disponible pour la correction du bruit de fond", "error");
             return;
@@ -718,7 +781,6 @@ export class AffichageVisualisation {
             return;
         }
 
-        // Tri des lampes pour le bruit de fond exactement comme en v1
         const listeLampeBruitDeFondTriee = [...this.variablesExplicativesBruit].sort((a, b) => {
             if (a.includes('Corr') && b.includes('Corr')) {
                 return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
@@ -731,16 +793,11 @@ export class AffichageVisualisation {
             }
         });
 
-        // Préparation des options pour la correction
-        // Important : format des dates et structure exactement comme en v1
         const options = {
             listeLampeBruitDeFond: listeLampeBruitDeFondTriee
         };
 
-        // Ajout de la zone sélectionnée aux options uniquement si elle est définie
-        // S'assurer que le format est strictement le même qu'en v1: 'dd/MM/yy-HH:mm:ss'
         if (this.zoneSelectionnee.dateDebut && this.zoneSelectionnee.dateFin) {
-            // Conversion au format 'dd/MM/yy-HH:mm:ss' comme utilisé en v1
             const dateDebut = DateTime.fromFormat(this.zoneSelectionnee.dateDebut, 'dd/MM/yyyy-HH:mm:ss')
                 .toFormat('dd/MM/yy-HH:mm:ss');
             const dateFin = DateTime.fromFormat(this.zoneSelectionnee.dateFin, 'dd/MM/yyyy-HH:mm:ss')
@@ -749,7 +806,6 @@ export class AffichageVisualisation {
             options.zoneSelectionnee = [dateDebut, dateFin];
         }
 
-        // Appel à la méthode de correction dans le contrôleur avec gestion de la promesse
         this.controlleurVisualisation.appliquerCorrectionBruitDeFond(traceursBruitDeFond, options)
             .then(() => {
                 afficherMessageFlash("Information", "Correction du bruit de fond effectuée avec succès", "info");
