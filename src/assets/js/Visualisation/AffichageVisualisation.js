@@ -321,9 +321,38 @@ export class AffichageVisualisation {
 
         document.querySelector('.select-traceur-one').addEventListener('change', (event) => {
             const traceur = Session.getInstance().traceurs.find(t => t.lampePrincipale === parseInt(event.target.value));
+
             if (traceur) {
+                if (this.traceursCorrectionInterferences[0] && this.traceursCorrectionInterferences[0].lampePrincipale !== traceur.lampePrincipale) {
+                    const ancienTraceur = this.traceursCorrectionInterferences[0];
+                    const selectTraceurTwo = document.querySelector('.select-traceur-two');
+                    if (selectTraceurTwo) {
+                        const existingOption = Array.from(selectTraceurTwo.options).find(opt =>
+                            parseInt(opt.value) === ancienTraceur.lampePrincipale);
+
+                        if (!existingOption) {
+                            const option = document.createElement('option');
+                            option.value = ancienTraceur.lampePrincipale;
+                            option.text = ancienTraceur.nom;
+                            selectTraceurTwo.appendChild(option);
+
+                            this.trierOptionsSelect(selectTraceurTwo);
+                        }
+                    }
+                }
+
                 this.traceursCorrectionInterferences[0] = traceur;
                 this.configurerSelectionEchelleInterferences(this.traceursCorrectionInterferences[0], this.traceursCorrectionInterferences[1]);
+
+                const selectTraceurTwo = document.querySelector('.select-traceur-two');
+                if (selectTraceurTwo) {
+                    const options = selectTraceurTwo.querySelectorAll('option');
+                    options.forEach(option => {
+                        if (parseInt(option.value) === traceur.lampePrincipale) {
+                            option.remove();
+                        }
+                    });
+                }
             }
         });
 
@@ -331,13 +360,59 @@ export class AffichageVisualisation {
         if (selectTraceurTwo) {
             selectTraceurTwo.addEventListener('change', (event) => {
                 const traceur = Session.getInstance().traceurs.find(t => t.lampePrincipale === parseInt(event.target.value));
+
                 if (traceur) {
+                    if (this.traceursCorrectionInterferences[1] && this.traceursCorrectionInterferences[1].lampePrincipale !== traceur.lampePrincipale) {
+                        const ancienTraceur = this.traceursCorrectionInterferences[1];
+                        const selectTraceurOne = document.querySelector('.select-traceur-one');
+                        if (selectTraceurOne) {
+                            const existingOption = Array.from(selectTraceurOne.options).find(opt =>
+                                parseInt(opt.value) === ancienTraceur.lampePrincipale);
+
+                            if (!existingOption) {
+                                const option = document.createElement('option');
+                                option.value = ancienTraceur.lampePrincipale;
+                                option.text = ancienTraceur.nom;
+                                selectTraceurOne.appendChild(option);
+
+                                this.trierOptionsSelect(selectTraceurOne);
+                            }
+                        }
+                    }
+
                     this.traceursCorrectionInterferences[1] = traceur;
                     this.configurerSelectionEchelleInterferences(this.traceursCorrectionInterferences[0], this.traceursCorrectionInterferences[1]);
+
+                    const selectTraceurOne = document.querySelector('.select-traceur-one');
+                    if (selectTraceurOne) {
+                        const options = selectTraceurOne.querySelectorAll('option');
+                        options.forEach(option => {
+                            if (parseInt(option.value) === traceur.lampePrincipale) {
+                                option.remove();
+                            }
+                        });
+                    }
                 }
             });
         }
     }
+
+    /**
+     * Trie les options d'un select par ordre croissant de valeur (sauf l'option par défaut)
+     * @param {HTMLSelectElement} selectElement - L'élément select à trier
+     */
+    trierOptionsSelect(selectElement) {
+        const defaultOption = selectElement.options[0];
+        const options = Array.from(selectElement.options).slice(1);
+
+        options.sort((a, b) => parseInt(a.value) - parseInt(b.value));
+
+        selectElement.innerHTML = '';
+        selectElement.appendChild(defaultOption);
+
+        options.forEach(option => selectElement.appendChild(option));
+    }
+
 
 
     /**
@@ -361,31 +436,51 @@ export class AffichageVisualisation {
         this.echelleTraceur1Interferences = echelleTraceur1;
         this.echelleTraceur2Interferences = echelleTraceur2;
 
-        let htmlT1 = `<select class="echelle-t1"><option selected value="${echelleTraceur1}">${echelleTraceur1}${traceur1.unite}</option>`;
-        let htmlT2 = `<select class="echelle-t2"><option selected value="${echelleTraceur2}">${echelleTraceur2}${traceur1.unite}</option>`;
+        let selectEchelleT1 = document.createElement('select');
+        selectEchelleT1.className = 'echelle-t1';
+
+        let optionDefaultT1 = document.createElement('option');
+        optionDefaultT1.value = echelleTraceur1;
+        optionDefaultT1.text = echelleTraceur1 + traceur1.unite;
+        optionDefaultT1.selected = true;
+        selectEchelleT1.appendChild(optionDefaultT1);
 
         for (let i = 0; i < listeT1.length; i++) {
             if (listeT1[i] !== echelleTraceur1) {
-                htmlT1 += `<option value="${listeT1[i]}">${listeT1[i]}${traceur1.unite}</option>`;
+                let option = document.createElement('option');
+                option.value = listeT1[i];
+                option.text = listeT1[i] + traceur1.unite;
+                selectEchelleT1.appendChild(option);
             }
         }
+
+        let selectEchelleT2 = document.createElement('select');
+        selectEchelleT2.className = 'echelle-t2';
+
+        let optionDefaultT2 = document.createElement('option');
+        optionDefaultT2.value = echelleTraceur2;
+        optionDefaultT2.text = echelleTraceur2 + traceur2.unite;
+        optionDefaultT2.selected = true;
+        selectEchelleT2.appendChild(optionDefaultT2);
 
         for (let i = 0; i < listeT2.length; i++) {
             if (listeT2[i] !== echelleTraceur2) {
-                htmlT2 += `<option value="${listeT2[i]}">${listeT2[i]}${traceur2.unite}</option>`;
+                let option = document.createElement('option');
+                option.value = listeT2[i];
+                option.text = listeT2[i] + traceur2.unite;
+                selectEchelleT2.appendChild(option);
             }
         }
 
-        htmlT1 += `</select></div>`;
-        htmlT2 += `</select></div>`;
-
-
         if (divT1 && divT2) {
-            divT1.innerHTML += htmlT1;
-            divT2.innerHTML += htmlT2;
+            let oldSelectT1 = divT1.querySelector('.echelle-t1');
+            let oldSelectT2 = divT2.querySelector('.echelle-t2');
 
-            const selectEchelleT1 = divT1.querySelector('.echelle-t1');
-            const selectEchelleT2 = divT2.querySelector('.echelle-t2');
+            if (oldSelectT1) divT1.removeChild(oldSelectT1);
+            if (oldSelectT2) divT2.removeChild(oldSelectT2);
+
+            divT1.appendChild(selectEchelleT1);
+            divT2.appendChild(selectEchelleT2);
 
             selectEchelleT1.addEventListener('change', (event) => {
                 this.echelleTraceur1Interferences = parseFloat(event.target.value);
