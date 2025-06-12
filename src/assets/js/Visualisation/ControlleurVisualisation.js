@@ -657,4 +657,38 @@ export class ControlleurVisualisation {
 
         return echellesTraceur.filter(echelle => !isNaN(echelle));
     }
+
+
+    /**
+     * Fonction pour attribuer la date de fin de la période sélectionnée à la dernière date du fichier de mesures
+     * @returns {string} La date de fin mise à jour
+     */
+    dateFinSelectionneeDerniereDate() {
+        const lignes = this.controlleur.copieContenuFichierMesure.split('\n');
+        const derniereLigne = lignes[lignes.length - 2];
+        if (!derniereLigne) return null;
+
+        const colonnes = derniereLigne.split(';');
+        if (colonnes.length < 2) return null;
+
+        const date = colonnes[0] + '-' + colonnes[1];
+        return DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    }
+
+
+    /**
+     * Fonction pour attribuer la date de début de la période sélectionnée à la première date du fichier de mesures
+     * @returns {string} La date de début mise à jour
+     */
+    dateDebutSelectionneePremiereDate() {
+        const lignes = this.controlleur.copieContenuFichierMesure.split('\n');
+        if (lignes.length < 4) return null;
+
+        const premiereLigne = lignes[3];  // 1ère ligne de données (après les en-têtes)
+        const colonnes = premiereLigne.split(';');
+        if (colonnes.length < 2) return null;
+
+        const date = colonnes[0] + '-' + colonnes[1];
+        return DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    }
 }
