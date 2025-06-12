@@ -323,40 +323,6 @@ export class CorrectionBruitDeFond extends BaseCalcul {
      * @param {Array<string>} zoneSelectionnee - [dateDebut, dateFin]
      */
     _ajouterAnnotationZone(zoneSelectionnee) {
-        if (!zoneSelectionnee || zoneSelectionnee.length !== 2) return;
 
-        const chart = this.getChartInstance();
-        if (!chart) return;
-
-        const zoneStart = DateTime.fromFormat(zoneSelectionnee[0], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-        const zoneEnd = DateTime.fromFormat(zoneSelectionnee[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toMillis();
-
-        const minGraphique = chart.scales['x'].min;
-        const maxGraphique = chart.scales['x'].max;
-
-        const annotation1 = {
-            type: 'box',
-            xMin: minGraphique + 100,
-            xMax: zoneStart,
-            yMin: -Infinity,
-            yMax: Infinity,
-            backgroundColor: 'rgba(255,99,104,0.10)',
-            borderColor: 'rgb(255,24,75, 0.50)',
-            borderWidth: 2
-        };
-
-        const annotation2 = {
-            type: 'box',
-            xMin: zoneEnd,
-            xMax: maxGraphique - 100,
-            yMin: -Infinity,
-            yMax: Infinity,
-            backgroundColor: 'rgba(255,99,104,0.10)',
-            borderColor: 'rgb(255,24,75, 0.50)',
-            borderWidth: 2
-        };
-
-        chart.options.plugins.annotation.annotations = [annotation1, annotation2];
-        chart.update();
     }
 }
