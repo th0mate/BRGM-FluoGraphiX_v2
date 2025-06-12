@@ -209,11 +209,12 @@ export class ControlleurVisualisation {
 
     /**
      * Applique la correction de bruit de fond sur les traceurs sélectionnés
-     * @param traceurs {Array<Object>} - Liste des traceurs sélectionnés
-     * @param options {Object} - Options de correction (par exemple, seuil de bruit, méthode de correction, etc.)
+     * @param {Array} traceurs - Traceurs concernés (1 ou 2)
+     * @param {Object} options - { listeLampeBruitDeFond: Array, zoneSelectionnee: Array }
+     * @returns {Promise} - Promise résolue après l'application de la correction
      */
     appliquerCorrectionBruitDeFond(traceurs, options) {
-        this.correctionBruitDeFond.appliquerCorrection(traceurs, options);
+        return this.correctionBruitDeFond.appliquerCorrection(traceurs, options);
     }
 
 

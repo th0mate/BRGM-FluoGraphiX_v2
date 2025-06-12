@@ -220,25 +220,9 @@ function initCalibrationDepuisVisualisation() {
             <span class="bouton" @click="affichageVisualisation.dateFinSelectionneeDerniereDate">Jusqu'à la fin</span>
           </div>
           <span>Sélectionnez les variables explicatives :</span>
-          <div class="checkboxes">
-            <label>
-              <input type="checkbox" value="L1">
-              L1
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              L2
-            </label>
-            <label>
-              <input type="checkbox" value="L3">
-              L3
-            </label>
-            <label>
-              <input type="checkbox" value="L4">
-              L4
-            </label>
+          <div class="checkboxes variables-explicatives">
           </div>
-          <div class="bouton" @click="console.log(affichageVisualisation.zoneSelectionnee)">Calculer</div>
+          <div class="bouton" @click="affichageVisualisation.declencherCorrectionBruitDeFond">Calculer</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>

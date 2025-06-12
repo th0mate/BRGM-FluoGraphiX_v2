@@ -25,6 +25,7 @@ export class AffichageVisualisation {
         this.echelleTraceur1Interferences = null;
         this.echelleTraceur2Interferences = null;
         this.zoneSelectionnee = {};
+        this.variablesExplicativesBruit = [];
     }
 
 
@@ -114,6 +115,7 @@ export class AffichageVisualisation {
     initialiserCarouselSplide(calibrationEstLieeGraphique) {
         return new Promise(resolve => {
             this.initSlidePrincipale(calibrationEstLieeGraphique).then(tbodyElement => {
+                this.estEffectueeCorrectionInterferences = false;
                 this.initialiserCorrectionTurbidite();
                 resolve(tbodyElement);
             });
@@ -203,6 +205,12 @@ export class AffichageVisualisation {
         this.traceursCorrectionInterferences = [];
         this.echelleTraceur1Interferences = null;
         this.echelleTraceur2Interferences = null;
+        this.zoneSelectionnee = {};
+        this.variablesExplicativesBruit = [];
+
+        document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
+            input.value = '';
+        });
     }
 
 
@@ -416,7 +424,6 @@ export class AffichageVisualisation {
     }
 
 
-
     /**
      * Permet de sélectionner pour chaque traceur l'échelle à utiliser pour la correction des interférences dans le cas
      * où celle-ci s'effectue sur deux traceurs
@@ -503,11 +510,9 @@ export class AffichageVisualisation {
             this.controlleurVisualisation.appliquerCorrectionInterferences(this.traceursCorrectionInterferences, this.echelleTraceur1Interferences, this.echelleTraceur2Interferences);
             this.resetCheckboxesCarousel();
             this.estEffectueeCorrectionInterferences = true;
+            this.intialiserSlideBruit();
         }
     }
-
-
-
 
 
     /**
@@ -547,7 +552,7 @@ export class AffichageVisualisation {
         if (colonnes.length < 2) return null;
 
         const date = colonnes[0] + '-' + colonnes[1];
-        const dateFinale =  DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+        const dateFinale = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
         this.zoneSelectionnee.dateDebut = dateFinale;
         document.querySelector('#debutSelection').value = DateTime.fromFormat(dateFinale, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
     }
@@ -604,6 +609,156 @@ export class AffichageVisualisation {
             const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', {zone: 'UTC'});
             this.zoneSelectionnee.dateFin = dateTime.toFormat('dd/MM/yyyy-HH:mm:ss');
         }
+    }
+
+
+    /**
+     * Parcoure toutes les courbes du graphique et les ajoute à la div ".variables-explicatives" en tant que checkboxes, avec le style approprié en fonction de la couleur de la courbe
+     */
+    intialiserSlideBruit() {
+        const div = document.querySelector('.variables-explicatives');
+
+        if (!div) {
+            setTimeout(() => this.intialiserSlideBruit(), 500);
+            return;
+        }
+
+        div.innerHTML = '';
+
+        const canvas = document.getElementById('graphique');
+        const existingChart = Chart.getChart(canvas);
+        if (!existingChart) {
+            return;
+        }
+
+        existingChart.data.datasets.forEach((dataset, index) => {
+            if (dataset.label && dataset.label !== 'Aucune courbe') {
+                const label = document.createElement('label');
+                label.innerHTML = `<input type="checkbox" value="${dataset.label}"/> ${dataset.label}`;
+                this.appliquerStyleCheckbox(label, dataset.label);
+
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        this.variablesExplicativesBruit.push(dataset.label);
+                    } else {
+                        const index = this.variablesExplicativesBruit.indexOf(dataset.label);
+                        if (index > -1) {
+                            this.variablesExplicativesBruit.splice(index, 1);
+                        }
+                    }
+                });
+
+                div.appendChild(label);
+            }
+        });
+    }
+
+
+    /**
+     * Déclenche la correction du bruit de fond à partir des informations saisies par l'utilisateur
+     * Implémentation compatible avec la v1 pour garantir des résultats identiques
+     */
+    declencherCorrectionBruitDeFond() {
+        // Vérification des variables explicatives
+        if (this.variablesExplicativesBruit.length === 0) {
+            afficherMessageFlash("Erreur", "Veuillez sélectionner au moins une variable explicative", "error");
+            return;
+        }
+
+        // Récupération du traceur eau
+        const traceurs = Session.getInstance().traceurs;
+        const eau = traceurs.find(traceur => traceur.unite === '');
+        if (!eau) {
+            afficherMessageFlash("Erreur", "Traceur eau non trouvé. Vérifiez vos données de calibration", "error");
+            return;
+        }
+
+        // Récupération des traceurs d'interférences comme dans la v1
+        let traceursBruitDeFond = [];
+        const calculsInterferences = Session.getInstance().calculs.filter(calcul =>
+            calcul.equation && calcul.equation.includes('interférences'));
+
+        let nbTraceursInterferences = 0;
+        if (calculsInterferences.length > 0) {
+            // Utilisation du nombre de traceurs stocké directement dans le calcul (comme en v1)
+            try {
+                const paramsArray = Array.from(calculsInterferences[0].parametres.keys());
+                nbTraceursInterferences = paramsArray.filter(key => key.includes('traceur')).length;
+            } catch (e) {
+                console.error("Erreur lors de la récupération des traceurs d'interférences:", e);
+                nbTraceursInterferences = 0;
+            }
+
+            for (let i = 0; i < nbTraceursInterferences; i++) {
+                const nomTraceur = calculsInterferences[0].getParametre(`traceur${i}`);
+                if (nomTraceur) {
+                    const traceur = traceurs.find(t => t.nom === nomTraceur);
+                    if (traceur) {
+                        traceursBruitDeFond.push(traceur);
+                    }
+                }
+            }
+        }
+
+        // Vérification et sélection des traceurs comme dans la v1
+        if (traceursBruitDeFond.length === 0) {
+            // Si pas de traceurs d'interférences, utiliser ceux sélectionnés manuellement
+            traceursBruitDeFond = this.traceursCorrectionInterferences.length > 0 ?
+                this.traceursCorrectionInterferences :
+                traceurs.filter(t => t && t.unite && t.unite !== '' && t.unite.toLowerCase() !== 'ntu');
+        }
+
+        // Vérification du nombre de traceurs exactement comme en v1
+        if (traceursBruitDeFond.length === 0) {
+            afficherMessageFlash("Erreur", "Aucun traceur disponible pour la correction du bruit de fond", "error");
+            return;
+        } else if (traceursBruitDeFond.length > 2) {
+            afficherMessageFlash("Erreur", "La correction de bruit de fond n'est possible qu'avec un ou deux traceurs", "error");
+            return;
+        }
+
+        // Tri des lampes pour le bruit de fond exactement comme en v1
+        const listeLampeBruitDeFondTriee = [...this.variablesExplicativesBruit].sort((a, b) => {
+            if (a.includes('Corr') && b.includes('Corr')) {
+                return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
+            } else if (a.includes('Corr')) {
+                return parseInt(a.replace('L', '').replace('Corr', '')) - parseInt(b.replace('L', ''));
+            } else if (b.includes('Corr')) {
+                return parseInt(a.replace('L', '')) - parseInt(b.replace('L', '').replace('Corr', ''));
+            } else {
+                return parseInt(a.replace('L', '')) - parseInt(b.replace('L', ''));
+            }
+        });
+
+        // Préparation des options pour la correction
+        // Important : format des dates et structure exactement comme en v1
+        const options = {
+            listeLampeBruitDeFond: listeLampeBruitDeFondTriee
+        };
+
+        // Ajout de la zone sélectionnée aux options uniquement si elle est définie
+        // S'assurer que le format est strictement le même qu'en v1: 'dd/MM/yy-HH:mm:ss'
+        if (this.zoneSelectionnee.dateDebut && this.zoneSelectionnee.dateFin) {
+            // Conversion au format 'dd/MM/yy-HH:mm:ss' comme utilisé en v1
+            const dateDebut = DateTime.fromFormat(this.zoneSelectionnee.dateDebut, 'dd/MM/yyyy-HH:mm:ss')
+                .toFormat('dd/MM/yy-HH:mm:ss');
+            const dateFin = DateTime.fromFormat(this.zoneSelectionnee.dateFin, 'dd/MM/yyyy-HH:mm:ss')
+                .toFormat('dd/MM/yy-HH:mm:ss');
+
+            options.zoneSelectionnee = [dateDebut, dateFin];
+        }
+
+        // Appel à la méthode de correction dans le contrôleur avec gestion de la promesse
+        this.controlleurVisualisation.appliquerCorrectionBruitDeFond(traceursBruitDeFond, options)
+            .then(() => {
+                afficherMessageFlash("Information", "Correction du bruit de fond effectuée avec succès", "info");
+                this.resetCheckboxesCarousel();
+            })
+            .catch(error => {
+                console.error("Erreur lors de la correction du bruit de fond:", error);
+                afficherMessageFlash("Erreur", "Une erreur s'est produite lors de la correction du bruit de fond", "error");
+            });
     }
 
 
