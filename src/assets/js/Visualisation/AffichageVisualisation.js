@@ -585,4 +585,26 @@ export class AffichageVisualisation {
     }
 
 
+    /**
+     * Configure la date de début de la sélection à partir d'un input de type date-time-local
+     */
+    dateDebutDepuisInput(date) {
+        if (date) {
+            const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', {zone: 'UTC'});
+            this.zoneSelectionnee.dateDebut = dateTime.toFormat('dd/MM/yyyy-HH:mm:ss');
+        }
+    }
+
+
+    /**
+     * Configure la date de fin de la sélection à partir d'un input de type date-time-local
+     */
+    dateFinDepuisInput(date) {
+        if (date) {
+            const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', {zone: 'UTC'});
+            this.zoneSelectionnee.dateFin = dateTime.toFormat('dd/MM/yyyy-HH:mm:ss');
+        }
+    }
+
+
 }

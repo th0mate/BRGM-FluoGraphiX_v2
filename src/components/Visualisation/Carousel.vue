@@ -211,12 +211,12 @@ function initCalibrationDepuisVisualisation() {
           <div class="bouton" @click="affichageVisualisation.selectionnerPeriodeCorrectionBruit">Sélection graphique</div>
           <div class="wrap-dates">
             <span>Du :</span>
-            <input id="debutSelection" type="datetime-local">
+            <input id="debutSelection" type="datetime-local" @change="(e) => e.target && affichageVisualisation.dateDebutDepuisInput((e.target as HTMLInputElement).value)">
             <span class="bouton" @click="affichageVisualisation.dateDebutSelectionneePremiereDate">Depuis le début</span>
           </div>
           <div class="wrap-dates">
             <span>Au :</span>
-            <input id="finSelection" type="datetime-local">
+            <input id="finSelection" type="datetime-local" @change="(e) => e.target && affichageVisualisation.dateFinDepuisInput((e.target as HTMLInputElement).value)">
             <span class="bouton" @click="affichageVisualisation.dateFinSelectionneeDerniereDate">Jusqu'à la fin</span>
           </div>
           <span>Sélectionnez les variables explicatives :</span>
@@ -238,7 +238,7 @@ function initCalibrationDepuisVisualisation() {
               L4
             </label>
           </div>
-          <div class="bouton">Calculer</div>
+          <div class="bouton" @click="console.log(affichageVisualisation.zoneSelectionnee)">Calculer</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
