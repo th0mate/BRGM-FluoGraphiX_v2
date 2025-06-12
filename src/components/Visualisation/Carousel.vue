@@ -208,16 +208,16 @@ function initCalibrationDepuisVisualisation() {
         <div class="card main">
           <b>Correction du bruit de fond</b>
           <span>Sélectionnez la période influencée par le traceur :</span>
-          <div class="bouton">Sélection graphique</div>
+          <div class="bouton" @click="affichageVisualisation.selectionnerPeriodeCorrectionBruit">Sélection graphique</div>
           <div class="wrap-dates">
             <span>Du :</span>
-            <input type="datetime-local">
-            <span class="bouton">Depuis le début</span>
+            <input id="debutSelection" type="datetime-local">
+            <span class="bouton" @click="affichageVisualisation.dateDebutSelectionneePremiereDate">Depuis le début</span>
           </div>
           <div class="wrap-dates">
             <span>Au :</span>
-            <input type="datetime-local">
-            <span class="bouton">Jusqu'à la fin</span>
+            <input id="finSelection" type="datetime-local">
+            <span class="bouton" @click="affichageVisualisation.dateFinSelectionneeDerniereDate">Jusqu'à la fin</span>
           </div>
           <span>Sélectionnez les variables explicatives :</span>
           <div class="checkboxes">

@@ -6,6 +6,8 @@ import Graphiques from '@/assets/js/Graphiques/Graphiques.js';
 import Session from "@/assets/js/Session/Session.js";
 import {DateTime} from 'luxon';
 import 'chartjs-adapter-luxon';
+import infoImage from "@/assets/img/popup/info.png";
+import {afficherPopup} from "@/assets/js/UI/popupService.js";
 
 
 class GraphiqueVisualisation extends Graphiques {
@@ -225,10 +227,11 @@ class GraphiqueVisualisation extends Graphiques {
             myChart.options.plugins.zoom.zoom.wheel.enabled = false;
 
             afficherPopup(
-                '<img alt="" src="Ressources/img/select.png">',
+                `<img src="${infoImage}" alt="Avertissement" style="width: 120px;">`,
+                'Information',
                 'Sélectionnez une zone sur le graphique',
                 'Commencez par sélectionner la période influencée par le traceur en cliquant et en maintenant le clic gauche sur le graphique, puis en relâchant le clic à la fin de la zone à sélectionner.',
-                '<div class="bouton boutonFonce" onclick="fermerPopup()">COMMENCER</div>'
+                'Commencer'
             );
 
             let isSelecting = false;
@@ -251,7 +254,6 @@ class GraphiqueVisualisation extends Graphiques {
 
                 const scale = myChart.scales['x'];
 
-                // Conversion des pixels en valeurs de l'axe X
                 const xMinPx = Math.min(startX, currentX);
                 const xMaxPx = Math.max(startX, currentX);
                 const xMinVal = scale.getValueForPixel(xMinPx);
@@ -278,7 +280,6 @@ class GraphiqueVisualisation extends Graphiques {
                     isSelecting = true;
                     startX = getRelativeX(e);
                     currentX = startX;
-                    // Dessiner immédiatement au clic pour un feedback initial
                     drawSelection();
                 }
             }
@@ -306,15 +307,13 @@ class GraphiqueVisualisation extends Graphiques {
                     const startDate = DateTime.fromMillis(xMinVal, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss');
                     const endDate = DateTime.fromMillis(xMaxVal, {zone: 'UTC'}).toFormat('dd/MM/yy-HH:mm:ss');
 
-                    // Nettoyage annotation
                     delete myChart.options.plugins.annotation.annotations['zoneSelection'];
                     myChart.update('none');
 
-                    // Nettoyage des events
                     canvas.removeEventListener('mousedown', onMouseDown);
                     canvas.removeEventListener('mousemove', onMouseMove);
                     canvas.removeEventListener('mouseup', onMouseUp);
-                    // Pour le tactile
+
                     canvas.removeEventListener('touchstart', onMouseDown);
                     canvas.removeEventListener('touchmove', onMouseMove);
                     canvas.removeEventListener('touchend', onMouseUp);
@@ -328,7 +327,6 @@ class GraphiqueVisualisation extends Graphiques {
                 }
             }
 
-            // Ajout des écouteurs (souris et tactile)
             canvas.addEventListener('mousedown', onMouseDown);
             canvas.addEventListener('mousemove', onMouseMove);
             canvas.addEventListener('mouseup', onMouseUp);

@@ -6,6 +6,7 @@
 import {Chart} from "chart.js/auto";
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import Session from "@/assets/js/Session/Session.js";
+import {DateTime} from "luxon";
 
 
 /**
@@ -23,6 +24,7 @@ export class AffichageVisualisation {
         this.traceursCorrectionInterferences = [];
         this.echelleTraceur1Interferences = null;
         this.echelleTraceur2Interferences = null;
+        this.zoneSelectionnee = {};
     }
 
 
@@ -505,11 +507,82 @@ export class AffichageVisualisation {
     }
 
 
+
+
+
     /**
      * -----------------------------------------------------------------------------------------------------------------
      * Méthodes pour la correction du bruit de fond
      * -----------------------------------------------------------------------------------------------------------------
      */
+
+
+    /**
+     * Fonction pour attribuer la date de fin de la période sélectionnée à la dernière date du fichier de mesures
+     */
+    dateFinSelectionneeDerniereDate() {
+        const lignes = this.controlleurVisualisation.copieContenuFichierMesure.split('\n');
+        const derniereLigne = lignes[lignes.length - 2];
+        if (!derniereLigne) return null;
+
+        const colonnes = derniereLigne.split(';');
+        if (colonnes.length < 2) return null;
+
+        const date = colonnes[0] + '-' + colonnes[1];
+        const dateFinale = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+        this.zoneSelectionnee.dateFin = dateFinale;
+        document.querySelector('#finSelection').value = DateTime.fromFormat(dateFinale, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+    }
+
+
+    /**
+     * Fonction pour attribuer la date de début de la période sélectionnée à la première date du fichier de mesures
+     */
+    dateDebutSelectionneePremiereDate() {
+        const lignes = this.controlleurVisualisation.copieContenuFichierMesure.split('\n');
+        if (lignes.length < 4) return null;
+
+        const premiereLigne = lignes[3];
+        const colonnes = premiereLigne.split(';');
+        if (colonnes.length < 2) return null;
+
+        const date = colonnes[0] + '-' + colonnes[1];
+        const dateFinale =  DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+        this.zoneSelectionnee.dateDebut = dateFinale;
+        document.querySelector('#debutSelection').value = DateTime.fromFormat(dateFinale, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+    }
+
+
+    /**
+     * Permet à l'utilisateur de sélectionner une période pour la correction du bruit de fond sur le graphique
+     */
+    selectionnerPeriodeCorrectionBruit() {
+        this.controlleurVisualisation.graphiqueVisualisation.selectionnerZoneGraphique().then((zone) => {
+            if (zone && zone.length === 2) {
+                this.zoneSelectionnee.dateDebut = zone[0];
+                this.zoneSelectionnee.dateFin = zone[1];
+
+                try {
+                    document.querySelector('#debutSelection').value = DateTime.fromFormat(zone[0], 'dd/MM/yy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+                    document.querySelector('#finSelection').value = DateTime.fromFormat(zone[1], 'dd/MM/yy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+                } catch (e) {
+                    console.error("Erreur de format de date:", e);
+                    try {
+                        document.querySelector('#debutSelection').value = DateTime.fromFormat(zone[0], 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+                        document.querySelector('#finSelection').value = DateTime.fromFormat(zone[1], 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
+                    } catch (e2) {
+                        console.error("Impossible de parser les dates:", e2);
+                        afficherMessageFlash("Erreur", "Format de date invalide.", 'error');
+                    }
+                }
+            } else {
+                afficherMessageFlash("Erreur", "Veuillez sélectionner une période valide pour la correction du bruit de fond.", 'error');
+            }
+        }).catch(error => {
+            console.error("Erreur lors de la sélection de la zone graphique:", error);
+            afficherMessageFlash("Erreur", "Une erreur est survenue lors de la sélection de la période.", 'error');
+        });
+    }
 
 
 }
