@@ -349,17 +349,20 @@ export default class ControlleurCalibration {
     /**
      * Génère et télécharge le fichier de données de calibration
      */
-    telechargerDonneesCalibration() {
+    exporterDonneesCSV() {
         const contenu = this.lecteur.convertirEnCSV ?
             this.lecteur.convertirEnCSV() :
             this.lecteur.getContenuFichier();
 
-        const blob = new Blob([contenu], {type: 'text/csv;charset=utf-8'});
+        const BOM = '\uFEFF';
+        const contenuUTF8 = BOM + contenu;
+
+        const blob = new Blob([contenuUTF8], {type: 'text/csv;charset=utf-8'});
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = `calibration_${this.lecteur.getNumeroFluorimetre()}.csv`;
+        a.download = `ExportCalibration-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

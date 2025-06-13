@@ -107,7 +107,7 @@ function traitementFichierCalibration(event: Event) {
                 alt="Réinitialiser">
             </div>
             <div v-tooltip.top="'Exporter au format CSV'" class="boutonOrange boutonFonce boutonBandeauCalibration"
-                 @click="controleurCalibration.telechargerDonneesCalibration()">EXPORTER<img
+                 @click="controleurCalibration.exporterDonneesCSV()">EXPORTER<img
                 src="@/assets/img/icons/dl.png"
                 alt="Exporter">
             </div>

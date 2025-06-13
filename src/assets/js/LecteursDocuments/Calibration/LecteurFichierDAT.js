@@ -272,9 +272,9 @@ export default class LecteurFichierDAT extends LecteurFichierCalibration {
      * @returns {string} Le contenu formaté en CSV
      */
     convertirEnCSV() {
-        let texte = `FluoriGraphix - Export du ${getDateAujourdhui()} - Appareil ${this.numeroFluorimetre}\n\n`;
+        let texte = `FluoGraphiX - Export du ${getDateAujourdhui()} - Appareil ${this.numeroFluorimetre}\n\n`;
         texte += `/!\\ Par convention, la turbidité doit toujours se trouver en dernière position dans le fichier, et l'eau en première position.\n`;
-        texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoriGraphix.\n\n`;
+        texte += `Pour plus d'informations sur le fonctionnement de ce fichier, visitez la rubrique 'Documentation' du site FluoGraphiX.\n\n`;
         texte += `----------------------------------------------------------------------------------------\n`;
 
         const traceurs = Session.getInstance().traceurs;

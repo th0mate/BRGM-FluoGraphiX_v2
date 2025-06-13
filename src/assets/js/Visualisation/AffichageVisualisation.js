@@ -902,7 +902,7 @@ export class AffichageVisualisation {
      * Déclenche l'export des données en format CSV standard
      */
     declencherExportCSV() {
-        if (this.exporterCalculs) {
+        if (this.exporterCalculs && Session.getInstance().calculs.length > 0) {
             this.controlleurVisualisation.exporterCalculsCSV();
         }
         this.controlleurVisualisation.exporterDonneesCSV();
