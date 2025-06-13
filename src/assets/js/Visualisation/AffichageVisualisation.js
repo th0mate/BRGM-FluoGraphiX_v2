@@ -195,8 +195,10 @@ export class AffichageVisualisation {
     resetCheckboxesCarousel() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
-            checkbox.checked = false;
-            checkbox.style.background = '';
+            if (!checkbox.classList.contains('no-reset')) {
+                checkbox.checked = false;
+                checkbox.style.background = '';
+            }
         });
         document.querySelector('.listeTraceursInterferences').innerHTML = '';
         this.lampesSelectionneesCorrTurbidite = [];
@@ -679,6 +681,7 @@ export class AffichageVisualisation {
             label.innerHTML = `<input type="checkbox" value="${dataset.label}"/> ${dataset.label}`;
 
             const checkbox = label.querySelector('input[type="checkbox"]');
+            checkbox.classList.add('no-reset');
 
             const couleur = this.controlleurVisualisation.getCouleurCourbe(dataset.label);
             if (couleur) {
