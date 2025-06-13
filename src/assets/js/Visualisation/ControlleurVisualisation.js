@@ -203,9 +203,11 @@ export class ControlleurVisualisation {
     /**
      * Applique la correction des interférences entre traceurs, à partir de ceux sélectionnés par l'utilisateur
      * @param traceurs {Array<Object>} - Liste des traceurs en question
+     * @param echelleT1 {number} - Échelle pour le traceur 1
+     * @param echelleT2 {number} - Échelle pour le traceur 2
      */
-    appliquerCorrectionInterferences(traceurs) {
-        this.interferencesTraceurs.corrigerInterferences(traceurs);
+    appliquerCorrectionInterferences(traceurs, echelleT1, echelleT2) {
+        this.interferencesTraceurs.corrigerInterferences(traceurs, echelleT1, echelleT2);
     }
 
 
