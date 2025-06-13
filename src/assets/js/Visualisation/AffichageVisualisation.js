@@ -26,6 +26,7 @@ export class AffichageVisualisation {
         this.echelleTraceur2Interferences = null;
         this.zoneSelectionnee = {};
         this.variablesExplicativesBruit = [];
+        this.traceurPourConversion = null;
     }
 
 
@@ -117,6 +118,7 @@ export class AffichageVisualisation {
             this.initSlidePrincipale(calibrationEstLieeGraphique).then(tbodyElement => {
                 this.estEffectueeCorrectionInterferences = false;
                 this.initialiserCorrectionTurbidite();
+                this.initialiserConversionTraceurs();
                 resolve(tbodyElement);
             });
         })
@@ -209,6 +211,7 @@ export class AffichageVisualisation {
         this.echelleTraceur2Interferences = null;
         this.zoneSelectionnee = {};
         this.variablesExplicativesBruit = [];
+        this.traceurPourConversion = null;
 
         document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
             input.value = '';
@@ -821,4 +824,59 @@ export class AffichageVisualisation {
     }
 
 
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Méthodes pour la conversion en concentrations des traceurs
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+
+    /**
+     * Place une checkbox pour chaque traceur dans la div .listeCheckboxesConversion
+     * Une seule checkbox est cochée à la fois
+     */
+    initialiserConversionTraceurs() {
+        const div = document.querySelector('.listeCheckboxesConversion');
+        if (!div) {
+            setTimeout(() => this.initialiserConversionTraceurs(), 500);
+            return;
+        }
+
+        div.innerHTML = '';
+
+        const traceurs = Session.getInstance().traceurs;
+        for (const traceur of traceurs) {
+            if (traceur && traceur.unite.toLowerCase()) {
+                let label = document.createElement('label');
+                label.innerHTML = `<input type="checkbox" value="L${traceur.lampePrincipale}"/> ${traceur.nom}`;
+
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', () => {
+                    this.traceurPourConversion = checkbox.checked ? traceur : null;
+                    document.querySelectorAll('.listeCheckboxesConversion input[type="checkbox"]').forEach(cb => {
+                        if (cb !== checkbox) {
+                            cb.checked = false;
+                            cb.style.background = '';
+                        }
+                    });
+                });
+
+                label = this.appliquerStyleCheckbox(label, "L" + traceur.lampePrincipale);
+                div.appendChild(label);
+            }
+        }
+    }
+
+
+    /**
+     * Déclenche la conversion en concentrations du traceur sélectionné
+     */
+    appliquerConversionConcentration() {
+        if (this.traceurPourConversion) {
+            this.controlleurVisualisation.appliquerConversionConcentration(this.traceurPourConversion)
+            this.resetCheckboxesCarousel();
+        } else {
+            afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur pour la conversion en concentrations", "error");
+        }
+    }
 }

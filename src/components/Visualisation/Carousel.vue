@@ -124,7 +124,7 @@ function initCalibrationDepuisVisualisation() {
           <div class="wrap-status">
             <img src="@/assets/img/popup/success.png" alt="">
             <div class="spacer"></div>
-            <b>Vos traceurs ont été liés à vos données avec succès. Aucun action requise de votre part</b>
+            <b>Vos traceurs ont été liés à vos données avec succès. Aucun action n'est requise de votre part</b>
           </div>
         </div>
 
@@ -132,7 +132,7 @@ function initCalibrationDepuisVisualisation() {
           <div class="wrap-status">
             <img src="@/assets/img/popup/error.png" alt="">
             <div class="spacer"></div>
-            <b>Vous devez importer un fichier de calibration pour effectuer des corrections</b>
+            <b>Vous devez importer un fichier de calibration pour effectuer des calculs supplémentaires</b>
             <div class="spacer"></div>
             <div class="bouton" @click="initCalibrationDepuisVisualisation">Importer un fichier de calibration</div>
           </div>
@@ -236,27 +236,11 @@ function initCalibrationDepuisVisualisation() {
           <b>Conversion en concentration</b>
           <span>Convertissez les courbes de vos traceurs en concentration</span>
           <div class="spacer"></div>
-          <span>Sélectionnez le traceur à convertir</span>
-          <div class="checkboxes">
-            <label>
-              <input type="checkbox" value="L1">
-              Uranine
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Sulfo
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Aminogacid
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Turbidité
-            </label>
+          <span>Sélectionnez le traceur à convertir :</span>
+          <div class="checkboxes listeCheckboxesConversion">
           </div>
           <div class="spacer"></div>
-          <div class="bouton">Convertir</div>
+          <div class="bouton" @click="affichageVisualisation.appliquerConversionConcentration" :class="{ 'disabled': props.affichageVisualisation.traceurPourConversion === null }">Convertir</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
@@ -357,10 +341,4 @@ function initCalibrationDepuisVisualisation() {
 
 <style>
 @import "@/assets/styles/carousel.css";
-
-.container {
-  height: calc(100vh - 80px);
-  display: flex;
-  padding: 20px;
-}
 </style>
