@@ -58,9 +58,13 @@ class Calculs {
     toStringValeursParametres() {
         let result = '';
         this.parametres.forEach((valeur, nom) => {
-            result += `<br>${nom} = ${valeur}`;
+            result += `\n${nom} = ${valeur}`;
         });
         return result;
+    }
+
+    toString() {
+        return `${this.toStringEquation()} : \nParamètres:${this.toStringValeursParametres()}\n----------------------------------------\n`;
     }
 }
 

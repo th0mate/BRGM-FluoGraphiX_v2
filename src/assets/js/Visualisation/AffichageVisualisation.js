@@ -28,6 +28,9 @@ export class AffichageVisualisation {
         this.variablesExplicativesBruit = [];
         this.traceurPourConversion = null;
         this.exporterCalculs = false;
+        this.traceurSelectionneExportTRAC = null;
+        this.dateMax = null;
+        this.dateInjectionTrac = null;
     }
 
 
@@ -120,6 +123,10 @@ export class AffichageVisualisation {
                 this.estEffectueeCorrectionInterferences = false;
                 this.initialiserCorrectionTurbidite();
                 this.initialiserConversionTraceurs();
+                this.initialiserExportTRAC();
+                const existingChart = this.controlleurVisualisation.getChartInstance();
+                this.dateMax = DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd') + 'T' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('HH:mm');
+
                 resolve(tbodyElement);
             });
         })
@@ -196,6 +203,10 @@ export class AffichageVisualisation {
      * Réinitialise l'état des checkboxes du carousel Splide
      */
     resetCheckboxesCarousel() {
+        document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
+            input.value = '';
+        });
+
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             if (!checkbox.classList.contains('no-reset')) {
@@ -213,10 +224,8 @@ export class AffichageVisualisation {
         this.zoneSelectionnee = {};
         this.variablesExplicativesBruit = [];
         this.traceurPourConversion = null;
-
-        document.querySelectorAll('input[type="datetime-local"]').forEach(input => {
-            input.value = '';
-        });
+        this.traceurSelectionneExportTRAC = null;
+        this.dateInjectionTrac = null;
     }
 
 
@@ -518,6 +527,7 @@ export class AffichageVisualisation {
             this.resetCheckboxesCarousel();
             this.estEffectueeCorrectionInterferences = true;
             this.initialiserSlideBruit();
+            this.initialiserExportTRAC()
         }
     }
 
@@ -876,6 +886,9 @@ export class AffichageVisualisation {
         if (this.traceurPourConversion) {
             this.controlleurVisualisation.appliquerConversionConcentration(this.traceurPourConversion)
             this.resetCheckboxesCarousel();
+            setTimeout(() => {
+                this.initialiserExportTRAC();
+            }, 1000);
         } else {
             afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur pour la conversion en concentrations", "error");
         }
@@ -903,8 +916,73 @@ export class AffichageVisualisation {
      */
     declencherExportCSV() {
         if (this.exporterCalculs && Session.getInstance().calculs.length > 0) {
-            this.controlleurVisualisation.exporterCalculsCSV();
+            this.controlleurVisualisation.exporterCalculsTXT();
         }
         this.controlleurVisualisation.exporterDonneesCSV();
+    }
+
+
+    /**
+     * Initialise la slide pour l'export TRAC
+     */
+    initialiserExportTRAC() {
+        const div = document.querySelector('.listeTraceursExport');
+
+        div.innerHTML = '';
+        const traceurs = Session.getInstance().traceurs;
+        const chart = this.controlleurVisualisation.getChartInstance();
+
+        for (const traceur of traceurs) {
+            if (chart && traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
+                const dataset = chart.data.datasets.find(ds => ds.label === `${traceur.nom}_${traceur.unite}`);
+                if (dataset) {
+                    let label = document.createElement('label');
+                    label.innerHTML = `<input type="checkbox" value="${traceur.nom}"/> ${traceur.nom}`;
+
+                    const checkbox = label.querySelector('input[type="checkbox"]');
+                    checkbox.addEventListener('change', () => {
+                        this.traceurSelectionneExportTRAC = checkbox.checked ? traceur : null;
+                        document.querySelectorAll('.listeTraceursExport input[type="checkbox"]').forEach(cb => {
+                            if (cb !== checkbox) {
+                                cb.checked = false;
+                                cb.style.background = '';
+                            }
+                        });
+                    });
+
+                    label = this.appliquerStyleCheckbox(label, `${traceur.nom}_${traceur.unite}`);
+                    div.appendChild(label);
+                } else {
+                    if (div.innerHTML === '') {
+                        div.innerHTML = "<b>Aucun traceur disponible pour l'export TRAC, veuillez d'abord convertir un traceur en concentration.</b>";
+                    }
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Déclenche l'export TRAC pour le traceur sélectionné
+     */
+    declencherExportTRAC() {
+        if (this.traceurSelectionneExportTRAC && this.dateInjectionTrac) {
+            this.controlleurVisualisation.exporterTRAC(this.dateInjectionTrac, this.traceurSelectionneExportTRAC);
+            this.resetCheckboxesCarousel();
+        } else {
+            afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur & une date d'injection pour l'export TRAC", "error");
+        }
+    }
+
+    /**
+     * Déclenche la copie de l'export TRAC dans le presse-papiers
+     */
+    declencherCopieExportTRAC() {
+        if (this.traceurSelectionneExportTRAC && this.dateInjectionTrac) {
+            this.controlleurVisualisation.copierTracPresserPapier(this.dateInjectionTrac, this.traceurSelectionneExportTRAC);
+            this.resetCheckboxesCarousel();
+        } else {
+            afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur & une date d'injection pour la copie de l'export TRAC", "error");
+        }
     }
 }

@@ -21,10 +21,11 @@ import loadingGif from "@/assets/img/popup/loading.gif";
 import {afficherPopup, fermerPopup} from "@/assets/js/UI/popupService.js";
 import router from '@/router';
 import {Chart} from "chart.js/auto";
-import {afficherMessageFlash, getDateAujourdhui} from "@/assets/js/Common/utils.js";
+import {afficherMessageFlash, arrondirA2Decimales, getDateAujourdhui, setEspaces} from "@/assets/js/Common/utils.js";
 import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
 import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
 import {DateTime} from "luxon";
+import {copierTexte} from "@/assets/js/Common/pressePapier.js";
 
 
 /**
@@ -761,7 +762,7 @@ export class ControlleurVisualisation {
     /**
      * Exporte les données de calculs au format CSV
      */
-    exporterCalculsCSV() {
+    exporterCalculsTXT() {
         let contenuCalculs = `FluoGraphiX - Données des calculs effectués le ${getDateAujourdhui()} \n`;
         contenuCalculs += "-------------------------------------------------------------------\n\n";
         Session.getInstance().calculs.forEach(calcul => {
@@ -775,5 +776,108 @@ export class ControlleurVisualisation {
         element.download = 'FluoGraphiX-ExportCalculs-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt';
         document.body.appendChild(element);
         element.click();
+    }
+
+
+    /**
+     * Exporte les données de concentratio au format TRAC
+     */
+    exporterTRAC(dateInjection, traceur) {
+        const url = URL.createObjectURL(this.getBlobCsvTrac(dateInjection, traceur));
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `exportTRAC-${traceur.nom}-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
+        a.click();
+        afficherMessageFlash("Succès", 'Fichier téléchargé avec succès.', 'success');
+        URL.revokeObjectURL(url);
+    }
+
+
+    /**
+     * Copie le contenu texte CSV pour l'export TRAC dans le presse-papiers, sans l'en-tête
+     */
+    copierTracPresserPapier(dateInjection, traceur) {
+        const blob = this.getBlobCsvTrac(dateInjection, traceur, true);
+        const reader = new FileReader();
+        reader.readAsText(blob);
+
+        reader.onload = function () {
+            const contenu = reader.result.split('\n').slice(1).join('\n');
+            navigator.clipboard.writeText(contenu);
+            afficherMessageFlash("Succès", 'Contenu copié dans le presse-papiers.', 'success');
+        }
+    }
+
+
+    /**
+     * Retourne le contenu blob du fichier csv pour TRAC
+     * @param dateInjection Date d'injection des traceurs
+     * @param traceur Traceur à exporter
+     * @param estPourPressePapier true si l'export est pour le presse-papier, false sinon
+     */
+    getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
+        let separateur = ';';
+
+        if (dateInjection.length === 16) {
+            dateInjection += ':00';
+        }
+
+        if (estPourPressePapier) {
+            separateur = '\t';
+        }
+
+        let contenuCSVTRAC = `j${separateur}${traceur.unite}`;
+
+        const lignes = this.copieContenuFichierMesure.split('\n');
+        const header = lignes[2].split(';');
+        let indexTraceur = -1;
+
+        for (let i = 0; i < header.length; i++) {
+            if (header[i] === traceur.nom + '_' + traceur.unite) {
+                indexTraceur = i;
+            }
+        }
+
+        for (let i = 3; i < lignes.length - 1; i++) {
+            const colonnes = lignes[i].split(';');
+
+            if (colonnes.length < header.length) {
+                continue;
+            }
+
+            const timeDate = DateTime.fromFormat(colonnes[0] + '-' + colonnes[1], 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+
+            if (!timeDate.isValid) {
+                console.error('Date invalide à la ligne:', i + 1);
+                continue;
+            }
+
+            const timestamp = timeDate.toFormat('dd/MM/yy-HH:mm:ss');
+            const date = DateTime.fromFormat(timestamp, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
+            const dateInjectionObj = DateTime.fromFormat(dateInjection, 'yyyy-MM-dd\'T\'HH:mm:ss', {zone: 'UTC'});
+
+            if (!date.isValid || !dateInjectionObj.isValid) {
+                console.error('Date ou dateInjectionObj invalide');
+                continue;
+            }
+
+            if (date < dateInjectionObj) {
+                continue;
+            }
+
+            const diff = date.diff(dateInjectionObj, 'seconds').seconds;
+
+            const diffString = diff / 3600;
+
+            if (colonnes[indexTraceur] === '') {
+                contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces("NaN", 6);
+                console.warn('donnée vide remplacée');
+            } else {
+                contenuCSVTRAC += '\n' + setEspaces(arrondirA2Decimales(diffString), 6) + separateur + setEspaces(colonnes[indexTraceur], 6);
+            }
+        }
+
+        const universalBOM = "\uFEFF";
+        return new Blob([universalBOM + contenuCSVTRAC], {type: 'text/csv;charset=utf-8'});
     }
 }

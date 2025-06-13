@@ -7,7 +7,7 @@ import {onMounted, ref, computed, watch} from "vue";
 import ToggleSwitch from 'primevue/toggleswitch';
 import Session from '@/assets/js/Session/Session';
 
-const props = defineProps<{ affichageVisualisation: any, controlleurVisualisation : any, choisirFichier: Function }>();
+const props = defineProps<{ affichageVisualisation: any, controlleurVisualisation: any, choisirFichier: Function }>();
 
 const splideRef = ref();
 const isCalibrationLinked = ref(props.controlleurVisualisation.calibrationEstLieeGraphique);
@@ -137,7 +137,8 @@ function initCalibrationDepuisVisualisation() {
             <div class="bouton" @click="initCalibrationDepuisVisualisation">Importer un fichier de calibration</div>
           </div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
 
@@ -167,9 +168,13 @@ function initCalibrationDepuisVisualisation() {
 
           </div>
           <div class="spacer"></div>
-          <div class="bouton" :class="{ 'disabled': props.affichageVisualisation.lampesSelectionneesCorrTurbidite.length === 0 }" @click="affichageVisualisation.declencherCorrectionTurbidite">Calculer</div>
+          <div class="bouton"
+               :class="{ 'disabled': props.affichageVisualisation.lampesSelectionneesCorrTurbidite.length === 0 }"
+               @click="affichageVisualisation.declencherCorrectionTurbidite">Calculer
+          </div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
 
@@ -182,11 +187,13 @@ function initCalibrationDepuisVisualisation() {
           <div class="spacer"></div>
           <span>Sélectionnez le nombre de traceurs présents :</span>
           <div class="checkboxes">
-            <label class="checkNbLabel" @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(1)">
+            <label class="checkNbLabel"
+                   @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(1)">
               <input type="checkbox" value="" class="one-traceur checkNb" id="one-traceur-checkbox">
               1 traceur
             </label>
-            <label class="checkNbLabel" @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(2)">
+            <label class="checkNbLabel"
+                   @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(2)">
               <input type="checkbox" value="" class="two-traceur checkNb" id="two-traceur-checkbox">
               2 traceurs
             </label>
@@ -195,9 +202,13 @@ function initCalibrationDepuisVisualisation() {
           <span>Sélectionnez les traceurs concernés :</span>
           <div class="multiple listeTraceursInterferences"></div>
           <div class="spacer"></div>
-          <div class="bouton" :class="{ 'disabled': props.affichageVisualisation.traceursCorrectionInterferences.length === 0 }" @click="affichageVisualisation.declencherCorrectionInterferences">Calculer</div>
+          <div class="bouton"
+               :class="{ 'disabled': props.affichageVisualisation.traceursCorrectionInterferences.length === 0 }"
+               @click="affichageVisualisation.declencherCorrectionInterferences">Calculer
+          </div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
 
@@ -208,15 +219,19 @@ function initCalibrationDepuisVisualisation() {
         <div class="card main">
           <b>Correction du bruit de fond</b>
           <span>Sélectionnez la période influencée par le traceur :</span>
-          <div class="bouton" @click="affichageVisualisation.selectionnerPeriodeCorrectionBruit">Sélection graphique</div>
+          <div class="bouton" @click="affichageVisualisation.selectionnerPeriodeCorrectionBruit">Sélection graphique
+          </div>
           <div class="wrap-dates">
             <span>Du :</span>
-            <input id="debutSelection" type="datetime-local" @change="(e) => e.target && affichageVisualisation.dateDebutDepuisInput((e.target as HTMLInputElement).value)">
-            <span class="bouton" @click="affichageVisualisation.dateDebutSelectionneePremiereDate">Depuis le début</span>
+            <input id="debutSelection" type="datetime-local"
+                   @change="(e) => e.target && affichageVisualisation.dateDebutDepuisInput((e.target as HTMLInputElement).value)">
+            <span class="bouton"
+                  @click="affichageVisualisation.dateDebutSelectionneePremiereDate">Depuis le début</span>
           </div>
           <div class="wrap-dates">
             <span>Au :</span>
-            <input id="finSelection" type="datetime-local" @change="(e) => e.target && affichageVisualisation.dateFinDepuisInput((e.target as HTMLInputElement).value)">
+            <input id="finSelection" type="datetime-local"
+                   @change="(e) => e.target && affichageVisualisation.dateFinDepuisInput((e.target as HTMLInputElement).value)">
             <span class="bouton" @click="affichageVisualisation.dateFinSelectionneeDerniereDate">Jusqu'à la fin</span>
           </div>
           <span>Sélectionnez les variables explicatives :</span>
@@ -224,7 +239,8 @@ function initCalibrationDepuisVisualisation() {
           </div>
           <div class="bouton" @click="affichageVisualisation.declencherCorrectionBruitDeFond">Calculer</div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
 
@@ -240,9 +256,12 @@ function initCalibrationDepuisVisualisation() {
           <div class="checkboxes listeCheckboxesConversion">
           </div>
           <div class="spacer"></div>
-          <div class="bouton" @click="affichageVisualisation.appliquerConversionConcentration" :class="{ 'disabled': props.affichageVisualisation.traceurPourConversion === null }">Convertir</div>
+          <div class="bouton" @click="affichageVisualisation.appliquerConversionConcentration"
+               :class="{ 'disabled': props.affichageVisualisation.traceurPourConversion === null }">Convertir
+          </div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
 
@@ -253,37 +272,26 @@ function initCalibrationDepuisVisualisation() {
         <div class="card">
           <b>Export des données au format CSV</b>
           <div class="wrap-toogle">
-            <ToggleSwitch class="export-calculs-checkbox" @change="(e) => affichageVisualisation.toggleExportCalculs(e)"/>
+            <ToggleSwitch class="export-calculs-checkbox"
+                          @change="(e) => affichageVisualisation.toggleExportCalculs(e)"/>
             <span>Exporter la liste des calculs effectués</span>
           </div>
           <div class="bouton" @click="affichageVisualisation.declencherExportCSV">Exporter</div>
         </div>
         <div class="card">
           <b>Export des données au format CSV TRAC</b>
-          <div class="spacer"></div>
-          <span>Sélectionnez le traceur à exporter :</span>
-          <div class="checkboxes">
-            <label>
-              <input type="checkbox" value="L1">
-              Uranine
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Sulfo
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Aminogacid
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Turbidité
-            </label>
+          <div class="checkboxes listeTraceursExport">
           </div>
+          <span v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null">Choisissez la date d'injection :</span>
+          <input type="datetime-local" id="dateInjection" step="1" v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null" :max="affichageVisualisation.dateMax" @change="(e) => affichageVisualisation.dateInjectionTrac = (e.target as HTMLInputElement).value" :value="affichageVisualisation.dateInjectionTrac"/>
           <div class="spacer"></div>
-          <div class="bouton">Exporter</div>
+          <div class="multiple trac">
+            <div class="bouton" v-tooltip.top="'Exporter en tant que fichier CSV'" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null }" @click="affichageVisualisation.declencherExportTRAC">Exporter</div>
+            <div class="bouton" v-tooltip.top="'Copier dans le presse-papiers'" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null}" @click="affichageVisualisation.declencherCopieExportTRAC">Copier</div>
+          </div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
 
@@ -332,7 +340,8 @@ function initCalibrationDepuisVisualisation() {
           <div class="spacer"></div>
           <div class="bouton">Supprimer</div>
         </div>
-        <CommunCarousel :affichageVisualisation="affichageVisualisation"  :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
+        <CommunCarousel :affichageVisualisation="affichageVisualisation"
+                        :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
       </div>
     </SplideSlide>
   </Splide>
