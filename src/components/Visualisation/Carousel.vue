@@ -253,10 +253,10 @@ function initCalibrationDepuisVisualisation() {
         <div class="card">
           <b>Export des données au format CSV</b>
           <div class="wrap-toogle">
-            <ToggleSwitch/>
+            <ToggleSwitch class="export-calculs-checkbox" @change="(e) => affichageVisualisation.toggleExportCalculs(e)"/>
             <span>Exporter la liste des calculs effectués</span>
           </div>
-          <div class="bouton">Exporter</div>
+          <div class="bouton" @click="affichageVisualisation.declencherExportCSV">Exporter</div>
         </div>
         <div class="card">
           <b>Export des données au format CSV TRAC</b>

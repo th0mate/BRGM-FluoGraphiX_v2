@@ -21,9 +21,10 @@ import loadingGif from "@/assets/img/popup/loading.gif";
 import {afficherPopup, fermerPopup} from "@/assets/js/UI/popupService.js";
 import router from '@/router';
 import {Chart} from "chart.js/auto";
-import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
+import {afficherMessageFlash, getDateAujourdhui} from "@/assets/js/Common/utils.js";
 import {remplacerDonneesFichier} from "@/assets/js/Visualisation/utils.js";
 import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
+import {DateTime} from "luxon";
 
 
 /**
@@ -691,5 +692,88 @@ export class ControlleurVisualisation {
 
         const date = colonnes[0] + '-' + colonnes[1];
         return DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+    }
+
+
+    /**
+     * Exporte les données du graphique au format CSV
+     */
+    exporterDonneesCSV() {
+        let contenuFichierMesures = this.copieContenuFichierMesure;
+
+        if (contenuFichierMesures !== "") {
+            const lignes = contenuFichierMesures.split('\n');
+
+            if (lignes[0].includes('FluoriGraphix') || lignes[0].includes('FluoGraphiX')) {
+                contenuFichierMesures = lignes.slice(2).join('\n');
+            }
+
+            let temp = contenuFichierMesures;
+            contenuFichierMesures = `                   FluoGraphiX - Export du ${getDateAujourdhui()}\n`;
+            contenuFichierMesures += "                           -------------------------------------------\n";
+
+            const nbColonnes = temp.split('\n')[0].split(';').length;
+            let ligne = temp.split('\n')[1];
+            ligne = ligne.replace(/[\n\r]/g, '');
+            const colonnes = ligne.split(';');
+            colonnes.splice(nbColonnes, colonnes.length - nbColonnes);
+            ligne = colonnes.join(';');
+            ligne += '\n';
+
+            contenuFichierMesures += temp.split('\n')[0] + '\n';
+            contenuFichierMesures += ligne;
+            contenuFichierMesures += temp.split('\n').slice(2).join('\n');
+
+            const lignesFichier = contenuFichierMesures.split('\n');
+            const header = lignesFichier[2].split(';');
+
+            // Récupérer les indices des colonnes à supprimer
+            const indicesASupprimer = this.courbesSupprimees
+                .map(courbe => header.indexOf(courbe))
+                .filter(index => index !== -1);
+
+            // Supprimer les colonnes dans l'ordre inverse
+            indicesASupprimer.sort((a, b) => b - a);
+            indicesASupprimer.forEach(index => {
+                lignesFichier.forEach((ligne, i) => {
+                    const colonnes = ligne.split(';');
+                    colonnes.splice(index, 1);
+                    lignesFichier[i] = colonnes.join(';');
+                });
+            });
+
+            contenuFichierMesures = lignesFichier.join('\n');
+
+            const element = document.createElement('a');
+            const universalBOM = "\uFEFF";
+            const csv = universalBOM + contenuFichierMesures;
+            element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
+            element.download = 'FluoGraphiX-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
+            document.body.appendChild(element);
+            element.click();
+            afficherMessageFlash("Fichier téléchargé avec succès.", 'success');
+        } else {
+            afficherMessageFlash("Aucun fichier à télécharger : aucune donnée à exporter.", 'warning');
+        }
+    }
+
+
+    /**
+     * Exporte les données de calculs au format CSV
+     */
+    exporterCalculsCSV() {
+        let contenuCalculs = `FluoGraphiX - Données des calculs effectués le ${getDateAujourdhui()} \n`;
+        contenuCalculs += "-------------------------------------------------------------------\n\n";
+        Session.getInstance().calculs.forEach(calcul => {
+            contenuCalculs += calcul.toString();
+        });
+
+        const element = document.createElement('a');
+        const universalBOM = "\uFEFF";
+        const txt = universalBOM + contenuCalculs;
+        element.setAttribute('href', 'data:text/txt;charset=utf-8,' + encodeURIComponent(txt));
+        element.download = 'FluoGraphiX-ExportCalculs-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.txt';
+        document.body.appendChild(element);
+        element.click();
     }
 }

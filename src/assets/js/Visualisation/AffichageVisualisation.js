@@ -27,6 +27,7 @@ export class AffichageVisualisation {
         this.zoneSelectionnee = {};
         this.variablesExplicativesBruit = [];
         this.traceurPourConversion = null;
+        this.exporterCalculs = false;
     }
 
 
@@ -878,5 +879,32 @@ export class AffichageVisualisation {
         } else {
             afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur pour la conversion en concentrations", "error");
         }
+    }
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Méthodes pour la gestion des différents exports
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+
+    /**
+     * Passe à true ou false l'état de l'export des calculs
+     * @param {Event} event - L'événement du toggle switch
+     */
+    toggleExportCalculs(event) {
+        this.exporterCalculs = event && event.checked !== undefined ? event.checked : !this.exporterCalculs;
+    }
+
+
+    /**
+     * Déclenche l'export des données en format CSV standard
+     */
+    declencherExportCSV() {
+        if (this.exporterCalculs) {
+            this.controlleurVisualisation.exporterCalculsCSV();
+        }
+        this.controlleurVisualisation.exporterDonneesCSV();
     }
 }
