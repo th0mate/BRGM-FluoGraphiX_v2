@@ -882,4 +882,30 @@ export class ControlleurVisualisation {
         const universalBOM = "\uFEFF";
         return new Blob([universalBOM + contenuCSVTRAC], {type: 'text/csv;charset=utf-8'});
     }
+
+
+    /**
+     * Supprime les courbes du graphique en fonction des labels fournis
+     * @param labels
+     */
+    supprimerCourbes(labels) {
+        const chart = this.getChartInstance();
+        if (!chart) {
+            console.warn('Aucun graphique trouvé pour supprimer les courbes.');
+            return;
+        }
+
+        labels.forEach(label => {
+            const index = chart.data.datasets.findIndex(dataset => dataset.label === label);
+            if (index !== -1) {
+                this.supprimerCourbe(label);
+                chart.data.datasets.splice(index, 1);
+            }
+        });
+
+        chart.update();
+        if (labels.length > 0) {
+            afficherMessageFlash("Succès", `Les courbes sélectionnées ont été supprimées du graphique.`, 'success');
+        }
+    }
 }

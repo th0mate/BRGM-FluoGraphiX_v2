@@ -126,7 +126,7 @@ export class AffichageVisualisation {
                 this.initialiserExportTRAC();
                 const existingChart = this.controlleurVisualisation.getChartInstance();
                 this.dateMax = DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd') + 'T' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('HH:mm');
-
+                this.initialiserSuppressionCourbes();
                 resolve(tbodyElement);
             });
         })
@@ -226,6 +226,9 @@ export class AffichageVisualisation {
         this.traceurPourConversion = null;
         this.traceurSelectionneExportTRAC = null;
         this.dateInjectionTrac = null;
+        setTimeout(() => {
+            this.initialiserSuppressionCourbes();
+        }, 1000);
     }
 
 
@@ -984,5 +987,64 @@ export class AffichageVisualisation {
         } else {
             afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur & une date d'injection pour la copie de l'export TRAC", "error");
         }
+    }
+
+
+    /**
+     * -----------------------------------------------------------------------------------------------------------------
+     * Méthodes pour la gestion de la suppression des courbes
+     * -----------------------------------------------------------------------------------------------------------------
+     */
+
+
+    /**
+     * Place une checkbox pour chaque courbe dans la div .listeCourbes
+     */
+    initialiserSuppressionCourbes() {
+        const div = document.querySelector('.listeCourbes');
+        if (!div) {
+            setTimeout(() => this.initialiserSuppressionCourbes(), 500);
+            return;
+        }
+
+        div.innerHTML = '';
+
+        const existingChart = this.controlleurVisualisation.getChartInstance();
+        if (!existingChart) {
+            return;
+        }
+
+        existingChart.data.datasets.forEach((dataset) => {
+            if (dataset.label && dataset.label !== 'Aucune courbe') {
+                let label = document.createElement('label');
+                label.innerHTML = `<input type="checkbox" value="${dataset.label}"/> ${dataset.label}`;
+
+                const checkbox = label.querySelector('input[type="checkbox"]');
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        this.controlleurVisualisation.courbesSupprimees.push(dataset.label);
+                    } else {
+                        const index = this.controlleurVisualisation.courbesSupprimees.indexOf(dataset.label);
+                        if (index > -1) {
+                            this.controlleurVisualisation.courbesSupprimees.splice(index, 1);
+                        }
+                    }
+                });
+
+                label = this.appliquerStyleCheckbox(label, dataset.label);
+                div.appendChild(label);
+            }
+        });
+    }
+
+
+    /**
+     * Déclenche la suppression des courbes sélectionnées
+     */
+    declencherSuppressionCourbes() {
+        if (this.controlleurVisualisation.courbesSupprimees.length > 0) {
+        }
+        this.controlleurVisualisation.supprimerCourbes(this.controlleurVisualisation.courbesSupprimees);
+        this.resetCheckboxesCarousel();
     }
 }

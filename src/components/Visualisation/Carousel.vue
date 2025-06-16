@@ -303,42 +303,10 @@ function initCalibrationDepuisVisualisation() {
           <b>Supprimer des courbes</b>
           <div class="spacer"></div>
           <span>Sélectionnez les courbes à supprimer :</span>
-          <div class="checkboxes">
-            <label>
-              <input type="checkbox" value="L1">
-              Uranine
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Sulfo
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Aminogacid
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              Turbidité
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              L1
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              L2
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              L3
-            </label>
-            <label>
-              <input type="checkbox" value="L2">
-              L4
-            </label>
+          <div class="checkboxes listeCourbes">
           </div>
           <div class="spacer"></div>
-          <div class="bouton">Supprimer</div>
+          <div class="bouton" :class="{ 'disabled': props.controlleurVisualisation.courbesSupprimees.length === 0 }" @click="affichageVisualisation.declencherSuppressionCourbes">Supprimer</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
                         :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
