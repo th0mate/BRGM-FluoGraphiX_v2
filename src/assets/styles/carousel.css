@@ -514,3 +514,34 @@
     width: 100% !important;
     height: 100%;
 }
+
+
+
+@media (min-height: 900px) {
+    .carousel {
+
+        .card {
+            font-size: 1em;
+            padding: 10px;
+            gap: 20px;
+
+            .bouton {
+                font-size: 1em;
+            }
+
+            b {
+                font-size: 1.1em;
+            }
+
+            .spacer {
+                height: 20px;
+            }
+        }
+
+        .card.main {
+            overflow-y: visible;
+            max-height: 100%;
+            min-height: 500px;
+        }
+    }
+}

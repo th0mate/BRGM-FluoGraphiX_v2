@@ -252,7 +252,7 @@ export class CorrectionBruitDeFond extends BaseCalcul {
                 'Fermer'
             );
         } else {
-            afficherMessageFlash(`Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
+            afficherMessageFlash("Information", `Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
         }
 
         let dataPointsCorr = [];

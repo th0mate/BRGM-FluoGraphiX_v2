@@ -828,7 +828,7 @@ export class AffichageVisualisation {
 
         this.controlleurVisualisation.appliquerCorrectionBruitDeFond(traceursBruitDeFond, options)
             .then(() => {
-                afficherMessageFlash("Information", "Correction du bruit de fond effectuée avec succès", "info");
+                afficherMessageFlash("Succès", "Correction du bruit de fond effectuée avec succès", "success");
                 this.resetCheckboxesCarousel();
             })
             .catch(error => {

@@ -14,6 +14,7 @@
     justify-content: space-between;
     gap: 50px;
     padding: 50px;
+    width: 100%;
 
     img {
         height: 300px;
@@ -102,6 +103,7 @@
     box-sizing: border-box;
     height: calc(100vh - 80px);
     margin-bottom: 100px;
+    width: 100%;
 
     h1 {
         font-size: 3em;
@@ -208,6 +210,7 @@
     flex-direction: column;
     gap: 20px;
     padding: 80px 50px;
+    width: 100%;
 
     h2 {
         font-size: 3.9em;
@@ -222,6 +225,10 @@
         padding-top: 20px;
         justify-content: center;
         align-items: center;
+        align-content: center;
+        justify-items: center;
+        max-width: 1500px;
+        margin: 0 auto;
 
 
         .hightlight {
