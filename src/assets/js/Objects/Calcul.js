@@ -63,9 +63,25 @@ class Calculs {
         return result;
     }
 
+
+    /**
+     * Retourne les valeurs des paramètres sous forme de texte HTML
+     * @returns {string} Les valeurs des paramètres en HTML
+     */
+    toStringValeurParametresHTML() {
+        let result = '';
+        this.parametres.forEach((valeur, nom) => {
+            result += `<span>${nom} = ${valeur}</span>`;
+        });
+        return result;
+    }
+
+
     toString() {
         return `${this.toStringEquation()} : \nParamètres:${this.toStringValeursParametres()}\n----------------------------------------\n`;
     }
+
+
 }
 
 
