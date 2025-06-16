@@ -526,6 +526,7 @@ export class ControlleurVisualisation {
         }
         this.graphiqueVisualisation.afficherGraphique(Session.getInstance().contenuFichierMesures);
         this.resetCourbesSupprimees();
+        this.affichageVisualisation.resetCheckboxesCarousel();
         Session.getInstance().calculs = [];
         afficherMessageFlash("Succès", "Le graphique a été réinitialisé avec les données importées au départ.", 'success');
     }
