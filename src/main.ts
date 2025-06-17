@@ -10,24 +10,18 @@ import Toast from "primevue/toast";
 import Tooltip from "primevue/tooltip";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
+import i18n from './locales/i18n';
 
-// Import de la configuration Chart.js (fichier TypeScript)
 import Chart from './assets/js/chart-config';
-
-// Enregistrement de Chart.js dans la fenêtre pour compatibilité avec le code existant
 window.Chart = Chart;
 
-// Utilisation de l'import direct du thème Aura en mode light
 import Aura from '@primeuix/themes/aura';
 
 const app = createApp(App)
 
-// Enregistrement du composant Tooltip globalement
 app.directive('tooltip', Tooltip);
 
-// Configuration de PrimeVue avec le thème Aura en mode clair
 app.use(PrimeVue, {
-    // Default theme configuration
     theme: {
         preset: Aura,
         options: {
@@ -40,6 +34,7 @@ app.use(PrimeVue, {
 
 app.use(router);
 app.use(ToastService);
+app.use(i18n);
 app.component('Toast', Toast);
 app.component('Button', Button);
 app.component('Dialog', Dialog);

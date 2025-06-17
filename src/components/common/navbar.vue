@@ -1,7 +1,10 @@
 ﻿<script setup lang="ts">
 import {afficherMenuResponsive, fermerMenuResponsive} from '@/assets/js/UI/navigation';
-
 import {RouterLink} from "vue-router";
+import LanguageSwitcher from './LanguageSwitcher.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -12,29 +15,31 @@ import {RouterLink} from "vue-router";
     <div class="redirections">
       <RouterLink to="/accueil" class="action" active-class="active-link">
         <img src="@/assets/img/icons/accueil.png" alt="">
-        ACCUEIL
+        {{ t('nav.home') }}
         <span></span>
       </RouterLink>
       <RouterLink to="/documentation" class="action" active-class="active-link">
         <img src="@/assets/img/icons/aide.png" alt="">
-        DOCUMENTATION
+        {{ t('nav.documentation') }}
         <span></span>
       </RouterLink>
       <RouterLink to="/telecharger" class="action" active-class="active-link">
         <img src="@/assets/img/icons/dl.png" alt="">
-        TÉLÉCHARGER
+        {{ t('nav.download') }}
         <span></span>
       </RouterLink>
       <RouterLink to="/calibration" class="bouton boutonFonce" active-class="active-link">
         <img src="@/assets/img/icons/fiole.png" alt="">
-        CALIBRATION
+        {{ t('nav.calibration') }}
         <span></span>
       </RouterLink>
       <RouterLink to="/visualisation" class="bouton boutonFonce" active-class="active-link">
         <img src="@/assets/img/icons/graphique.png" alt="">
-        VISUALISATION
+        {{ t('nav.visualization') }}
         <span></span>
       </RouterLink>
+
+      <LanguageSwitcher class="language-switcher-nav" />
     </div>
 
     <div class="menuBurger" @click="afficherMenuResponsive">
@@ -48,31 +53,32 @@ import {RouterLink} from "vue-router";
 
       <div class="entete">
         <img class="fermer" src="@/assets/img/icons/close.png" alt="fermer" @click="fermerMenuResponsive">
+        <LanguageSwitcher class="language-switcher-mobile" />
       </div>
 
       <RouterLink to="/accueil" class="action" active-class="active-link">
         <div>
-          <h3>ACCUEIL</h3>
+          <h3>{{ t('nav.home') }}</h3>
         </div>
       </RouterLink>
       <RouterLink to="/documentation" class="action" active-class="active-link">
         <div>
-          <h3>DOCUMENTATION</h3>
+          <h3>{{ t('nav.documentation') }}</h3>
         </div>
       </RouterLink>
       <RouterLink to="/telecharger" class="action" active-class="active-link">
         <div>
-          <h3>TÉLÉCHARGER</h3>
+          <h3>{{ t('nav.download') }}</h3>
         </div>
       </RouterLink>
       <RouterLink to="/calibration" class="action" active-class="active-link">
         <div>
-          <h3>CALIBRATION</h3>
+          <h3>{{ t('nav.calibration') }}</h3>
         </div>
       </RouterLink>
       <RouterLink to="/visualisation" class="action" active-class="active-link">
         <div>
-          <h3>VISUALISATION</h3>
+          <h3>{{ t('nav.visualization') }}</h3>
         </div>
       </RouterLink>
     </div>
@@ -80,5 +86,20 @@ import {RouterLink} from "vue-router";
 </template>
 
 <style scoped>
+.language-switcher-nav {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
 
+.language-switcher-mobile {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .language-switcher-nav {
+    display: none;
+  }
+}
 </style>
