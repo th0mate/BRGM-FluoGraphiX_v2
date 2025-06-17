@@ -6,7 +6,9 @@ import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
 import {onMounted, ref, computed, watch} from "vue";
 import ToggleSwitch from 'primevue/toggleswitch';
 import Session from '@/assets/js/Session/Session';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const props = defineProps<{ affichageVisualisation: any, controlleurVisualisation: any, choisirFichier: Function }>();
 
 const splideRef = ref();
@@ -78,42 +80,42 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card">
-          <b>Bienvenue dans l'utilitaire de calculs et d'export de FluoGraphiX</b>
-          <span>Réalisez ici les différentes opérations de correction et d'export de vos courbes</span>
-          <div class="bouton" @click="controlleurVisualisation.reinitialiserGraphique">Réinitialiser le graphique</div>
+          <b>{{ t('carousel.home.welcome.title') }}</b>
+          <span>{{ t('carousel.home.welcome.description') }}</span>
+          <div class="bouton" @click="controlleurVisualisation.reinitialiserGraphique">{{ t('carousel.home.welcome.resetChart') }}</div>
         </div>
         <div class="card" v-if="!isCalibrationLinked && hasCalibrationFile">
-          <b>Vous devez renommer vos courbes en fonction de vos données de calibration :</b>
+          <b>{{ t('carousel.home.renaming.title') }}</b>
           <table>
             <thead>
             <tr>
-              <th>Label</th>
-              <th>Courbe</th>
+              <th>{{ t('carousel.home.renaming.labelColumn') }}</th>
+              <th>{{ t('carousel.home.renaming.curveColumn') }}</th>
             </tr>
             </thead>
             <tbody>
             <tr>
               <td>L1</td>
               <td><select>
-                <option value="" disabled selected>Sélectionner...</option>
+                <option value="" disabled selected>{{ t('carousel.home.renaming.select') }}</option>
               </select></td>
             </tr>
             <tr>
               <td>L2</td>
               <td><select>
-                <option value="" disabled selected>Sélectionner...</option>
+                <option value="" disabled selected>{{ t('carousel.home.renaming.select') }}</option>
               </select></td>
             </tr>
             <tr>
               <td>L3</td>
               <td><select>
-                <option value="" disabled selected>Sélectionner...</option>
+                <option value="" disabled selected>{{ t('carousel.home.renaming.select') }}</option>
               </select></td>
             </tr>
             <tr>
               <td>L4</td>
               <td><select>
-                <option value="" disabled selected>Sélectionner...</option>
+                <option value="" disabled selected>{{ t('carousel.home.renaming.select') }}</option>
               </select></td>
             </tr>
             </tbody>
@@ -124,7 +126,7 @@ function initCalibrationDepuisVisualisation() {
           <div class="wrap-status">
             <img src="@/assets/img/popup/success.png" alt="">
             <div class="spacer"></div>
-            <b>Vos traceurs ont été liés à vos données avec succès. Aucun action n'est requise de votre part</b>
+            <b>{{ t('carousel.home.linkedSuccess.title') }}</b>
           </div>
         </div>
 
@@ -132,9 +134,9 @@ function initCalibrationDepuisVisualisation() {
           <div class="wrap-status">
             <img src="@/assets/img/popup/error.png" alt="">
             <div class="spacer"></div>
-            <b>Vous devez importer un fichier de calibration pour effectuer des calculs supplémentaires</b>
+            <b>{{ t('carousel.home.noCalibration.title') }}</b>
             <div class="spacer"></div>
-            <div class="bouton" @click="initCalibrationDepuisVisualisation">Importer un fichier de calibration</div>
+            <div class="bouton" @click="initCalibrationDepuisVisualisation">{{ t('carousel.home.noCalibration.import') }}</div>
           </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
@@ -147,10 +149,10 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card main">
-          <b>Correction de la turbidité</b>
-          <span>Corrigez l'influence de la turbidité sur vos courbes</span>
+          <b>{{ t('carousel.turbidity.title') }}</b>
+          <span>{{ t('carousel.turbidity.description') }}</span>
           <div class="spacer"></div>
-          <span>Sélectionnez le niveau de correction à appliquer :</span>
+          <span>{{ t('carousel.turbidity.correctionLevel') }}</span>
           <div class='range'>
             <input id="inputRange" type="range" min='0' max='2' step='0.1' value="1"
                    @mousedown.stop="props.affichageVisualisation.disableCarouselDrag(splideRef)"
@@ -163,14 +165,14 @@ function initCalibrationDepuisVisualisation() {
             <span>1</span>
           </div>
           <div class="spacer"></div>
-          <span>Sélectionnez les lampes à corriger :</span>
+          <span>{{ t('carousel.turbidity.lampsToCorrect') }}</span>
           <div class="checkboxes listeCheckboxesCorrTurbidite">
 
           </div>
           <div class="spacer"></div>
           <div class="bouton"
                :class="{ 'disabled': props.affichageVisualisation.lampesSelectionneesCorrTurbidite.length === 0 }"
-               @click="affichageVisualisation.declencherCorrectionTurbidite">Calculer
+               @click="affichageVisualisation.declencherCorrectionTurbidite">{{ t('carousel.commons.calculate') }}
           </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
@@ -183,28 +185,28 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card main">
-          <b>Correction des interférences</b>
+          <b>{{ t('carousel.interference.title') }}</b>
           <div class="spacer"></div>
-          <span>Sélectionnez le nombre de traceurs présents :</span>
+          <span>{{ t('carousel.interference.tracersNumber') }}</span>
           <div class="checkboxes">
             <label class="checkNbLabel"
                    @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(1)">
               <input type="checkbox" value="" class="one-traceur checkNb" id="one-traceur-checkbox">
-              1 traceur
+              {{ t('carousel.interference.oneTracer') }}
             </label>
             <label class="checkNbLabel"
                    @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(2)">
               <input type="checkbox" value="" class="two-traceur checkNb" id="two-traceur-checkbox">
-              2 traceurs
+              {{ t('carousel.interference.twoTracers') }}
             </label>
           </div>
           <div class="spacer"></div>
-          <span>Sélectionnez les traceurs concernés :</span>
+          <span>{{ t('carousel.interference.tracersSelection') }}</span>
           <div class="multiple listeTraceursInterferences"></div>
           <div class="spacer"></div>
           <div class="bouton"
                :class="{ 'disabled': props.affichageVisualisation.traceursCorrectionInterferences.length === 0 }"
-               @click="affichageVisualisation.declencherCorrectionInterferences">Calculer
+               @click="affichageVisualisation.declencherCorrectionInterferences">{{ t('carousel.commons.calculate') }}
           </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
@@ -217,27 +219,27 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card main">
-          <b>Correction du bruit de fond</b>
-          <span>Sélectionnez la période influencée par le traceur :</span>
-          <div class="bouton" @click="affichageVisualisation.selectionnerPeriodeCorrectionBruit">Sélection graphique
+          <b>{{ t('carousel.backgroundNoise.title') }}</b>
+          <span>{{ t('carousel.backgroundNoise.selectPeriod') }}</span>
+          <div class="bouton" @click="affichageVisualisation.selectionnerPeriodeCorrectionBruit">{{ t('carousel.backgroundNoise.graphicalSelection') }}
           </div>
           <div class="wrap-dates">
-            <span>Du :</span>
+            <span>{{ t('carousel.backgroundNoise.from') }}</span>
             <input id="debutSelection" type="datetime-local"
                    @change="(e) => e.target && affichageVisualisation.dateDebutDepuisInput((e.target as HTMLInputElement).value)">
             <span class="bouton"
-                  @click="affichageVisualisation.dateDebutSelectionneePremiereDate">Depuis le début</span>
+                  @click="affichageVisualisation.dateDebutSelectionneePremiereDate">{{ t('carousel.backgroundNoise.fromBeginning') }}</span>
           </div>
           <div class="wrap-dates">
-            <span>Au :</span>
+            <span>{{ t('carousel.backgroundNoise.to') }}</span>
             <input id="finSelection" type="datetime-local"
                    @change="(e) => e.target && affichageVisualisation.dateFinDepuisInput((e.target as HTMLInputElement).value)">
-            <span class="bouton" @click="affichageVisualisation.dateFinSelectionneeDerniereDate">Jusqu'à la fin</span>
+            <span class="bouton" @click="affichageVisualisation.dateFinSelectionneeDerniereDate">{{ t('carousel.backgroundNoise.toEnd') }}</span>
           </div>
-          <span>Sélectionnez les variables explicatives :</span>
+          <span>{{ t('carousel.backgroundNoise.explanatoryVariables') }}</span>
           <div class="checkboxes variables-explicatives">
           </div>
-          <div class="bouton" @click="affichageVisualisation.declencherCorrectionBruitDeFond">Calculer</div>
+          <div class="bouton" @click="affichageVisualisation.declencherCorrectionBruitDeFond">{{ t('carousel.commons.calculate') }}</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
                         :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
@@ -249,15 +251,15 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card main">
-          <b>Conversion en concentration</b>
-          <span>Convertissez les courbes de vos traceurs en concentration</span>
+          <b>{{ t('carousel.concentration.title') }}</b>
+          <span>{{ t('carousel.concentration.description') }}</span>
           <div class="spacer"></div>
-          <span>Sélectionnez le traceur à convertir :</span>
+          <span>{{ t('carousel.concentration.selectTracer') }}</span>
           <div class="checkboxes listeCheckboxesConversion">
           </div>
           <div class="spacer"></div>
           <div class="bouton" @click="affichageVisualisation.appliquerConversionConcentration"
-               :class="{ 'disabled': props.affichageVisualisation.traceurPourConversion === null }">Convertir
+               :class="{ 'disabled': props.affichageVisualisation.traceurPourConversion === null }">{{ t('carousel.concentration.convert') }}
           </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
@@ -270,24 +272,24 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card">
-          <b>Export des données au format CSV</b>
+          <b>{{ t('carousel.export.csvTitle') }}</b>
           <div class="wrap-toogle">
             <ToggleSwitch class="export-calculs-checkbox"
                           @change="(e) => affichageVisualisation.toggleExportCalculs(e)"/>
-            <span>Exporter la liste des calculs effectués</span>
+            <span>{{ t('carousel.export.exportCalculations') }}</span>
           </div>
-          <div class="bouton" @click="affichageVisualisation.declencherExportCSV">Exporter</div>
+          <div class="bouton" @click="affichageVisualisation.declencherExportCSV">{{ t('carousel.export.export') }}</div>
         </div>
         <div class="card">
-          <b>Export des données au format CSV TRAC</b>
+          <b>{{ t('carousel.export.tracTitle') }}</b>
           <div class="checkboxes listeTraceursExport">
           </div>
-          <span v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null">Choisissez la date d'injection :</span>
+          <span v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null">{{ t('carousel.export.injectionDate') }}</span>
           <input type="datetime-local" id="dateInjection" step="1" v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null" :max="affichageVisualisation.dateMax" @change="(e) => affichageVisualisation.dateInjectionTrac = (e.target as HTMLInputElement).value" :value="affichageVisualisation.dateInjectionTrac"/>
           <div class="spacer"></div>
           <div class="multiple trac">
-            <div class="bouton" v-tooltip.top="'Exporter en tant que fichier CSV'" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null }" @click="affichageVisualisation.declencherExportTRAC">Exporter</div>
-            <div class="bouton" v-tooltip.top="'Copier dans le presse-papiers'" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null}" @click="affichageVisualisation.declencherCopieExportTRAC">Copier</div>
+            <div class="bouton" v-tooltip.top="t('carousel.export.exportAsFile')" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null }" @click="affichageVisualisation.declencherExportTRAC">{{ t('carousel.export.export') }}</div>
+            <div class="bouton" v-tooltip.top="t('carousel.export.copyToClipboard')" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null}" @click="affichageVisualisation.declencherCopieExportTRAC">{{ t('buttons.copy') }}</div>
           </div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
@@ -300,13 +302,13 @@ function initCalibrationDepuisVisualisation() {
       <HeaderCarousel/>
       <div class="cards">
         <div class="card main">
-          <b>Supprimer des courbes</b>
+          <b>{{ t('carousel.deleteCurves.title') }}</b>
           <div class="spacer"></div>
-          <span>Sélectionnez les courbes à supprimer :</span>
+          <span>{{ t('carousel.deleteCurves.selectCurves') }}</span>
           <div class="checkboxes listeCourbes">
           </div>
           <div class="spacer"></div>
-          <div class="bouton" :class="{ 'disabled': props.controlleurVisualisation.courbesSupprimees.length === 0 }" @click="affichageVisualisation.declencherSuppressionCourbes">Supprimer</div>
+          <div class="bouton" :class="{ 'disabled': props.controlleurVisualisation.courbesSupprimees.length === 0 }" @click="affichageVisualisation.declencherSuppressionCourbes">{{ t('carousel.deleteCurves.delete') }}</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
                         :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>

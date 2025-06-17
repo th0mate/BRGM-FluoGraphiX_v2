@@ -1,10 +1,12 @@
 ﻿<script setup lang="ts">
-import {ref} from "vue";
-import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
+import { ref } from "vue";
+import { ControlleurVisualisation } from '@/assets/js/Visualisation/ControlleurVisualisation';
 import Carousel from '@/components/Visualisation/Carousel.vue';
-import {reactive, onMounted} from "vue";
-import {AffichageVisualisation} from "@/assets/js/Visualisation/AffichageVisualisation"
+import { reactive, onMounted } from "vue";
+import { AffichageVisualisation } from "@/assets/js/Visualisation/AffichageVisualisation";
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const affichageVisualisation = reactive(new AffichageVisualisation());
 const controlleurVisualisation = reactive(new ControlleurVisualisation());
 
@@ -46,34 +48,34 @@ function choisirFichier() {
 
       <div class="right">
         <div class="presentation">
-          <h2>Partie <span class="orange">Visualisation</span></h2>
-          <span class="texte-gris-simple">Consultez vos données de mesure et effectuez des opération de correction et d'export</span>
+          <h2>{{ t('visualization.title') }} <span class="orange">{{ t('visualization.titleHighlight') }}</span></h2>
+          <span class="texte-gris-simple">{{ t('visualization.description') }}</span>
         </div>
 
         <div class="info">
-          <span><img src="@/assets/img/icons/info.png" alt=""> Types de fichiers pris en charge</span>
+          <span><img src="@/assets/img/icons/info.png" alt=""> {{ t('visualization.supportedFiles') }}</span>
           <ul>
-            <li>Fichiers .dat et <a href="">CSV issus de FluoGraphiX</a> pour les données de calibration</li>
-            <li>Fichiers MV, CSV, XML et TXT pour les données de mesure</li>
+            <li>{{ t('visualization.supportedFilesList.calibration') }} <a href="">{{ t('visualization.supportedFilesList.calibrationLink') }}</a> {{ t('visualization.supportedFilesList.calibrationLinkEnd') }}</li>
+            <li>{{ t('visualization.supportedFilesList.measurements') }}</li>
           </ul>
         </div>
 
         <div class="wrap">
-          <span class="texte-gris-simple">Format de date :</span>
+          <span class="texte-gris-simple">{{ t('visualization.dateFormat') }}</span>
           <select>
-            <option selected>jj/mm/aaaa</option>
-            <option>mm/jj/aaaa</option>
+            <option selected>{{ t('visualization.dateFormats.ddmmyyyy') }}</option>
+            <option>{{ t('visualization.dateFormats.mmddyyyy') }}</option>
           </select>
         </div>
 
-        <span class="bouton boutonFonce" @click="choisirFichier">COMMENCER</span>
+        <span class="bouton boutonFonce" @click="choisirFichier">{{ t('buttons.start') }}</span>
       </div>
     </div>
   </section>
 
   <section class="visualisation" v-else>
     <div class="wrap-graphique">
-      <span class="titre">Données issues du fichier <span class="orange nomFichier"></span> :</span>
+      <span class="titre">{{ t('visualization.dataFromFile') }} <span class="orange nomFichier"></span> :</span>
       <div class="padding-graphique">
         <canvas class="graphique" id="graphique"></canvas>
       </div>

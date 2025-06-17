@@ -177,5 +177,132 @@ export default {
             downloadedFile: 'File downloaded successfully',
             deleteCourbs: 'The selected curves have been removed from the chart',
         }
+    },
+    calibration: {
+        title: 'Section',
+        titleHighlight: 'Calibration',
+        description: 'Check your measuring device calibration data and export it to simplified CSV format.',
+        supportedFiles: 'Supported file types',
+        supportedFilesList: {
+            dat: '.dat files for Albillia sàrl devices',
+            csv: 'CSV files from FluoGraphiX. Learn more about',
+            csvLink: 'calibration CSV files',
+            csvLinkEnd: 'from FluoGraphiX'
+        },
+        dataToDisplay: 'Data to display',
+        buttons: {
+            import: 'IMPORT FILE',
+            importTooltip: 'Import another calibration file',
+            zoom: 'ZOOM',
+            zoomTooltip: 'Reset chart view',
+            export: 'EXPORT',
+            exportTooltip: 'Export to CSV format',
+            screenshot: 'Screenshot',
+            screenshotTooltip: 'Copy screenshot'
+        },
+        equationUtility: {
+            title: 'Equation utility',
+            copy: 'Copy',
+            noEquation: 'No equations to display yet.'
+        }
+    },
+    visualization: {
+        title: 'Section',
+        titleHighlight: 'Visualization',
+        description: 'Visualize your measurement data, correct it and export it to simplified format or TRAC format.',
+        supportedFiles: 'Supported file types',
+        supportedFilesList: {
+            calibration: '.dat files and',
+            calibrationLink: 'CSV files from FluoGraphiX',
+            calibrationLinkEnd: 'for calibration data',
+            measurements: 'MV, CSV, XML and TXT files for measurement data'
+        },
+        dateFormat: 'Date format:',
+        dateFormats: {
+            ddmmyyyy: 'dd/mm/yyyy',
+            mmddyyyy: 'mm/dd/yyyy'
+        },
+        dataFromFile: 'Data from file'
+    },
+    carousel: {
+        header: {
+            title: 'Calculation and export utility'
+        },
+        commons: {
+            calculate: 'Calculate',
+            calibrationAnomalyDetected: 'Some of your calibration data may be incorrect, please check them.',
+            noCalibrationAnomaly: 'No anomaly has been detected in your calibration data.',
+            noCalibrationImported: 'No calibration file imported, no calculation possible.',
+            tooltips: {
+                importMoreFiles: 'Import more files',
+                lockUnlockXAxis: 'Lock/unlock interactions on the x axis',
+                lockUnlockYAxis: 'Lock/unlock interactions on the y axis',
+                resetChartDisplay: 'Reset chart display',
+                takeChartScreenshot: 'Take a screenshot of the chart'
+            }
+        },
+        home: {
+            welcome: {
+                title: 'Welcome to the FluoGraphiX calculation and export utility',
+                description: 'Perform various correction and export operations on your curves here',
+                resetChart: 'Reset chart'
+            },
+            renaming: {
+                title: 'You need to rename your curves based on your calibration data:',
+                labelColumn: 'Label',
+                curveColumn: 'Curve',
+                select: 'Select...'
+            },
+            linkedSuccess: {
+                title: 'Your tracers have been successfully linked to your data. No action is required on your part'
+            },
+            noCalibration: {
+                title: 'You need to import a calibration file to perform additional calculations',
+                import: 'Import calibration file'
+            }
+        },
+        turbidity: {
+            title: 'Turbidity correction',
+            description: 'Correct the influence of turbidity on your curves',
+            correctionLevel: 'Select the correction level to apply:',
+            lampsToCorrect: 'Select the lamps to correct:'
+        },
+        interference: {
+            title: 'Interference correction',
+            tracersNumber: 'Select the number of tracers present:',
+            oneTracer: '1 tracer',
+            twoTracers: '2 tracers',
+            tracersSelection: 'Select the tracers concerned:'
+        },
+        backgroundNoise: {
+            title: 'Background noise correction',
+            selectPeriod: 'Select the period influenced by the tracer:',
+            graphicalSelection: 'Graphical selection',
+            from: 'From:',
+            to: 'To:',
+            fromBeginning: 'From the beginning',
+            toEnd: 'To the end',
+            explanatoryVariables: 'Select the explanatory variables:'
+        },
+        concentration: {
+            title: 'Concentration conversion',
+            description: 'Convert your tracer curves to concentration',
+            selectTracer: 'Select the tracer to convert:',
+            convert: 'Convert'
+        },
+        export: {
+            csvTitle: 'Export data to CSV format',
+            exportCalculations: 'Export the list of calculations performed',
+            export: 'Export',
+            tracTitle: 'Export data to CSV TRAC format',
+            injectionDate: 'Choose the injection date:',
+            exportAsFile: 'Export as CSV file',
+            copyToClipboard: 'Copy to clipboard'
+        },
+        deleteCurves: {
+            title: 'Delete curves',
+            selectCurves: 'Select curves to delete:',
+            delete: 'Delete'
+        }
     }
 }

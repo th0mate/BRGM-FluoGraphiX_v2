@@ -6,7 +6,9 @@ import Session from '@/assets/js/Session/Session';
 import {onMounted, ref} from 'vue';
 import {copierScreenElement, copierTexte} from '@/assets/js/Common/pressePapier';
 import {afficherMessageFlash} from '@/assets/js/Common/utils';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const fichierCharge = ref(false);
 const controleurCalibration = new ControlleurCalibration();
 const gestionnaireCalibration = new GestionnaireCourbesCalibration();
@@ -59,21 +61,20 @@ function traitementFichierCalibration(event: Event) {
 
       <div class="right">
         <div class="presentation">
-          <h2>Partie <span class="orange">Calibration</span></h2>
-          <span class="texte-gris-simple">Vérifiez vos données de calibration de vos appareils de mesure, et exportez-les au format CSV simplifié.</span>
+          <h2>{{ t('calibration.title') }} <span class="orange">{{ t('calibration.titleHighlight') }}</span></h2>
+          <span class="texte-gris-simple">{{ t('calibration.description') }}</span>
         </div>
 
         <div class="info">
-          <span><img src="@/assets/img/icons/info.png" alt=""> Types de fichiers pris en charge</span>
+          <span><img src="@/assets/img/icons/info.png" alt=""> {{ t('calibration.supportedFiles') }}</span>
           <ul>
-            <li>Fichiers .dat pour les appareils Albillia sàrl</li>
-            <li>Fichiers CSV issus de FluoGraphiX. En savoir plus sur les <a href="">fichiers CSV de calibration</a> de
-              FluoGraphiX
+            <li>{{ t('calibration.supportedFilesList.dat') }}</li>
+            <li>{{ t('calibration.supportedFilesList.csv') }} <a href="">{{ t('calibration.supportedFilesList.csvLink') }}</a> {{ t('calibration.supportedFilesList.csvLinkEnd') }}
             </li>
           </ul>
         </div>
 
-        <span class="bouton boutonFonce" @click="ouvrirChoisirFichierCalibration()">COMMENCER</span>
+        <span class="bouton boutonFonce" @click="ouvrirChoisirFichierCalibration()">{{ t('buttons.start') }}</span>
       </div>
     </div>
   </section>
@@ -83,7 +84,7 @@ function traitementFichierCalibration(event: Event) {
     <div class="concentrations">
 
       <div class="wrapBandeauCalibration">
-        <h2 class="orange">Données à afficher</h2>
+        <h2 class="orange">{{ t('calibration.dataToDisplay') }}</h2>
 
         <div class="bandeauCalibration">
           <div class="wrapTraceursCalibration">
@@ -97,22 +98,22 @@ function traitementFichierCalibration(event: Event) {
           <span class="separatorCalibration"></span>
 
           <div>
-            <div v-tooltip.top="'Importer un autre fichier de calibration'" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="ouvrirChoisirFichierCalibration()">
-              IMPORTER FICHIER<img src="@/assets/img/icons/importer.png"
+            <div v-tooltip.top="t('calibration.buttons.importTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="ouvrirChoisirFichierCalibration()">
+              {{ t('calibration.buttons.import') }}<img src="@/assets/img/icons/importer.png"
                                    alt="Importer">
             </div>
-            <div v-tooltip.top="'Réinitialiser l\'affichage du graphique'" class="boutonOrange boutonFonce boutonBandeauCalibration"
-                 @click="AffichageCalibration.reinitialiserZoomGraphique()">ZOOM<img
+            <div v-tooltip.top="t('calibration.buttons.zoomTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration"
+                 @click="AffichageCalibration.reinitialiserZoomGraphique()">{{ t('calibration.buttons.zoom') }}<img
                 src="@/assets/img/icons/circulaire.png"
                 alt="Réinitialiser">
             </div>
-            <div v-tooltip.top="'Exporter au format CSV'" class="boutonOrange boutonFonce boutonBandeauCalibration"
-                 @click="controleurCalibration.exporterDonneesCSV()">EXPORTER<img
+            <div v-tooltip.top="t('calibration.buttons.exportTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration"
+                 @click="controleurCalibration.exporterDonneesCSV()">{{ t('calibration.buttons.export') }}<img
                 src="@/assets/img/icons/dl.png"
                 alt="Exporter">
             </div>
-            <div v-tooltip.top="'Copier une capture d\'écran'" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierScreenElement('.donnees')"><img
-                src="@/assets/img/icons/copier.png" alt="Capture"></div>
+            <div v-tooltip.top="t('calibration.buttons.screenshotTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierScreenElement('.donnees')"><img
+                src="@/assets/img/icons/copier.png" alt="{{ t('calibration.buttons.screenshot') }}"></div>
           </div>
         </div>
       </div>
@@ -127,7 +128,7 @@ function traitementFichierCalibration(event: Event) {
         <div class="wrap-tableau">
           <div class="utilitaire">
             <div class="header">
-              <span class="text">Utilitaire d'équations</span>
+              <span class="text">{{ t('calibration.equationUtility.title') }}</span>
               <span>
                 <span class="color"></span>
                 <span class="color"></span>
@@ -136,12 +137,12 @@ function traitementFichierCalibration(event: Event) {
             </div>
 
             <span class="copier" @click="copierTexte('.equation')">
-              <span>Copier</span>
+              <span>{{ t('calibration.equationUtility.copy') }}</span>
               <img src="@/assets/img/icons/copier.png" alt="">
             </span>
 
             <div class="equation">
-              <span>Aucune équation à afficher pour l'instant.</span>
+              <span>{{ t('calibration.equationUtility.noEquation') }}</span>
             </div>
           </div>
         </div>
@@ -158,4 +159,3 @@ function traitementFichierCalibration(event: Event) {
   background-image: url('@/assets/img/hydro_pictures/img13.jpg');
 }
 </style>
-

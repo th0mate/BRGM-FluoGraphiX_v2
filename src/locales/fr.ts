@@ -177,5 +177,132 @@ export default {
             downloadedFile: 'Fichier téléchargé avec succès',
             deleteCourbs: 'Les courbes sélectionnées ont été supprimées du graphique',
         }
+    },
+    calibration: {
+        title: 'Partie',
+        titleHighlight: 'Calibration',
+        description: 'Vérifiez vos données de calibration de vos appareils de mesure, et exportez-les au format CSV simplifié.',
+        supportedFiles: 'Types de fichiers pris en charge',
+        supportedFilesList: {
+            dat: 'Fichiers .dat pour les appareils Albillia sàrl',
+            csv: 'Fichiers CSV issus de FluoGraphiX. En savoir plus sur les',
+            csvLink: 'fichiers CSV de calibration',
+            csvLinkEnd: 'de FluoGraphiX'
+        },
+        dataToDisplay: 'Données à afficher',
+        buttons: {
+            import: 'IMPORTER FICHIER',
+            importTooltip: 'Importer un autre fichier de calibration',
+            zoom: 'ZOOM',
+            zoomTooltip: 'Réinitialiser l\'affichage du graphique',
+            export: 'EXPORTER',
+            exportTooltip: 'Exporter au format CSV',
+            screenshot: 'Capture',
+            screenshotTooltip: 'Copier une capture d\'écran'
+        },
+        equationUtility: {
+            title: 'Utilitaire d\'équations',
+            copy: 'Copier',
+            noEquation: 'Aucune équation à afficher pour l\'instant.'
+        }
+    },
+    visualization: {
+        title: 'Partie',
+        titleHighlight: 'Visualisation',
+        description: 'Visualisez vos données de mesure, corrigez-les et exportez-les au format simplifié ou au format TRAC.',
+        supportedFiles: 'Types de fichiers pris en charge',
+        supportedFilesList: {
+            calibration: 'Fichiers .dat et',
+            calibrationLink: 'CSV issus de FluoGraphiX',
+            calibrationLinkEnd: 'pour les données de calibration',
+            measurements: 'Fichiers MV, CSV, XML et TXT pour les données de mesure'
+        },
+        dateFormat: 'Format de date :',
+        dateFormats: {
+            ddmmyyyy: 'jj/mm/aaaa',
+            mmddyyyy: 'mm/jj/aaaa'
+        },
+        dataFromFile: 'Données issues du fichier'
+    },
+    carousel: {
+        header: {
+            title: 'Utilitaire de calculs et d\'export'
+        },
+        commons: {
+            calculate: 'Calculer',
+            calibrationAnomalyDetected: 'Certaines de vos données de calibration sont susceptibles d\'être incorrectes, veuillez les vérifier.',
+            noCalibrationAnomaly: 'Aucune anomalie n\'a été détectée dans vos données de calibration.',
+            noCalibrationImported: 'Aucun fichier de calibration importé, aucun calcul possible.',
+            tooltips: {
+                importMoreFiles: 'Importer d\'autres fichiers',
+                lockUnlockXAxis: 'Bloquer/libérer les interactions sur l\'axe x',
+                lockUnlockYAxis: 'Bloquer/libérer les interactions sur l\'axe y',
+                resetChartDisplay: 'Réinitialiser l\'affichage du graphique',
+                takeChartScreenshot: 'Prendre une capture d\'écran du graphique'
+            }
+        },
+        home: {
+            welcome: {
+                title: 'Bienvenue dans l\'utilitaire de calculs et d\'export de FluoGraphiX',
+                description: 'Réalisez ici les différentes opérations de correction et d\'export de vos courbes',
+                resetChart: 'Réinitialiser le graphique'
+            },
+            renaming: {
+                title: 'Vous devez renommer vos courbes en fonction de vos données de calibration :',
+                labelColumn: 'Label',
+                curveColumn: 'Courbe',
+                select: 'Sélectionner...'
+            },
+            linkedSuccess: {
+                title: 'Vos traceurs ont été liés à vos données avec succès. Aucun action n\'est requise de votre part'
+            },
+            noCalibration: {
+                title: 'Vous devez importer un fichier de calibration pour effectuer des calculs supplémentaires',
+                import: 'Importer un fichier de calibration'
+            }
+        },
+        turbidity: {
+            title: 'Correction de la turbidité',
+            description: 'Corrigez l\'influence de la turbidité sur vos courbes',
+            correctionLevel: 'Sélectionnez le niveau de correction à appliquer :',
+            lampsToCorrect: 'Sélectionnez les lampes à corriger :'
+        },
+        interference: {
+            title: 'Correction des interférences',
+            tracersNumber: 'Sélectionnez le nombre de traceurs présents :',
+            oneTracer: '1 traceur',
+            twoTracers: '2 traceurs',
+            tracersSelection: 'Sélectionnez les traceurs concernés :'
+        },
+        backgroundNoise: {
+            title: 'Correction du bruit de fond',
+            selectPeriod: 'Sélectionnez la période influencée par le traceur :',
+            graphicalSelection: 'Sélection graphique',
+            from: 'Du :',
+            to: 'Au :',
+            fromBeginning: 'Depuis le début',
+            toEnd: 'Jusqu\'à la fin',
+            explanatoryVariables: 'Sélectionnez les variables explicatives :'
+        },
+        concentration: {
+            title: 'Conversion en concentration',
+            description: 'Convertissez les courbes de vos traceurs en concentration',
+            selectTracer: 'Sélectionnez le traceur à convertir :',
+            convert: 'Convertir'
+        },
+        export: {
+            csvTitle: 'Export des données au format CSV',
+            exportCalculations: 'Exporter la liste des calculs effectués',
+            export: 'Exporter',
+            tracTitle: 'Export des données au format CSV TRAC',
+            injectionDate: 'Choisissez la date d\'injection :',
+            exportAsFile: 'Exporter en tant que fichier CSV',
+            copyToClipboard: 'Copier dans le presse-papiers'
+        },
+        deleteCurves: {
+            title: 'Supprimer des courbes',
+            selectCurves: 'Sélectionnez les courbes à supprimer :',
+            delete: 'Supprimer'
+        }
     }
 }
