@@ -59,14 +59,14 @@ export class BaseCalcul {
 
             return resultat;
         } catch (error) {
-            const imageHTML = `<img src="${errorImage}" alt="Erreur" style="width: 120px;">`;
+            const imageHTML = `<img src="${errorImage}" alt="" style="width: 120px;">`;
 
             afficherPopup(
                 imageHTML,
-                'Erreur',
-                'Erreur inattendue lors du calcul',
-                'Une erreur est survenue. Veuillez vérifier vos données et réessayer ultérieurement. Si le problème persiste, veuillez ouvrir une issue sur le dépôt Github.',
-                'Fermer'
+                'popups.error.title',
+                'popups.error.unexpectedCalculation',
+                'popups.error.generalError',
+                'buttons.close'
             );
             throw error;
         } finally {

@@ -4,6 +4,7 @@
  * Service de gestion des popups dans l'application avec une approche Vue.js
  */
 import { reactive, readonly } from 'vue';
+import { t } from '@/locales/i18nService';
 
 interface PopupState {
   visible: boolean;
@@ -21,7 +22,7 @@ const state = reactive<PopupState>({
   headerTitle: '',
   title: '',
   content: '',
-  buttonText: 'Fermer',
+  buttonText: t('buttons.close'), // Utilisation de la traduction par défaut
   imageUrl: '',
   imageHtml: ''
 });
@@ -76,7 +77,7 @@ const actions = {
     state.headerTitle = '';
     state.title = '';
     state.content = '';
-    state.buttonText = 'Fermer';
+    state.buttonText = t('buttons.close'); // Utilisation de la traduction
     state.imageUrl = '';
     state.imageHtml = '';
   }
@@ -99,12 +100,17 @@ export function afficherPopup(
   contenu: string,
   texteBouton: string
 ): void {
+  const headerTitle = titreOnglet.includes('.') ? t(titreOnglet) : titreOnglet;
+  const title = titre.includes('.') ? t(titre) : titre;
+  const content = contenu.includes('.') ? t(contenu) : contenu;
+  const buttonText = texteBouton.includes('.') ? t(texteBouton) : texteBouton;
+
   actions.showPopup({
     imageHtml: imageHTML,
-    headerTitle: titreOnglet,
-    title: titre,
-    content: contenu,
-    buttonText: texteBouton
+    headerTitle,
+    title,
+    content,
+    buttonText
   });
 }
 

@@ -254,11 +254,11 @@ export class ControlleurVisualisation {
         if (fichiersMesures.length === 0) {
             await router.push({name: 'calibration'});
             afficherPopup(
-                `<img src="${warningImage}" alt="Avertissement" style="width: 120px;">`,
-                'Avertissement',
-                'Aucun fichier de mesures trouvé',
-                'Veuillez importer au moins un fichier de mesures en plus d\'un fichier de calibration ou utiliser la page "calibration" pour vos fichiers de calibration seuls.',
-                'Fermer'
+                `<img src="${warningImage}" alt="" style="width: 120px;">`,
+                'popups.warning.title',
+                'popups.warning.noDataCalibration',
+                'popups.warning.noDataCalibrationDescription',
+                'buttons.close'
             );
 
             return;
@@ -266,9 +266,9 @@ export class ControlleurVisualisation {
 
         afficherPopup(
             `<img src="${loadingGif}" alt="Chargement" style="width: 120px;">`,
-            'Chargement en cours',
-            'Chargement en cours',
-            'Chargement des fichiers importés, veuillez patienter...',
+            'popups.loading.title',
+            'popups.loading.title',
+            'popups.loading.description',
             ''
         );
 
@@ -333,10 +333,10 @@ export class ControlleurVisualisation {
 
                 afficherPopup(
                     imageHTML,
-                    'Erreur',
-                    'Écart entre deux fichiers trop important',
-                    'L\'écart entre deux fichiers de mesures importés est supérieur à 9 jours. Import annulé.',
-                    'Fermer'
+                    'popups.error.title',
+                    'popups.error.tooLargeGap',
+                    'popups.error.tooLargeGapDescription',
+                    'buttons.close'
                 );
                 throw new Error('L\'écart entre les fichiers de mesures est supérieur à 9 jours. Import annulé.');
             }

@@ -227,11 +227,11 @@ class GraphiqueVisualisation extends Graphiques {
             myChart.options.plugins.zoom.zoom.wheel.enabled = false;
 
             afficherPopup(
-                `<img src="${infoImage}" alt="Avertissement" style="width: 120px;">`,
-                'Information',
-                'Sélectionnez une zone sur le graphique',
-                'Commencez par sélectionner la période influencée par le traceur en cliquant et en maintenant le clic gauche sur le graphique, puis en relâchant le clic à la fin de la zone à sélectionner.',
-                'Commencer'
+                `<img src="${infoImage}" alt="" style="width: 120px;">`,
+                'popups.info.title',
+                'popups.info.selectRange',
+                'popups.info.selectRangeDescription',
+                'buttons.start'
             );
 
             let isSelecting = false;

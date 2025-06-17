@@ -123,10 +123,10 @@ export default class GestionnaireCourbesCalibration {
 
             afficherPopup(
                 imageHTML,
-                'Avertissement',
-                'Données potentiellement incohérentes détectées',
-                'Les données calculées indiquent une potentielle erreur dans les données de calibration importées. Assurez-vous qu\'elles soient correctes.',
-                'Fermer'
+                'popups.warning.title',
+                'popups.warning.calibrationWarning',
+                'popups.warning.calibrationWarningDescription',
+                'buttons.close'
             );
         }
     }

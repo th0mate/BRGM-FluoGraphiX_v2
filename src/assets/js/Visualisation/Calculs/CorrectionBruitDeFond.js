@@ -9,6 +9,7 @@ import {afficherPopup} from "@/assets/js/UI/popupService.js";
 import {DateTime} from "luxon";
 import {transpose, multiply, inverse} from "@/assets/js/Calibration/utils.js";
 import warningImage from "@/assets/img/popup/warning.png";
+import { t } from '@/locales/i18nService';
 
 
 /**
@@ -245,14 +246,24 @@ export class CorrectionBruitDeFond extends BaseCalcul {
 
         if (coeffCorrelation <= 0.5) {
             afficherPopup(
-                `<img src="${warningImage}" alt="Attention" style="width: 120px;">`,
-                'Avertissement',
-                `Avertissement - coefficient de corrélation`,
-                `Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}. Il est conseillé de vérifier l'absence de dérive instrumentale ou de choisir une plage de donnée différente pour ce calcul.`,
-                'Fermer'
+                `<img src="${warningImage}" alt="${t('popups.warning.alt')}" style="width: 120px;">`,
+                'popups.warning.title',
+                'popups.warning.correlationCoefficient',
+                t('popups.warning.correlationMessage', {
+                    traceurName: traceur.nom,
+                    coeffValue: coeffCorrelation
+                }),
+                'buttons.close'
             );
         } else {
-            afficherMessageFlash("Information", `Le coefficient de corrélation de Pearson pour "${traceur.nom}" est de ${coeffCorrelation}.`, 'info');
+            afficherMessageFlash(
+                t('notifications.info'),
+                t('notifications.correlationInfo', {
+                    traceurName: traceur.nom,
+                    coeffValue: coeffCorrelation
+                }),
+                'info'
+            );
         }
 
         let dataPointsCorr = [];
