@@ -13,7 +13,7 @@ export async function copierScreenElement(querySelectorElement) {
     const element = document.querySelector(`${querySelectorElement}`);
 
     if (!element) {
-        afficherMessageFlash('Erreur', 'Element introuvable dans le DOM', 'danger');
+        afficherMessageFlash('notifications.error.title', 'notifications.error.undefinedElementIntoDOM', 'error');
         return;
     }
 
@@ -31,9 +31,9 @@ export async function copierScreenElement(querySelectorElement) {
         const blob = await new Promise(resolve => canvas.toBlob(resolve));
         const clipboardItem = new ClipboardItem({'image/png': blob});
         await navigator.clipboard.write([clipboardItem]);
-        afficherMessageFlash('Succès','Image copiée dans le presse-papiers.', 'success');
+        afficherMessageFlash('notifications.success.title','notifications.success.copyPictureClipboard', 'success');
     } catch (error) {
-        afficherMessageFlash('Erreur','Impossible de copier l\'image dans le presse-papiers.', 'danger');
+        afficherMessageFlash('notifications.error.title','notifications.error.errorCopyPictureClipboard', 'error');
         console.error(error);
     }
 }
@@ -47,15 +47,15 @@ export async function copierTexte(querySelectorElement) {
     const element = document.querySelector(`${querySelectorElement}`);
 
     if (!element) {
-        afficherMessageFlash('Erreur', 'Element introuvable dans le DOM', 'danger');
+        afficherMessageFlash('notifications.error.title', 'notifications.error.undefinedElementIntoDOM', 'error');
         return;
     }
 
     try {
         await navigator.clipboard.writeText(element.innerText);
-        afficherMessageFlash('Succès','Texte copié dans le presse-papiers.', 'success');
+        afficherMessageFlash('notifications.success.title','notifications.success.copyTexteToClipboard', 'success');
     } catch (error) {
-        afficherMessageFlash('Erreur','Impossible de copier le texte dans le presse-papiers.', 'danger');
+        afficherMessageFlash('notifications.error.title','notifications.error.errorCopyTextClipboard', 'error');
         console.error(error);
     }
 }

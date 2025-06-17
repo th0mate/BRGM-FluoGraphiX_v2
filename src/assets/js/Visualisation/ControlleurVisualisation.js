@@ -507,9 +507,9 @@ export class ControlleurVisualisation {
 
             existingChart.update();
             if (mode === 'none') {
-                afficherMessageFlash("Succès", `Zoom et déplacement désactivés.`, 'success');
+                afficherMessageFlash("notifications.success.title", `notifications.success.zoomDisabled`, 'success');
             } else {
-                afficherMessageFlash("Succès", `Zoom et déplacement en ${mode.toUpperCase()} modifiés.`, 'success');
+                afficherMessageFlash("notifications.success.title", `notifications.success.zoomEnabled`, 'success');
             }
         }
     }
@@ -528,7 +528,7 @@ export class ControlleurVisualisation {
         this.resetCourbesSupprimees();
         this.affichageVisualisation.resetCheckboxesCarousel();
         Session.getInstance().calculs = [];
-        afficherMessageFlash("Succès", "Le graphique a été réinitialisé avec les données importées au départ.", 'success');
+        afficherMessageFlash("notifications.success.title", "notifications.success.resetChart.", 'success');
     }
 
 
@@ -755,9 +755,9 @@ export class ControlleurVisualisation {
             element.download = 'FluoGraphiX-ExportDonnees-' + new Date().toLocaleString().replace(/\/|:|,|\s/g, '-') + '.csv';
             document.body.appendChild(element);
             element.click();
-            afficherMessageFlash("Fichier téléchargé avec succès.", 'success');
+            afficherMessageFlash("notifications.success.title", 'notifications.success.downloadedFile', 'success');
         } else {
-            afficherMessageFlash("Aucun fichier à télécharger : aucune donnée à exporter.", 'warning');
+            afficherMessageFlash("notifications.warning.title", "notifications.warning.noDataToExport", 'warning');
         }
     }
 
@@ -791,7 +791,7 @@ export class ControlleurVisualisation {
         a.href = url;
         a.download = `exportTRAC-${traceur.nom}-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
         a.click();
-        afficherMessageFlash("Succès", 'Fichier téléchargé avec succès.', 'success');
+        afficherMessageFlash("notifications.success.title", 'notifications.success.downloadedFile', 'success');
         URL.revokeObjectURL(url);
     }
 
@@ -807,7 +807,7 @@ export class ControlleurVisualisation {
         reader.onload = function () {
             const contenu = reader.result.split('\n').slice(1).join('\n');
             navigator.clipboard.writeText(contenu);
-            afficherMessageFlash("Succès", 'Contenu copié dans le presse-papiers.', 'success');
+            afficherMessageFlash("notifications.success.title", 'notifications.success.copyTexteToClipboard', 'success');
         }
     }
 
@@ -906,7 +906,7 @@ export class ControlleurVisualisation {
 
         chart.update();
         if (labels.length > 0) {
-            afficherMessageFlash("Succès", `Les courbes sélectionnées ont été supprimées du graphique.`, 'success');
+            afficherMessageFlash("notifications.success.title", `notifications.success.deleteCourbs.`, 'success');
         }
     }
 }

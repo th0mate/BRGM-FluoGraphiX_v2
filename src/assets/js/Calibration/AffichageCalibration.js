@@ -38,7 +38,7 @@ export class AffichageCalibration {
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
             existingChart.resetZoom();
-            afficherMessageFlash("Information", "Le zoom du graphique a été réinitialisé.", 'info');
+            afficherMessageFlash("notifications.info.title", "notifications.info.zoomReset", 'info');
         }
     }
 }

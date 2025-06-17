@@ -37,7 +37,7 @@ export default class LecteurFichierCalibration {
      */
     initialiser(estDepuisCalibration = true) {
         if (!Session.getInstance().contenuFichierCalibration) {
-            this.afficherMessageErreur('Erreur : aucune donnée exploitable.');
+            afficherMessageFlash("notifications.error.title", "notifications.error.noData", 'error');
             return false;
         }
 
@@ -71,19 +71,6 @@ export default class LecteurFichierCalibration {
 
         if (document.querySelector('.infosConcentration')) {
             document.querySelector('.infosConcentration').remove();
-        }
-    }
-
-
-    /**
-     * Affiche un message d'erreur
-     * @param {string} message - Le message d'erreur
-     */
-    afficherMessageErreur(message) {
-        if (typeof afficherMessageFlash === 'function') {
-            afficherMessageFlash(message, 'danger');
-        } else {
-            console.error(message);
         }
     }
 

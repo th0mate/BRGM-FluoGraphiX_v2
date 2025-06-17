@@ -3,7 +3,7 @@
  * www.thomasloye.fr
  * Lecteur pour les fichiers XML
  */
-import { LecteurFichierVisualisation } from './LecteurFichierVisualisation.js';
+import {LecteurFichierVisualisation} from './LecteurFichierVisualisation.js';
 import {around, getDateAujourdhui, getDateHeure, getTime} from "@/assets/js/Common/utils.js";
 
 
@@ -49,12 +49,10 @@ export class LecteurFichierXML extends LecteurFichierVisualisation {
             const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
             const errors = xmlDoc.querySelectorAll('parsererror');
             if (errors.length > 0) {
-                // afficherMessageFlash("Erreur lors du chargement du fichier XML", 'danger');
                 return null;
             }
             return xmlDoc;
         } catch (error) {
-            // afficherMessageFlash("Erreur lors du chargement du fichier XML", 'danger');
             return null;
         }
     }

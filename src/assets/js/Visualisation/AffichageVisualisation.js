@@ -109,7 +109,7 @@ export class AffichageVisualisation {
         const existingChart = Chart.getChart(canvas);
         if (existingChart) {
             existingChart.resetZoom();
-            afficherMessageFlash("Information", "Le zoom du graphique a été réinitialisé.", 'info');
+            afficherMessageFlash("notifications.info.title", "notifications.info.zoomReset", 'info');
         }
     }
 
@@ -597,15 +597,15 @@ export class AffichageVisualisation {
                         document.querySelector('#finSelection').value = DateTime.fromFormat(zone[1], 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
                     } catch (e2) {
                         console.error("Impossible de parser les dates:", e2);
-                        afficherMessageFlash("Erreur", "Format de date invalide.", 'error');
+                        afficherMessageFlash("notifications.error.title", "notifications.error.invalidDateFormat", 'error');
                     }
                 }
             } else {
-                afficherMessageFlash("Erreur", "Veuillez sélectionner une période valide pour la correction du bruit de fond.", 'error');
+                afficherMessageFlash("notifications.error.title", "notifications.error.invalidPeriod", 'error');
             }
         }).catch(error => {
             console.error("Erreur lors de la sélection de la zone graphique:", error);
-            afficherMessageFlash("Erreur", "Une erreur est survenue lors de la sélection de la période.", 'error');
+            afficherMessageFlash("notifications.error.title", "notifications.error.invalidPeriodSelection", 'error');
         });
     }
 
@@ -751,14 +751,14 @@ export class AffichageVisualisation {
      */
     declencherCorrectionBruitDeFond() {
         if (this.variablesExplicativesBruit.length === 0) {
-            afficherMessageFlash("Erreur", "Veuillez sélectionner au moins une variable explicative", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.notGreatNumberVariablesForNoise", "error");
             return;
         }
 
         const traceurs = Session.getInstance().traceurs;
         const eau = traceurs.find(traceur => traceur.unite === '');
         if (!eau) {
-            afficherMessageFlash("Erreur", "Traceur eau non trouvé. Vérifiez vos données de calibration", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.undefinedWaterTracker", "error");
             return;
         }
 
@@ -794,10 +794,10 @@ export class AffichageVisualisation {
         }
 
         if (traceursBruitDeFond.length === 0) {
-            afficherMessageFlash("Erreur", "Aucun traceur disponible pour la correction du bruit de fond", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.noTrackerForNoise", "error");
             return;
         } else if (traceursBruitDeFond.length > 2) {
-            afficherMessageFlash("Erreur", "La correction de bruit de fond n'est possible qu'avec un ou deux traceurs", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.notGreatNumberTrackersForNoise", "error");
             return;
         }
 
@@ -828,12 +828,12 @@ export class AffichageVisualisation {
 
         this.controlleurVisualisation.appliquerCorrectionBruitDeFond(traceursBruitDeFond, options)
             .then(() => {
-                afficherMessageFlash("Succès", "Correction du bruit de fond effectuée avec succès", "success");
+                afficherMessageFlash("notifications.success.title", "notifications.success.backgroundNoiseCorrection", "success");
                 this.resetCheckboxesCarousel();
             })
             .catch(error => {
                 console.error("Erreur lors de la correction du bruit de fond:", error);
-                afficherMessageFlash("Erreur", "Une erreur s'est produite lors de la correction du bruit de fond", "error");
+                afficherMessageFlash("notifications.error.title", "notifications.error.failBackgroundNoiseCorrection", "error");
             });
     }
 
@@ -893,7 +893,7 @@ export class AffichageVisualisation {
                 this.initialiserExportTRAC();
             }, 1000);
         } else {
-            afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur pour la conversion en concentrations", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.oneTrackerForConcentrationNeeded", "error");
         }
     }
 
@@ -973,7 +973,7 @@ export class AffichageVisualisation {
             this.controlleurVisualisation.exporterTRAC(this.dateInjectionTrac, this.traceurSelectionneExportTRAC);
             this.resetCheckboxesCarousel();
         } else {
-            afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur & une date d'injection pour l'export TRAC", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.needsForTracExport", "error");
         }
     }
 
@@ -985,7 +985,7 @@ export class AffichageVisualisation {
             this.controlleurVisualisation.copierTracPresserPapier(this.dateInjectionTrac, this.traceurSelectionneExportTRAC);
             this.resetCheckboxesCarousel();
         } else {
-            afficherMessageFlash("Erreur", "Veuillez sélectionner un traceur & une date d'injection pour la copie de l'export TRAC", "error");
+            afficherMessageFlash("notifications.error.title", "notification.error.needsForTracExport", "error");
         }
     }
 

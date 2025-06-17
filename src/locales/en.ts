@@ -127,7 +127,49 @@ export default {
         }
     },
     notifications: {
-        info: 'Information',
-        correlationInfo: 'The Pearson correlation coefficient for "{traceurName}" is {coeffValue}.'
+        info: {
+            title: 'Information',
+            correlationInfo: 'The Pearson correlation coefficient for "{traceurName}" is {coeffValue}.',
+            zoomReset: 'The zoom of the chart has been reset',
+        },
+        warning: {
+            title: 'Warning',
+            notEnoughData: 'Not enough data for background noise correction',
+            notYetImplemented: 'Correction of interferences for more than 2 tracers not implemented',
+            noDataToExport: 'No file to download: no data to export'
+        },
+        error: {
+            title: 'Error',
+            noTrackerForNoise: 'No tracer available for background noise correction',
+            notGreatNumberTrackersForNoise: 'Background noise correction is only possible with one or two tracers',
+            notGreatNumberVariablesForNoise: 'Please select at least one explanatory variable',
+            undefinedTrackerColumn: 'Columns not found for the tracer "{traceurName}"',
+            undefinedElementIntoDOM: 'Element not found in the DOM',
+            errorCopyPictureClipboard: 'Unable to copy the image to the clipboard',
+            errorCopyTextClipboard: 'Unable to copy the text to the clipboard',
+            noData: 'No exploitable data found',
+            failDateFormatDetection: 'Date format detection failed. Please try again without the Calibrat.dat file.',
+            undefinedError: 'An unexpected error occurred while processing the file',
+            invalidDateFormat: 'Invalid date format',
+            invalidPeriod: 'Please select a valid period for background noise correction',
+            invalidPeriodSelection: 'An error occurred while selecting the period.',
+            undefinedWaterTracker: 'Water tracer not found. Please check your calibration data',
+            failBackgroundNoiseCorrection: 'An error occurred during background noise correction',
+            oneTrackerForConcentrationNeeded: 'Please select a tracer for conversion to concentrations',
+            needsForTracExport: 'Please select a tracer and an injection date for TRAC export',
+            noCommonLamp: 'Unable to find a common lamp for correction',
+        },
+        success: {
+            title: 'Success',
+            copyPictureClipboard: 'Image copied to clipboard',
+            copyTexteToClipboard: 'Text copied to clipboard',
+            calibrationLoaded: 'Calibration file loaded successfully',
+            backgroundNoiseCorrection: 'Background noise correction completed successfully',
+            zoomEnabled: "Chart zoom and interaction settings modified",
+            zoomDisabled: "Chart zoom and interaction settings disabled",
+            resetChart: 'The chart has been reset with the initially imported data',
+            downloadedFile: 'File downloaded successfully',
+            deleteCourbs: 'The selected curves have been removed from the chart',
+        }
     }
 }

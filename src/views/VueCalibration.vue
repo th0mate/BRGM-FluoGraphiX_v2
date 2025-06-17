@@ -40,10 +40,10 @@ function traitementFichierCalibration(event: Event) {
 
     lecteur.readAsText(fichier);
   } catch (error) {
-    afficherMessageFlash('Erreur', 'Une erreur inattendue est survenue lors du traitement du fichier.', 'error');
+    afficherMessageFlash('notifications.error.title', 'notifications.error.undefinedError', 'error');
   }
 
-  afficherMessageFlash("Succès", "Fichier de calibration chargé avec succès.", "success");
+  afficherMessageFlash("notifications.succes.title", "notifications.success.calibrationLoaded", "success");
 }
 </script>
 

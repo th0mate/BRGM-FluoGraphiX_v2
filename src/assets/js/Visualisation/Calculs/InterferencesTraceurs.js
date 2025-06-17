@@ -241,7 +241,7 @@ export class InterferencesTraceurs extends BaseCalcul {
 
         const eau = this.getTraceurParUnite('');
         if (!eau) {
-            afficherMessageFlash('Traceur eau non trouvé', 'error');
+            afficherMessageFlash("notifications.error.title", 'notifications.error.undefinedWaterTracker', 'error');
             return;
         }
 
@@ -280,7 +280,7 @@ export class InterferencesTraceurs extends BaseCalcul {
             }
 
             if (lampeCommune === 0) {
-                afficherMessageFlash('Impossible de trouver une lampe commune pour la correction', 'error');
+                afficherMessageFlash("notifications.error.title", 'notifications.error.noCommonLamp', 'error');
                 return;
             }
 
@@ -333,8 +333,7 @@ export class InterferencesTraceurs extends BaseCalcul {
             const indexLampeCommune = this._trouverIndexColonne(colonnes, lampeCommune);
 
             if (indexLampe1 === -1 || indexLampe2 === -1 || indexLampeCommune === -1) {
-                afficherMessageFlash('Colonnes de données manquantes', 'error');
-                return;
+                throw new Error("Erreur : Impossible de trouver les colonnes pour les lampes principales ou commune.");
             }
 
             const Y = [];
@@ -480,7 +479,7 @@ export class InterferencesTraceurs extends BaseCalcul {
             this.mettreAJourGraphique(`L${traceur2.lampePrincipale}Corr`, dataPointsT2);
             this.mettreAJourGraphique(`L${lampeCommune}Corr`, dataPoints);
         } else {
-            afficherMessageFlash('Correction d\'interférences pour plus de 2 traceurs non implémentée.', 'info');
+            afficherMessageFlash("notifications.warning.title", 'notifications.warning.notYetImplemented.', 'warning');
         }
     }
 }

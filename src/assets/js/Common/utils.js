@@ -2,10 +2,10 @@
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
  */
-
-
 import { afficherToast } from "./toastService";
 import Session from "@/assets/js/Session/Session.js";
+import {t} from '@/locales/i18nService';
+
 
 /**
  * Ajoute des espaces pour aligner les chiffres
@@ -45,7 +45,7 @@ export function getTime(string) {
  */
 export function getTimeFromMV(string) {
     if (Session.getInstance().formatDates.toString() === '0') {
-        afficherMessageFlash("Erreur","La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.", 'danger');
+        afficherMessageFlash("notifications.error.title","notifications.error.failDateFormatDetection", 'error');
         throw new Error("Erreur : La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.");
     } else if (Session.getInstance().formatDates.toString() === '1') {
         return string;
@@ -122,10 +122,13 @@ export function arrondirA2Decimales(chiffre) {
 
 /**
  * Affiche un message flash à l'utilisateur via une notification Vue.js
- * @param titre {string|null} le titre de la notification. Si null, un titre par défaut sera choisi selon le type.
- * @param message {string} le message à afficher dans la notification.
+ * @param titre {string|null} le titre de la notification ou clé de traduction. Si null, un titre par défaut sera choisi selon le type.
+ * @param message {string} le message à afficher dans la notification ou clé de traduction.
  * @param type {string} le type de notification ('success', 'info', 'warn', 'error'). Par défaut, 'success'.
+ * @param params {Object} paramètres optionnels pour l'interpolation de variables dans les traductions
  */
-export function afficherMessageFlash(titre = null, message, type = 'success') {
-    afficherToast(titre, message, type);
+export function afficherMessageFlash(titre = null, message, type = 'success', params = {}) {
+    const titreTraite = titre ? (titre.includes('.') ? t(titre) : titre) : null;
+    const messageTraite = message.includes('.') ? t(message, params) : message;
+    afficherToast(titreTraite, messageTraite, type);
 }

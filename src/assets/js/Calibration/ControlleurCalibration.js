@@ -38,7 +38,7 @@ export default class ControlleurCalibration {
      */
     initialiser(contenu, estFichierDat = true) {
         if (!contenu) {
-            this.afficherMessageErreur('Erreur : aucune donnée exploitable.');
+            afficherMessageFlash('notifications.error.title', 'notifications.error.noData', 'error');
             return false;
         }
 
@@ -367,15 +367,6 @@ export default class ControlleurCalibration {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-    }
-
-
-    /**
-     * Affiche un message d'erreur
-     * @param {string} message - Le message d'erreur
-     */
-    afficherMessageErreur(message) {
-        afficherMessageFlash('Erreur', message, 'error');
     }
 }
 

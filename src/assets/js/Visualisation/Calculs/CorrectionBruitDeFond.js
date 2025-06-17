@@ -9,7 +9,7 @@ import {afficherPopup} from "@/assets/js/UI/popupService.js";
 import {DateTime} from "luxon";
 import {transpose, multiply, inverse} from "@/assets/js/Calibration/utils.js";
 import warningImage from "@/assets/img/popup/warning.png";
-import { t } from '@/locales/i18nService';
+import {t} from '@/locales/i18nService';
 
 
 /**
@@ -89,18 +89,18 @@ export class CorrectionBruitDeFond extends BaseCalcul {
      */
     _effectuerCorrection(traceurs, options = {}) {
         if (!traceurs || traceurs.length === 0) {
-            afficherMessageFlash("Erreur", "Aucun traceur disponible pour la correction du bruit de fond", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.noTrackerForNoise", "error");
             return;
         }
 
         if (traceurs.length > 2) {
-            afficherMessageFlash("Erreur", "La correction de bruit de fond n'est possible qu'avec un ou deux traceurs", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.notGreatNumberTrackersForNoise", "error");
             return;
         }
 
         const eau = this.getTraceurParUnite('');
         if (!eau) {
-            afficherMessageFlash("Erreur", "Traceur eau non trouvé. Vérifiez vos données de calibration", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.notGreatNumberTrackersForNoise", "error");
             return;
         }
 
@@ -108,7 +108,7 @@ export class CorrectionBruitDeFond extends BaseCalcul {
         const zoneSelectionnee = options.zoneSelectionnee || [];
 
         if (listeLampeBruitDeFond.length === 0) {
-            afficherMessageFlash("Erreur", "Veuillez sélectionner au moins une variable explicative", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.notGreatNumberVariablesForNoise", "error");
             return;
         }
 
@@ -166,7 +166,9 @@ export class CorrectionBruitDeFond extends BaseCalcul {
         }
 
         if (indexLampePrincipale === -1 || tableauIndex.length === 0) {
-            afficherMessageFlash("Erreur", `Colonnes non trouvées pour le traceur ${traceur.nom}`, "error");
+            afficherMessageFlash("notifications.error.title", t('notifications.error.undefinedTrackerColumn', {
+                traceurName: traceur.nom,
+            }), "error");
             return null;
         }
 
@@ -203,7 +205,7 @@ export class CorrectionBruitDeFond extends BaseCalcul {
         }
 
         if (X.length === 0 || Y.length === 0) {
-            afficherMessageFlash("Avertissement", "Pas assez de données pour la correction du bruit de fond", "warning");
+            afficherMessageFlash("notifications.warning.title", "notifications.warning.notEnoughData", "warning");
             return null;
         }
 
@@ -257,8 +259,8 @@ export class CorrectionBruitDeFond extends BaseCalcul {
             );
         } else {
             afficherMessageFlash(
-                t('notifications.info'),
-                t('notifications.correlationInfo', {
+                t('notifications.info.title'),
+                t('notifications.info.correlationInfo', {
                     traceurName: traceur.nom,
                     coeffValue: coeffCorrelation
                 }),

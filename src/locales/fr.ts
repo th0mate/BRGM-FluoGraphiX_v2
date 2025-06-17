@@ -131,7 +131,49 @@ export default {
         }
     },
     notifications: {
-        info: 'Information',
-        correlationInfo: 'Le coefficient de corrélation de Pearson pour "{traceurName}" est de {coeffValue}.'
+        info: {
+            title: 'Information',
+            correlationInfo: 'Le coefficient de corrélation de Pearson pour "{traceurName}" est de {coeffValue}.',
+            zoomReset: 'Le zoom du graphique a été réinitialisé.',
+        },
+        warning: {
+            title: 'Avertissement',
+            notEnoughData: 'Pas assez de données pour la correction du bruit de fond',
+            notYetImplemented: 'Correction d\'interférences pour plus de 2 traceurs non implémentée',
+            noDataToExport: 'Aucun fichier à télécharger : aucune donnée à exporter'
+        },
+        error: {
+            title: 'Erreur',
+            noTrackerForNoise: 'Aucun traceur disponible pour la correction du bruit de fond',
+            notGreatNumberTrackersForNoise: 'La correction de bruit de fond n\'est possible qu\'avec un ou deux traceurs',
+            notGreatNumberVariablesForNoise: 'Veuillez sélectionner au moins une variable explicative',
+            undefinedTrackerColumn: 'Colonnes non trouvées pour le traceur "{traceurName}"',
+            undefinedElementIntoDOM: 'Element introuvable dans le DOM',
+            errorCopyPictureClipboard: 'Impossible de copier l\'image dans le presse-papiers',
+            errorCopyTextClipboard: 'Impossible de copier le texte dans le presse-papiers',
+            noData: 'Aucune données exploitable trouvée',
+            failDateFormatDetection: 'La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.',
+            undefinedError: 'Une erreur inattendue est survenue lors du traitement du fichier',
+            invalidDateFormat: 'Format de date invalide',
+            invalidPeriod: 'Veuillez sélectionner une période valide pour la correction du bruit de fond.',
+            invalidPeriodSelection: 'Une erreur est survenue lors de la sélection de la période.',
+            undefinedWaterTracker: 'Traceur eau non trouvé. Vérifiez vos données de calibration',
+            failBackgroundNoiseCorrection: 'Une erreur s\'est produite lors de la correction du bruit de fond',
+            oneTrackerForConcentrationNeeded: 'Veuillez sélectionner un traceur pour la conversion en concentrations',
+            needsForTracExport: 'Veuillez sélectionner un traceur & une date d\'injection pour l\'export TRAC',
+            noCommonLamp: 'Impossible de trouver une lampe commune pour la correction',
+        },
+        success: {
+            title: 'Succès',
+            copyPictureClipboard: 'Image copiée dans le presse-papiers',
+            copyTexteToClipboard: 'Texte copié dans le presse-papiers',
+            calibrationLoaded: 'Fichier de calibration chargé avec succès',
+            backgroundNoiseCorrection: 'Correction du bruit de fond effectuée avec succès',
+            zoomEnabled: "Paramètres de zoom et d'interaction sur le graphique modifiés",
+            zoomDisabled: "Paramètres de zoom et d'interaction sur le graphique désactivés",
+            resetChart: 'Le graphique a été réinitialisé avec les données importées au départ',
+            downloadedFile: 'Fichier téléchargé avec succès',
+            deleteCourbs: 'Les courbes sélectionnées ont été supprimées du graphique',
+        }
     }
 }
