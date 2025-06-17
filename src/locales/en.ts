@@ -101,7 +101,9 @@ export default {
             title: 'Error',
             unexpectedCalculation: 'Unexpected error during calculation',
             generalError: 'An error has occurred. Please check your data and try again later. If the problem persists, please open an issue on the Github repository.',
-            alt: 'Error image'
+            alt: 'Error image',
+            tooLargeGap: 'Gap between two files too large',
+            tooLargeGapDescription: 'The gap between two imported measurement files is greater than 9 days. Import canceled.',
         },
         warning: {
             title: 'Warning',
