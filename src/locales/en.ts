@@ -87,5 +87,12 @@ export default {
       titleEnd: 'contribute',
       description: 'Visit GitHub to participate in the project, follow updates, report bugs or suggest ideas... And much more!'
     }
+  },
+  footer: {
+    cookieManagement: 'Cookie Management',
+    legalNotices: 'Legal Notices & Credits',
+    contentSources: 'Content Sources',
+    seeMore: 'See more',
+    copyright: '© BRGM 2023-2025. All rights reserved.'
   }
 }

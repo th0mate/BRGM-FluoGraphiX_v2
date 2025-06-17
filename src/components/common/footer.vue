@@ -1,31 +1,30 @@
 ﻿<script setup lang="ts">
+import { RouterLink } from "vue-router";
+import { useI18n } from 'vue-i18n';
 
-import {RouterLink} from "vue-router";
+const { t } = useI18n();
 </script>
 
 <template>
   <footer>
-    <img class="logo" src="@/assets/img/cosmetics/banniereSmall.svg" alt="">
+    <img class="logo" src="@/assets/img/cosmetics/banniereSmall.svg" alt="BRGM Logo">
     <div class="wrap-cards">
       <div class="card">
         <span class="color"></span>
-        <span>Gestion des cookies</span>
-        <RouterLink to="/documentation" class="animated-link">Voir plus <img src="@/assets/img/icons/fleche-droite.png"
-                                                                             alt=""></RouterLink>
+        <span>{{ t('footer.cookieManagement') }}</span>
+        <RouterLink to="/documentation" class="animated-link">{{ t('footer.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
 
       <div class="card">
         <span class="color"></span>
-        <span>Mentions légales & crédits</span>
-        <RouterLink to="/documentation" class="animated-link">Voir plus <img src="@/assets/img/icons/fleche-droite.png"
-                                                                             alt=""></RouterLink>
+        <span>{{ t('footer.legalNotices') }}</span>
+        <RouterLink to="/documentation" class="animated-link">{{ t('footer.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
 
       <div class="card">
         <span class="color"></span>
-        <span>Sources du contenu</span>
-        <RouterLink to="/documentation" class="animated-link">Voir plus <img src="@/assets/img/icons/fleche-droite.png"
-                                                                             alt=""></RouterLink>
+        <span>{{ t('footer.contentSources') }}</span>
+        <RouterLink to="/documentation" class="animated-link">{{ t('footer.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
     </div>
   </footer>

@@ -87,5 +87,12 @@ export default {
       titleEnd: 'contribuez',
       description: 'Rendez-vous sur le Github pour participer au projet, suivre les mises à jour, signaler des bugs ou proposer des idées... Et bien plus encore !'
     }
+  },
+  footer: {
+    cookieManagement: 'Gestion des cookies',
+    legalNotices: 'Mentions légales & crédits',
+    contentSources: 'Sources du contenu',
+    seeMore: 'Voir plus',
+    copyright: '© BRGM 2023-2025. Tous droits réservés.'
   }
 }
