@@ -52,8 +52,8 @@ const { t } = useI18n();
       <img src="@/assets/img/hydro_pictures/img2.jpg" alt="background">
 
       <div class="entete">
-        <img class="fermer" src="@/assets/img/icons/close.png" alt="fermer" @click="fermerMenuResponsive">
         <LanguageSwitcher class="language-switcher-mobile" />
+        <img class="fermer" src="@/assets/img/icons/close.png" alt="fermer" @click="fermerMenuResponsive">
       </div>
 
       <RouterLink to="/accueil" class="action" active-class="active-link">
@@ -90,11 +90,6 @@ const { t } = useI18n();
   display: flex;
   align-items: center;
   margin-left: auto;
-}
-
-.language-switcher-mobile {
-  margin-left: auto;
-  margin-right: 1rem;
 }
 
 @media screen and (max-width: 768px) {

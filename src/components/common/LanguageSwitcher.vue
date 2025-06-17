@@ -4,8 +4,8 @@
       <img
         :src="currentLocale === 'fr' ? flagFR : flagEN"
         :alt="currentLocale === 'fr' ? 'Drapeau français' : 'Drapeau anglais'"
-        width="24"
-        height="24"
+        class="drapeau"
+        height="35"
       />
     </button>
   </div>
@@ -29,9 +29,6 @@ const toggleLanguage = () => {
 </script>
 
 <style scoped>
-.language-switcher {
-  margin-left: 1rem;
-}
 
 .flag-button {
   background: none;
