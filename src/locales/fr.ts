@@ -113,6 +113,8 @@ export default {
             correlationMessage: 'Le coefficient de corrélation de Pearson pour "{traceurName}" est de {coeffValue}. Il est conseillé de vérifier l\'absence de dérive instrumentale ou de choisir une plage de donnée différente pour ce calcul.',
             noDataCalibration: 'Aucun fichier de mesures trouvé',
             noDataCalibrationDescription: 'Veuillez importer au moins un fichier de mesures en plus d\'un fichier de calibration ou utiliser la page "calibration" pour vos fichiers de calibration seuls.',
+            calibrationWarning: 'Données potentiellement incohérentes détectées',
+            calibrationWarningDescription: 'Les données calculées indiquent une potentielle erreur dans les données de calibration. Assurez-vous que les données de calibration sont correctes et cohérentes.',
         },
         success: {
             title: 'Succès',

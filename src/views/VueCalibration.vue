@@ -43,7 +43,7 @@ function traitementFichierCalibration(event: Event) {
     afficherMessageFlash('notifications.error.title', 'notifications.error.undefinedError', 'error');
   }
 
-  afficherMessageFlash("notifications.succes.title", "notifications.success.calibrationLoaded", "success");
+  afficherMessageFlash("notifications.success.title", "notifications.success.calibrationLoaded", "success");
 }
 </script>
 

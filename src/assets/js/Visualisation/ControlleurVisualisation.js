@@ -906,7 +906,7 @@ export class ControlleurVisualisation {
 
         chart.update();
         if (labels.length > 0) {
-            afficherMessageFlash("notifications.success.title", `notifications.success.deleteCourbs.`, 'success');
+            afficherMessageFlash("notifications.success.title", `notifications.success.deleteCourbs`, 'success');
         }
     }
 }

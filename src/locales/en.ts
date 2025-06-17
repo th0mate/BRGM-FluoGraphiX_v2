@@ -108,7 +108,11 @@ export default {
             confirmAction: 'Action confirmation',
             alt: 'Warning image',
             correlationCoefficient: 'Warning - correlation coefficient',
-            correlationMessage: 'The Pearson correlation coefficient for "{traceurName}" is {coeffValue}. It is advisable to check for instrumental drift or choose a different data range for this calculation.'
+            correlationMessage: 'The Pearson correlation coefficient for "{traceurName}" is {coeffValue}. It is advisable to check for instrumental drift or choose a different data range for this calculation.',
+            noDataCalibration: 'No measurement files found',
+            noDataCalibrationDescription: 'Please import at least one measurement file in addition to a calibration file or use the "calibration" page for your calibration files only.',
+            calibrationWarning: 'Potentially inconsistent data detected',
+            calibrationWarningDescription: 'The calculated data indicates a potential error in the calibration data. Ensure that the calibration data is correct and consistent.',
         },
         success: {
             title: 'Success',
@@ -136,7 +140,7 @@ export default {
             title: 'Warning',
             notEnoughData: 'Not enough data for background noise correction',
             notYetImplemented: 'Correction of interferences for more than 2 tracers not implemented',
-            noDataToExport: 'No file to download: no data to export'
+            noDataToExport: 'No file to download: no data to export',
         },
         error: {
             title: 'Error',
