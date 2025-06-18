@@ -17,6 +17,17 @@ jobs:
       with:
         node-version: lts/*
 
+    # Cache des navigateurs Playwright - placé avant l'installation pour vérifier le cache
+    - name: Cache Playwright browsers
+      id: playwright-cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/ms-playwright
+          **/node_modules/playwright
+          **/node_modules/playwright-core
+        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+
     # Ajout du cache des dépendances npm
     - name: Cache Node.js modules
       uses: actions/cache@v3
@@ -29,20 +40,15 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    # Installation des navigateurs Playwright uniquement si le cache n'existe pas
     - name: Install Playwright Browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
       run: npx playwright install --with-deps
 
-    # Cache des navigateurs Playwright pour accélérer les futurs workflows
-    - name: Cache Playwright browsers
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
-
+    # Exécution des tests Playwright
     - name: Run Playwright tests
       id: run-tests
       run: npx playwright test
-      # Pas de `continue-on-error` ici pour que l'échec des tests marque le job comme failed
 
     # Publier le rapport HTML comme artefact de build (accessible depuis l'interface GitHub)
     - name: Upload test report
