@@ -94,16 +94,54 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
                 }
                 const nbColonnes = futuresEchelles.length;
 
-                for (let j = 0; j < nbColonnes; j++) {
-                    if (!isNaN(parseFloat(futuresEchelles[j]))) {
-                        traceur.echelles.push(parseFloat(futuresEchelles[j]));
+                const donnees = [];
+                for (let j = 0; j < 4; j++) {
+                    const ligne = section[j + 7].split(';');
+                    let donneeLigne = [];
+                    for (let k = 0; k < nbColonnes; k++) {
+                        donneeLigne.push(parseFloat(ligne[k + 1]));
+                    }
+                    donnees.push(donneeLigne);
+                }
+
+                let colonneEchellePrincipale = 0;
+                let colonnesSansNaN = true;
+
+                for (let col = 0; col < nbColonnes; col++) {
+                    colonnesSansNaN = true;
+                    for (let row = 0; row < 4; row++) {
+                        if (isNaN(donnees[row][col])) {
+                            colonnesSansNaN = false;
+                            break;
+                        }
+                    }
+                    if (colonnesSansNaN) {
+                        colonneEchellePrincipale = col;
+                        break;
                     }
                 }
 
+                const echellesReorganisees = [];
+                echellesReorganisees.push(parseFloat(futuresEchelles[colonneEchellePrincipale]));
+
+                for (let j = 0; j < nbColonnes; j++) {
+                    if (j !== colonneEchellePrincipale && !isNaN(parseFloat(futuresEchelles[j]))) {
+                        echellesReorganisees.push(parseFloat(futuresEchelles[j]));
+                    }
+                }
+                traceur.echelles = echellesReorganisees;
+
                 for (let j = 0; j < 4; j++) {
                     const ligne = section[j + 7].split(';');
+
+                    traceur.addData(ligne[0] + '-1', parseFloat(ligne[colonneEchellePrincipale + 1]));
+
+                    let compteur = 2;
                     for (let k = 0; k < nbColonnes; k++) {
-                        traceur.addData(ligne[0] + `-${k + 1}`, parseFloat(ligne[k + 1]));
+                        if (k !== colonneEchellePrincipale) {
+                            traceur.addData(ligne[0] + `-${compteur}`, parseFloat(ligne[k + 1]));
+                            compteur++;
+                        }
                     }
                 }
 
@@ -111,54 +149,6 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
             }
         }
         this.creerTurbidite();
-    }
-
-
-    /**
-     * Extrait les données d'un traceur à partir d'une section CSV
-     * @param {Array<string>} section - Les lignes de la section du traceur
-     * @returns {Object} Un objet contenant les échelles et les données du traceur
-     */
-    extraireDonneesTraceur(section) {
-        const echelles = [];
-        const donnees = [];
-
-        // Trouver l'indice de début des données
-        let indiceDebut = -1;
-        for (let i = 0; i < section.length; i++) {
-            if (section[i].includes('Lampe') || section[i].includes('L1,L2,L3,L4')) {
-                indiceDebut = i + 1;
-                break;
-            }
-        }
-
-        if (indiceDebut === -1) return {echelles, donnees};
-
-        // Extraire les données
-        for (let i = indiceDebut; i < section.length; i++) {
-            const ligne = section[i].split(',');
-            if (ligne.length < 5) continue;
-
-            // La première colonne est l'échelle
-            const echelle = parseFloat(ligne[0]);
-            if (!isNaN(echelle) && !echelles.includes(echelle)) {
-                echelles.push(echelle);
-            }
-
-            // Les 4 colonnes suivantes sont les valeurs des lampes
-            for (let j = 1; j <= 4; j++) {
-                const valeur = parseFloat(ligne[j]);
-                const index = echelles.indexOf(echelle) + 1;
-                if (!isNaN(valeur) && index > 0) {
-                    donnees.push({
-                        label: `L${j}-${index}`,
-                        valeur: valeur
-                    });
-                }
-            }
-        }
-
-        return {echelles, donnees};
     }
 
 

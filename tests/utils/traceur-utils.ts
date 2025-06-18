@@ -24,8 +24,7 @@ export async function getTraceursFromSession(page) {
       const cles = [
         'L1-1', 'L2-1', 'L3-1', 'L4-1',
         'L1-2', 'L2-2', 'L3-2', 'L4-2',
-        'L1-3', 'L2-3', 'L3-3', 'L4-3',
-        'gain', 'offset', 'concentration', 'seuilDetection'
+        'L1-3', 'L2-3', 'L3-3', 'L4-3'
       ];
 
       cles.forEach(cle => {
@@ -79,61 +78,61 @@ export function validateTraceurs(traceurs) {
     }
 
     console.log(`Vérification du traceur: ${traceur.nom}, Unité: ${traceur.unite}`);
+    console.log(traceur.data);
 
-    //TODO !
-    // try {
-    //   const values = traceur.getDataValues;
-    //
-    //   if (traceur.unite === '') {
-    //     validateSpecificValue(values['L1-1'], 1.19, `${traceur.nom} L1-1`);
-    //     validateSpecificValue(values['L2-1'], 0.27, `${traceur.nom} L2-1`);
-    //     validateSpecificValue(values['L3-1'], 0.61, `${traceur.nom} L3-1`);
-    //     validateSpecificValue(values['L4-1'], 21.98, `${traceur.nom} L4-1`);
-    //   } else if (traceur.nom === 'Uranine') {
-    //     validateSpecificValue(values['L1-1'], 614.25, `${traceur.nom} L1-1`);
-    //     validateSpecificValue(values['L2-1'], 40.56, `${traceur.nom} L2-1`);
-    //     validateSpecificValue(values['L3-1'], 23.71, `${traceur.nom} L3-1`);
-    //     validateSpecificValue(values['L4-1'], 24.43, `${traceur.nom} L4-1`);
-    //     validateSpecificValue(values['L1-2'], 65.47, `${traceur.nom} L1-2`);
-    //     validateSpecificValueIsNaN(values['L2-2'], `${traceur.nom} L2-2`);
-    //     validateSpecificValueIsNaN(values['L3-2'], `${traceur.nom} L3-2`);
-    //     validateSpecificValueIsNaN(values['L4-2'], `${traceur.nom} L4-2`);
-    //   } else if (traceur.nom === "SrhodaminB") {
-    //     validateSpecificValue(values['L1-1'], 41.29, `${traceur.nom} L1-1`);
-    //     validateSpecificValue(values['L2-1'], 155.64, `${traceur.nom} L2-1`);
-    //     validateSpecificValue(values['L3-1'], 2.52, `${traceur.nom} L3-1`);
-    //     validateSpecificValue(values['L4-1'], 24.11, `${traceur.nom} L4-1`);
-    //     validateSpecificValueIsNaN(values['L1-2'], `${traceur.nom} L1-2`);
-    //     validateSpecificValue(values['L2-2'], 17.17, `${traceur.nom} L2-2`);
-    //     validateSpecificValueIsNaN(values['L3-2'], `${traceur.nom} L3-2`);
-    //     validateSpecificValueIsNaN(values['L4-2'], `${traceur.nom} L4-2`);
-    //   } else if (traceur.nom === "AminoGacid") {
-    //     validateSpecificValue(values['L1-1'], 2.2, `${traceur.nom} L1-1`);
-    //     validateSpecificValue(values['L2-1'], 0.69, `${traceur.nom} L2-1`);
-    //     validateSpecificValue(values['L3-1'], 47.38, `${traceur.nom} L3-1`);
-    //     validateSpecificValue(values['L4-1'], 24.12, `${traceur.nom} L4-1`);
-    //     validateSpecificValueIsNaN(values['L1-2'], `${traceur.nom} L1-2`);
-    //     validateSpecificValueIsNaN(values['L2-2'], `${traceur.nom} L2-2`);
-    //     validateSpecificValue(values['L3-2'], 6.24, `${traceur.nom} L3-2`);
-    //     validateSpecificValueIsNaN(values['L4-2'], `${traceur.nom} L4-2`);
-    //   } else {
-    //     validateSpecificValue(values['L1-1'], 1.55, `${traceur.nom} L1-1`);
-    //     validateSpecificValue(values['L2-1'], 0.5, `${traceur.nom} L2-1`);
-    //     validateSpecificValue(values['L3-1'], 0.9, `${traceur.nom} L3-1`);
-    //     validateSpecificValue(values['L4-1'], 38.23, `${traceur.nom} L4-1`);
-    //     validateSpecificValue(values['L1-2'], 2.02, `${traceur.nom} L1-2`);
-    //     validateSpecificValue(values['L2-2'], 0.74, `${traceur.nom} L2-2`);
-    //     validateSpecificValue(values['L3-2'], 1.56, `${traceur.nom} L3-2`);
-    //     validateSpecificValue(values['L4-2'], 151.93, `${traceur.nom} L4-2`);
-    //     validateSpecificValue(values['L1-3'], 7.1, `${traceur.nom} L1-3`);
-    //     validateSpecificValue(values['L2-3'], 2.92, `${traceur.nom} L2-3`);
-    //     validateSpecificValue(values['L3-3'], 7.32, `${traceur.nom} L3-3`);
-    //     validateSpecificValue(values['L4-3'], 1137.63, `${traceur.nom} L4-3`);
-    //   }
-    // } catch (error) {
-    //   console.error(`Erreur lors de la validation des valeurs pour ${traceur.nom}:`, error);
-    //   return false;
-    // }
+    try {
+      const values = traceur.getDataValues;
+
+      if (traceur.unite === '') {
+        validateSpecificValue(values['L1-1'], 1.19, `${traceur.nom} L1-1`);
+        validateSpecificValue(values['L2-1'], 0.27, `${traceur.nom} L2-1`);
+        validateSpecificValue(values['L3-1'], 0.61, `${traceur.nom} L3-1`);
+        validateSpecificValue(values['L4-1'], 21.98, `${traceur.nom} L4-1`);
+      } else if (traceur.nom === 'Uranine') {
+        validateSpecificValue(values['L1-1'], 614.25, `${traceur.nom} L1-1`);
+        validateSpecificValue(values['L2-1'], 40.56, `${traceur.nom} L2-1`);
+        validateSpecificValue(values['L3-1'], 23.71, `${traceur.nom} L3-1`);
+        validateSpecificValue(values['L4-1'], 24.43, `${traceur.nom} L4-1`);
+        validateSpecificValue(values['L1-2'], 65.47, `${traceur.nom} L1-2`);
+        validateSpecificValueIsNaN(values['L2-2'], `${traceur.nom} L2-2`);
+        validateSpecificValueIsNaN(values['L3-2'], `${traceur.nom} L3-2`);
+        validateSpecificValueIsNaN(values['L4-2'], `${traceur.nom} L4-2`);
+      } else if (traceur.nom === "SrhodaminB") {
+        validateSpecificValue(values['L1-1'], 41.29, `${traceur.nom} L1-1`);
+        validateSpecificValue(values['L2-1'], 155.64, `${traceur.nom} L2-1`);
+        validateSpecificValue(values['L3-1'], 2.52, `${traceur.nom} L3-1`);
+        validateSpecificValue(values['L4-1'], 24.11, `${traceur.nom} L4-1`);
+        validateSpecificValueIsNaN(values['L1-2'], `${traceur.nom} L1-2`);
+        validateSpecificValue(values['L2-2'], 17.17, `${traceur.nom} L2-2`);
+        validateSpecificValueIsNaN(values['L3-2'], `${traceur.nom} L3-2`);
+        validateSpecificValueIsNaN(values['L4-2'], `${traceur.nom} L4-2`);
+      } else if (traceur.nom === "AminoGacid") {
+        validateSpecificValue(values['L1-1'], 2.2, `${traceur.nom} L1-1`);
+        validateSpecificValue(values['L2-1'], 0.69, `${traceur.nom} L2-1`);
+        validateSpecificValue(values['L3-1'], 47.38, `${traceur.nom} L3-1`);
+        validateSpecificValue(values['L4-1'], 24.12, `${traceur.nom} L4-1`);
+        validateSpecificValueIsNaN(values['L1-2'], `${traceur.nom} L1-2`);
+        validateSpecificValueIsNaN(values['L2-2'], `${traceur.nom} L2-2`);
+        validateSpecificValue(values['L3-2'], 6.24, `${traceur.nom} L3-2`);
+        validateSpecificValueIsNaN(values['L4-2'], `${traceur.nom} L4-2`);
+      } else {
+        validateSpecificValue(values['L1-1'], 1.55, `${traceur.nom} L1-1`);
+        validateSpecificValue(values['L2-1'], 0.5, `${traceur.nom} L2-1`);
+        validateSpecificValue(values['L3-1'], 0.9, `${traceur.nom} L3-1`);
+        validateSpecificValue(values['L4-1'], 38.23, `${traceur.nom} L4-1`);
+        validateSpecificValue(values['L1-2'], 2.02, `${traceur.nom} L1-2`);
+        validateSpecificValue(values['L2-2'], 0.74, `${traceur.nom} L2-2`);
+        validateSpecificValue(values['L3-2'], 1.56, `${traceur.nom} L3-2`);
+        validateSpecificValue(values['L4-2'], 151.93, `${traceur.nom} L4-2`);
+        validateSpecificValue(values['L1-3'], 7.1, `${traceur.nom} L1-3`);
+        validateSpecificValue(values['L2-3'], 2.92, `${traceur.nom} L2-3`);
+        validateSpecificValue(values['L3-3'], 7.32, `${traceur.nom} L3-3`);
+        validateSpecificValue(values['L4-3'], 1137.63, `${traceur.nom} L4-3`);
+      }
+    } catch (error) {
+      console.error(`Erreur lors de la validation des valeurs pour ${traceur.nom}:`, error);
+      return false;
+    }
   }
 
   return true;

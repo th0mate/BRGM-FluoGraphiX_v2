@@ -170,7 +170,6 @@ async function testFileImportWithCalibration(page, metricFileExtension, calibFil
     const metricFileContent = fs.readFileSync(metricFilePath, 'utf-8');
 
     const traceurs = await getTraceursFromSession(page);
-    console.log('Traceurs détectés:', traceurs);
 
     expect(validateTraceurs(traceurs)).toBeTruthy();
 
