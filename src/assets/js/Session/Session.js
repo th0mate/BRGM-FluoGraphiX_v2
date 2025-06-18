@@ -26,6 +26,7 @@ export default class Session {
         this.calculs = [];
         this.formatDates = 1;
         Session.#instance = this;
+        window.Session = this;
     }
 
     static getInstance() {

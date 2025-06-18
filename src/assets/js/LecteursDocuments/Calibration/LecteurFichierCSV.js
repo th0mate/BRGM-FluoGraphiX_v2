@@ -76,7 +76,6 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
         Session.getInstance().traceurs = [];
         const sections = this.sections;
 
-        // On commence à 1 et on s'arrête à length - 2 comme dans creerTraceurCSV
         for (let i = 1; i < sections.length - 2; i++) {
             if (sections[i] !== '' && sections[i] !== ' ') {
                 const section = sections[i].split('\n');
@@ -85,10 +84,8 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
                 const unite = this.supprimerPointVirgule(section[3].trim());
                 const traceur = new Traceur(nom, date, unite);
 
-                // Lampe principale : on prend le chiffre après 'L' dans section[4]
                 traceur.lampePrincipale = parseFloat(section[4].charAt(1));
 
-                // Gestion des échelles
                 let futuresEchelles = [];
                 if (section[3].trim() !== '') {
                     futuresEchelles = section[6].split(';').filter(echelle => echelle !== '');
@@ -103,7 +100,6 @@ export default class LecteurFichierCSV extends LecteurFichierCalibration {
                     }
                 }
 
-                // Ajout des données
                 for (let j = 0; j < 4; j++) {
                     const ligne = section[j + 7].split(';');
                     for (let k = 0; k < nbColonnes; k++) {
