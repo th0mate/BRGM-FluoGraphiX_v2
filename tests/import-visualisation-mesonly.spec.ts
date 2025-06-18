@@ -33,7 +33,15 @@ test.describe('Tests d\'import de fichiers de mesure seuls', () => {
         await page.locator('input[type="file"]').first().setInputFiles(testFilePath);
 
         await expect(await page.waitForSelector('canvas', {timeout: 15000})).toBeTruthy();
-        await expect(await page.waitForFunction(() => window.Chart && window.Chart !== null, {timeout: 10000, polling: 500})).toBeTruthy();
+        expect(await page.waitForFunction(() => {
+            if (!window.Chart) return false;
+            let chart = null;
+            const canvas = document.querySelector('canvas');
+            if (typeof window.Chart.getChart === 'function' && canvas) chart = window.Chart.getChart(canvas);
+            else if (window.Chart.instances && Object.values(window.Chart.instances).length) chart = Object.values(window.Chart.instances)[0];
+            else if (window.Chart.registry && window.Chart.registry._charts && window.Chart.registry._charts.size) chart = Array.from(window.Chart.registry._charts.values())[0];
+            return chart && chart.data && Array.isArray(chart.data.datasets) && chart.data.datasets.length > 0;
+        }, {timeout: 15000, polling: 500})).toBeTruthy();
 
         function parseFileContent(content, ext) {
             const lines = content.split(/\r?\n/).filter(l => l.trim().length > 0);
@@ -131,6 +139,7 @@ test.describe('Tests d\'import de fichiers de mesure seuls', () => {
             expect(chartLastNum).toBeCloseTo(fileLastNum, 1);
         }
     }
+
 
     test(`Should display a graph if a TXT metrics file is imported`, async ({page}) => {
         await testFileImportAndVisualization(page, 'txt');
