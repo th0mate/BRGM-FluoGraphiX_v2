@@ -24,7 +24,20 @@ export function setEspaces(n, e) {
  * @returns {string} la date et l'heure au format attendu
  */
 export function getTime(string) {
-    let date = new Date(string);
+    let date;
+
+    // Détection Webkit/Safari
+    const isWebkit = typeof navigator !== 'undefined' && /AppleWebKit/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+    if (isWebkit && typeof string === 'string') {
+        const match = string.trim().match(/^([0-9]{4}-[0-9]{2}-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2})/);
+        if (match) {
+            date = new Date(match[1] + 'T' + match[2]);
+        } else {
+            date = new Date(string);
+        }
+    } else {
+        date = new Date(string);
+    }
     let day = date.getDate().toString().padStart(2, '0');
     let month = (date.getMonth() + 1).toString().padStart(2, '0');
     let year = date.getFullYear().toString().substring(2, 4);

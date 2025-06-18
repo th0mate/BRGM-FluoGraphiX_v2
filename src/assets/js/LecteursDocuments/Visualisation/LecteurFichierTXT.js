@@ -51,8 +51,10 @@ export class LecteurFichierTXT extends LecteurFichierVisualisation {
         const colonnes = lignes[0].split('\t');
         let header = 'Date;Time';
         let indicesColonnesValides = [];
+
         for (let i = 0; i < colonnes.length; i++) {
-            if (lignes[1].split('\t')[i] !== undefined && !isNaN(lignes[1].split('\t')[i]) && colonnes[i] !== 'Timestamp') {
+            const valeur = lignes[1] ? lignes[1].split('\t')[i] : undefined;
+            if (valeur !== undefined && !isNaN(valeur) && colonnes[i] !== 'Timestamp') {
                 if (colonnes[i] === 'T [�C]') {
                     header += ';T';
                 } else {
@@ -61,14 +63,20 @@ export class LecteurFichierTXT extends LecteurFichierVisualisation {
                 indicesColonnesValides.push(i);
             }
         }
+
         indicesColonnesValides = indicesColonnesValides.filter(e => e !== 56);
         stringFinal += header + '\n';
+
         for (let i = 1; i < lignes.length; i++) {
             if (lignes[i].length < 3 || /^\s+$/.test(lignes[i]) || /^\t+$/.test(lignes[i])) continue;
             const colonnes = lignes[i].split('\t');
             const timeValue = lignes[i].substring(3, 32);
-            if (getTime(timeValue) === 'NaN/NaN/N-NaN:NaN:NaN') continue;
+
+            const time = getTime(timeValue);
+            if (!time || typeof time !== 'string' || time.trim() === '' || time.includes('NaN')) continue;
+
             let line = `${getDateHeure(getTime(timeValue))[0]};${getDateHeure(getTime(timeValue))[1]}`;
+
             for (let j = 0; j < indicesColonnesValides.length; j++) {
                 line += `;${around(colonnes[indicesColonnesValides[j]])}`;
             }

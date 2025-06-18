@@ -33,7 +33,7 @@ class GraphiqueVisualisation extends Graphiques {
         const header = lignes[2].split(';').splice(2);
         const dataColumns = header.map(() => []);
 
-        for (let i = 3; i < lignes.length - 1; i++) {
+        for (let i = 3; i < lignes.length; i++) {
             const colonnes = lignes[i].split(';');
             const dateStr = colonnes[0] + '-' + colonnes[1];
             const timeDate = DateTime.fromFormat(dateStr, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'});
