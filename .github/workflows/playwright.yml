@@ -4,6 +4,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   test:
     timeout-minutes: 60
@@ -39,22 +40,22 @@ jobs:
         key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
 
     - name: Run Playwright tests
+      id: run-tests
       run: npx playwright test
+      # Pas de `continue-on-error` ici pour que l'échec des tests marque le job comme failed
 
-    # Publier le rapport HTML
+    # Publier le rapport HTML comme artefact de build (accessible depuis l'interface GitHub)
     - name: Upload test report
       uses: actions/upload-artifact@v4
-      if: always()  # Toujours télécharger le rapport, même si les tests échouent
+      if: always()  # Execute cette étape que les tests aient réussi ou échoué
       with:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
 
-    # Créer une GitHub Page avec le rapport des tests
-    - name: Deploy report to GitHub Pages
-      if: always()
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./playwright-report
-        destination_dir: reports/${{ github.ref_name }}
+    # Ajout d'une étape pour afficher clairement le statut des tests
+    - name: Check test status
+      if: steps.run-tests.outcome != 'success'
+      run: |
+        echo "::error::Les tests Playwright ont échoué. Consultez le rapport pour plus de détails."
+        exit 1
