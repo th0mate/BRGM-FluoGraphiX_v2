@@ -321,7 +321,7 @@ export class AffichageVisualisation {
 
         const div = document.querySelector('.listeTraceursInterferences');
         if (nb === 1) {
-            let html = "<select class='select-traceur-one'><option disabled selected>Traceur 1</option>";
+            let html = "<select id='selectSeulInterf' class='select-traceur-one'><option disabled selected>Traceur 1</option>";
 
             for (const traceur of Session.getInstance().traceurs) {
                 if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {

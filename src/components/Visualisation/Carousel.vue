@@ -189,12 +189,12 @@ function initCalibrationDepuisVisualisation() {
           <div class="spacer"></div>
           <span>{{ t('carousel.interference.tracersNumber') }}</span>
           <div class="checkboxes">
-            <label class="checkNbLabel"
+            <label class="checkNbLabel" id="unTraceurInterf"
                    @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(1)">
               <input type="checkbox" value="" class="one-traceur checkNb" id="one-traceur-checkbox">
               {{ t('carousel.interference.oneTracer') }}
             </label>
-            <label class="checkNbLabel"
+            <label class="checkNbLabel" id="deuxTraceurInterf"
                    @click="affichageVisualisation.selectionnerNombreTraceursCorrectionInterferences(2)">
               <input type="checkbox" value="" class="two-traceur checkNb" id="two-traceur-checkbox">
               {{ t('carousel.interference.twoTracers') }}
@@ -204,7 +204,7 @@ function initCalibrationDepuisVisualisation() {
           <span>{{ t('carousel.interference.tracersSelection') }}</span>
           <div class="multiple listeTraceursInterferences"></div>
           <div class="spacer"></div>
-          <div class="bouton"
+          <div class="bouton" id="declencherCorrectionInterf"
                :class="{ 'disabled': props.affichageVisualisation.traceursCorrectionInterferences.length === 0 }"
                @click="affichageVisualisation.declencherCorrectionInterferences">{{ t('carousel.commons.calculate') }}
           </div>
