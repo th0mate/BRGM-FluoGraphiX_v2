@@ -332,8 +332,8 @@ export class AffichageVisualisation {
             html += "</select>";
             div.innerHTML = html;
         } else {
-            let html1 = "<div class='data-traceur-one'><select class='select-traceur-one'><option disabled selected>Traceur 1</option>";
-            let html2 = "<div class='data-traceur-two'><select class='select-traceur-two'><option disabled selected>Traceur 2</option>";
+            let html1 = "<div class='data-traceur-one'><select id='selecttone' class='select-traceur-one'><option disabled selected>Traceur 1</option>";
+            let html2 = "<div class='data-traceur-two'><select id='selecttwo' class='select-traceur-two'><option disabled selected>Traceur 2</option>";
 
             for (const traceur of Session.getInstance().traceurs) {
                 if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
