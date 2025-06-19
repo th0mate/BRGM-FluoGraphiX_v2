@@ -78,7 +78,6 @@ export function validateTraceurs(traceurs) {
     }
 
     console.log(`Vérification du traceur: ${traceur.nom}, Unité: ${traceur.unite}`);
-    console.log(traceur.data);
 
     try {
       const values = traceur.getDataValues;

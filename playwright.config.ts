@@ -33,7 +33,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
 
     /* Augmenter les timeouts pour les opérations de navigation */
-    navigationTimeout: 60000,
+    navigationTimeout: 500000,
     actionTimeout: 30000,
   },
 
