@@ -63,6 +63,16 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
+      # Déployer le rapport Playwright sur GitHub Pages
+    - name: Deploy Playwright report to GitHub Pages
+      if: always()
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./playwright-report
+        publish_branch: gh-pages
+        force_orphan: true
+
     # Ajout d'une étape pour afficher clairement le statut des tests
     - name: Check test status
       if: steps.run-tests.outcome != 'success'
