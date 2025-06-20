@@ -2,9 +2,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import './types/global.d.ts';
-import {parseFileContent, normalize, findColIdx} from './utils/file-parsing';
 import {getChartInstance, waitForChartToBeReady, getYValue} from './utils/chart-utils';
-import {getTraceursFromSession, validateTraceurs} from './utils/traceur-utils';
 
 const projectRoot = process.cwd();
 const fixturesDir = path.join(projectRoot, 'tests', 'fixtures');

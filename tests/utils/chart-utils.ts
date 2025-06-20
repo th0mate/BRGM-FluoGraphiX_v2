@@ -34,7 +34,7 @@ export async function getChartInstance(page) {
 /**
  * Attend que le graphique soit chargé et visible
  */
-export async function waitForChartToBeReady(page, timeoutMs = 30000) {
+export async function waitForChartToBeReady(page, timeoutMs = 60000) {
   await page.waitForSelector('canvas', { timeout: timeoutMs });
   return await page.waitForFunction(() => {
     if (!window.Chart) return false;

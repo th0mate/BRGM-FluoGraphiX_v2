@@ -14,7 +14,7 @@ const fixturesDir = path.join(projectRoot, 'tests', 'fixtures');
  * CONSTANTES
  * =====================================================================================================================
  */
-const TIMEOUT_CHART = 30000;  // 30 secondes pour le chargement des graphiques
+const TIMEOUT_CHART = 30000;
 
 
 /**
@@ -199,5 +199,7 @@ async function testFileImportWithCalibration(page, metricFileExtension, calibFil
 
         expect(chartFirstNum).toBeCloseTo(metricFileFirstNum, 1);
         expect(chartLastNum).toBeCloseTo(metricFileLastNum, 1);
+        const anomalyElements = await page.locator('#anomaly').all();
+        expect(anomalyElements.length).toBeGreaterThan(0);
     }
 }
