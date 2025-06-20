@@ -100,6 +100,74 @@ test.describe('Tests for calculations and corrections of measurement data (visua
 
         compareChartPointsWithExpected(chartPoints, expectedValues);
     });
+
+
+    test(`Should display a correct graph after correction of bk noise without chart selection for two variables`, async ({page}) => {
+        await initTestCalculationsVisualisation(page);
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.locator('#deuxTraceurInterf').click();
+        await page.waitForTimeout(500);
+        await page.waitForSelector('#selecttone', {timeout: 5000});
+        await page.waitForSelector('#selecttwo', {timeout: 5000});
+
+        await page.selectOption('#selecttone', '1');
+        await page.selectOption('#selecttwo', '2');
+
+        await page.locator('#declencherCorrectionInterf').click();
+        await page.waitForTimeout(1000);
+
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.locator('#declencherCorrectionBk').click();
+        await page.waitForTimeout(1000);
+
+        const chartPoints = await getChartInstance(page);
+        const expectedValues = {
+            'L2Nat': {first: 11.47, last: 12.87},
+            'L1Corr_nat': {first: 0.82, last: 1.61},
+            'L1Nat': {first: 0.78, last: 2.16},
+            'L1Corr': {first: 0.41, last: 2.58},
+            'L2Corr_nat': {first: 0.03, last: 0.47},
+        };
+
+        compareChartPointsWithExpected(chartPoints, expectedValues);
+    });
+
+
+    test(`Should display a correct graph after correction of bk noise with chart selection for two variables`, async ({page}) => {
+        await initTestCalculationsVisualisation(page);
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.locator('#deuxTraceurInterf').click();
+        await page.waitForTimeout(500);
+        await page.waitForSelector('#selecttone', {timeout: 5000});
+        await page.waitForSelector('#selecttwo', {timeout: 5000});
+
+        await page.selectOption('#selecttone', '1');
+        await page.selectOption('#selecttwo', '2');
+
+        await page.locator('#declencherCorrectionInterf').click();
+        await page.waitForTimeout(1000);
+
+        await page.getByRole('button', {name: 'Next slide'}).click();
+
+        await page.locator('#debutSelection').fill('2023-10-20T15:00');
+        await page.locator('#finSelection').fill('2023-10-22T03:00');
+
+        await page.locator('#declencherCorrectionBk').click();
+        await page.waitForTimeout(1000);
+
+        const chartPoints = await getChartInstance(page);
+        const expectedValues = {
+            'L2Nat': {first: 11.32, last: 12.90},
+            'L1Corr_nat': {first: 1.15, last: 1.54},
+            'L1Nat': {first: 0.45, last: 2.23},
+            'L1Corr': {first: 0.41, last: 2.58},
+            'L2Corr_nat': {first: 0.18, last: 0.44},
+        };
+
+        compareChartPointsWithExpected(chartPoints, expectedValues);
+    });
 });
 
 

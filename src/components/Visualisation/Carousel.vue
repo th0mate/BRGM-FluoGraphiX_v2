@@ -239,7 +239,7 @@ function initCalibrationDepuisVisualisation() {
           <span>{{ t('carousel.backgroundNoise.explanatoryVariables') }}</span>
           <div class="checkboxes variables-explicatives">
           </div>
-          <div class="bouton" @click="affichageVisualisation.declencherCorrectionBruitDeFond">{{ t('carousel.commons.calculate') }}</div>
+          <div class="bouton" id="declencherCorrectionBk" @click="affichageVisualisation.declencherCorrectionBruitDeFond">{{ t('carousel.commons.calculate') }}</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
                         :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
