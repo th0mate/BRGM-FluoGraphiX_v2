@@ -258,7 +258,7 @@ function initCalibrationDepuisVisualisation() {
           <div class="checkboxes listeCheckboxesConversion">
           </div>
           <div class="spacer"></div>
-          <div class="bouton" @click="affichageVisualisation.appliquerConversionConcentration"
+          <div class="bouton" id="declencherConversion" @click="affichageVisualisation.appliquerConversionConcentration"
                :class="{ 'disabled': props.affichageVisualisation.traceurPourConversion === null }">{{ t('carousel.concentration.convert') }}
           </div>
         </div>

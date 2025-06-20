@@ -168,6 +168,25 @@ test.describe('Tests for calculations and corrections of measurement data (visua
 
         compareChartPointsWithExpected(chartPoints, expectedValues);
     });
+
+
+    test(`Should display a correct graph after concentration conversion for one tracer`, async ({page}) => {
+        await initTestCalculationsVisualisation(page);
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+
+        await page.getByText('Uranine').click();
+        await page.locator('#declencherConversion').click();
+        await page.waitForTimeout(1000);
+
+        const chartPoints = await getChartInstance(page);
+        const expectedValues = {
+            'Uranine_ppb': {first: 0.30, last: 0.69},
+        };
+
+        compareChartPointsWithExpected(chartPoints, expectedValues);
+    });
 });
 
 
