@@ -207,6 +207,61 @@ test.describe('Tests for calculations and corrections of measurement data (visua
             expect(dataset.label).not.toBe('A144');
         }
     });
+
+
+    test(`Should export a correct CSV file after classic export`, async ({page}) => {
+        await initTestCalculationsVisualisation(page);
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+
+        const [download] = await Promise.all([
+            page.waitForEvent('download'),
+            page.locator('#declencherExportCSV').click()
+        ]);
+        const downloadedFilePath = await download.path();
+        const downloadedContent = fs.readFileSync(downloadedFilePath, 'utf-8');
+        const expectedFilePath = path.join(fixturesDir, 'expected_csv_export.csv');
+        const expectedContent = fs.readFileSync(expectedFilePath, 'utf-8');
+        const downloadedLines = downloadedContent.split('\n').slice(1).map(line => line.trim());
+        const expectedLines = expectedContent.split('\n').slice(1).map(line => line.trim());
+        expect(downloadedLines).toEqual(expectedLines);
+    });
+
+
+    test(`Should export a correct CSV file after TRAC export`, async ({page, browserName}) => {
+        await initTestCalculationsVisualisation(page);
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+
+        await page.getByText('Uranine').click();
+        await page.locator('#declencherConversion').click();
+        await page.waitForTimeout(1000);
+
+        await page.getByRole('button', {name: 'Next slide'}).click();
+
+        await page.getByLabel('5 of').getByText('Uranine').click();
+        await page.locator('#dateInjection').fill('2023-10-18T00:00');
+
+        await page.waitForTimeout(500);
+
+        // Pour les autres navigateurs, utiliser la méthode standard
+        const [download] = await Promise.all([
+            page.waitForEvent('download'),
+            page.locator('#declencherExportTRAC').click()
+        ]);
+
+        const downloadedFilePath = await download.path();
+        const downloadedContent = fs.readFileSync(downloadedFilePath, 'utf-8');
+        const expectedFilePath = path.join(fixturesDir, 'expected_trac_export.csv');
+        const expectedContent = fs.readFileSync(expectedFilePath, 'utf-8');
+        const downloadedLines = downloadedContent.split('\n').slice(1).map(line => line.trim());
+        const expectedLines = expectedContent.split('\n').slice(1).map(line => line.trim());
+        expect(downloadedLines).toEqual(expectedLines);
+
+    });
 });
 
 

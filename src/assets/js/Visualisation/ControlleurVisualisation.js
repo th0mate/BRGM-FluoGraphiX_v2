@@ -786,13 +786,20 @@ export class ControlleurVisualisation {
      * Exporte les données de concentratio au format TRAC
      */
     exporterTRAC(dateInjection, traceur) {
-        const url = URL.createObjectURL(this.getBlobCsvTrac(dateInjection, traceur));
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `exportTRAC-${traceur.nom}-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
-        a.click();
+        const csvContent = this.getContenuCsvTrac(dateInjection, traceur);
+
+        const universalBOM = "\uFEFF";
+        const csv = universalBOM + csvContent;
+
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
+        element.setAttribute('download', `exportTRAC-${traceur.nom}-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`);
+
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+
         afficherMessageFlash("notifications.success.title", 'notifications.success.downloadedFile', 'success');
-        URL.revokeObjectURL(url);
     }
 
 
@@ -800,25 +807,22 @@ export class ControlleurVisualisation {
      * Copie le contenu texte CSV pour l'export TRAC dans le presse-papiers, sans l'en-tête
      */
     copierTracPresserPapier(dateInjection, traceur) {
-        const blob = this.getBlobCsvTrac(dateInjection, traceur, true);
-        const reader = new FileReader();
-        reader.readAsText(blob);
+        const contenu = this.getContenuCsvTrac(dateInjection, traceur, true);
+        const contenuSansEntete = contenu.split('\n').slice(1).join('\n');
 
-        reader.onload = function () {
-            const contenu = reader.result.split('\n').slice(1).join('\n');
-            navigator.clipboard.writeText(contenu);
-            afficherMessageFlash("notifications.success.title", 'notifications.success.copyTexteToClipboard', 'success');
-        }
+        navigator.clipboard.writeText(contenuSansEntete);
+        afficherMessageFlash("notifications.success.title", 'notifications.success.copyTexteToClipboard', 'success');
     }
 
 
     /**
-     * Retourne le contenu blob du fichier csv pour TRAC
+     * Retourne le contenu CSV pour TRAC
      * @param dateInjection Date d'injection des traceurs
      * @param traceur Traceur à exporter
      * @param estPourPressePapier true si l'export est pour le presse-papier, false sinon
+     * @returns {string} Le contenu CSV
      */
-    getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
+    getContenuCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
         let separateur = ';';
 
         if (dateInjection.length === 16) {
@@ -880,8 +884,21 @@ export class ControlleurVisualisation {
             }
         }
 
+        return contenuCSVTRAC;
+    }
+
+
+    /**
+     * Retourne le contenu blob du fichier csv pour TRAC (méthode de compatibilité maintenue pour rétro-compatibilité)
+     * @param dateInjection Date d'injection des traceurs
+     * @param traceur Traceur à exporter
+     * @param estPourPressePapier true si l'export est pour le presse-papier, false sinon
+     * @deprecated Utiliser getContenuCsvTrac pour une meilleure compatibilité
+     */
+    getBlobCsvTrac(dateInjection, traceur, estPourPressePapier = false) {
         const universalBOM = "\uFEFF";
-        return new Blob([universalBOM + contenuCSVTRAC], {type: 'text/csv;charset=utf-8'});
+        const contenu = this.getContenuCsvTrac(dateInjection, traceur, estPourPressePapier);
+        return new Blob([universalBOM + contenu], {type: 'text/csv;charset=utf-8'});
     }
 
 

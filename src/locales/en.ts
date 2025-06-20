@@ -23,7 +23,8 @@ export default {
         discover: 'DISCOVER',
         download: 'DOWNLOAD',
         seeMore: 'SEE MORE',
-        try: 'TRY NOW'
+        try: 'TRY NOW',
+        copy: 'Copy',
     },
     home: {
         heroTitle: 'FluoGraphiX: the visualization and processing tool for fluorometer data',

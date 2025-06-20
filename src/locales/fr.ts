@@ -23,7 +23,8 @@ export default {
         discover: 'DÉCOUVRIR',
         download: 'TÉLÉCHARGER',
         seeMore: 'VOIR PLUS',
-        try: 'ESSAYER'
+        try: 'ESSAYER',
+        copy: 'Copier',
     },
     home: {
         heroTitle: 'FluoGraphiX : l\'outil de visualisation et de traitement de données issues de fluorimètres',

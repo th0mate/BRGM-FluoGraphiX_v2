@@ -3,7 +3,7 @@ import {Splide, SplideSlide} from '@splidejs/vue-splide';
 import '@splidejs/vue-splide/css';
 import HeaderCarousel from "@/components/Visualisation/HeaderCarousel.vue"
 import CommunCarousel from "@/components/Visualisation/CommunCarousel.vue"
-import {onMounted, ref, computed, watch} from "vue";
+import {onMounted, ref, computed, watch, nextTick} from "vue";
 import ToggleSwitch from 'primevue/toggleswitch';
 import Session from '@/assets/js/Session/Session';
 import { useI18n } from 'vue-i18n';
@@ -14,6 +14,47 @@ const props = defineProps<{ affichageVisualisation: any, controlleurVisualisatio
 const splideRef = ref();
 const isCalibrationLinked = ref(props.controlleurVisualisation.calibrationEstLieeGraphique);
 const hasCalibrationFile = ref(Session.getInstance().contenuFichierCalibration !== '');
+
+function updateDateInjection(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (!input || !input.value) return;
+
+  const dateValue = input.value;
+  props.affichageVisualisation.dateInjectionTrac = dateValue;
+
+  nextTick(() => {
+    if (props.affichageVisualisation.dateInjectionTrac !== dateValue) {
+      props.affichageVisualisation.dateInjectionTrac = dateValue;
+    }
+
+    const exportButton = document.getElementById('declencherExportTRAC');
+    if (exportButton &&
+      props.affichageVisualisation.traceurSelectionneExportTRAC !== null &&
+      props.affichageVisualisation.dateInjectionTrac !== null) {
+      exportButton.classList.remove('disabled');
+    }
+  });
+}
+
+const splideOptions = computed(() => {
+  const shouldEnableSwipe = isCalibrationLinked.value && hasCalibrationFile.value;
+
+  return {
+    rewind: true,
+    drag: shouldEnableSwipe,
+    pagination: shouldEnableSwipe,
+    arrows: shouldEnableSwipe,
+  }
+});
+
+function initCalibrationDepuisVisualisation() {
+  const input = document.getElementById('inputCalibration') as HTMLInputElement;
+  if (input) {
+    input.click();
+    return;
+  }
+  console.error("L'élément inputCalibration n'a pas été trouvé");
+}
 
 watch(() => props.controlleurVisualisation.calibrationEstLieeGraphique, (newValue) => {
   isCalibrationLinked.value = newValue;
@@ -49,26 +90,6 @@ function handleFileSelection(event: Event) {
   } else {
     console.error("Aucun fichier sélectionné");
   }
-}
-
-const splideOptions = computed(() => {
-  const shouldEnableSwipe = isCalibrationLinked.value && hasCalibrationFile.value;
-
-  return {
-    rewind: true,
-    drag: shouldEnableSwipe,
-    pagination: shouldEnableSwipe,
-    arrows: shouldEnableSwipe,
-  }
-});
-
-function initCalibrationDepuisVisualisation() {
-  const input = document.getElementById('inputCalibration') as HTMLInputElement;
-  if (input) {
-    input.click();
-    return;
-  }
-  console.error("L'élément inputCalibration n'a pas été trouvé");
 }
 </script>
 
@@ -278,17 +299,24 @@ function initCalibrationDepuisVisualisation() {
                           @change="(e) => affichageVisualisation.toggleExportCalculs(e)"/>
             <span>{{ t('carousel.export.exportCalculations') }}</span>
           </div>
-          <div class="bouton" @click="affichageVisualisation.declencherExportCSV">{{ t('carousel.export.export') }}</div>
+          <div class="bouton" id="declencherExportCSV" @click="affichageVisualisation.declencherExportCSV">{{ t('carousel.export.export') }}</div>
         </div>
         <div class="card">
           <b>{{ t('carousel.export.tracTitle') }}</b>
           <div class="checkboxes listeTraceursExport">
           </div>
           <span v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null">{{ t('carousel.export.injectionDate') }}</span>
-          <input type="datetime-local" id="dateInjection" step="1" v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null" :max="affichageVisualisation.dateMax" @change="(e) => affichageVisualisation.dateInjectionTrac = (e.target as HTMLInputElement).value" :value="affichageVisualisation.dateInjectionTrac"/>
+          <input type="datetime-local" id="dateInjection" step="1"
+                 v-if="props.affichageVisualisation.traceurSelectionneExportTRAC !== null"
+                 :max="affichageVisualisation.dateMax"
+                 @change="(e) => updateDateInjection(e)"
+                 @input="(e) => updateDateInjection(e)"
+                 :value="affichageVisualisation.dateInjectionTrac"/>
           <div class="spacer"></div>
           <div class="multiple trac">
-            <div class="bouton" v-tooltip.top="t('carousel.export.exportAsFile')" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null }" @click="affichageVisualisation.declencherExportTRAC">{{ t('carousel.export.export') }}</div>
+            <div class="bouton" id="declencherExportTRAC" v-tooltip.top="t('carousel.export.exportAsFile')"
+                 :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null }"
+                 @click="affichageVisualisation.declencherExportTRAC">{{ t('carousel.export.export') }}</div>
             <div class="bouton" v-tooltip.top="t('carousel.export.copyToClipboard')" :class="{ 'disabled': props.affichageVisualisation.traceurSelectionneExportTRAC === null || affichageVisualisation.dateInjectionTrac === null}" @click="affichageVisualisation.declencherCopieExportTRAC">{{ t('buttons.copy') }}</div>
           </div>
         </div>
