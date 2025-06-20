@@ -187,6 +187,26 @@ test.describe('Tests for calculations and corrections of measurement data (visua
 
         compareChartPointsWithExpected(chartPoints, expectedValues);
     });
+
+
+    test(`Should display a correct graph after deleting curves`, async ({page}) => {
+        await initTestCalculationsVisualisation(page);
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+        await page.getByRole('button', {name: 'Next slide'}).click();
+
+        await page.getByText('A144').click();
+        await page.locator('#declencherSuppression').click();
+
+        await page.waitForTimeout(1000);
+        const chartPoints = await getChartInstance(page);
+
+        for (const dataset of chartPoints) {
+            expect(dataset.label).not.toBe('A144');
+        }
+    });
 });
 
 

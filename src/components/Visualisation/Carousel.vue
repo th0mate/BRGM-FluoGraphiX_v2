@@ -308,7 +308,7 @@ function initCalibrationDepuisVisualisation() {
           <div class="checkboxes listeCourbes">
           </div>
           <div class="spacer"></div>
-          <div class="bouton" :class="{ 'disabled': props.controlleurVisualisation.courbesSupprimees.length === 0 }" @click="affichageVisualisation.declencherSuppressionCourbes">{{ t('carousel.deleteCurves.delete') }}</div>
+          <div class="bouton" id="declencherSuppression" :class="{ 'disabled': props.controlleurVisualisation.courbesSupprimees.length === 0 }" @click="affichageVisualisation.declencherSuppressionCourbes">{{ t('carousel.deleteCurves.delete') }}</div>
         </div>
         <CommunCarousel :affichageVisualisation="affichageVisualisation"
                         :controlleurVisualisation="controlleurVisualisation" :choisirFichier="choisirFichier"/>
