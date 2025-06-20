@@ -26,7 +26,6 @@ test.describe('Tests for calculations and corrections of measurement data (visua
         await page.locator('#inputRange').fill('2');
         await page.locator('#declencherCorrectionTurbidite').click();
 
-
         await page.waitForTimeout(1000);
 
         const chartPoints = await getChartInstance(page);
@@ -37,23 +36,7 @@ test.describe('Tests for calculations and corrections of measurement data (visua
             'L3Corr': {first: 7.91, last: 21.98}
         };
 
-        let comparisonsMade = 0;
-
-        for (const dataset of chartPoints) {
-            if (Object.keys(expectedValues).includes(dataset.label)) {
-                comparisonsMade++;
-                const expected = expectedValues[dataset.label];
-                const chartFirstNum = getYValue(dataset.first);
-                const chartLastNum = getYValue(dataset.last);
-
-                console.log(`Comparaison pour ${dataset.label} : attendu(${expected.first}, ${expected.last}) vs courbe(${chartFirstNum}, ${chartLastNum})`);
-
-                expect(chartFirstNum).toBeCloseTo(expected.first, 2);
-                expect(chartLastNum).toBeCloseTo(expected.last, 2);
-            }
-        }
-
-        expect(comparisonsMade, "Aucune comparaison de valeurs n'a été effectuée").toBeGreaterThan(0);
+        compareChartPointsWithExpected(chartPoints, expectedValues);
     });
 
 
@@ -86,23 +69,7 @@ test.describe('Tests for calculations and corrections of measurement data (visua
             'L3Corr': {first: 10.41, last: 24.63}
         };
 
-        let comparisonsMade = 0;
-
-        for (const dataset of chartPoints) {
-            if (Object.keys(expectedValues).includes(dataset.label)) {
-                comparisonsMade++;
-                const expected = expectedValues[dataset.label];
-                const chartFirstNum = getYValue(dataset.first);
-                const chartLastNum = getYValue(dataset.last);
-
-                console.log(`Comparaison pour ${dataset.label} : attendu(${expected.first}, ${expected.last}) vs courbe(${chartFirstNum}, ${chartLastNum})`);
-
-                expect(chartFirstNum).toBeCloseTo(expected.first, 2);
-                expect(chartLastNum).toBeCloseTo(expected.last, 2);
-            }
-        }
-
-        expect(comparisonsMade, "Aucune comparaison de valeurs n'a été effectuée").toBeGreaterThan(0);
+        compareChartPointsWithExpected(chartPoints, expectedValues);
     });
 
 
@@ -131,23 +98,7 @@ test.describe('Tests for calculations and corrections of measurement data (visua
             'L3Corr': {first: 10.38, last: 24.60}
         };
 
-        let comparisonsMade = 0;
-
-        for (const dataset of chartPoints) {
-            if (Object.keys(expectedValues).includes(dataset.label)) {
-                comparisonsMade++;
-                const expected = expectedValues[dataset.label];
-                const chartFirstNum = getYValue(dataset.first);
-                const chartLastNum = getYValue(dataset.last);
-
-                console.log(`Comparaison pour ${dataset.label} : attendu(${expected.first}, ${expected.last}) vs courbe(${chartFirstNum}, ${chartLastNum})`);
-
-                expect(chartFirstNum).toBeCloseTo(expected.first, 2);
-                expect(chartLastNum).toBeCloseTo(expected.last, 2);
-            }
-        }
-
-        expect(comparisonsMade, "Aucune comparaison de valeurs n'a été effectuée").toBeGreaterThan(0);
+        compareChartPointsWithExpected(chartPoints, expectedValues);
     });
 });
 
@@ -167,4 +118,24 @@ async function initTestCalculationsVisualisation(page) {
     await page.locator('input[type="file"]').setInputFiles([metricFilePath, calibFilePath]);
 
     await waitForChartToBeReady(page, 30000);
+}
+
+function compareChartPointsWithExpected(chartPoints, expectedValues) {
+    let comparisonsMade = 0;
+
+    for (const dataset of chartPoints) {
+        if (Object.keys(expectedValues).includes(dataset.label)) {
+            comparisonsMade++;
+            const expected = expectedValues[dataset.label];
+            const chartFirstNum = getYValue(dataset.first);
+            const chartLastNum = getYValue(dataset.last);
+
+            console.log(`Comparaison pour ${dataset.label} : attendu(${expected.first}, ${expected.last}) vs courbe(${chartFirstNum}, ${chartLastNum})`);
+
+            expect(chartFirstNum).toBeCloseTo(expected.first, 2);
+            expect(chartLastNum).toBeCloseTo(expected.last, 2);
+        }
+    }
+
+    expect(comparisonsMade, "Aucune comparaison de valeurs n'a été effectuée").toBeGreaterThan(0);
 }

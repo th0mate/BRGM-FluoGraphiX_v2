@@ -2,6 +2,7 @@
  * Utilitaires pour interagir avec les graphiques Chart.js dans les tests
  */
 import '../types/global.d.ts';
+import {expect} from "@playwright/test";
 
 
 
@@ -59,4 +60,27 @@ export function getYValue(val) {
   if (typeof val === 'number') return val;
   if (typeof val === 'object' && val !== null) return val.y ?? val.value ?? NaN;
   return parseFloat(val);
+}
+
+
+/**
+ * Compare les points du graphique avec les valeurs attendues et effectue les assertions Playwright
+ * @param chartPoints Les points du graphique (tableau d'objets {label, first, last})
+ * @param expectedValues Un objet {label: {first, last}}
+ * @param getYValueFn Fonction pour extraire la valeur Y (par défaut getYValue)
+ */
+export function compareChartPointsWithExpected(chartPoints, expectedValues, getYValueFn = getYValue) {
+    let comparisonsMade = 0;
+    for (const dataset of chartPoints) {
+        if (Object.keys(expectedValues).includes(dataset.label)) {
+            comparisonsMade++;
+            const expected = expectedValues[dataset.label];
+            const chartFirstNum = getYValueFn(dataset.first);
+            const chartLastNum = getYValueFn(dataset.last);
+            console.log(`Comparaison pour ${dataset.label} : attendu(${expected.first}, ${expected.last}) vs courbe(${chartFirstNum}, ${chartLastNum})`);
+            expect(chartFirstNum).toBeCloseTo(expected.first, 2);
+            expect(chartLastNum).toBeCloseTo(expected.last, 2);
+        }
+    }
+    expect(comparisonsMade, "Aucune comparaison de valeurs n'a été effectuée").toBeGreaterThan(0);
 }
