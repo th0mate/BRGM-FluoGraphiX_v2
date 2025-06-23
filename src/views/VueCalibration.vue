@@ -14,11 +14,12 @@ const controleurCalibration = new ControlleurCalibration();
 const gestionnaireCalibration = new GestionnaireCourbesCalibration();
 
 function ouvrirChoisirFichierCalibration() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.dat,.csv';
-  input.addEventListener('change', traitementFichierCalibration);
-  input.click();
+  const input = document.querySelector('#calibratInput') as HTMLInputElement;
+  if (input) {
+    input.click();
+  } else {
+    afficherMessageFlash('notifications.error.title', 'notifications.error.fileInputNotFound', 'error');
+  }
 }
 
 function traitementFichierCalibration(event: Event) {
@@ -74,7 +75,7 @@ function traitementFichierCalibration(event: Event) {
           </ul>
         </div>
 
-        <span class="bouton boutonFonce" @click="ouvrirChoisirFichierCalibration()">{{ t('buttons.start') }}</span>
+        <span class="bouton boutonFonce" id="declencherCalibration" @click="ouvrirChoisirFichierCalibration()">{{ t('buttons.start') }}</span>
       </div>
     </div>
   </section>
@@ -149,6 +150,7 @@ function traitementFichierCalibration(event: Event) {
       </div>
     </div>
   </section>
+  <input type="file" accept=".dat, .csv" id="calibratInput" @change="traitementFichierCalibration" style="display: none;">
 </template>
 
 <style>
