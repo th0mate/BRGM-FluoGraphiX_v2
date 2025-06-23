@@ -8,6 +8,7 @@ import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalcu
 import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import GraphiqueCalibration from '@/assets/js/Graphiques/GraphiqueCalibration.js';
 import Session from '@/assets/js/Session/Session.js';
+import errorImage from "@/assets/img/popup/error.png";
 
 
 /**
@@ -34,28 +35,63 @@ export default class ControlleurCalibration {
      * Initialise le contrôleur avec le contenu d'un fichier de calibration
      * @param {string} contenu - Le contenu du fichier de calibration
      * @param {boolean} estFichierDat - True si le fichier est au format DAT, false pour CSV
-     * @returns {boolean} True si l'initialisation a réussi, false sinon
+     * @returns {Promise<boolean>} Promise résolue à true si l'initialisation a réussi, ou rejetée avec une erreur
      */
     initialiser(contenu, estFichierDat = true) {
-        if (!contenu) {
-            afficherMessageFlash('notifications.error.title', 'notifications.error.noData', 'error');
-            return false;
-        }
+        return new Promise((resolve, reject) => {
+            try {
+                if (!contenu) {
+                    afficherMessageFlash('notifications.error.title', 'notifications.error.noData', 'error');
+                    reject(new Error('Aucune donnée de calibration fournie'));
+                    return;
+                }
 
-        this.lecteur = estFichierDat
-            ? new LecteurFichierDAT(contenu)
-            : new LecteurFichierCSV(contenu);
+                this.lecteur = estFichierDat
+                    ? new LecteurFichierDAT(contenu)
+                    : new LecteurFichierCSV(contenu);
 
-        this.graphiqueCalibration = new GraphiqueCalibration(this.lecteur);
-        const resultat = this.lecteur.initialiser(true);
-        console.table(Session.getInstance().traceurs);
+                this.graphiqueCalibration = new GraphiqueCalibration(this.lecteur);
+                const resultat = this.lecteur.initialiser(true);
+                console.table(Session.getInstance().traceurs);
 
-        if (resultat) {
-            this.calibrationChargee = true;
-            this.afficherListeTraceurs();
-        }
+                if (!resultat) {
+                    reject(new Error('Échec de l\'initialisation des données de calibration'));
+                    return;
+                }
 
-        return resultat;
+                const traceurs = Session.getInstance().traceurs;
+
+                if (!traceurs || traceurs.length === 0) {
+                    reject(new Error('La liste des traceurs est vide'));
+                    return;
+                }
+
+                const hasEmptyUnit = traceurs.some(traceur => traceur.unite === '');
+                if (!hasEmptyUnit) {
+                    reject(new Error('Aucun traceur avec une unité vide n\'a été trouvé'));
+                    return;
+                }
+
+                const hasNtuUnit = traceurs.some(traceur => {
+                    const unite = traceur.unite.toLowerCase();
+                    return unite === 'ntu';
+                });
+
+                if (!hasNtuUnit) {
+                    reject(new Error('Aucun traceur avec l\'unité NTU n\'a été trouvé'));
+                    return;
+                }
+
+                this.calibrationChargee = true;
+
+                setTimeout(() => {
+                    this.afficherListeTraceurs();
+                }, 0);
+                resolve(true);
+            } catch (error) {
+                reject(new Error(`Erreur lors de l'initialisation: ${error.message}`));
+            }
+        });
     }
 
 
@@ -64,8 +100,12 @@ export default class ControlleurCalibration {
      */
     afficherListeTraceurs() {
         const traceurs = Session.getInstance().traceurs;
-
         const divTraceurs = document.querySelector('.wrapTraceursCalibration');
+
+        if (!divTraceurs) {
+            console.warn("L'élément .wrapTraceursCalibration n'a pas été trouvé dans le DOM");
+            return;
+        }
 
         for (let i = 0; i < traceurs.length; i++) {
 
@@ -127,7 +167,13 @@ export default class ControlleurCalibration {
      * @param {Object} Traceur - Le traceur sélectionné
      */
     setBandeauCalibration(idLampe, Traceur) {
-        document.querySelector('.wrapBandeauCalibration').style.display = 'flex';
+        const bandeauElement = document.querySelector('.wrapBandeauCalibration');
+        if (!bandeauElement) {
+            console.warn("L'élément .wrapBandeauCalibration n'a pas été trouvé dans le DOM");
+            return;
+        }
+
+        bandeauElement.style.display = 'flex';
 
         const spans = document.querySelectorAll('.wrapLampesCalibration span');
         spans.forEach(span => {
@@ -139,7 +185,6 @@ export default class ControlleurCalibration {
         }
 
         const spansTraceurs = document.querySelectorAll('.wrapTraceursCalibration span');
-
         spansTraceurs.forEach(span => {
             span.classList.remove('traceurActive');
         });
@@ -154,12 +199,13 @@ export default class ControlleurCalibration {
      * Affiche dans le bandeau de calibration le choix des lampes pour un traceur
      */
     ajouterLigneTraceurDansListe(idData, traceur) {
-
         const div = document.querySelector('.wrapLampesCalibration');
-
+        if (!div) {
+            console.warn("L'élément .wrapLampesCalibration n'a pas été trouvé dans le DOM");
+            return;
+        }
 
         for (let i = 1; i <= 4; i++) {
-
             if (document.querySelector('#lampe' + i)) {
                 document.querySelector('#lampe' + i).remove();
             }

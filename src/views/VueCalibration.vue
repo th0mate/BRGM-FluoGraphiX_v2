@@ -6,9 +6,11 @@ import Session from '@/assets/js/Session/Session';
 import {onMounted, ref} from 'vue';
 import {copierScreenElement, copierTexte} from '@/assets/js/Common/pressePapier';
 import {afficherMessageFlash} from '@/assets/js/Common/utils';
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n';
+import {afficherPopup} from "@/assets/js/UI/popupService.ts";
+import errorImage from "@/assets/img/popup/error.png";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const fichierCharge = ref(false);
 const controleurCalibration = new ControlleurCalibration();
 const gestionnaireCalibration = new GestionnaireCourbesCalibration();
@@ -35,9 +37,20 @@ function traitementFichierCalibration(event: Event) {
         Session.getInstance().contenuFichierCalibration = e.target.result as string;
         const estFichierDat = fichier.name.toLowerCase().endsWith('.dat');
 
-        setTimeout(() => {
-          controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat);
-        }, 0);
+
+        controleurCalibration.initialiser(Session.getInstance().contenuFichierCalibration, estFichierDat).then(() => {
+        }).catch((error : String) => {
+          console.error(error);
+          Session.getInstance().reset();
+          fichierCharge.value = false;
+          afficherPopup(
+              `<img src="${errorImage}" alt="Avertissement" style="width: 120px;">`,
+              t('popups.error.title'),
+              t('popups.error.generalCalibration'),
+              t('popups.error.generalCalibrationDescription'),
+              t('buttons.close')
+          );
+        });
       }
     };
 
@@ -70,12 +83,15 @@ function traitementFichierCalibration(event: Event) {
           <span><img src="@/assets/img/icons/info.png" alt=""> {{ t('calibration.supportedFiles') }}</span>
           <ul>
             <li>{{ t('calibration.supportedFilesList.dat') }}</li>
-            <li>{{ t('calibration.supportedFilesList.csv') }} <a href="">{{ t('calibration.supportedFilesList.csvLink') }}</a> {{ t('calibration.supportedFilesList.csvLinkEnd') }}
+            <li>{{ t('calibration.supportedFilesList.csv') }} <a href="">{{
+                t('calibration.supportedFilesList.csvLink')
+              }}</a> {{ t('calibration.supportedFilesList.csvLinkEnd') }}
             </li>
           </ul>
         </div>
 
-        <span class="bouton boutonFonce" id="declencherCalibration" @click="ouvrirChoisirFichierCalibration()">{{ t('buttons.start') }}</span>
+        <span class="bouton boutonFonce" id="declencherCalibration"
+              @click="ouvrirChoisirFichierCalibration()">{{ t('buttons.start') }}</span>
       </div>
     </div>
   </section>
@@ -99,21 +115,25 @@ function traitementFichierCalibration(event: Event) {
           <span class="separatorCalibration"></span>
 
           <div>
-            <div v-tooltip.top="t('calibration.buttons.importTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="ouvrirChoisirFichierCalibration()">
+            <div v-tooltip.top="t('calibration.buttons.importTooltip')"
+                 class="boutonOrange boutonFonce boutonBandeauCalibration" @click="ouvrirChoisirFichierCalibration()">
               {{ t('calibration.buttons.import') }}<img src="@/assets/img/icons/importer.png"
-                                   alt="Importer">
+                                                        alt="Importer">
             </div>
-            <div v-tooltip.top="t('calibration.buttons.zoomTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration"
+            <div v-tooltip.top="t('calibration.buttons.zoomTooltip')"
+                 class="boutonOrange boutonFonce boutonBandeauCalibration"
                  @click="AffichageCalibration.reinitialiserZoomGraphique()">{{ t('calibration.buttons.zoom') }}<img
                 src="@/assets/img/icons/circulaire.png"
                 alt="Réinitialiser">
             </div>
-            <div v-tooltip.top="t('calibration.buttons.exportTooltip')" id="declencherExportCalibration" class="boutonOrange boutonFonce boutonBandeauCalibration"
+            <div v-tooltip.top="t('calibration.buttons.exportTooltip')" id="declencherExportCalibration"
+                 class="boutonOrange boutonFonce boutonBandeauCalibration"
                  @click="controleurCalibration.exporterDonneesCSV()">{{ t('calibration.buttons.export') }}<img
                 src="@/assets/img/icons/dl.png"
                 alt="Exporter">
             </div>
-            <div v-tooltip.top="t('calibration.buttons.screenshotTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierScreenElement('.donnees')"><img
+            <div v-tooltip.top="t('calibration.buttons.screenshotTooltip')"
+                 class="boutonOrange boutonFonce boutonBandeauCalibration" @click="copierScreenElement('.donnees')"><img
                 src="@/assets/img/icons/copier.png" alt="{{ t('calibration.buttons.screenshot') }}"></div>
           </div>
         </div>
@@ -150,7 +170,8 @@ function traitementFichierCalibration(event: Event) {
       </div>
     </div>
   </section>
-  <input type="file" accept=".dat, .csv" id="calibratInput" @change="traitementFichierCalibration" style="display: none;">
+  <input type="file" accept=".dat, .csv" id="calibratInput" @change="traitementFichierCalibration"
+         style="display: none;">
 </template>
 
 <style>

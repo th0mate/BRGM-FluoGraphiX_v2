@@ -6,6 +6,9 @@ import {reactive, onMounted} from "vue";
 import {AffichageVisualisation} from "@/assets/js/Visualisation/AffichageVisualisation";
 import {useI18n} from 'vue-i18n';
 import Session from '@/assets/js/Session/Session';
+import {afficherPopup} from "@/assets/js/UI/popupService.ts";
+import errorImage from "@/assets/img/popup/error.png";
+
 
 const {t} = useI18n();
 const affichageVisualisation = reactive(new AffichageVisualisation());
@@ -23,7 +26,19 @@ function traiterFichierFront(event: Event) {
   const input = event.target as HTMLInputElement;
   if (input.files && input.files.length > 0) {
     donneesChargees.value = true;
-    controlleurVisualisation.traiterFichiers(input.files);
+    controlleurVisualisation.traiterFichiers(input.files).then(() => {
+    }).catch(() => {
+      Session.getInstance().reset();
+      Session.getInstance().formatDates = 1;
+      donneesChargees.value = false;
+      afficherPopup(
+          `<img src="${errorImage}" alt="Avertissement" style="width: 120px;">`,
+          t('popups.error.title'),
+          t('popups.error.generalVisualisation'),
+          t('popups.error.generalVisualisationDescription'),
+          t('buttons.close')
+      );
+    });
   } else {
     console.error("Aucun fichier sélectionné.");
   }

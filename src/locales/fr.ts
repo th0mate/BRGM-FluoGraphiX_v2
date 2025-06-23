@@ -105,6 +105,10 @@ export default {
             alt: 'Image d\'erreur',
             tooLargeGap: 'Écart entre deux fichiers trop important',
             tooLargeGapDescription: 'L\'écart entre deux fichiers de mesures importés est supérieur à 9 jours. Import annulé.',
+            generalVisualisation: 'Une erreur est survenue lors du traitement des fichiers',
+            generalVisualisationDescription: 'Une erreur est survenue. Veuillez vérifier les fichiers importés et le format de date sélectionné et réessayer ultérieurement.',
+            generalCalibration : 'Une erreur est survenue lors du traitement des données de calibration',
+            generalCalibrationDescription: 'Une erreur est survenue. Veuillez vérifier les fichiers importés et réessayer ultérieurement.',
         },
         warning: {
             title: 'Attention',

@@ -226,139 +226,176 @@ export class ControlleurVisualisation {
      * Importe un ou plusieurs fichiers de mesures et de calibration et distribue leur contenu vers les bons modules
      * @param {FileList|Array<File>} fichiers - Liste de fichiers à traiter
      * @param {string} type - 'mv', 'txt', 'xml', etc. (ou détection automatique)
+     * @returns {Promise<void>} - Promise résolue après traitement des fichiers ou rejetée en cas d'erreur
      */
     async traiterFichiers(fichiers, type = null) {
-        if (!fichiers || fichiers.length === 0) return;
-        this.reset();
-        Session.getInstance().reset();
-        const fichiersArray = Array.from(fichiers);
-        const fichiersCalibration = [];
-        const fichiersMesures = [];
-
-        for (const fichier of fichiersArray) {
-            const ext = fichier.name.split('.').pop().toLowerCase();
-            if (ext === 'dat') {
-                fichiersCalibration.push(fichier);
-            } else if (ext === 'csv' && await this._isCSVCalibration(fichier)) {
-                fichiersCalibration.push(fichier);
-            } else {
-                fichiersMesures.push(fichier);
-            }
-        }
-
-        for (const fichier of fichiersCalibration) {
-            let ext = fichier.name.split('.').pop().toLowerCase();
-            await this.importerFichier(fichier, ext);
-        }
-
-        if (fichiersMesures.length === 0) {
-            await router.push({name: 'calibration'});
-            afficherPopup(
-                `<img src="${warningImage}" alt="" style="width: 120px;">`,
-                'popups.warning.title',
-                'popups.warning.noDataCalibration',
-                'popups.warning.noDataCalibrationDescription',
-                'buttons.close'
-            );
-
-            return;
-        }
-
-        afficherPopup(
-            `<img src="${loadingGif}" alt="Chargement" style="width: 120px;">`,
-            'popups.loading.title',
-            'popups.loading.title',
-            'popups.loading.description',
-            ''
-        );
-
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-        let contenuFusionne = '';
-        let lecteurFusion = null;
-        let datesFichiers = [];
-        for (const fichier of fichiersMesures) {
-            let ext = fichier.name.split('.').pop().toLowerCase();
-            let typeAuto = type;
-            if (!typeAuto) {
-                if (ext === 'mv') typeAuto = 'mv';
-                else if (ext === 'txt') typeAuto = 'txt';
-                else if (ext === 'xml') typeAuto = 'xml';
-                else typeAuto = 'csv';
-            }
-            const contenu = await this.importerFichier(fichier, typeAuto);
-            if (this.lecteur) {
-                if (!lecteurFusion) {
-                    lecteurFusion = Object.assign(
-                        Object.create(Object.getPrototypeOf(this.lecteur)),
-                        this.lecteur
-                    );
-                } else {
-                    lecteurFusion.lignes = lecteurFusion.lignes.concat(this.lecteur.lignes);
+        return new Promise(async (resolve, reject) => {
+            try {
+                if (!fichiers || fichiers.length === 0) {
+                    reject(new Error('Aucun fichier fourni'));
+                    return;
                 }
-            }
-            if (contenu) {
-                const lignes = contenu.split('\n');
 
-                for (let j = 3; j < lignes.length; j++) {
-                    const date = lignes[j]?.split(';')[0];
-                    if (date && date.match(/\d{2}\/\d{2}\/\d{2}/)) {
-                        datesFichiers.push(date);
-                        break;
-                    }
-                }
-                for (let j = lignes.length - 1; j >= 3; j--) {
-                    const date = lignes[j]?.split(';')[0];
-                    if (date && date.match(/\d{2}\/\d{2}\/\d{2}/)) {
-                        datesFichiers.push(date);
-                        break;
-                    }
-                }
-                contenuFusionne += contenu + '\n';
-            }
-        }
-
-        // Sécurité : si plusieurs fichiers de mesures, vérifier l'écart de dates
-        if (fichiersMesures.length > 1 && datesFichiers.length >= 4) {
-            const parseDate = (str) => {
-                const [d, m, y] = str.split('/');
-                return new Date(`20${y}-${m}-${d}`);
-            };
-            const firstDate = parseDate(datesFichiers[0]);
-            const lastDate = parseDate(datesFichiers[datesFichiers.length - 1]);
-            const diffDays = Math.abs((lastDate - firstDate) / (1000 * 60 * 60 * 24));
-            if (diffDays > 9) {
+                this.reset();
                 Session.getInstance().reset();
-                const imageHTML = `<img src="${errorImage}" alt="Avertissement" style="width: 120px;">`;
+                const fichiersArray = Array.from(fichiers);
+                const fichiersCalibration = [];
+                const fichiersMesures = [];
+
+                for (const fichier of fichiersArray) {
+                    const ext = fichier.name.split('.').pop().toLowerCase();
+                    if (ext === 'dat') {
+                        fichiersCalibration.push(fichier);
+                    } else if (ext === 'csv' && await this._isCSVCalibration(fichier)) {
+                        fichiersCalibration.push(fichier);
+                    } else {
+                        fichiersMesures.push(fichier);
+                    }
+                }
+
+                for (const fichier of fichiersCalibration) {
+                    let ext = fichier.name.split('.').pop().toLowerCase();
+                    await this.importerFichier(fichier, ext);
+                }
+
+                if (fichiersMesures.length === 0) {
+                    await router.push({name: 'calibration'});
+                    afficherPopup(
+                        `<img src="${warningImage}" alt="" style="width: 120px;">`,
+                        'popups.warning.title',
+                        'popups.warning.noDataCalibration',
+                        'popups.warning.noDataCalibrationDescription',
+                        'buttons.close'
+                    );
+
+                    reject(new Error('Aucun fichier de mesures fourni'));
+                    return;
+                }
 
                 afficherPopup(
-                    imageHTML,
-                    'popups.error.title',
-                    'popups.error.tooLargeGap',
-                    'popups.error.tooLargeGapDescription',
-                    'buttons.close'
+                    `<img src="${loadingGif}" alt="Chargement" style="width: 120px;">`,
+                    'popups.loading.title',
+                    'popups.loading.title',
+                    'popups.loading.description',
+                    ''
                 );
-                throw new Error('L\'écart entre les fichiers de mesures est supérieur à 9 jours. Import annulé.');
+
+                await new Promise(resolve => setTimeout(resolve, 100));
+
+                let contenuFusionne = '';
+                let lecteurFusion = null;
+                let datesFichiers = [];
+
+                try {
+                    for (const fichier of fichiersMesures) {
+                        let ext = fichier.name.split('.').pop().toLowerCase();
+                        let typeAuto = type;
+                        if (!typeAuto) {
+                            if (ext === 'mv') typeAuto = 'mv';
+                            else if (ext === 'txt') typeAuto = 'txt';
+                            else if (ext === 'xml') typeAuto = 'xml';
+                            else typeAuto = 'csv';
+                        }
+                        const contenu = await this.importerFichier(fichier, typeAuto);
+                        if (this.lecteur) {
+                            if (!lecteurFusion) {
+                                lecteurFusion = Object.assign(
+                                    Object.create(Object.getPrototypeOf(this.lecteur)),
+                                    this.lecteur
+                                );
+                            } else {
+                                lecteurFusion.lignes = lecteurFusion.lignes.concat(this.lecteur.lignes);
+                            }
+                        }
+                        if (contenu) {
+                            const lignes = contenu.split('\n');
+
+                            for (let j = 3; j < lignes.length; j++) {
+                                const date = lignes[j]?.split(';')[0];
+                                if (date && date.match(/\d{2}\/\d{2}\/\d{2}/)) {
+                                    datesFichiers.push(date);
+                                    break;
+                                }
+                            }
+                            for (let j = lignes.length - 1; j >= 3; j--) {
+                                const date = lignes[j]?.split(';')[0];
+                                if (date && date.match(/\d{2}\/\d{2}\/\d{2}/)) {
+                                    datesFichiers.push(date);
+                                    break;
+                                }
+                            }
+                            contenuFusionne += contenu + '\n';
+                        }
+                    }
+                } catch (error) {
+                    fermerPopup();
+                    reject(new Error(`Erreur lors de l'importation des fichiers: ${error.message}`));
+                    return;
+                }
+
+                // Vérification de l'écart de dates
+                if (fichiersMesures.length > 1 && datesFichiers.length >= 4) {
+                    const parseDate = (str) => {
+                        const [d, m, y] = str.split('/');
+                        return new Date(`20${y}-${m}-${d}`);
+                    };
+                    const firstDate = parseDate(datesFichiers[0]);
+                    const lastDate = parseDate(datesFichiers[datesFichiers.length - 1]);
+                    const diffDays = Math.abs((lastDate - firstDate) / (1000 * 60 * 60 * 24));
+                    if (diffDays > 9) {
+                        Session.getInstance().reset();
+                        const imageHTML = `<img src="${errorImage}" alt="Avertissement" style="width: 120px;">`;
+
+                        fermerPopup();
+                        afficherPopup(
+                            imageHTML,
+                            'popups.error.title',
+                            'popups.error.tooLargeGap',
+                            'popups.error.tooLargeGapDescription',
+                            'buttons.close'
+                        );
+
+                        reject(new Error('L\'écart entre les fichiers de mesures est supérieur à 9 jours. Import annulé.'));
+                        return;
+                    }
+                }
+
+                if (contenuFusionne) {
+                    try {
+                        Session.getInstance().contenuFichierMesures = contenuFusionne.trim();
+                        if (lecteurFusion) {
+                            lecteurFusion.extraireInfosCSV(contenuFusionne.trim());
+                            this.lecteur = lecteurFusion;
+                        }
+
+                        if (Session.getInstance().contenuFichierMesures.includes('A145') &&
+                            Session.getInstance().contenuFichierMesures.includes('A146') &&
+                            Session.getInstance().contenuFichierMesures.includes('A147') &&
+                            Session.getInstance().contenuFichierMesures.includes('A148')) {
+                            await this.adapterXMLVersCalibration();
+                        }
+
+                        this.afficherGraphique(Session.getInstance().contenuFichierMesures);
+                        this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
+
+                        if (!this.graphiqueContientDesPoints()) {
+                            reject(new Error('Le graphique ne contient aucun point à afficher'));
+                            return;
+                        }
+
+                        this.finaliserImportCalibration();
+                        fermerPopup();
+                        resolve();
+                    } catch (error) {
+                        reject(new Error(`Erreur lors du traitement des données: ${error.message}`));
+                    }
+                } else {
+                    reject(new Error('Aucune donnée n\'a pu être extraite des fichiers'));
+                }
+            } catch (error) {
+                reject(new Error(`Une erreur est survenue: ${error.message}`));
             }
-        }
-
-        if (contenuFusionne) {
-            Session.getInstance().contenuFichierMesures = contenuFusionne.trim();
-            if (lecteurFusion) {
-                lecteurFusion.extraireInfosCSV(contenuFusionne.trim());
-                this.lecteur = lecteurFusion;
-            }
-
-            if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
-                await this.adapterXMLVersCalibration();
-            }
-
-            this.afficherGraphique(Session.getInstance().contenuFichierMesures);
-            this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
-
-            this.finaliserImportCalibration();
-        }
-        fermerPopup();
+        });
     }
 
 
@@ -925,5 +962,32 @@ export class ControlleurVisualisation {
         if (labels.length > 0) {
             afficherMessageFlash("notifications.success.title", `notifications.success.deleteCourbs`, 'success');
         }
+    }
+
+
+    /**
+     * Vérifie si le graphique contient des points valides à afficher
+     * @returns {boolean} - true si le graphique contient au moins un point valide
+     */
+    graphiqueContientDesPoints() {
+        const chart = this.getChartInstance();
+        if (!chart || !chart.data || !chart.data.datasets) {
+            return false;
+        }
+
+        for (const dataset of chart.data.datasets) {
+            if (dataset.data && dataset.data.length > 0) {
+                for (const point of dataset.data) {
+                    if (point && typeof point === 'object' && !isNaN(point.y)) {
+                        return true;
+                    }
+                    if (point !== null && !isNaN(point)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

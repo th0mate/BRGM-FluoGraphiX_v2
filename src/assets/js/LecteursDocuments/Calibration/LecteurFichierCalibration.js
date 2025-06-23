@@ -47,7 +47,6 @@ export default class LecteurFichierCalibration {
         this.nomsTraceur = this.extraireNomsTraceurs();
         this.numeroFluorimetre = this.extraireNumeroFluorimetre();
         this.creerTraceurs();
-        console.table(Session.getInstance().traceurs);
 
         return true;
     }

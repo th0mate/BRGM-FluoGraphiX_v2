@@ -105,6 +105,10 @@ export default {
             alt: 'Error image',
             tooLargeGap: 'Gap between two files too large',
             tooLargeGapDescription: 'The gap between two imported measurement files is greater than 9 days. Import canceled.',
+            generalVisualisation: 'An error occurred while processing the files.',
+            generalVisualisationDescription: 'An error occurred. Please check the imported files, date format and try again later.',
+            generalCalibration: 'An error occurred while processing the calibration data',
+            generalCalibrationDescription: 'An error occurred. Please check the imported files and try again later.',
         },
         warning: {
             title: 'Warning',
