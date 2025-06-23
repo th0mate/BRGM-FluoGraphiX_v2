@@ -2,7 +2,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import './types/global.d.ts';
-import {getChartInstance, waitForChartToBeReady, getYValue, compareChartPointsWithExpected} from './utils/chart-utils';
+import {getChartInstance, compareChartPointsWithExpected} from './utils/chart-utils';
 import { getTraceursFromSession, validateTraceurs } from './utils/traceur-utils';
 
 const projectRoot = process.cwd();
@@ -170,6 +170,19 @@ async function verifyCalibrationGraphs(page) {
     chartPoints = await getChartInstance(page);
     expect(chartPoints).toBeTruthy();
     compareChartPointsWithExpected(chartPoints, expectedATurbidityL4);
+
+    const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        page.locator('#declencherExportCalibration').click()
+    ]);
+
+    const downloadedFilePath = await download.path();
+    const downloadedContent = fs.readFileSync(downloadedFilePath, 'utf-8');
+    const expectedFilePath = path.join(fixturesDir, 'calibration.csv');
+    const expectedContent = fs.readFileSync(expectedFilePath, 'utf-8');
+    const downloadedLines = downloadedContent.split('\n').slice(1).map(line => line.trim());
+    const expectedLines = expectedContent.split('\n').slice(1).map(line => line.trim());
+    expect(downloadedLines).toEqual(expectedLines);
 
     await page.locator('#lampe3').click();
     await page.waitForTimeout(1000);

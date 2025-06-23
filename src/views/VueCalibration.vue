@@ -108,7 +108,7 @@ function traitementFichierCalibration(event: Event) {
                 src="@/assets/img/icons/circulaire.png"
                 alt="Réinitialiser">
             </div>
-            <div v-tooltip.top="t('calibration.buttons.exportTooltip')" class="boutonOrange boutonFonce boutonBandeauCalibration"
+            <div v-tooltip.top="t('calibration.buttons.exportTooltip')" id="declencherExportCalibration" class="boutonOrange boutonFonce boutonBandeauCalibration"
                  @click="controleurCalibration.exporterDonneesCSV()">{{ t('calibration.buttons.export') }}<img
                 src="@/assets/img/icons/dl.png"
                 alt="Exporter">
