@@ -1,12 +1,13 @@
 ﻿<script setup lang="ts">
-import { ref } from "vue";
-import { ControlleurVisualisation } from '@/assets/js/Visualisation/ControlleurVisualisation';
+import {ref} from "vue";
+import {ControlleurVisualisation} from '@/assets/js/Visualisation/ControlleurVisualisation';
 import Carousel from '@/components/Visualisation/Carousel.vue';
-import { reactive, onMounted } from "vue";
-import { AffichageVisualisation } from "@/assets/js/Visualisation/AffichageVisualisation";
-import { useI18n } from 'vue-i18n';
+import {reactive, onMounted} from "vue";
+import {AffichageVisualisation} from "@/assets/js/Visualisation/AffichageVisualisation";
+import {useI18n} from 'vue-i18n';
+import Session from '@/assets/js/Session/Session';
 
-const { t } = useI18n();
+const {t} = useI18n();
 const affichageVisualisation = reactive(new AffichageVisualisation());
 const controlleurVisualisation = reactive(new ControlleurVisualisation());
 
@@ -34,6 +35,10 @@ function choisirFichier() {
     input.click();
   }
 }
+
+function changerFormatDates(key: string) {
+  Session.getInstance().formatDates = parseInt(key);
+}
 </script>
 
 <template>
@@ -55,16 +60,20 @@ function choisirFichier() {
         <div class="info">
           <span><img src="@/assets/img/icons/info.png" alt=""> {{ t('visualization.supportedFiles') }}</span>
           <ul>
-            <li>{{ t('visualization.supportedFilesList.calibration') }} <a href="">{{ t('visualization.supportedFilesList.calibrationLink') }}</a> {{ t('visualization.supportedFilesList.calibrationLinkEnd') }}</li>
+            <li>{{ t('visualization.supportedFilesList.calibration') }} <a
+                href="">{{ t('visualization.supportedFilesList.calibrationLink') }}</a>
+              {{ t('visualization.supportedFilesList.calibrationLinkEnd') }}
+            </li>
             <li>{{ t('visualization.supportedFilesList.measurements') }}</li>
           </ul>
         </div>
 
         <div class="wrap">
           <span class="texte-gris-simple">{{ t('visualization.dateFormat') }}</span>
-          <select>
-            <option selected>{{ t('visualization.dateFormats.ddmmyyyy') }}</option>
-            <option>{{ t('visualization.dateFormats.mmddyyyy') }}</option>
+          <select @change="changerFormatDates(($event.target as HTMLSelectElement)?.value)"
+                  class="select">
+            <option selected value="1">{{ t('visualization.dateFormats.ddmmyyyy') }}</option>
+            <option value="2">{{ t('visualization.dateFormats.mmddyyyy') }}</option>
           </select>
         </div>
 

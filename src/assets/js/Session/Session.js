@@ -37,9 +37,10 @@ export default class Session {
     }
 
     /**
-     * Réinitialise les variables de session
+     * Réinitialise les variables de session, tout en conservant le format de dates choisi par l'utilisateur
      */
     reset() {
+        const formatDatesActuel = this.formatDates;
         this.zoomGraphiques = 'xy';
         this.estDetecteAnomalieCalibration = false;
         this.contenuFichierMesures = "";
@@ -47,7 +48,6 @@ export default class Session {
         this.contenuFichierCalibration = "";
         this.traceurs = [];
         this.calculs = [];
-        this.formatDates = 1;
+        this.formatDates = formatDatesActuel;
     }
 }
-

@@ -57,12 +57,12 @@ export function getTime(string) {
  * @param string la date à convertir
  */
 export function getTimeFromMV(string) {
-    if (Session.getInstance().formatDates.toString() === '0') {
+    if (Session.getInstance().formatDates === 0) {
         afficherMessageFlash("notifications.error.title","notifications.error.failDateFormatDetection", 'error');
         throw new Error("Erreur : La détection du format de date a échoué. Veuillez réessayer sans le fichier Calibrat.dat.");
-    } else if (Session.getInstance().formatDates.toString() === '1') {
+    } else if (Session.getInstance().formatDates === 1) {
         return string;
-    } else if (Session.getInstance().formatDates.toString() === '2') {
+    } else if (Session.getInstance().formatDates === 2) {
         const date = string.substring(0, 8);
         const hour = string.substring(9, 17);
         return date.substring(6, 8) + "/" + date.substring(3, 5) + "/" + date.substring(0, 2) + "-" + hour;

@@ -528,7 +528,7 @@ export class ControlleurVisualisation {
         this.resetCourbesSupprimees();
         this.affichageVisualisation.resetCheckboxesCarousel();
         Session.getInstance().calculs = [];
-        afficherMessageFlash("notifications.success.title", "notifications.success.resetChart.", 'success');
+        afficherMessageFlash("notifications.success.title", "notifications.success.resetChart", 'success');
     }
 
 
