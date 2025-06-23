@@ -112,34 +112,82 @@ export class ControlleurVisualisation {
      * @param {File} fichier - Le fichier de calibration à importer
      * @param {string} type - 'dat' ou 'csv' (ou détection automatique) - le type de fichier
      * @param {boolean} importPostChargement - Indique si l'import est effectué après le chargement des données de mesures
+     * @returns {Promise<boolean>} - Promise résolue si l'importation réussit, rejetée sinon
      */
     async importerCalibration(fichier, type, importPostChargement = false) {
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-            const contenu = e.target.result;
-            Session.getInstance().contenuFichierCalibration = contenu;
-            let lecteur;
-            if (type === 'dat') {
-                lecteur = new LecteurFichierDAT(contenu);
-                this.lecteur = lecteur;
-                this.parametrerFormatDatesDepuisCalibrat();
-            } else if (type === 'csv') {
-                lecteur = new LecteurFichierCSV(contenu);
-                this.lecteur = lecteur;
-            } else {
-                throw new Error('Type de fichier calibration non supporté');
-            }
-            await lecteur.initialiser(false);
+        return new Promise((resolve, reject) => {
+            try {
+                const reader = new FileReader();
 
-            if (importPostChargement) {
-                if (Session.getInstance().contenuFichierMesures.includes('A145') && Session.getInstance().contenuFichierMesures.includes('A146') && Session.getInstance().contenuFichierMesures.includes('A147') && Session.getInstance().contenuFichierMesures.includes('A148')) {
-                    await this.adapterXMLVersCalibration();
-                }
+                reader.onload = async (e) => {
+                    try {
+                        const contenu = e.target.result;
+                        Session.getInstance().contenuFichierCalibration = contenu;
+                        let lecteur;
 
-                this.finaliserImportCalibration();
+                        if (type === 'dat') {
+                            lecteur = new LecteurFichierDAT(contenu);
+                            this.lecteur = lecteur;
+                            this.parametrerFormatDatesDepuisCalibrat();
+                        } else if (type === 'csv') {
+                            lecteur = new LecteurFichierCSV(contenu);
+                            this.lecteur = lecteur;
+                        } else {
+                            throw new Error('Type de fichier calibration non supporté');
+                        }
+
+                        await lecteur.initialiser(false);
+
+                        const traceurs = Session.getInstance().traceurs;
+
+                        if (!traceurs || traceurs.length === 0) {
+                            reject(new Error('La liste des traceurs est vide'));
+                            return;
+                        }
+
+                        const hasEmptyUnit = traceurs.some(traceur => traceur.unite === '');
+                        if (!hasEmptyUnit) {
+                            reject(new Error('Aucun traceur avec une unité vide n\'a été trouvé'));
+                            return;
+                        }
+
+                        const hasNtuUnit = traceurs.some(traceur => {
+                            const unite = traceur.unite.toLowerCase();
+                            return unite === 'ntu';
+                        });
+
+                        if (!hasNtuUnit) {
+                            reject(new Error('Aucun traceur avec l\'unité NTU n\'a été trouvé'));
+                            return;
+                        }
+
+                        if (importPostChargement) {
+                            if (Session.getInstance().contenuFichierMesures.includes('A145') &&
+                                Session.getInstance().contenuFichierMesures.includes('A146') &&
+                                Session.getInstance().contenuFichierMesures.includes('A147') &&
+                                Session.getInstance().contenuFichierMesures.includes('A148')) {
+                                await this.adapterXMLVersCalibration();
+                            }
+
+                            this.finaliserImportCalibration();
+                        }
+
+                        resolve(true);
+                    } catch (error) {
+                        reject(new Error(`Erreur lors du traitement du fichier de calibration: ${error.message}`));
+                    }
+                };
+
+                reader.onerror = (error) => {
+                    reject(new Error(`Erreur lors de la lecture du fichier: ${error.message || 'Erreur inconnue'}`));
+                };
+
+                reader.readAsText(fichier);
+
+            } catch (error) {
+                reject(new Error(`Erreur lors de l'importation de la calibration: ${error.message}`));
             }
-        };
-        reader.readAsText(fichier);
+        });
     }
 
 

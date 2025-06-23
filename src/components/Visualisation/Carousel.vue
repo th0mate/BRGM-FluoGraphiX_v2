@@ -7,9 +7,12 @@ import {onMounted, ref, computed, watch, nextTick} from "vue";
 import ToggleSwitch from 'primevue/toggleswitch';
 import Session from '@/assets/js/Session/Session';
 import { useI18n } from 'vue-i18n';
+import errorImage from "@/assets/img/popup/error.png";
+import {afficherPopup} from "@/assets/js/UI/popupService.ts";
 
 const { t } = useI18n();
-const props = defineProps<{ affichageVisualisation: any, controlleurVisualisation: any, choisirFichier: Function }>();
+const props = defineProps<{ affichageVisualisation: any, controlleurVisualisation: any, choisirFichier: Function, donneesChargees: any }>();
+const emit = defineEmits(['update:donneesChargees']);
 
 const splideRef = ref();
 const isCalibrationLinked = ref(props.controlleurVisualisation.calibrationEstLieeGraphique);
@@ -82,7 +85,26 @@ function handleFileSelection(event: Event) {
 
     reader.onload = () => {
       if (reader.result) {
-        props.controlleurVisualisation.importerCalibration(file, type, true);
+        try {
+          (async () => {
+            try {
+              await props.controlleurVisualisation.importerCalibration(file, type, true);
+            } catch (error) {
+              console.error(error instanceof Error ? error.message : String(error));
+              Session.getInstance().reset();
+              emit('update:donneesChargees', false);
+              afficherPopup(
+                `<img src="${errorImage}" alt="Avertissement" style="width: 120px;">`,
+                t('popups.error.title'),
+                t('popups.error.generalCalibration'),
+                t('popups.error.generalCalibrationDescription'),
+                t('buttons.close')
+              );
+            }
+          })();
+        } catch (error) {
+          console.error("Erreur lors du démarrage du processus d'importation:", error);
+        }
       }
     };
 

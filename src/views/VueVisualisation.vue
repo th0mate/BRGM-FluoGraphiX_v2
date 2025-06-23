@@ -108,7 +108,7 @@ function changerFormatDates(key: string) {
     </div>
 
     <Carousel :affichageVisualisation="affichageVisualisation" :controlleurVisualisation="controlleurVisualisation"
-              :choisirFichier="choisirFichier"/>
+              :choisirFichier="choisirFichier" v-model:donneesChargees="donneesChargees"/>
   </section>
 
   <input style="display: none" type="file" id="fileInput" accept=".mv,.dat,.txt,.xml,.csv" multiple
