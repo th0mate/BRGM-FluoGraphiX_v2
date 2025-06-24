@@ -9,6 +9,8 @@ import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import GraphiqueCalibration from '@/assets/js/Graphiques/GraphiqueCalibration.js';
 import Session from '@/assets/js/Session/Session.js';
 import errorImage from "@/assets/img/popup/error.png";
+import i18nService from '@/locales/i18nService';
+
 
 
 /**
@@ -327,7 +329,10 @@ export default class ControlleurCalibration {
         const descriptionElement = document.querySelector('.descriptionConcentration');
         if (descriptionElement) {
             descriptionElement.style.display = 'block';
-            descriptionElement.innerHTML = `<h2>Données de l'appareil <span class="orange">${this.lecteur.numeroFluorimetre}</span> du <span class="orange">${traceur.dateMesure}</span> :</h2>`;
+            descriptionElement.innerHTML = `<h2>${i18nService.t('calibration.deviceData', {
+                deviceNumber: this.lecteur.numeroFluorimetre,
+                measureDate: traceur.dateMesure
+            })}</h2>`;
         }
 
         const conteneurCible = conteneur || document.querySelector('.wrap-tableau');

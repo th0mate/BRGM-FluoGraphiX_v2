@@ -206,10 +206,11 @@ export default {
             screenshotTooltip: 'Copy screenshot'
         },
         equationUtility: {
-            title: 'Equation utility',
+            title: 'Equation Utility',
             copy: 'Copy',
-            noEquation: 'No equations to display yet.'
-        }
+            noEquation: 'No equation to display at the moment.'
+        },
+        deviceData: 'Data from device <span class="orange">{deviceNumber}</span> of <span class="orange">{measureDate}</span>:'
     },
     visualization: {
         title: 'Section',

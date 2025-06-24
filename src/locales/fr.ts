@@ -209,7 +209,8 @@ export default {
             title: 'Utilitaire d\'équations',
             copy: 'Copier',
             noEquation: 'Aucune équation à afficher pour l\'instant.'
-        }
+        },
+        deviceData: 'Données de l\'appareil <span class="orange">{deviceNumber}</span> du <span class="orange">{measureDate}</span> :'
     },
     visualization: {
         title: 'Partie',

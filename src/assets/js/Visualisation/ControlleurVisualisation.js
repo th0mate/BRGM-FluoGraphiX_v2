@@ -755,7 +755,7 @@ export class ControlleurVisualisation {
      * @returns {string} La date de fin mise à jour
      */
     dateFinSelectionneeDerniereDate() {
-        const lignes = this.controlleur.copieContenuFichierMesure.split('\n');
+        const lignes = this.copieContenuFichierMesure.split('\n');
         const derniereLigne = lignes[lignes.length - 2];
         if (!derniereLigne) return null;
 
@@ -772,7 +772,7 @@ export class ControlleurVisualisation {
      * @returns {string} La date de début mise à jour
      */
     dateDebutSelectionneePremiereDate() {
-        const lignes = this.controlleur.copieContenuFichierMesure.split('\n');
+        const lignes = this.copieContenuFichierMesure.split('\n');
         if (lignes.length < 4) return null;
 
         const premiereLigne = lignes[3];  // 1ère ligne de données (après les en-têtes)
