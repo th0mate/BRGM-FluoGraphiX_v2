@@ -74,7 +74,6 @@ onMounted(async () => {
 
   <Navbar/>
 
-  <!-- Intégration du composant de popup global connecté au service -->
   <CustomPopup
     v-model="popupVisible"
     :headerTitle="popupService.state.headerTitle"
@@ -87,17 +86,17 @@ onMounted(async () => {
 
   <div v-if="showUpdatePrompt && downloadProgress > 0 && downloadProgress < 100" class="update-notification">
     <div class="update-header">
-      <span>Téléchargement de la mise à jour...</span>
+      <span>{{ $t('updates.downloading') }}</span>
     </div>
     <div class="update-content">
       <div class="update-wrap">
         <span>
           <img src="@/assets/img/icons/brgm.png" alt="">
-          FluoGraphiX v{{ updateVersion }}
+          {{ $t('updates.version', { version: updateVersion }) }}
         </span>
         <span class="column">
-          <span class="percentage">{{ Math.round(downloadProgress) }}% téléchargés</span>
-          <span class="poids">{{ transferredMB }} MB / {{ totalMB }} MB</span>
+          <span class="percentage">{{ $t('updates.downloaded', { percentage: Math.round(downloadProgress) }) }}</span>
+          <span class="poids">{{ $t('updates.size', { transferred: transferredMB, total: totalMB }) }}</span>
         </span>
       </div>
       <div class="progress-bar">
@@ -105,6 +104,28 @@ onMounted(async () => {
       </div>
     </div>
   </div>
+
+
+<!--  <div class="update-notification">-->
+<!--    <div class="update-header">-->
+<!--      <span>Téléchargement de la mise à jour...</span>-->
+<!--    </div>-->
+<!--    <div class="update-content">-->
+<!--      <div class="update-wrap">-->
+<!--        <span>-->
+<!--          <img src="@/assets/img/icons/brgm.png" alt="">-->
+<!--          FluoGraphiX v2.0.1-->
+<!--        </span>-->
+<!--        <span class="column">-->
+<!--          <span class="percentage">75% téléchargés</span>-->
+<!--          <span class="poids">76MB / 154MB</span>-->
+<!--        </span>-->
+<!--      </div>-->
+<!--      <div class="progress-bar">-->
+<!--        <div class="progress-bar-inner" :style="{ width: '75' + '%' }"></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
   <div id="contenu">
     <RouterView/>

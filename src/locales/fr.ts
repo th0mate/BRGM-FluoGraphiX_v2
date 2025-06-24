@@ -6,6 +6,12 @@ export default {
         french: 'Français',
         english: 'Anglais'
     },
+    updates: {
+        downloading: 'Téléchargement de la mise à jour...',
+        version: 'FluoGraphiX v{version}',
+        downloaded: '{percentage}% téléchargés',
+        size: '{transferred} MB / {total} MB'
+    },
     nav: {
         home: 'ACCUEIL',
         calibration: 'CALIBRATION',

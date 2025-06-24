@@ -202,8 +202,8 @@ nav {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     border-radius: 12px;
     z-index: 11;
@@ -216,9 +216,9 @@ nav {
 
     .update-header {
         display: flex;
-        padding: 10px 15px;
-        background: #e6e6e6;
-        font-size: 1em;
+        padding: 7px 15px;
+        background: #dfdfdf;
+        font-size: 0.8em;
         width: 100%;
         box-sizing: border-box;
     }
