@@ -18,17 +18,17 @@
     font-weight: normal;
 }
 
-.cookies > p {
-    font-family: Roboto-Regular, sans-serif;
-    font-size: 1.2em;
-}
-
 .cookies > h3 {
     font-size: 1.7em;
+    margin-bottom: 0;
+    margin-top: 50px;
+    color: var(--grisBRGM);
 }
 
 .cookies > h4 {
     font-size: 1.5em;
+    margin-bottom: 0;
+    color: var(--grisBRGM);
 }
 
 .cookies > .boutonFonce {
@@ -49,4 +49,31 @@
 
 .cookies > .boutonClair:hover {
     box-shadow: 0 0 0 1px black, inset 0 0 0 1px black;
+}
+
+.cookies {
+    ul {
+        font-size: 1.2em;
+    }
+
+    p {
+        font-size: 1.2em;
+        line-height: 1.2em;
+    }
+
+    .multiple {
+        display: flex;
+        gap: 20px;
+
+        .bouton {
+            width: 200px;
+        }
+    }
+}
+
+
+@media (max-width: 750px) {
+    .cookies {
+        padding: 20px;
+    }
 }

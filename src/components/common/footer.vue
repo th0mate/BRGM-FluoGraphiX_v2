@@ -18,7 +18,7 @@ const { t } = useI18n();
       <div class="card">
         <span class="color"></span>
         <span>{{ t('footer.legalNotices') }}</span>
-        <RouterLink to="/documentation" class="animated-link">{{ t('footer.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
+        <RouterLink to="/legal" class="animated-link">{{ t('footer.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
 
       <div class="card">
