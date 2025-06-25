@@ -42,6 +42,11 @@ const router = createRouter({
       name: 'legal',
       component: () => import('@/views/VueMentionsLegales.vue')
     },
+    {
+      path: '/credits',
+      name: 'credits',
+      component: () => import('@/views/VueSources.vue')
+    },
   ],
   scrollBehavior(to) {
     if (to.hash) {
