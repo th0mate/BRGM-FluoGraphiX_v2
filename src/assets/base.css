@@ -292,15 +292,16 @@ select {
    ===================================================================================================================== */
 .bannierePage {
     width: 100%;
-    height: 400px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
     color: white;
     overflow: hidden;
+    padding: 50px;
+    height: 300px;
 
-    img {
+    img:not(.info) {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -322,25 +323,29 @@ select {
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
         z-index: 1;
-        padding-top: 50px;
-        padding-left: 50px;
+        padding: 40px 0 50px 50px;
+        gap: 30px;
+
+        * {
+            margin: 0;
+        }
 
         .auteur {
             color: var(--orangeBRGM);
             display: flex;
             flex-direction: row;
             align-items: center;
-            max-width: 80%;
+            gap: 10px;
 
             img {
-                width: 30px;
-                height: 30px;
+                width: 25px;
+                height: 25px;
                 flex-shrink: 0;
             }
 
             h3 {
-                padding-left: 20px;
                 font-weight: normal;
+                font-family: gibson-light, sans-serif;
             }
         }
 
@@ -350,14 +355,13 @@ select {
         }
 
         h2 {
-            font-size: 2.5em;
+            font-size: 2em;
             font-family: 'Gibson-Semi-Bold', sans-serif;
             line-height: 1.6em;
             width: 70%;
         }
 
         h3 {
-            width: 70%;
             color: var(--orangeBRGM);
         }
 

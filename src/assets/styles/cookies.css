@@ -1,0 +1,52 @@
+﻿.cookies {
+    width: 100%;
+    padding: 50px 60px 50px 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cookies > .titreBarre {
+    margin: 50px 0 10px 0;
+    color: var(--grisBRGM);
+}
+
+.cookies > h2 {
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.5em;
+    line-height: 1.6;
+    color: #878787;
+    font-weight: normal;
+}
+
+.cookies > p {
+    font-family: Roboto-Regular, sans-serif;
+    font-size: 1.2em;
+}
+
+.cookies > h3 {
+    font-size: 1.7em;
+}
+
+.cookies > h4 {
+    font-size: 1.5em;
+}
+
+.cookies > .boutonFonce {
+    text-decoration: none;
+    border: 5px solid var(--orangeBRGM);
+    background-color: var(--orangeBRGM);
+    color: white;
+    width: 200px;
+    margin-bottom: 30px;
+}
+
+.cookies > .boutonClair {
+    text-decoration: none;
+    width: 200px;
+    border: 5px solid transparent;
+    box-shadow: 0 0 0 1px black;
+}
+
+.cookies > .boutonClair:hover {
+    box-shadow: 0 0 0 1px black, inset 0 0 0 1px black;
+}

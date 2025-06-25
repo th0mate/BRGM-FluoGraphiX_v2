@@ -32,6 +32,11 @@ const router = createRouter({
       name: 'visualisation',
       component: () => import('@/views/VueVisualisation.vue')
     },
+    {
+      path: '/cookies',
+      name: 'cookies',
+      component: () => import('@/views/VueCookies.vue')
+    },
   ],
   scrollBehavior(to) {
     if (to.hash) {
