@@ -463,6 +463,37 @@
     caption {
         font-size: 1em !important;
     }
+}
+
+@media (max-width: 1090px) {
+
+    .bandeauCalibration {
+        width: 95% !important;
+    }
+
+    .donnees {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        div:not(.equation) {
+            width: 100%;
+            max-width: 600px;
+            table {
+                min-width: 100%;
+            }
+        }
+
+        .utilitaire {
+            width: 100% !important;
+            max-width: 600px;
+        }
+
+        #graphiqueTraceur {
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+    }
 
 }
 
