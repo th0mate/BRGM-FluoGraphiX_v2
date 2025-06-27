@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { generateDocRoutes } from '@/docs/docsConfig';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,14 @@ const router = createRouter({
     {
       path: '/documentation',
       name: 'documentation',
-      component: () => import('@/views/VueDocumentation.vue')
+      component: () => import('@/views/VueDocumentation.vue'),
+      children: [
+        ...generateDocRoutes(), // Ajout des routes de documentation
+        {
+          path: '',
+          redirect: '/documentation/guide/introduction'
+        }
+      ]
     },
     {
       path: '/telecharger',

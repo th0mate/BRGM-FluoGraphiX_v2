@@ -1,8 +1,4 @@
-﻿<script setup lang="ts">
-import router from "@/router";
-</script>
-
-<template>
+﻿<template>
   <div class="bannierePage">
     <img src="@/assets/img/hydro_pictures/img12.jpg" alt="Sources">
     <div class="contenu">
@@ -11,9 +7,37 @@ import router from "@/router";
       <span class="auteur"><img src="@/assets/img/icons/auteur.png" class="info" alt=""> <h3>© AdobeStock - jerry, Arizona, Etats-Unis, 2017.</h3></span>
     </div>
   </div>
+  <DocumentationLayout class="iframe" :headings="currentHeadings" :activeHeadingId="activeHeadingId" :style="{ '--banner-height': bannerHeight, 'margin-top': bannerHeight }">
+    <router-view @update:headings="handleHeadingsUpdate" @update:active-heading-id="handleActiveHeadingUpdate"></router-view>
+  </DocumentationLayout>
 </template>
 
-<style scoped>
+<script setup lang="ts">
+import router from "@/router";
+import DocumentationLayout from "@/components/documentation/DocumentationLayout.vue";
+import { ref, onMounted } from 'vue';
+
+const currentHeadings = ref<{ id: string; text: string; level: number }[]>([]);
+const activeHeadingId = ref<string | null>(null);
+const bannerHeight = ref('0px');
+
+const handleHeadingsUpdate = (headings: { id: string; text: string; level: number }[]) => {
+  currentHeadings.value = headings;
+};
+
+const handleActiveHeadingUpdate = (id: string | null) => {
+  activeHeadingId.value = id;
+};
+
+onMounted(() => {
+  const banner = document.querySelector('.bannierePage');
+  if (banner) {
+    bannerHeight.value = `${banner.offsetHeight}px`;
+  }
+});
+</script>
+
+<style>
 @import "@/assets/styles/documentation.css";
 </style>
 

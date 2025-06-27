@@ -113,7 +113,7 @@ export default {
             tooLargeGapDescription: 'L\'écart entre deux fichiers de mesures importés est supérieur à 9 jours. Import annulé.',
             generalVisualisation: 'Une erreur est survenue lors du traitement des fichiers',
             generalVisualisationDescription: 'Une erreur est survenue. Veuillez vérifier les fichiers importés et le format de date sélectionné et réessayer ultérieurement.',
-            generalCalibration : 'Une erreur est survenue lors du traitement des données de calibration',
+            generalCalibration: 'Une erreur est survenue lors du traitement des données de calibration',
             generalCalibrationDescription: 'Une erreur est survenue. Veuillez vérifier les fichiers importés et réessayer ultérieurement.',
         },
         warning: {
@@ -316,5 +316,22 @@ export default {
             selectCurves: 'Sélectionnez les courbes à supprimer :',
             delete: 'Supprimer'
         }
-    }
+    },
+    documentation: {
+        guide: {
+            title: 'Guide',
+            intro : "Introduction",
+            installation : "Installation",
+            introduction: {
+                title: 'Introduction',
+                whatIs: 'Qu\'est-ce que FluoGraphiX ?',
+                gettingStarted: 'Premiers Pas',
+                faq: 'Questions Fréquentes (FAQ)',
+                support: 'Support et Contact',
+            },
+            visualisation: 'Visualisation',
+            calibration: 'Calibration',
+        },
+        inThisSection: 'Dans cette section',
+    },
 }

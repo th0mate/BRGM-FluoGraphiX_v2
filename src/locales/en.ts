@@ -316,5 +316,22 @@ export default {
             selectCurves: 'Select curves to delete:',
             delete: 'Delete'
         }
-    }
+    },
+    documentation: {
+        guide: {
+            title: 'Guide',
+            intro : "Introduction",
+            installation : "Installation",
+            introduction: {
+                title: 'Introduction',
+                whatIs: 'What is FluoGraphiX?',
+                gettingStarted: 'Getting Started',
+                faq: 'Frequently Asked Questions (FAQ)',
+                support: 'Support and Contact',
+            },
+            visualisation: 'Visualization',
+            calibration: 'Calibration',
+        },
+        inThisSection: 'In this section',
+    },
 }

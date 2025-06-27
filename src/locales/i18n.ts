@@ -15,4 +15,6 @@ const i18n = createI18n({
   }
 });
 
+console.log('Loaded i18n messages:', i18n.global.messages.value);
+
 export default i18n;

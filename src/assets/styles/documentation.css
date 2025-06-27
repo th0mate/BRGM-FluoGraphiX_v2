@@ -1,0 +1,87 @@
+/*
+* Réalisé par Thomas LOYE pour le compte du BRGM en 2025
+* www.thomasloye.fr
+*/
+
+
+/* Styles for documentation content */
+
+/* Custom blocks for info/warning/important */
+.custom-block {
+    margin: 20px 0;
+    padding: 15px 20px;
+    border-left: 5px solid;
+    background-color: #f8f8f8; /* Gris clair par défaut */
+    border-radius: 4px;
+    border: 1px solid transparent; /* Bordure par défaut */
+    color: #4a4a4a;
+}
+
+.custom-block p {
+    margin: 0;
+}
+
+.custom-block-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Info block */
+.custom-block.info {
+    background-color: #ebf5ff;
+}
+
+/* Warning block */
+.custom-block.warning {
+    background-color: #fff8e1;
+}
+
+/* Important block */
+.custom-block.important {
+    background-color: #ffebee;
+}
+
+/* Details/Summary for collapsible sections */
+details {
+    background-color: #eaeaea; /* Gris clair */
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease; /* Transition douce */
+    user-select: none;
+}
+
+/*details[open] {*/
+/*  background-color: #e0e0e0; !* Légèrement plus clair quand ouvert *!*/
+/*}*/
+
+details summary {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px 0;
+    outline: none;
+    color: #4e4e4e;
+    font-size: 0.9em;
+}
+
+details p {
+    margin-top: 10px;
+    padding-left: 10px;
+    color: #555;
+    font-size: 0.95em;
+}
+
+a {
+    color: var(--orangeBRGM);
+}
+
+.iframe {
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--grisBRGM);
+        font-family: gibson-semibold;
+        font-weight: 400;
+
+    }
+}
