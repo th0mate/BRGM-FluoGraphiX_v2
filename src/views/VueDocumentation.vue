@@ -7,7 +7,7 @@
       <span class="auteur"><img src="@/assets/img/icons/auteur.png" class="info" alt=""> <h3>© AdobeStock - jerry, Arizona, Etats-Unis, 2017.</h3></span>
     </div>
   </div>
-  <DocumentationLayout class="iframe" :headings="currentHeadings" :activeHeadingId="activeHeadingId" :style="{ '--banner-height': bannerHeight, 'margin-top': bannerHeight }">
+  <DocumentationLayout class="iframe" :headings="currentHeadings" :activeHeadingId="activeHeadingId" :style="{ '--banner-height': bannerHeight }">
     <router-view @update:headings="handleHeadingsUpdate" @update:active-heading-id="handleActiveHeadingUpdate"></router-view>
   </DocumentationLayout>
 </template>

@@ -6,7 +6,7 @@
         <ul>
           <template v-for="page in section.pages" :key="page.section + '/' + page.filename">
             <li class="page-item">
-              <router-link :to="`/documentation/${page.section}/${page.filename}`">{{ $t(page.titleKey) }}</router-link>
+              <router-link :to="`/documentation/${page.section}/${page.filename}`">{{ $t(page.titleKey + '.title') }}</router-link>
             </li>
             <li v-if="page.subsections && $route.path === `/documentation/${page.section}/${page.filename}`">
               <ul class="subsections">
@@ -34,7 +34,7 @@
             <a
               :href="`#${heading.id}`"
               @click.prevent="scrollToHeading(heading.id)"
-              :style="{ marginLeft: (heading.level - 1) * 10 + 'px' }"
+              :style="{ marginLeft: '10px' }"
               :class="{ 'active-heading': activeHeadingId === heading.id }"
             >
               {{ heading.text }}
@@ -109,7 +109,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style>
 .documentation-layout {
   display: flex;
   min-height: 100vh;
@@ -189,11 +189,17 @@ onUnmounted(() => {
   padding: 20px 50px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  ol, ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .right-sidebar {
   flex: 0 0 300px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 1);
   padding: 15px;
   border-radius: 0;
   position: sticky;
@@ -239,6 +245,6 @@ onUnmounted(() => {
 
 .right-sidebar li a.active-heading {
   font-weight: bold;
-  color: var(--orangeBRGM);
+  color: var(--grisBRGM);
 }
 </style>

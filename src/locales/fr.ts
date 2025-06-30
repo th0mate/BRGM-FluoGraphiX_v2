@@ -319,18 +319,21 @@ export default {
     },
     documentation: {
         guide: {
-            title: 'Guide',
-            intro : "Introduction",
+            title: 'Documentation',
             installation : "Installation",
             introduction: {
                 title: 'Introduction',
                 whatIs: 'Qu\'est-ce que FluoGraphiX ?',
-                gettingStarted: 'Premiers Pas',
+                gettingStarted: 'Installation',
                 faq: 'Questions Fréquentes (FAQ)',
                 support: 'Support et Contact',
             },
-            visualisation: 'Visualisation',
-            calibration: 'Calibration',
+            visualisation: {
+                title : 'Visualisation',
+            },
+            calibration: {
+                title : 'Calibration',
+            }
         },
         inThisSection: 'Dans cette section',
     },

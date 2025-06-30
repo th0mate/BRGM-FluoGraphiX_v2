@@ -319,7 +319,7 @@ export default {
     },
     documentation: {
         guide: {
-            title: 'Guide',
+            title: 'Documentation',
             intro : "Introduction",
             installation : "Installation",
             introduction: {
@@ -329,8 +329,12 @@ export default {
                 faq: 'Frequently Asked Questions (FAQ)',
                 support: 'Support and Contact',
             },
-            visualisation: 'Visualization',
-            calibration: 'Calibration',
+            visualisation: {
+                title: 'Visualization',
+            },
+            calibration: {
+                title: 'Calibration',
+            }
         },
         inThisSection: 'In this section',
     },
