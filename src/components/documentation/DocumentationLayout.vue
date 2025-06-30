@@ -1,46 +1,55 @@
 <template>
   <div class="documentation-layout">
-    <aside class="left-sidebar">
-      <div v-for="section in documentationStructure" :key="section.titleKey">
-        <h3>{{ $t(section.titleKey) }}</h3>
-        <ul>
-          <template v-for="page in section.pages" :key="page.section + '/' + page.filename">
-            <li class="page-item">
-              <router-link :to="`/documentation/${page.section}/${page.filename}`">{{ $t(page.titleKey + '.title') }}</router-link>
-            </li>
-            <li v-if="page.subsections && $route.path === `/documentation/${page.section}/${page.filename}`">
-              <ul class="subsections">
-                <li v-for="subsection in page.subsections" :key="subsection.id">
-                  <a :href="`#${subsection.id}`" @click.prevent="scrollToHeading(subsection.id)" :style="{ marginLeft: (subsection.level || 2) * 10 + 'px' }">
-                    {{ $t(subsection.titleKey) }}
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </template>
-        </ul>
+
+    <div v-if="props.isLeftSidebarOpen || props.isRightSidebarOpen" class="overlay" @click="closeSidebars"></div>
+
+    <aside class="left-sidebar" :class="{ 'is-open': props.isLeftSidebarOpen }">
+      <div class="sidebar-content-wrapper">
+        <div v-for="section in documentationStructure" :key="section.titleKey">
+          <h3>{{ $t(section.titleKey) }}</h3>
+          <ul>
+            <template v-for="page in section.pages" :key="page.section + '/' + page.filename">
+              <li class="page-item">
+                <router-link :to="`/documentation/${page.section}/${page.filename}`" @click="closeSidebars">{{ $t(page.titleKey + '.title') }}</router-link>
+              </li>
+              <li v-if="page.subsections && $route.path === `/documentation/${page.section}/${page.filename}`">
+                <ul class="subsections">
+                  <li v-for="subsection in page.subsections" :key="subsection.id">
+                    <a :href="`#${subsection.id}`" @click.prevent="scrollToHeading(subsection.id); closeSidebars()" :style="{ marginLeft: (subsection.level || 2) * 10 + 'px' }">
+                      {{ $t(subsection.titleKey) }}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </template>
+          </ul>
+        </div>
       </div>
     </aside>
+
     <main class="main-content">
       <slot></slot>
     </main>
-    <aside class="right-sidebar">
-      <h3>{{ $t('documentation.inThisSection') }}</h3>
-      <div class="active-line-container">
-        <div class="active-line" :style="{ top: activeLineTop, height: activeLineHeight }"></div>
-        <ul>
-          <li class="line"></li>
-          <li v-for="heading in filteredHeadings" :key="heading.id">
-            <a
-              :href="`#${heading.id}`"
-              @click.prevent="scrollToHeading(heading.id)"
-              :style="{ marginLeft: '10px' }"
-              :class="{ 'active-heading': activeHeadingId === heading.id }"
-            >
-              {{ heading.text }}
-            </a>
-          </li>
-        </ul>
+
+    <aside class="right-sidebar" :class="{ 'is-open': props.isRightSidebarOpen }">
+      <div class="sidebar-content-wrapper">
+        <h3>{{ $t('documentation.inThisSection') }}</h3>
+        <div class="active-line-container">
+          <div class="active-line" :style="{ top: activeLineTop, height: activeLineHeight }"></div>
+          <ul>
+            <li class="line"></li>
+            <li v-for="heading in filteredHeadings" :key="heading.id">
+              <a
+                :href="`#${heading.id}`"
+                @click.prevent="scrollToHeading(heading.id); closeSidebars()"
+                :style="{ marginLeft: '10px' }"
+                :class="{ 'active-heading': activeHeadingId === heading.id }"
+              >
+                {{ heading.text }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </aside>
   </div>
@@ -61,10 +70,21 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  isLeftSidebarOpen: {
+    type: Boolean,
+    default: false,
+  },
+  isRightSidebarOpen: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const { t } = useI18n();
-const route = useRoute();
+const emit = defineEmits(['close-sidebars']);
+
+const closeSidebars = () => {
+  emit('close-sidebars');
+};
 
 const scrollToHeading = (id: string) => {
   const element = document.getElementById(id);
@@ -109,142 +129,22 @@ onUnmounted(() => {
 });
 </script>
 
-<style>
-.documentation-layout {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  padding: 0;
-}
+<style scoped>
+@import '@/assets/styles/documentation.css';
 
-.left-sidebar {
-  flex: 0 0 300px;
-  background-color: #f0f0f0;
-  padding: 15px;
-  border-radius: 0;
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
-  height: 100vh;
-  overflow-y: auto;
-}
-
-.left-sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.left-sidebar ul li.page-item {
-  border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-}
-
-.left-sidebar ul li.page-item:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
-.left-sidebar ul li a {
-  display: block;
-  padding: 5px 15px;
-  color: #333;
-  text-decoration: none;
-}
-
-.left-sidebar ul li a:hover {
-  color: var(--orangeBRGM);
-}
-
-.left-sidebar ul li a.router-link-active {
-  font-weight: bold;
-  color: var(--orangeBRGM);
-}
-
-.left-sidebar .subsections {
-  list-style: none;
-  padding-left: 20px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-
-.page-item {
-  font-weight: bold;
-}
-
-.left-sidebar .subsections li a {
-  padding: 3px 0;
-  font-size: 0.9em;
-  color: #555;
-}
-
-.left-sidebar .subsections li a:hover {
-  color: var(--orangeBRGM);
-}
-
-.main-content {
-  flex-grow: 1;
-  background-color: rgba(255, 255, 255, 0.6);
-  padding: 20px 50px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  ol, ul {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-.right-sidebar {
-  flex: 0 0 300px;
-  background-color: rgba(255, 255, 255, 1);
-  padding: 15px;
-  border-radius: 0;
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
-  height: 100vh;
-  overflow-y: hidden;
-}
-
-.active-line-container {
-  position: relative;
-  height: 100%;
-}
-
-.active-line {
-  position: absolute;
-  left: -0.9px;
-  width: 4px;
-  border-radius: 2px;
-  background-color: var(--orangeBRGM);
-  transition: top 0.3s ease, height 0.3s ease;
-  z-index: 1;
-}
-
-.right-sidebar ul {
-  list-style: none;
-  padding: 0;
-  padding-left: 15px;
-  border-left: 2px solid #cacaca;
-}
-
-.right-sidebar li a {
-  display: block;
-  padding: 5px 0;
-  color: #333;
-  text-decoration: none;
-  position: relative;
-}
-
-.right-sidebar li a:hover {
-  color: var(--orangeBRGM);
-}
-
-.right-sidebar li a.active-heading {
-  font-weight: bold;
+h3 {
   color: var(--grisBRGM);
+  font-family: gibson-semibold;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+</style>
+
+<style scoped>
+h3 {
+  color: var(--grisBRGM);
+  font-family: gibson-semibold;
+  font-weight: 400;
+  margin-bottom: 20px;
 }
 </style>

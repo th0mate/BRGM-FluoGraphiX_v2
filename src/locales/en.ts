@@ -337,5 +337,7 @@ export default {
             }
         },
         inThisSection: 'On this page',
+        menu: 'Menu',
+        onThisPage: 'On this page',
     },
 }

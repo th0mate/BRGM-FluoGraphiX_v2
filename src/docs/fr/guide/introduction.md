@@ -35,6 +35,7 @@ Pour installer FluoGraphiX suv votre appareil, suivez ces étapes simples :
 4. **Lancez** l'application et explorez l'interface utilisateur.
 5. **Importez** vos premiers fichiers de données (DAT, CSV, XML, MV).
 
+::: info
 **💡 Information :**
 L'installation est possible sur les appareils Windows, macOS et Linux. Pour les smartphones, vous pouvez consulter le site web.
 :::

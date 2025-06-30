@@ -31,6 +31,7 @@ To install FluoGraphiX on your device, follow these simple steps:
 4.  **Launch** the application and explore the user interface.
 5.  **Import** your first data files (DAT, CSV, XML, MV).
 
+::: info
 **💡 Information:**
 Installation is possible on Windows, macOS, and Linux devices. For smartphones, you can consult the website.
 :::

@@ -336,5 +336,7 @@ export default {
             }
         },
         inThisSection: 'Sur cette page',
+        menu: 'Menu',
+        onThisPage: 'Sur cette page',
     },
 }

@@ -18,8 +18,9 @@ const router = createRouter({
       name: 'documentation',
       component: () => import('@/views/VueDocumentation.vue'),
       children: [
-        ...generateDocRoutes(), // Ajout des routes de documentation
+        ...generateDocRoutes(),
         {
+          name: 'doc-home',
           path: '',
           redirect: '/documentation/guide/introduction'
         }
