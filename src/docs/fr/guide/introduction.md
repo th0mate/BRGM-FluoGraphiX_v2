@@ -15,6 +15,7 @@ hydrogéologique. Elle vous permet de :
 * **Corriger** vos courbes (turbidité, bruit de fond, interférences) pour des résultats précis.
 * **Convertir** les mesures en concentrations réelles.
 * **Exporter** vos données dans divers formats compatibles (TRAC, CSV).
+* **Rester mobile+** en fonctionnant sans connexion Internet une fois installée.
 
 ::: info
 **💡 Astuce :**
@@ -26,13 +27,17 @@ ci-dessous.
 
 ## Installation
 
-Pour commencer avec FluoGraphiX, suivez ces étapes simples :
+Pour installer FluoGraphiX suv votre appareil, suivez ces étapes simples :
 
 1. **Téléchargez** l'application depuis la page de téléchargement.
 2. **Sélectionnez** la version adaptée à votre système d'exploitation (Windows, macOS, Linux).
 3. **Installez** FluoGraphiX sur votre système (Windows, macOS, Linux).
 4. **Lancez** l'application et explorez l'interface utilisateur.
 5. **Importez** vos premiers fichiers de données (DAT, CSV, XML, MV).
+
+**💡 Information :**
+L'installation est possible sur les appareils Windows, macOS et Linux. Pour les smartphones, vous pouvez consulter le site web.
+:::
 
 ::: warning
 **⚠️ Important :**
@@ -42,7 +47,7 @@ Assurez-vous que vos fichiers de données sont correctement formatés pour évit
 
 ---
 
-### Questions Fréquentes (FAQ)
+## Questions Fréquentes (FAQ)
 
 <details>
   <summary>Comment importer mes données ?</summary>
@@ -63,6 +68,14 @@ Assurez-vous que vos fichiers de données sont correctement formatés pour évit
   <summary>L'application est-elle compatible avec les smartphones ?</summary>
   <p>Pour le moment, il n'est pas possible de télécharger FluoGraphiX sur un téléphone. Vous pouvez cependant consulter le site web avec un tel appareil.</p>
 </details>
+
+---
+
+## Mises à jour
+Une fois installé sur votre appareil, FluoGraphiX se mettra à jour automatiquement si une nouvelle version est disponible.
+Il est recommandé d'accepter le téléchargement de ces mises à jour pour bénéficier des dernières fonctionnalités et corrections de bugs.
+
+<img src="/src/assets/img/doc/maj.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 
