@@ -17,7 +17,7 @@ Accepted formats are CSV, DAT, XML, and MV for measurement data, and DAT and CSV
 
 Once your files are imported, you can view them on the interactive graph.
 
-<img src="/img/doc/visualisation1.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation1.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ::: info
 **💡 Tip:**
@@ -57,7 +57,7 @@ The interactive graph allows you to visualize your measurement data intuitively.
 *   Navigate through time to see the evolution of your measurements.
 *   Show or hide the measurement and calibration curves according to your needs.
 
-<img src="/img/doc/visualisation2.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation2.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 
@@ -69,7 +69,7 @@ To access this utility, you must first import at least one measurement file and 
 *   Export your measurement data into a single CSV or TRAC file.
 *   Delete measurement curves if necessary.
 
-<img src="/img/doc/visualisation3.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 300px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation3.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 300px; display: block; margin: 20px auto;">
 
 ::: warning
 **⚠️ Important:**
@@ -94,7 +94,7 @@ These files can themselves be imported into FluoGraphiX in the "Visualization" p
 Export in TRAC format is not available if you have not converted at least one tracer to concentration.
 :::
 
-<img src="/img/doc/visualisation4.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation4.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -105,7 +105,7 @@ To do this, you must select the desired correction level, then select the lamps 
 
 New curves will be created, with the suffix "_corr" added to their name. You can then view them in the interactive graph.
 
-<img src="/img/doc/visualisation5.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation5.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -117,7 +117,7 @@ Select the number of tracers to choose, then select your tracers.
 
 Click "finish" to display the corrected curve(s) in your graph.
 
-<img src="/img/doc/visualisation6.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation6.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -143,7 +143,7 @@ Then select the explanatory variables (curves) to be used for the calculation (m
 
 Click "calculate" to display the new calculated curve ("LxCorr") on the graph.
 
-<img src="/img/doc/visualisation7.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation7.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -160,7 +160,7 @@ You can select a tracer to convert and then click "finish". The curve representi
 You can then export this data for the TRAC software
 :::
 
-<img src="/img/doc/visualisation8.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation8.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 
 Thank you for reading this guide. We hope it will be useful to you in fully exploiting the potential of FluoGraphiX.

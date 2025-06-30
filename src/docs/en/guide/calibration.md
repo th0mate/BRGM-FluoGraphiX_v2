@@ -20,7 +20,7 @@ Any fluorometer that provides a raw signal can be used.
 
 Once your files are imported, the data is displayed on the page for your first tracer and its main lamp.
 
-<img src="/img/doc/calibration2.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/calibration2.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 
@@ -39,7 +39,7 @@ The file header provides you with the necessary important information of the mea
 This part must not be modified, at the risk of disrupting the proper functioning of the tool when importing the file.
 :::
 
-<img src="/img/doc/calibration1.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/calibration1.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 Other information is also displayed, such as a simple summary of how this file works.
 
@@ -64,4 +64,4 @@ The data is displayed as an interactive graph and a table, which allows you to e
 
 When you select a tracer to display, the associated main lamp is automatically selected. However, you can change the lamp by choosing another lamp from the list at the top of the page.
 
-<img src="/img/doc/calibration2.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/calibration2.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">

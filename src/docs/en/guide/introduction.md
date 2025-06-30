@@ -70,7 +70,7 @@ Make sure your data files are correctly formatted to avoid import errors. Refer 
 Once installed on your device, FluoGraphiX will update automatically if a new version is available.
 It is recommended to accept the download of these updates to benefit from the latest features and bug fixes.
 
-<img src="/img/doc/maj.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/maj.png" alt="FluoGraphiX Interface" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 

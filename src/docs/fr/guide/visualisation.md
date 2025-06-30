@@ -17,7 +17,7 @@ Les formats acceptés sont CSV, DAT, XML et MV pour les données de mesure, et D
 
 Une fois vos fichiers importés, vous pouvez les visualiser sur le graphique interactif.
 
-<img src="/img/doc/visualisation1.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation1.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ::: info
 **💡 Astuce :**
@@ -57,7 +57,7 @@ Le graphique interactif vous permet de visualiser vos données de mesure de mani
 * Naviguer dans le temps pour voir l'évolution de vos mesures.
 * Afficher ou masquer les courbes de mesure et de calibration selon vos besoins.
 
-<img src="/img/doc/visualisation2.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation2.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 
@@ -69,7 +69,7 @@ Pour accéder à cet utilitaire, vous devez d'abord importer au moins un fichier
 * Exporter vos données de mesure en un seul fichier CSV ou TRAC.
 * Supprimer des courbes de mesure si nécessaire.
 
-<img src="/img/doc/visualisation3.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 300px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation3.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 300px; display: block; margin: 20px auto;">
 
 ::: warning
 **⚠️ Important :**
@@ -94,7 +94,7 @@ Ces fichiers peuvent eux-mêmes être importés dans FluoGraphiX dans la partie 
 L'export au format TRAC n'est pas disponible si vous n'avez pas converti au moins un traceur en concentration.
 :::
 
-<img src="/img/doc/visualisation4.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation4.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -105,7 +105,7 @@ Pour ce faire, vous devez sélectionner le niveau de correction souhaité, puis 
 
 De nouvelles courbes seront créées, avec le suffixe "_corr" ajouté à leur nom. Vous pouvez alors les consulter dans le graphique interactif.
 
-<img src="/img/doc/visualisation5.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation5.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -117,7 +117,7 @@ Sélectionnez le nombre de traceurs à choisir, puis sélectionnez vos traceurs.
 
 Cliquez sur "terminer" pour afficher dans votre graphique la/les courbe(s) corrigée(s).
 
-<img src="/img/doc/visualisation6.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation6.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -143,7 +143,7 @@ Sélectionnez ensuite les variables explicatives (courbes) à utiliser pour le c
 
 Cliquez sur "calculer" pour afficher la nouvelle courbe calculée ("LxCorr") sur le graphique.
 
-<img src="/img/doc/visualisation7.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation7.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 250px; display: block; margin: 20px auto;">
 
 ---
 
@@ -160,4 +160,4 @@ Vous pouvez sélectionner un traceur à convertir puis cliquer sur "terminer". L
 Vous pouvez ensuite exporter ces données pour le logiciel TRAC
 :::
 
-<img src="/img/doc/visualisation8.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="img/doc/visualisation8.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">

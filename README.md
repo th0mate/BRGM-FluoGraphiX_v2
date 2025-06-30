@@ -107,20 +107,21 @@ fluographix/
 │   │   │   ├── UI/           # Gestion des mécaniques visuelles du site
 │   │   ├── img/           # Icônes et illustrations
 │   │   ├── styles/           # Fichiers css
-│   │   ├── img/           # Icônes et illustrations
+│   │   └── img/           # Icônes et illustrations
 │   ├──  components/           # Composants Vue (carousel, footer, navbar...)
 │   ├──  locales/           # Stockage des textes en français & en anglais
 │   ├──  router/           # Gestion des routes du site
 │   ├──  views/           # Interfaces Vue des pages
 │   ├── App.vue             # Fichier principal Vue du projet
-│   └── main.ts             # Fichier de configuration de Vue
+│   ├── main.ts             # Fichier de configuration de Vue
+│   └── docs/             # Fichiers Markdown de la documentation du projet + config de la documentation
 ├── tests/
 │   ├──  fixtures/             # Fichiers d'import et de comparaison pour les tests Playwright
 │   ├──  types/             # Types TypeScript pour les tests Playwright
 │   ├──  utils/             # Fonctions utilitaires pour les tests Playwright
 │   ├──  calculs-visualisation.spec.ts             # Tests sur les calculs et l'export depuis la partie "visualisation"
 │   ├──  calibration.spec.ts             # Tests sur la partie "calibration"
-│   ├──  imports-visualisation.spec.ts             # Tests sur les imports de la partie "visualisation"
+│   └──  imports-visualisation.spec.ts             # Tests sur les imports de la partie "visualisation"
 ├── env.d.ts           # Les types globaux Typescript du projet
 ├── index.html           # Point d'entrée du projet
 ├── main.js           # Fichier de configuration Electron.js
