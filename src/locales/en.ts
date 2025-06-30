@@ -336,6 +336,6 @@ export default {
                 title: 'Calibration',
             }
         },
-        inThisSection: 'In this section',
+        inThisSection: 'On this page',
     },
 }
