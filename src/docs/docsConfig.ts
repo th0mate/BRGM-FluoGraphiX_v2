@@ -9,7 +9,7 @@ interface DocPage {
   titleKey: string;
   section: string;
   filename: string;
-  subsections?: { titleKey: string; id: string; }[]; // Nouvelle propriété
+  subsections?: { titleKey: string; id: string; }[];
 }
 
 export const documentationStructure: DocSection[] = [
@@ -20,12 +20,6 @@ export const documentationStructure: DocSection[] = [
         titleKey: 'documentation.guide.introduction',
         section: 'guide',
         filename: 'introduction',
-        subsections: [
-          { titleKey: 'documentation.guide.introduction.whatIs', id: 'qu-est-ce-que-fluographix' },
-          { titleKey: 'documentation.guide.introduction.gettingStarted', id: 'premiers-pas' },
-          { titleKey: 'documentation.guide.introduction.faq', id: 'questions-frequentes-faq' },
-          { titleKey: 'documentation.guide.introduction.support', id: 'support-et-contact' },
-        ]
       },
       {
         titleKey: 'documentation.guide.visualisation',

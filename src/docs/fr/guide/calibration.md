@@ -20,7 +20,7 @@ Tout fluorimètre permettant d'avoir un signal brut peut être utilisé.
 
 Une fois vos fichiers importés, les données sont affichées sur la page pour votre premier traceur et sa lampe principale.
 
-<img src="/src/assets/img/doc/calibration2.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="/img/doc/calibration2.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 
@@ -40,7 +40,7 @@ L'en-tête du fichier vous fournit les informations nécessaires importantes des
 Cette partie ne doit pas être modifiée, au risque de perturber le bon fonctionnement de l'outil lors de l'import du fichier.
 :::
 
-<img src="/src/assets/img/doc/calibration1.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="/img/doc/calibration1.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 D'autres informations sont également affichées, comme un résumé simple du fonctionnement de ce fichier.
 
@@ -65,4 +65,4 @@ Les données sont affichées sous forme de graphique interactif et de tableau, c
 
 Lorsque vous sélectionnez un traceur à afficher, la lampe principale associée est automatiquement sélectionnée. Vous pouvez cependant changer de lampe en choisissant une autre lampe dans la liste située en haut de la page.
 
-<img src="/src/assets/img/doc/calibration2.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="/img/doc/calibration2.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">

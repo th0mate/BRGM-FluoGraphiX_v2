@@ -75,7 +75,7 @@ Assurez-vous que vos fichiers de données sont correctement formatés pour évit
 Une fois installé sur votre appareil, FluoGraphiX se mettra à jour automatiquement si une nouvelle version est disponible.
 Il est recommandé d'accepter le téléchargement de ces mises à jour pour bénéficier des dernières fonctionnalités et corrections de bugs.
 
-<img src="/src/assets/img/doc/maj.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+<img src="/img/doc/maj.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
 
 ---
 
