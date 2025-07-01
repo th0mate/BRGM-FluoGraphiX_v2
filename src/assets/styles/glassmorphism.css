@@ -256,6 +256,15 @@
             width: 95%;
             margin: 0 auto;
         }
+
+        .info {
+            span {
+                font-size: 0.9em !important;
+            }
+            ul {
+                font-size: 0.8em !important;
+            }
+        }
     }
 }
 
