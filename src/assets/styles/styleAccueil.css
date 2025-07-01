@@ -263,3 +263,140 @@
         }
     }
 }
+
+/* =====================================================================================================================
+   RESPONSIVE
+   ===================================================================================================================== */
+
+/* Tablettes */
+@media (max-width: 1200px) {
+    .section-accueil {
+        gap: 30px;
+        padding: 40px;
+
+        img {
+            height: 250px;
+        }
+
+        div:not(.wrap-boutons) {
+            gap: 20px;
+
+            h1 {
+                font-size: 3.5em;
+            }
+
+            h2 {
+                font-size: 2.8em;
+            }
+        }
+    }
+
+    .section-accueil.designed {
+        img {
+            height: 300px;
+        }
+    }
+
+    .main-pres {
+        .wrap-cards {
+            gap: 30px;
+            .card {
+                width: 250px;
+                font-size: 1.1em;
+            }
+        }
+    }
+
+    .highlights {
+        padding: 60px 40px;
+        h2 {
+            font-size: 3.2em;
+        }
+    }
+}
+
+
+/* Mobiles */
+@media (max-width: 768px) {
+    .section-accueil, .section-accueil.reverse {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 30px;
+
+        img {
+            height: auto;
+            width: 80%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        div:not(.wrap-boutons) {
+            align-items: center;
+            gap: 25px;
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            h2 {
+                font-size: 2.2em;
+            }
+
+            .wrap-boutons {
+                justify-content: center;
+            }
+        }
+    }
+
+    .section-accueil.designed {
+        margin-top: 40px;
+        margin-bottom: 40px;
+        img {
+            height: auto;
+            width: 80%;
+        }
+    }
+
+    .main-pres {
+        height: auto;
+        padding: 80px 20px 40px 20px;
+        gap: 40px;
+        text-align: center;
+
+        h1 {
+            font-size: 2em;
+        }
+
+        .wrap-cards {
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    }
+
+    .highlights {
+        padding: 40px 20px;
+        text-align: center;
+
+        h2 {
+            font-size: 2.5em;
+        }
+
+        .grid-highlights {
+            grid-template-columns: 1fr;
+            gap: 30px;
+            padding-top: 20px;
+
+            .hightlight {
+                height: auto;
+                padding: 20px;
+            }
+        }
+    }
+}
