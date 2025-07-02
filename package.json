@@ -13,8 +13,8 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "start": "electron .",
-    "compose": "electron-builder --win",
-    "compose-publish": "electron-builder --win --linux --mac --publish always"
+    "compose": "electron-builder",
+    "compose-publish": "electron-builder --publish always"
   },
   "build": {
     "asar": true,
@@ -29,10 +29,12 @@
     },
     "win": {
       "icon": "public/icons/icon.ico",
-      "target": [
-        "nsis",
-        "zip"
-      ]
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
     },
     "mac": {
       "icon": "public/icons/icon.icns",
