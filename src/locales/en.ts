@@ -340,4 +340,11 @@ export default {
         menu: 'Menu',
         onThisPage: 'On this page',
     },
+    download: {
+        title: 'Download',
+        subtitle: 'Download and install FluoGraphiX on your device now. <br> Welcome to FluoGraphiX!',
+        windows: 'Windows',
+        mac: 'MacOS',
+        linux: 'Linux'
+    }
 }

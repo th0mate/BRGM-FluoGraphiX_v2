@@ -1,5 +1,7 @@
 ﻿<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 </script>
 
 <template>
@@ -11,36 +13,26 @@
         <img src="@/assets/img/illus/download.svg" alt="">
       </div>
 
-
       <div class="right">
         <div class="presentation">
-          <h2>Télécharger <span class="orange">FluoGraphiX</span></h2>
-          <span class="texte-gris-simple">Téléchargez et installez maintenant FluoGraphiX sur votre appareil.<br> Bienvenue sur FluoGraphiX !</span>
+          <h2>{{ t('download.title') }} <span class="orange">FluoGraphiX</span></h2>
+          <span class="texte-gris-simple" v-html="t('download.subtitle')"></span>
         </div>
 
-        <div class="possibility">
-          <img src="@/assets/img/icons/windows.png" alt="">
-          <div>
-            <span class="color"></span>
-            <h4>FluoGraphiX pour <span class="orange">Windows</span></h4>
-            <span class="bouton boutonFonce">TÉLÉCHARGER</span>
-          </div>
+        <div class="possibility windows">
+          <img src="@/assets/img/icons/windows.png" alt="Windows">
+          <h4>{{ t('download.windows') }}</h4>
+          <a href="#" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>
-        <div class="possibility">
-          <img src="@/assets/img/icons/mac.png" alt="">
-          <div>
-            <span class="color"></span>
-            <h4>FluoGraphiX pour <span class="orange">Mac</span></h4>
-            <span class="bouton boutonFonce">TÉLÉCHARGER</span>
-          </div>
+        <div class="possibility mac">
+          <img src="@/assets/img/icons/mac.png" alt="Mac">
+          <h4>{{ t('download.mac') }}</h4>
+          <a href="#" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>
-        <div class="possibility">
-          <img src="@/assets/img/icons/android.png" alt="">
-          <div>
-            <span class="color"></span>
-            <h4>FluoGraphiX pour <span class="orange">Andoid</span></h4>
-            <span class="bouton boutonFonce">TÉLÉCHARGER</span>
-          </div>
+        <div class="possibility android">
+          <img src="@/assets/img/icons/android.png" alt="Android">
+          <h4>{{ t('download.linux') }}</h4>
+          <a href="#" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>
       </div>
     </div>
@@ -54,54 +46,9 @@
   background-image: url('@/assets/img/hydro_pictures/img10.jpg');
 }
 
-.possibility {
+.right {
   display: flex;
-  align-items: center;
-  gap: 30px;
-  border: 2px solid #737373;
-  border-radius: 15px;
-  width: 400px;
-  padding: 10px;
-
-  img {
-    height: 50px;
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .color {
-      width: 70px;
-      height: 8px;
-      border-radius: 20px;
-    }
-
-    .boutonFonce {
-      padding: 0 10px !important;
-      font-size: 0.8em;
-      font-weight: 300;
-      width: fit-content;
-    }
-  }
-
-  div:nth-child(1) {
-    .color {
-      background-color: var(--vertBRGM);
-    }
-  }
-
-  div:nth-child(2) {
-    .color {
-      background-color: var(--roseBRGM);
-    }
-  }
-
-  div:nth-child(3) {
-    .color {
-      background-color: var(--bleuBRGM);
-    }
-  }
+  flex-direction: column;
+  gap: 20px;
 }
 </style>
