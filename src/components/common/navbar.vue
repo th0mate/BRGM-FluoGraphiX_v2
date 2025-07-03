@@ -3,8 +3,15 @@ import {afficherMenuResponsive, fermerMenuResponsive} from '@/assets/js/UI/navig
 import {RouterLink} from "vue-router";
 import LanguageSwitcher from './LanguageSwitcher.vue';
 import { useI18n } from 'vue-i18n';
+import { ref, onMounted } from 'vue';
 
 const { t } = useI18n();
+
+const isElectronApp = ref(false);
+
+onMounted(() => {
+  isElectronApp.value = typeof window !== 'undefined' && typeof (window as any).electronAPI !== 'undefined';
+});
 </script>
 
 <template>
@@ -23,7 +30,7 @@ const { t } = useI18n();
         {{ t('nav.documentation') }}
         <span></span>
       </RouterLink>
-      <RouterLink to="/telecharger" class="action" active-class="active-link">
+      <RouterLink v-if="!isElectronApp" to="/telecharger" class="action" active-class="active-link">
         <img src="@/assets/img/icons/dl.png" alt="">
         {{ t('nav.download') }}
         <span></span>
@@ -66,7 +73,7 @@ const { t } = useI18n();
           <h3>{{ t('nav.documentation') }}</h3>
         </div>
       </RouterLink>
-      <RouterLink to="/telecharger" class="action" active-class="active-link">
+      <RouterLink v-if="!isElectronApp" to="/telecharger" class="action" active-class="active-link">
         <div>
           <h3>{{ t('nav.download') }}</h3>
         </div>

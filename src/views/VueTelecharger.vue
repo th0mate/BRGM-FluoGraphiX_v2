@@ -17,6 +17,7 @@ onMounted(async () => {
       throw new Error(`GitHub API responded with ${response.status}`);
     }
     const data = await response.json();
+    console.log(data);
     data.assets.forEach(asset => {
       if (asset.name.endsWith('.exe')) {
         downloadUrls.value.windows = asset.browser_download_url;

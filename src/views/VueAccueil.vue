@@ -3,12 +3,14 @@ import {RouterLink} from "vue-router";
 import Router from "@/router";
 import {onMounted, ref} from "vue";
 import {scrollToElement} from '@/assets/js/UI/navigation';
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n';
 
-const { t } = useI18n();
+const {t} = useI18n();
 const appVersion = ref('');
+const isElectronApp = ref(false);
 
 onMounted(async () => {
+  isElectronApp.value = typeof window !== 'undefined' && typeof (window as any).electronAPI !== 'undefined';
   try {
     appVersion.value = await window.electronAPI.getAppVersion();
   } catch (error) {
@@ -27,19 +29,22 @@ onMounted(async () => {
       <div class="card">
         <span class="color"></span>
         <span>{{ t('home.cards.visualize') }}</span>
-        <RouterLink to="/visualisation" class="animated-link">{{ t('home.cards.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
+        <RouterLink to="/visualisation" class="animated-link">{{ t('home.cards.seeMore') }} <img
+            src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
 
       <div class="card">
         <span class="color"></span>
         <span>{{ t('home.cards.calibration') }}</span>
-        <RouterLink to="/calibration" class="animated-link">{{ t('home.cards.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
+        <RouterLink to="/calibration" class="animated-link">{{ t('home.cards.seeMore') }} <img
+            src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
 
       <div class="card">
         <span class="color"></span>
         <span>{{ t('home.cards.documentation') }}</span>
-        <RouterLink to="/documentation" class="animated-link">{{ t('home.cards.seeMore') }} <img src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
+        <RouterLink to="/documentation" class="animated-link">{{ t('home.cards.seeMore') }} <img
+            src="@/assets/img/icons/fleche-droite.png" alt=""></RouterLink>
       </div>
     </div>
   </section>
@@ -50,14 +55,16 @@ onMounted(async () => {
       <h1>{{ t('home.welcome.title') }}<br> <span class="orange">FluoGraphiX</span> !</h1>
       <span class="texte-gris-simple">{{ t('home.welcome.subtitle') }}</span>
       <div class="wrap-boutons">
-        <span class="bouton boutonFonce" @click="Router.push('/telecharger')">{{ t('buttons.download') }}</span>
+        <span v-if="!isElectronApp" class="bouton boutonFonce" @click="Router.push('/telecharger')">{{ t('buttons.download') }}</span>
         <span class="bouton boutonClair" @click="scrollToElement('.highlights')">{{ t('buttons.seeMore') }}</span>
       </div>
     </div>
   </section>
 
   <section class="highlights">
-    <h2 class="grand-titre">{{ t('home.features.title') }}<br> <span class="orange">{{ t('home.features.titleHighlight') }}</span></h2>
+    <h2 class="grand-titre">{{ t('home.features.title') }}<br> <span class="orange">{{
+        t('home.features.titleHighlight')
+      }}</span></h2>
 
     <div class="grid-highlights">
 
@@ -97,10 +104,11 @@ onMounted(async () => {
   <section class="section-accueil reverse orange">
     <img src="@/assets/img/illus/screen1.png" alt="">
     <div>
-      <h2>{{ t('home.install.title') }} <span class="orange">FluoGraphiX</span><br> {{ t('home.install.titleEnd') }}</h2>
+      <h2>{{ t('home.install.title') }} <span class="orange">FluoGraphiX</span><br> {{ t('home.install.titleEnd') }}
+      </h2>
       <span class="texte-gris-simple">{{ t('home.install.subtitle') }}</span>
       <div class="wrap-boutons">
-        <span class="bouton boutonFonce" @click="Router.push('/telecharger')">{{ t('buttons.download') }}</span>
+        <span v-if="!isElectronApp" class="bouton boutonFonce" @click="Router.push('/telecharger')">{{ t('buttons.download') }}</span>
         <span class="bouton boutonClair" @click="scrollToElement('#continue')">{{ t('buttons.seeMore') }}</span>
       </div>
     </div>
@@ -122,7 +130,9 @@ onMounted(async () => {
   <section class="section-accueil designed">
     <img src="@/assets/img/illus/design2.png" alt="">
     <div>
-      <h2>{{ t('home.calibrationSection.title') }}<br><span class="orange">{{ t('home.calibrationSection.titleEnd') }}</span></h2>
+      <h2>{{ t('home.calibrationSection.title') }}<br><span class="orange">{{
+          t('home.calibrationSection.titleEnd')
+        }}</span></h2>
       <span class="texte-gris-simple">{{ t('home.calibrationSection.description1') }}</span>
       <span class="texte-gris-simple">{{ t('home.calibrationSection.description2') }}</span>
       <div class="wrap-boutons" @click="Router.push('/calibration')">
@@ -137,7 +147,8 @@ onMounted(async () => {
       <h2>{{ t('home.contribute.title') }}<br><span class="orange">{{ t('home.contribute.titleEnd') }}</span></h2>
       <span class="texte-gris-simple">{{ t('home.contribute.description') }}</span>
       <div class="wrap-boutons">
-        <a href="https://github.com/th0mate/BRGM-FluoGraphiX_v2" target="_blank" class="bouton boutonFonce">{{ t('buttons.seeMore') }}</a>
+        <a href="https://github.com/th0mate/BRGM-FluoGraphiX_v2" target="_blank"
+           class="bouton boutonFonce">{{ t('buttons.seeMore') }}</a>
       </div>
     </div>
   </section>

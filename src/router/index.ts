@@ -73,11 +73,17 @@ const router = createRouter({
  * Permet de fermer le menu responsive lors d'un changement de route
  */
 router.beforeEach((to, from, next) => {
-  const menu = document.querySelector('.menu') as HTMLElement | null;
-  if (menu && menu.style.display === 'flex') {
-    menu.style.display = 'none';
+  const isElectron = typeof window !== 'undefined' && typeof (window as any).electronAPI !== 'undefined';
+
+  if (isElectron && to.name === 'telecharger') {
+    next({ name: 'accueil' });
+  } else {
+    const menu = document.querySelector('.menu') as HTMLElement | null;
+    if (menu && menu.style.display === 'flex') {
+      menu.style.display = 'none';
+    }
+    next();
   }
-  next();
 });
 
 export default router
