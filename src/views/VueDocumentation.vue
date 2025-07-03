@@ -50,7 +50,7 @@ const handleActiveHeadingUpdate = (id: string | null) => {
 };
 
 onMounted(() => {
-  const banner = document.querySelector('.bannierePage');
+  const banner = document.querySelector('.bannierePage') as HTMLElement;
   if (banner) {
     bannerHeight.value = `${banner.offsetHeight}px`;
   }

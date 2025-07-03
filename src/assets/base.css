@@ -125,6 +125,7 @@ h4, h5, h6, p {
     border: 5px solid transparent;
     box-shadow: 0 0 0 1px black;
     color: black;
+    padding: 5px 15px;
 }
 
 .boutonFonce {

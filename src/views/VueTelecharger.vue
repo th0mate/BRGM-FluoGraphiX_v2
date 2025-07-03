@@ -18,7 +18,7 @@ onMounted(async () => {
     }
     const data = await response.json();
     console.log(data);
-    data.assets.forEach(asset => {
+    data.assets.forEach((asset: { name: string; browser_download_url: string }) => {
       if (asset.name.endsWith('.exe')) {
         downloadUrls.value.windows = asset.browser_download_url;
       } else if (asset.name.endsWith('.dmg')) {
@@ -59,7 +59,7 @@ onMounted(async () => {
           <a :href="downloadUrls.mac" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>
         <div class="possibility android">
-          <img src="@/assets/img/icons/android.png" alt="Android">
+          <img src="@/assets/img/icons/linux.png" alt="Android">
           <h4>{{ t('download.linux') }}</h4>
           <a :href="downloadUrls.linux" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>

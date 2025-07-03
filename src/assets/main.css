@@ -16,7 +16,7 @@ nav {
     align-content: center;
     background-color: var(--grisBRGM);
     color: white;
-    padding: 10px;
+    padding: 10px 20px;
     position: absolute;
     top: 0;
     width: 100%;
@@ -414,7 +414,6 @@ footer {
             background-color: var(--orangeBRGM);
             cursor: pointer;
             user-select: none;
-            margin-right: 30px;
             transition: background-color 0.4s ease-in-out;
 
             span {

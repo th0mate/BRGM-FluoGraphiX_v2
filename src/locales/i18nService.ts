@@ -16,7 +16,7 @@ export function t(key: string, params?: Record<string, any>): string {
     console.warn(`i18n global non disponible lors de la traduction de "${key}"`);
     return key;
   }
-  return i18n.global.t(key, params);
+  return i18n.global.t(key, params || {});
 }
 
 
@@ -34,7 +34,7 @@ export function getLocale(): string {
  * Change la locale active
  * @param locale Nouvelle locale
  */
-export function setLocale(locale: string): void {
+export function setLocale(locale: 'fr' | 'en'): void {
   if (!i18n.global) return;
   i18n.global.locale.value = locale;
   localStorage.setItem('locale', locale);

@@ -22,11 +22,11 @@ const md = new MarkdownIt({
 });
 md.use(MarkdownItAnchor, {
   permalink: false,
-  slugify: s => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-')),
+  slugify: (s: string) => encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-')),
 });
 
 md.use(MarkdownItContainer, 'info', {
-  render: function (tokens, idx) {
+  render: function (tokens: any[], idx: number) {
     if (tokens[idx].nesting === 1) {
       return '<div class="custom-block info">';
     } else {
@@ -36,7 +36,7 @@ md.use(MarkdownItContainer, 'info', {
 });
 
 md.use(MarkdownItContainer, 'warning', {
-  render: function (tokens, idx) {
+  render: function (tokens: any[], idx: number) {
     if (tokens[idx].nesting === 1) {
       return '<div class="custom-block warning">';
     } else {
@@ -46,7 +46,7 @@ md.use(MarkdownItContainer, 'warning', {
 });
 
 md.use(MarkdownItContainer, 'important', {
-  render: function (tokens, idx) {
+  render: function (tokens: any[], idx: number) {
     if (tokens[idx].nesting === 1) {
       return '<div class="custom-block important">';
     } else {

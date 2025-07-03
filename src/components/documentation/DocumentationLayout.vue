@@ -67,7 +67,7 @@ const props = defineProps({
     default: () => [],
   },
   activeHeadingId: {
-    type: String,
+    type: String as () => string | null,
     default: null,
   },
   isLeftSidebarOpen: {
@@ -102,7 +102,7 @@ const activeLineHeight = ref('0px');
 
 const updateActiveLinePosition = () => {
   if (props.activeHeadingId) {
-    const activeLink = document.querySelector(`.right-sidebar li a[href="#${props.activeHeadingId}"]`);
+    const activeLink = document.querySelector(`.right-sidebar li a[href="#${props.activeHeadingId}"]`) as HTMLElement;
     if (activeLink) {
       const ul = activeLink.closest('ul');
       if (ul) {
