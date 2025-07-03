@@ -322,7 +322,7 @@
     .section-accueil, .section-accueil.reverse {
         flex-direction: column;
         text-align: center;
-        padding: 40px 20px;
+        padding: 40px 10px;
         gap: 30px;
 
         img {
@@ -348,6 +348,7 @@
                 justify-content: center;
             }
         }
+
     }
 
     .section-accueil.designed {
@@ -363,7 +364,6 @@
         height: auto;
         padding: 80px 20px 40px 20px;
         gap: 40px;
-        text-align: center;
 
         h1 {
             font-size: 2em;
