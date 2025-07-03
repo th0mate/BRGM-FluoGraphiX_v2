@@ -59,7 +59,7 @@ onMounted(async () => {
           <a :href="downloadUrls.mac" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>
         <div class="possibility android">
-          <img src="@/assets/img/icons/android.png" alt="Android">
+          <img src="@/assets/img/icons/linux.png" alt="Android">
           <h4>{{ t('download.linux') }}</h4>
           <a :href="downloadUrls.linux" class="bouton boutonFonce">{{ t('buttons.download') }}</a>
         </div>
