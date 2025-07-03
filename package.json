@@ -79,6 +79,7 @@
   "devDependencies": {
     "@playwright/test": "^1.53.0",
     "@tsconfig/node22": "^22.0.1",
+    "@types/markdown-it-container": "^2.0.10",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",

@@ -9,7 +9,7 @@ interface DocPage {
   titleKey: string;
   section: string;
   filename: string;
-  subsections?: { titleKey: string; id: string; }[];
+  subsections?: { titleKey: string; id: string; level?: number }[];
 }
 
 export const documentationStructure: DocSection[] = [

@@ -71,7 +71,7 @@ const setupIntersectionObserver = () => {
     threshold: 0
   });
 
-  headings.forEach((heading) => {
+  headings.forEach((heading: Element) => {
     observer.value?.observe(heading);
   });
 };

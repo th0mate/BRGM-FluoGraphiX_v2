@@ -18,7 +18,7 @@ onMounted(async () => {
     }
     const data = await response.json();
     console.log(data);
-    data.assets.forEach(asset => {
+    data.assets.forEach((asset: { name: string; browser_download_url: string }) => {
       if (asset.name.endsWith('.exe')) {
         downloadUrls.value.windows = asset.browser_download_url;
       } else if (asset.name.endsWith('.dmg')) {
