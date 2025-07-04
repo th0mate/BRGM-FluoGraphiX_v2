@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name : Build Vue.js application
+        run: npm run build
+
       - name: Build and publish Windows
         run: npm run compose-publish
 
@@ -46,6 +49,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build Vue.js application
+        run: npm run build
+
       - name: Build and publish macOS
         run: npm run compose-publish
 
@@ -62,6 +68,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+
+      - name: Build Vue.js application
+        run: npm run build
 
       - name: Build and publish Linux
         run: npm run compose-publish
