@@ -1,12 +1,12 @@
-﻿/**
+import { Chart } from "chart.js/auto";
+import { afficherMessageFlash } from "@/assets/js/Common/utils.js";
+import Session from "@/assets/js/Session/Session.js";
+import { DateTime } from "luxon";
+import { t } from '@/locales/i18nService';
+/**
  * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
  * www.thomasloye.fr
- * Gère l'affichage et le stockage des variables utilisateur pour la partie visualisation
  */
-import {Chart} from "chart.js/auto";
-import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
-import Session from "@/assets/js/Session/Session.js";
-import {DateTime} from "luxon";
 
 
 /**
@@ -86,7 +86,7 @@ export class AffichageVisualisation {
      */
     disableCarouselDrag(splideRef) {
         if (splideRef && splideRef.splide) {
-            splideRef.splide.options = {...splideRef.splide.options, drag: false};
+            splideRef.splide.options = { ...splideRef.splide.options, drag: false };
         }
     }
 
@@ -96,7 +96,7 @@ export class AffichageVisualisation {
      */
     enableCarouselDrag(splideRef) {
         if (splideRef && splideRef.splide) {
-            splideRef.splide.options = {...splideRef.splide.options, drag: true};
+            splideRef.splide.options = { ...splideRef.splide.options, drag: true };
         }
     }
 
@@ -125,7 +125,7 @@ export class AffichageVisualisation {
                 this.initialiserConversionTraceurs();
                 this.initialiserExportTRAC();
                 const existingChart = this.controlleurVisualisation.getChartInstance();
-                this.dateMax = DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('yyyy-MM-dd') + 'T' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, {zone: 'UTC'}).toFormat('HH:mm');
+                this.dateMax = DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, { zone: 'UTC' }).toFormat('yyyy-MM-dd') + 'T' + DateTime.fromMillis(existingChart.data.datasets[0].data[existingChart.data.datasets[0].data.length - 1].x, { zone: 'UTC' }).toFormat('HH:mm');
                 this.initialiserSuppressionCourbes();
                 resolve(tbodyElement);
             });
@@ -175,7 +175,7 @@ export class AffichageVisualisation {
                     <td>L${traceur.lampePrincipale}</td>
                     <td>
                         <select class="renameCourbe" id='rename${i}' data-lampe='L${traceur.lampePrincipale}'>
-                        <option value="" selected disabled>Sélectionner</option>
+                        <option value="" selected disabled>${t('carousel.home.renaming.select')}</option>
                             `;
                     const lignes = Session.getInstance().contenuFichierMesures.split('\n');
                     const header = lignes[2].split(';').splice(2);
@@ -256,7 +256,7 @@ export class AffichageVisualisation {
         for (const traceur of traceurs) {
             if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
                 let label = document.createElement('label');
-                label.innerHTML = `<input type="checkbox" value="L${traceur.lampePrincipale}"/> L${traceur.lampePrincipale}`;
+                label.innerHTML = `<input type="checkbox" value="L${traceur.lampePrincipale}"/> ${t('calibration.lamp', { number: traceur.lampePrincipale })}`;
 
                 const checkbox = label.querySelector('input[type="checkbox"]');
                 checkbox.addEventListener('change', () => {
@@ -321,7 +321,7 @@ export class AffichageVisualisation {
 
         const div = document.querySelector('.listeTraceursInterferences');
         if (nb === 1) {
-            let html = "<select id='selectSeulInterf' class='select-traceur-one'><option disabled selected>Traceur 1</option>";
+            let html = `<select id='selectSeulInterf' class='select-traceur-one'><option disabled selected>${t('carousel.interference.oneTracer')}</option>`;
 
             for (const traceur of Session.getInstance().traceurs) {
                 if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
@@ -332,8 +332,8 @@ export class AffichageVisualisation {
             html += "</select>";
             div.innerHTML = html;
         } else {
-            let html1 = "<div class='data-traceur-one'><select id='selecttone' class='select-traceur-one'><option disabled selected>Traceur 1</option>";
-            let html2 = "<div class='data-traceur-two'><select id='selecttwo' class='select-traceur-two'><option disabled selected>Traceur 2</option>";
+            let html1 = `<div class='data-traceur-one'><select id='selecttone' class='select-traceur-one'><option disabled selected>${t('carousel.interference.oneTracer')}</option>`;
+            let html2 = `<div class='data-traceur-two'><select id='selecttwo' class='select-traceur-two'><option disabled selected>${t('carousel.interference.twoTracers')}</option>`;
 
             for (const traceur of Session.getInstance().traceurs) {
                 if (traceur && traceur.unite.toLowerCase() !== '' && traceur.unite.toLowerCase() !== 'ntu') {
@@ -554,7 +554,7 @@ export class AffichageVisualisation {
         if (colonnes.length < 2) return null;
 
         const date = colonnes[0] + '-' + colonnes[1];
-        const dateFinale = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+        const dateFinale = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', { zone: 'UTC' }).toFormat('dd/MM/yyyy-HH:mm:ss');
         this.zoneSelectionnee.dateFin = dateFinale;
         document.querySelector('#finSelection').value = DateTime.fromFormat(dateFinale, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
     }
@@ -572,7 +572,7 @@ export class AffichageVisualisation {
         if (colonnes.length < 2) return null;
 
         const date = colonnes[0] + '-' + colonnes[1];
-        const dateFinale = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', {zone: 'UTC'}).toFormat('dd/MM/yyyy-HH:mm:ss');
+        const dateFinale = DateTime.fromFormat(date, 'dd/MM/yy-HH:mm:ss', { zone: 'UTC' }).toFormat('dd/MM/yyyy-HH:mm:ss');
         this.zoneSelectionnee.dateDebut = dateFinale;
         document.querySelector('#debutSelection').value = DateTime.fromFormat(dateFinale, 'dd/MM/yyyy-HH:mm:ss').toFormat('yyyy-MM-dd\'T\'HH:mm');
     }
@@ -615,7 +615,7 @@ export class AffichageVisualisation {
      */
     dateDebutDepuisInput(date) {
         if (date) {
-            const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', {zone: 'UTC'});
+            const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', { zone: 'UTC' });
             this.zoneSelectionnee.dateDebut = dateTime.toFormat('dd/MM/yyyy-HH:mm:ss');
         }
     }
@@ -626,7 +626,7 @@ export class AffichageVisualisation {
      */
     dateFinDepuisInput(date) {
         if (date) {
-            const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', {zone: 'UTC'});
+            const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd\'T\'HH:mm', { zone: 'UTC' });
             this.zoneSelectionnee.dateFin = dateTime.toFormat('dd/MM/yyyy-HH:mm:ss');
         }
     }
@@ -688,7 +688,7 @@ export class AffichageVisualisation {
 
         existingChart.data.datasets.forEach((dataset) => {
             if (!dataset.label ||
-                dataset.label === 'Aucune courbe' ||
+                dataset.label === t('visualization.noCurve') ||
                 dataset.label.includes('_nat') ||
                 lampesTraceursPrincipales.includes(dataset.label)) {
                 return;
@@ -957,7 +957,7 @@ export class AffichageVisualisation {
                     div.appendChild(label);
                 } else {
                     if (div.innerHTML === '') {
-                        div.innerHTML = "<b>Aucun traceur disponible pour l'export TRAC, veuillez d'abord convertir un traceur en concentration.</b>";
+                        div.innerHTML = `<b>${t('carousel.export.noTracerForTrac')}</b>`;
                     }
                 }
             }
@@ -976,6 +976,7 @@ export class AffichageVisualisation {
             afficherMessageFlash("notifications.error.title", "notifications.error.needsForTracExport", "error");
         }
     }
+
 
     /**
      * Déclenche la copie de l'export TRAC dans le presse-papiers
@@ -1015,7 +1016,7 @@ export class AffichageVisualisation {
         }
 
         existingChart.data.datasets.forEach((dataset) => {
-            if (dataset.label && dataset.label !== 'Aucune courbe') {
+            if (dataset.label && dataset.label !== t('visualization.noCurve')) {
                 let label = document.createElement('label');
                 label.innerHTML = `<input type="checkbox" value="${dataset.label}"/> ${dataset.label}`;
 

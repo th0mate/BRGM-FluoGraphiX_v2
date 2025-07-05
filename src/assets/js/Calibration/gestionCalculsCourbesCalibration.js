@@ -1,14 +1,10 @@
-﻿/**
- * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
- * www.thomasloye.fr
- * Gère les calculs et l'affichage des courbes de calibration
- */
 import {AffichageCalibration} from '@/assets/js/Calibration/AffichageCalibration.js';
 import AffichageClasses from '@/assets/js/Calibration/AffichageCalibration.js';
 import CalculClasses from '@/assets/js/Calibration/CalculsCourbes.js';
 import {afficherPopup} from "@/assets/js/UI/popupService.js";
 import warningImage from "@/assets/img/popup/warning.png";
 import Session from "@/assets/js/Session/Session.js";
+import { t } from '@/locales/i18nService';
 
 const AffichageConcentration = AffichageClasses.AffichageConcentration;
 const AffichageParasites = AffichageClasses.AffichageParasites;
@@ -43,7 +39,7 @@ export default class GestionnaireCourbesCalibration {
             this.donneesCorrompues = false;
         }
 
-        document.querySelector('.equation').innerHTML = "<span>Aucune équation à afficher pour le moment.</span>";
+        document.querySelector('.equation').innerHTML = `<span>${t('calibration.equationUtility.noEquation')}</span>`;
         const calculCourbe = this.creerCalculCourbe(idLampe, traceur);
 
         const resultat = calculCourbe.calculer();
