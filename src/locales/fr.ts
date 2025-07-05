@@ -216,7 +216,9 @@ export default {
             copy: 'Copier',
             noEquation: 'Aucune équation à afficher pour l\'instant.'
         },
-        deviceData: 'Données de l\'appareil <span class="orange">{deviceNumber}</span> du <span class="orange">{measureDate}</span> :'
+        deviceData: 'Données de l\'appareil <span class="orange">{deviceNumber}</span> du <span class="orange">{measureDate}</span> :',
+        lamp: 'L{number}',
+        signalTableCaption: 'Signal en mV du traceur "{traceurName}"'
     },
     visualization: {
         title: 'Partie',
@@ -234,7 +236,8 @@ export default {
             ddmmyyyy: 'jj/mm/aaaa',
             mmddyyyy: 'mm/jj/aaaa'
         },
-        dataFromFile: 'Données issues du fichier'
+        dataFromFile: 'Données issues du fichier',
+        noCurve: 'Aucune courbe'
     },
     carousel: {
         header: {
@@ -309,7 +312,8 @@ export default {
             tracTitle: 'Export des données au format CSV TRAC',
             injectionDate: 'Choisissez la date d\'injection :',
             exportAsFile: 'Exporter en tant que fichier CSV',
-            copyToClipboard: 'Copier dans le presse-papiers'
+            copyToClipboard: 'Copier dans le presse-papiers',
+            noTracerForTrac: 'Aucun traceur disponible pour l\'export TRAC, veuillez d\'abord convertir un traceur en concentration.'
         },
         deleteCurves: {
             title: 'Supprimer des courbes',
@@ -345,5 +349,10 @@ export default {
         windows: 'Windows',
         mac: 'MacOS',
         linux: 'Linux'
+    },
+    equations: {
+        linear: 'Équation du type Y-Y0 = a1 * (X-X0)',
+        logarithmic: 'Équation du type ln(Y-Y0) = a0 + a1*ln(X-X0)',
+        logarithmicQuadratic: 'Équation du type ln(Y-Y0) = a0 + a1*ln(X-X0) + a2*ln(X-X0)^2'
     }
 }

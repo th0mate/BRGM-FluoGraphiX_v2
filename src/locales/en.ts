@@ -216,7 +216,9 @@ export default {
             copy: 'Copy',
             noEquation: 'No equation to display at the moment.'
         },
-        deviceData: 'Data from device <span class="orange">{deviceNumber}</span> of <span class="orange">{measureDate}</span>:'
+        deviceData: 'Data from device <span class="orange">{deviceNumber}</span> of <span class="orange">{measureDate}</span>:',
+        lamp: 'L{number}',
+        signalTableCaption: 'Signal in mV of tracer "{traceurName}"'
     },
     visualization: {
         title: 'Section',
@@ -234,7 +236,8 @@ export default {
             ddmmyyyy: 'dd/mm/yyyy',
             mmddyyyy: 'mm/dd/yyyy'
         },
-        dataFromFile: 'Data from file'
+        dataFromFile: 'Data from file',
+        noCurve: 'No curve'
     },
     carousel: {
         header: {
@@ -309,7 +312,8 @@ export default {
             tracTitle: 'Export data to CSV TRAC format',
             injectionDate: 'Choose the injection date:',
             exportAsFile: 'Export as CSV file',
-            copyToClipboard: 'Copy to clipboard'
+            copyToClipboard: 'Copy to clipboard',
+            noTracerForTrac: 'No tracer available for TRAC export, please convert a tracer to concentration first.'
         },
         deleteCurves: {
             title: 'Delete curves',
@@ -346,5 +350,10 @@ export default {
         windows: 'Windows',
         mac: 'MacOS',
         linux: 'Linux'
+    },
+    equations: {
+        linear: 'Equation of type Y-Y0 = a1 * (X-X0)',
+        logarithmic: 'Equation of type ln(Y-Y0) = a0 + a1*ln(X-X0)',
+        logarithmicQuadratic: 'Equation of type ln(Y-Y0) = a0 + a1*ln(X-X0) + a2*ln(X-X0)^2'
     }
 }

@@ -101,14 +101,14 @@ onMounted(async () => {
     </div>
   </section>
 
-  <section class="section-accueil reverse orange">
+  <section class="section-accueil reverse orange" v-if="!isElectronApp">
     <img src="@/assets/img/illus/screen1.png" alt="">
     <div>
       <h2>{{ t('home.install.title') }} <span class="orange">FluoGraphiX</span><br> {{ t('home.install.titleEnd') }}
       </h2>
       <span class="texte-gris-simple">{{ t('home.install.subtitle') }}</span>
       <div class="wrap-boutons">
-        <span v-if="!isElectronApp" class="bouton boutonFonce" @click="Router.push('/telecharger')">{{ t('buttons.download') }}</span>
+        <span class="bouton boutonFonce" @click="Router.push('/telecharger')">{{ t('buttons.download') }}</span>
         <span class="bouton boutonClair" @click="scrollToElement('#continue')">{{ t('buttons.seeMore') }}</span>
       </div>
     </div>

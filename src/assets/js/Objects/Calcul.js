@@ -1,8 +1,4 @@
-﻿/**
- * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
- * www.thomasloye.fr
- */
-
+﻿import { t } from '@/locales/i18nService';
 
 /**
  * ======================================================================================================================
@@ -14,10 +10,10 @@ class Calculs {
 
     /**
      * Constructeur de la classe Calculs
-     * @param {string} equation - L'équation sous forme de texte
+     * @param {string} equationKey - La clé de traduction de l'équation
      */
-    constructor(equation) {
-        this.equation = equation;
+    constructor(equationKey) {
+        this.equationKey = equationKey;
         this.parametres = new Map();
     }
 
@@ -43,11 +39,11 @@ class Calculs {
 
 
     /**
-     * Retourne l'équation sous forme de texte
-     * @return {string} L'équation
+     * Retourne l'équation traduite
+     * @return {string} L'équation traduite
      */
     toStringEquation() {
-        return this.equation;
+        return t(this.equationKey);
     }
 
 
@@ -97,7 +93,7 @@ class EquationLineaire extends Calculs {
      * Constructeur de la classe EquationLineaire
      */
     constructor() {
-        super("Equation du type Y-Y0 = a1 * (X-X0)");
+        super('equations.linear');
     }
 
 
@@ -117,7 +113,7 @@ class EquationLineaire extends Calculs {
 
 
 /**
- * ======================================================================================================================
+ * =====================================================================================================================
  * Classe pour les calculs d'équation logarithmique
  * ===================================================================================================================
  */
@@ -128,7 +124,7 @@ class EquationLogarithmique extends Calculs {
      * Constructeur de la classe EquationLogarithmique
      */
     constructor() {
-        super("Equation du type ln(Y-Y0) = a0 + a1*ln(X-X0)");
+        super('equations.logarithmic');
     }
 
 
@@ -160,7 +156,7 @@ class EquationLogarithmiqueQuadratique extends Calculs {
      * Constructeur de la classe EquationLogarithmiqueQuadratique
      */
     constructor() {
-        super("Equation du type ln(Y-Y0) = a0 + a1*ln(X-X0) + a2*ln(X-X0)^2");
+        super('equations.logarithmicQuadratic');
     }
 
 

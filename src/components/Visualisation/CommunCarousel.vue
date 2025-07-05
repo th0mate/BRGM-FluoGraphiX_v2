@@ -18,7 +18,7 @@ const props = defineProps<{
     <img src="@/assets/img/popup/warning.png" alt="" class="icone">
     <span id="anomaly">{{ t('carousel.commons.calibrationAnomalyDetected') }}</span>
   </div>
-  <div class="card anomalie" v-else-if="Session.getInstance().contenuFichierCalibration !== ''">
+  <div class="card anomalie" v-else-if="Session.getInstance().donneesCalibration !== null">
     <img src="@/assets/img/popup/success.png" alt="" class="icone">
     <span>{{ t('carousel.commons.noCalibrationAnomaly') }}</span>
   </div>
