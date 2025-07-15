@@ -5,12 +5,12 @@ const execAsync = promisify(exec);
 
 export default async function(context) {
   const { appOutDir, electronPlatformName } = context;
-  const artifactPath = context.artifactPaths[0];
-
-  if (!artifactPath) {
+  if (!context.artifactPaths || context.artifactPaths.length === 0) {
     console.log('No artifact path found, skipping signature.');
     return;
   }
+
+  const artifactPath = context.artifactPaths[0];
 
   console.log(`Signing artifact: ${artifactPath}`);
 
