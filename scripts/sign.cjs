@@ -10,22 +10,7 @@ module.exports = async function(context) {
   console.log('context.appOutDir:', context.appOutDir);
   console.log('context.electronPlatformName:', context.electronPlatformName);
 
-  let artifactPath;
-
-  switch (context.electronPlatformName) {
-    case 'win32':
-      artifactPath = `${context.appOutDir}\${context.productFilename}`;
-      break;
-    case 'darwin':
-      artifactPath = `${context.appOutDir}/${context.productFilename}.app/Contents/MacOS/${context.productFilename}`; // Assuming productFilename is "FluoGraphiX" for macOS
-      break;
-    case 'linux':
-      artifactPath = `${context.appOutDir}/${context.productFilename}`;
-      break;
-    default:
-      console.log(`Unsupported platform: ${context.electronPlatformName}, skipping cosign signature.`);
-      return;
-  }
+  const artifactPath = context.path; // Utilise directement le chemin fourni par Electron Builder
 
   console.log(`Constructed artifactPath: ${artifactPath}`);
 
