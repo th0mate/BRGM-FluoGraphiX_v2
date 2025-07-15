@@ -64,6 +64,8 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
+    env:
+      CSC_FOR_PULL_REQUEST: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
