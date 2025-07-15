@@ -36,7 +36,7 @@ module.exports = async function(context) {
     const signaturePath = `${artifactPath}.sig`;
     const attestationPath = `${artifactPath}.att`;
 
-    const { stdout, stderr } = await execAsync(`cosign sign --yes --output-signature "${signaturePath}" --file "${artifactPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
+    const { stdout, stderr } = await execAsync(`cosign sign-blob --yes --output-signature "${signaturePath}" "${artifactPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
     console.log('Cosign signature successful:', stdout);
     if (stderr) {
       console.error('Cosign signature stderr:', stderr);
