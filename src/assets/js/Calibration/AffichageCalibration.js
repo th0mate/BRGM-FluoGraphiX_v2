@@ -8,6 +8,7 @@ import { afficherMessageFlash } from '@/assets/js/Common/utils.js'
 import Session from "@/assets/js/Session/Session.js";
 import { afficherPopup } from "@/assets/js/UI/popupsManager.js";
 import warningImage from '@/assets/img/popup/warning.png';
+import { t } from '@/locales/i18nService';
 
 
 /**
@@ -24,8 +25,8 @@ export class AffichageCalibration {
      */
     static afficherEquationDroite(equation) {
         if (document.querySelector('.equation') && equation) {
-            document.querySelector('.equation').innerHTML = `${equation.toStringEquation()}`;
-            document.querySelector('.equation').innerHTML += `${equation.toStringValeurParametresHTML()}`;
+            document.querySelector('.equation').innerHTML = `<span>${equation.toStringEquation()}</span>`;
+            document.querySelector('.equation').innerHTML += equation.toStringValeurParametresHTML();
         }
     }
 

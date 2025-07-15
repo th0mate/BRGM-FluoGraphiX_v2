@@ -1,7 +1,3 @@
-﻿/**
- * Réalisé par Thomas LOYE pour le compte du BRGM en 2025
- * www.thomasloye.fr
- */
 import LecteurFichierDAT from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierDAT.js';
 import LecteurFichierCSV from '@/assets/js/LecteursDocuments/Calibration/LecteurFichierCSV.js';
 import GestionnaireCourbesCalibration from '@/assets/js/Calibration/gestionCalculsCourbesCalibration.js';
@@ -9,9 +5,7 @@ import {afficherMessageFlash} from "@/assets/js/Common/utils.js";
 import GraphiqueCalibration from '@/assets/js/Graphiques/GraphiqueCalibration.js';
 import Session from '@/assets/js/Session/Session.js';
 import errorImage from "@/assets/img/popup/error.png";
-import i18nService from '@/locales/i18nService';
-
-
+import { t } from '@/locales/i18nService';
 
 /**
  * =====================================================================================================================
@@ -213,7 +207,7 @@ export default class ControlleurCalibration {
             }
 
             const span = document.createElement('span');
-            span.textContent = 'L' + i;
+            span.textContent = t('calibration.lamp', { number: i });
             span.id = 'lampe' + i;
             span.classList.add('ligneElement');
 
@@ -303,7 +297,7 @@ export default class ControlleurCalibration {
         for (let i = 0; i < 4; i++) {
             const tr = document.createElement('tr');
             const th = document.createElement('th');
-            th.textContent = 'L' + (i + 1);
+            th.textContent = t('calibration.lamp', { number: i + 1 });
             tr.appendChild(th);
 
             for (let j = 0; j < nbColonnes + 1; j++) {
@@ -324,12 +318,12 @@ export default class ControlleurCalibration {
         }
 
         tableau.appendChild(tbody);
-        tableau.insertAdjacentHTML('afterbegin', `<caption>Signal en mV du traceur "${traceur.nom}"</caption>`);
+        tableau.insertAdjacentHTML('afterbegin', `<caption>${t('calibration.signalTableCaption', { traceurName: traceur.nom })}</caption>`);
 
         const descriptionElement = document.querySelector('.descriptionConcentration');
         if (descriptionElement) {
             descriptionElement.style.display = 'block';
-            descriptionElement.innerHTML = `<h2>${i18nService.t('calibration.deviceData', {
+            descriptionElement.innerHTML = `<h2>${t('calibration.deviceData', {
                 deviceNumber: this.lecteur.numeroFluorimetre,
                 measureDate: traceur.dateMesure
             })}</h2>`;
@@ -365,7 +359,7 @@ export default class ControlleurCalibration {
         const eau = this.lecteur.recupererTraceurEau();
         if (!eau) return;
 
-        const eauLampe = eau.getDataParNom('L' + idLampe + '-1');
+        const eauLampe = eau.getDataParNom('L' + idLampe + '-' + 1);
 
         // Dataset pour les points mesurés
         const datasetPoints = {
@@ -413,7 +407,7 @@ export default class ControlleurCalibration {
 
         const a = document.createElement('a');
         a.href = url;
-        a.download = `ExportCalibration-${new Date().toLocaleString().replace(/\/|:|,|\s/g, '-')}.csv`;
+        a.download = `ExportCalibration-${new Date().toLocaleString().replace(/\/|:|\,|\s/g, '-')}.csv`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
