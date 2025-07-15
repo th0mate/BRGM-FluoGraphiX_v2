@@ -33,8 +33,10 @@ module.exports = async function(context) {
   console.log(`Signing artifact with cosign: ${artifactPath}`);
 
   try {
-    // Use cosign sign blob for local files
-    const { stdout, stderr } = await execAsync(`cosign sign blob --yes "${artifactPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
+    const signaturePath = `${artifactPath}.sig`;
+    const attestationPath = `${artifactPath}.att`;
+
+    const { stdout, stderr } = await execAsync(`cosign sign blob --yes --output-signature "${signaturePath}" --output-attestation "${attestationPath}" "${artifactPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
     console.log('Cosign signature successful:', stdout);
     if (stderr) {
       console.error('Cosign signature stderr:', stderr);
