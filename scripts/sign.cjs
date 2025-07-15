@@ -14,7 +14,7 @@ module.exports = async function(context) {
 
   switch (context.electronPlatformName) {
     case 'win32':
-      artifactPath = `${context.appOutDir}\\${productName}.exe`;
+      artifactPath = `${context.appOutDir}\${productName}.exe`;
       break;
     case 'darwin':
       artifactPath = `${context.appOutDir}/${productName}.app/Contents/MacOS/${productName}`;
@@ -32,7 +32,9 @@ module.exports = async function(context) {
   console.log(`Signing artifact with cosign: ${artifactPath}`);
 
   try {
-    const { stdout, stderr } = await execAsync(`cosign sign --yes "${artifactPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
+    // Add file:// prefix for cosign
+    const cosignPath = `file://${artifactPath.replace(/\\/g, '/')}`;
+    const { stdout, stderr } = await execAsync(`cosign sign --yes "${cosignPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
     console.log('Cosign signature successful:', stdout);
     if (stderr) {
       console.error('Cosign signature stderr:', stderr);
