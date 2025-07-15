@@ -10,18 +10,13 @@ on:
 
 permissions:
   contents: write
-  id-token: write # Ajouté pour l'authentification OIDC de Cosign
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  COSIGN_EXPERIMENTAL: '1' # Nécessaire pour certaines fonctionnalités de Cosign
-  # COSIGN_REPOSITORY: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }} # Supprimé car il cause un problème avec cosign sign blob
 
 jobs:
   build-windows:
     runs-on: windows-latest
-    env:
-      CSC_FOR_PULL_REQUEST: true # Ajouté pour forcer la signature sur les PR
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,9 +25,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
 
       - name: Install dependencies
         run: npm install
@@ -45,8 +37,6 @@ jobs:
 
   build-macos:
     runs-on: macos-latest
-    env:
-      CSC_FOR_PULL_REQUEST: true # Ajouté pour forcer la signature sur les PR
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -55,9 +45,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
 
       - name: Install dependencies
         run: npm install
@@ -70,8 +57,6 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
-    env:
-      CSC_FOR_PULL_REQUEST: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -80,9 +65,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
 
       - name: Install dependencies
         run: npm install
