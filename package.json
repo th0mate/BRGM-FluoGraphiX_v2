@@ -17,7 +17,6 @@
     "compose-publish": "electron-builder --publish always"
   },
   "build": {
-    "afterSign": "./scripts/sign.mjs",
     "asar": true,
     "productName": "FluoGraphiX",
     "files": [

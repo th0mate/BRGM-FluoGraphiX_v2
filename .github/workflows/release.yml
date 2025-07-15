@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: write
-  id-token: write
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -26,9 +25,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
 
       - name: Install dependencies
         run: npm install
@@ -50,9 +46,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
-
       - name: Install dependencies
         run: npm install
 
@@ -64,8 +57,6 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
-    env:
-      CSC_FOR_PULL_REQUEST: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,9 +65,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v3
 
       - name: Install dependencies
         run: npm install
