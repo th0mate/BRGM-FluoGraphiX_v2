@@ -10,10 +10,12 @@ on:
 
 permissions:
   contents: write
-  id-token: write
+  id-token: write # Ajouté pour l'authentification OIDC de Cosign
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  COSIGN_EXPERIMENTAL: '1' # Nécessaire pour certaines fonctionnalités de Cosign
+  COSIGN_REPOSITORY: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }} # Bonne pratique pour la transparence
 
 jobs:
   build-windows:
