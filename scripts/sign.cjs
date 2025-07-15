@@ -11,17 +11,16 @@ module.exports = async function(context) {
   console.log('context.electronPlatformName:', context.electronPlatformName);
 
   let artifactPath;
-  const productName = "FluoGraphiX"; // From package.json
 
   switch (context.electronPlatformName) {
     case 'win32':
-      artifactPath = `${context.appOutDir}\${productName}.exe`;
+      artifactPath = `${context.appOutDir}\${context.productFilename}`;
       break;
     case 'darwin':
-      artifactPath = `${context.appOutDir}/${productName}.app/Contents/MacOS/${productName}`;
+      artifactPath = `${context.appOutDir}/${context.productFilename}.app/Contents/MacOS/${context.productFilename}`; // Assuming productFilename is "FluoGraphiX" for macOS
       break;
     case 'linux':
-      artifactPath = `${context.appOutDir}/${productName}`;
+      artifactPath = `${context.appOutDir}/${context.productFilename}`;
       break;
     default:
       console.log(`Unsupported platform: ${context.electronPlatformName}, skipping cosign signature.`);
@@ -34,7 +33,6 @@ module.exports = async function(context) {
 
   try {
     const signaturePath = `${artifactPath}.sig`;
-    const attestationPath = `${artifactPath}.att`;
 
     const { stdout, stderr } = await execAsync(`cosign sign-blob --yes --output-signature "${signaturePath}" "${artifactPath}"`, { env: { ...process.env, COSIGN_EXPERIMENTAL: '1' } });
     console.log('Cosign signature successful:', stdout);
