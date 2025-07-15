@@ -15,11 +15,13 @@ permissions:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   COSIGN_EXPERIMENTAL: '1' # Nécessaire pour certaines fonctionnalités de Cosign
-  COSIGN_REPOSITORY: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }} # Bonne pratique pour la transparence
+  # COSIGN_REPOSITORY: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }} # Supprimé car il cause un problème avec cosign sign blob
 
 jobs:
   build-windows:
     runs-on: windows-latest
+    env:
+      CSC_FOR_PULL_REQUEST: true # Ajouté pour forcer la signature sur les PR
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,6 +45,8 @@ jobs:
 
   build-macos:
     runs-on: macos-latest
+    env:
+      CSC_FOR_PULL_REQUEST: true # Ajouté pour forcer la signature sur les PR
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
