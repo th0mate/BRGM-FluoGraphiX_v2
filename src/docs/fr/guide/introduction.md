@@ -19,9 +19,11 @@ hydrogéologique. Elle vous permet de :
 
 ::: info
 **💡 Astuce :**
-Pour une prise en main rapide, nous vous recommandons de commencer par la section [Prise en main](#premiers-pas)
-ci-dessous.
+Vous pouvez également consulter le [dépôt GitHub](https://github.com/th0mate/BRGM-FluoGraphiX_v2)
 :::
+
+<img src="img/doc/main.png" alt="Interface FluoGraphiX" style="width: 100%; max-width: 600px; display: block; margin: 20px auto;">
+
 
 ---
 
@@ -42,8 +44,10 @@ L'installation est possible sur les appareils Windows, macOS et Linux. Pour les 
 
 ::: warning
 **⚠️ Important :**
-Assurez-vous que vos fichiers de données sont correctement formatés pour éviter les erreurs d'importation. Référez-vous
-à la section "Formats de Fichiers Supportés" pour plus de détails.
+Ce projet étant open-source, il n'est pas systématiquement reconnu par les systèmes d'exploitation comme une application de confiance.
+Si vous rencontrez un message vous indiquant que l'application n'est pas reconnue, procédez comme suit :
+- Windows : Sur le message "Windows a protégé votre ordinateur", cliquez sur "Plus d'infos" puis "Exécuter quand même".
+- macOS : Allez dans "Préférences Système" > "Sécurité et confidentialité" > "Général" et cliquez sur "Ouvrir quand même".
 :::
 
 ---
@@ -68,6 +72,12 @@ Assurez-vous que vos fichiers de données sont correctement formatés pour évit
 <details>
   <summary>L'application est-elle compatible avec les smartphones ?</summary>
   <p>Pour le moment, il n'est pas possible de télécharger FluoGraphiX sur un téléphone. Vous pouvez cependant consulter le site web avec un tel appareil.</p>
+</details>
+
+<details>
+  <summary>Mon ordinateur me signale que l'application est dangereuse. Est-ce vrai ?</summary>
+    <p>FluoGraphiX est un projet open-source et n'est pas reconnu par les systèmes d'exploitation comme une application de confiance. Vous pouvez l'installer en toute sécurité en suivant les instructions fournies dans la section d'installation.</p>
+    <p>FluoGraphiX est une application entièrement sûre, dont vous pouvez retrouver l'intégralité du code source sur le <a href="https://github.com/th0mate/BRGM-FluoGraphiX_v2">dépôt Github du projet</a>.</p>
 </details>
 
 ---
