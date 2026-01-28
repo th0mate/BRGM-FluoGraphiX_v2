@@ -178,7 +178,24 @@ export class AffichageVisualisation {
                         <option value="" selected disabled>${t('carousel.home.renaming.select')}</option>
                             `;
                     const lignes = Session.getInstance().contenuFichierMesures.split('\n');
-                    const header = lignes[2].split(';').splice(2);
+
+                    let header;
+                    if (lignes.length > 2) {
+                        const firstCol = (lignes[2].split(';')[0] || '').replace(/[\n\r]/g, '').trim();
+                        const isLikelyDate = (s) => {
+                            if (!s) return false;
+                            const patterns = [
+                                /^\d{1,2}[\/\-\._]\d{1,2}[\/\-\._]\d{2,4}$/,
+                                /^\d{4}[\/\-\._]\d{1,2}[\/\-\._]\d{1,2}$/,
+                                /^\d{1,2}[\/\-\._]\d{1,2}[\/\-\._]\d{2,4}\s+\d{1,2}:\d{2}(:\d{2})?$/
+                            ];
+                            return patterns.some(rx => rx.test(s));
+                        };
+                        header = isLikelyDate(firstCol) ? lignes[0].split(';') : lignes[2].split(';');
+                    } else {
+                        header = lignes[0].split(';');
+                    }
+
 
                     for (let j = 0; j < header.length; j++) {
                         html += `<option id="option${header[j]}" value="${header[j]}">${header[j]}</option>`;
