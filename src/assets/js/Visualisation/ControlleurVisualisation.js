@@ -493,12 +493,34 @@ export class ControlleurVisualisation {
      * @param lignes les lignes du fichier CSV
      */
     supprimerColonneParEnTete(labelEnTete, lignes) {
-        let header = lignes[2].replace(/[\n\r]/g, '').split(';');
+        let headerIndex = 0;
+        if (lignes.length > 2) {
+            const firstCol = (lignes[2].split(';')[0] || '').replace(/[\n\r]/g, '').trim();
+            const isLikelyDate = (s) => {
+                if (!s) return false;
+                const patterns = [
+                    /^\d{1,2}[\/\-\._]\d{1,2}[\/\-\._]\d{2,4}$/,
+                    /^\d{4}[\/\-\._]\d{1,2}[\/\-\._]\d{1,2}$/,
+                    /^\d{1,2}[\/\-\._]\d{1,2}[\/\-\._]\d{2,4}\s+\d{1,2}:\d{2}(:\d{2})?$/
+                ];
+                return patterns.some(rx => rx.test(s));
+            };
+            headerIndex = isLikelyDate(firstCol) ? 0 : 2;
+        }
+
+        let header = lignes[headerIndex].replace(/[\n\r]/g, '').split(';');
         if (header.includes(labelEnTete)) {
-            for (let k = 3; k < lignes.length - 1; k++) {
+            const index = header.indexOf(labelEnTete);
+            header.splice(index, 1);
+            lignes[headerIndex] = header.join(';');
+
+            for (let k = headerIndex + 1; k < lignes.length; k++) {
+                if (lignes[k].trim() === '') continue;
                 const colonnes = lignes[k].split(';');
-                colonnes.splice(header.indexOf(labelEnTete), 1);
-                lignes[k] = colonnes.join(';');
+                if (colonnes.length > index) {
+                    colonnes.splice(index, 1);
+                    lignes[k] = colonnes.join(';');
+                }
             }
         }
 
@@ -692,6 +714,8 @@ export class ControlleurVisualisation {
         Session.getInstance().contenuFichierMesures = remplacerDonneesFichier(ancienNom.replace(/[\n\r]/g, ''), nouveauNom.replace(/[\n\r]/g, ''), Session.getInstance().contenuFichierMesures);
         this.copieContenuFichierMesure = Session.getInstance().contenuFichierMesures;
 
+        this.afficherGraphique(this.copieContenuFichierMesure);
+
         const selects = document.querySelectorAll('select');
         for (let i = 0; i < selects.length; i++) {
             if (selects[i].value === '') {
@@ -705,6 +729,14 @@ export class ControlleurVisualisation {
         }
 
         this.verifierLienCalibration();
+
+        if (this.calibrationEstLieeGraphique) {
+            this.affichageVisualisation.initialiserCarouselSplide(true);
+        } else {
+            this.affichageVisualisation.initialiserSuppressionCourbes();
+            this.affichageVisualisation.initialiserExportTRAC();
+            this.affichageVisualisation.initialiserSlideBruit();
+        }
     }
 
 

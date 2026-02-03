@@ -53,5 +53,11 @@ export function remplacerDonneesFichier(ancien, nouveau, base) {
     }
 
     lignes[headerIndex] = header.join(';');
+
+    if (headerIndex === 0) {
+        lignes.unshift('-------------------------------------------');
+        lignes.unshift('                   FluoGraphiX - Normalized');
+    }
+
     return lignes.join('\n');
 }
