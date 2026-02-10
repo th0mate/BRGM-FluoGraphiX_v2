@@ -85,7 +85,7 @@ export class BaseCalcul {
      * @returns {Calculs} L'objet calcul créé
      */
     creerCalcul(nom, parametres, valeur = 'oui') {
-        const calcul = new Calculs(nom, valeur);
+        const calcul = new Calculs(nom);
 
         if (Array.isArray(parametres)) {
             parametres.forEach(param => {
@@ -101,7 +101,7 @@ export class BaseCalcul {
             calcul.ajouterParametreCalcul('Paramètres', parametres);
         }
 
-        Session.getInstance().calculs = Session.getInstance().calculs.filter(c => c.nom !== calcul.equation);
+        Session.getInstance().calculs = Session.getInstance().calculs.filter(c => c.equationKey !== nom);
         Session.getInstance().calculs.push(calcul);
 
         return calcul;

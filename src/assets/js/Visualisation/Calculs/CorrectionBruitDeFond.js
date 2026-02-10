@@ -100,7 +100,7 @@ export class CorrectionBruitDeFond extends BaseCalcul {
 
         const eau = this.getTraceurParUnite('');
         if (!eau) {
-            afficherMessageFlash("notifications.error.title", "notifications.error.notGreatNumberTrackersForNoise", "error");
+            afficherMessageFlash("notifications.error.title", "notifications.error.undefinedWaterTracker", "error");
             return;
         }
 

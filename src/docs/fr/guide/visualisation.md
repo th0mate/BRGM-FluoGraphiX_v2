@@ -147,7 +147,7 @@ Cliquez sur "calculer" pour afficher la nouvelle courbe calculée ("LxCorr") sur
 
 ---
 
-## Converion en concentration
+## Conversion en concentration
 
 Vous pouvez convertir vos traceurs en concentrations en vous rendant dans l'onglet "Convertir en concentration".
 

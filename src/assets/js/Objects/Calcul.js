@@ -42,6 +42,15 @@ class Calculs {
      * Retourne l'équation traduite
      * @return {string} L'équation traduite
      */
+    get equation() {
+        return t(this.equationKey);
+    }
+
+
+    /**
+     * Retourne l'équation traduite
+     * @return {string} L'équation traduite
+     */
     toStringEquation() {
         return t(this.equationKey);
     }
