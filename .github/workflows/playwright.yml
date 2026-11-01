@@ -9,7 +9,8 @@ permissions:
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    # Playwright 1.53 ne supporte pas Ubuntu 26.04 (ubuntu-latest) : on fige la version du runner
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
 
